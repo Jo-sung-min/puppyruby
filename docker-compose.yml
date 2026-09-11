@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: puppyruby
+      POSTGRES_USER: puppyruby
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    volumes:
+      - puppy-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U puppyruby -d puppyruby"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+  backend:
+    build: ./backend
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      DB_URL: jdbc:postgresql://postgres:5432/puppyruby
+      DB_USERNAME: puppyruby
+      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    expose:
+      - "8081"
+  frontend:
+    build: ./frontend
+    environment:
+      API_URL: http://backend:8081/api/v1
+    ports:
+      - "127.0.0.1:3001:3001"
+    depends_on:
+      - backend
+volumes:
+  puppy-data:

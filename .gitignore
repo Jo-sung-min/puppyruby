@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+build/
+.gradle/
+.idea/
+.env
+.env.local
+*.log
+*.tsbuildinfo
+backend/data/
+.sites-runtime/
+output/
