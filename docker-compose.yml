@@ -21,7 +21,7 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/puppyruby
       DB_USERNAME: puppyruby
       DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
-      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://127.0.0.1:3001}
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://127.0.0.1:3000}
       ADMIN_EMAIL: ${ADMIN_EMAIL:-}
       KAKAO_REST_API_KEY: ${KAKAO_REST_API_KEY:-}
       KAKAO_CLIENT_SECRET: ${KAKAO_CLIENT_SECRET:-}
@@ -35,19 +35,29 @@ services:
       TOSS_CLIENT_KEY: ${TOSS_CLIENT_KEY:-}
       TOSS_SECRET_KEY: ${TOSS_SECRET_KEY:-}
       TOSS_LIVE_ENABLED: ${TOSS_LIVE_ENABLED:-false}
+      S3_UPLOAD_ENABLED: ${S3_UPLOAD_ENABLED:-false}
+      S3_BUCKET: ${S3_BUCKET:-}
+      AWS_REGION: ${AWS_REGION:-ap-northeast-2}
+      S3_KEY_PREFIX: ${S3_KEY_PREFIX:-puppyruby}
+      CDN_BASE_URL: ${CDN_BASE_URL:-}
+      S3_PRESIGN_TTL_SECONDS: ${S3_PRESIGN_TTL_SECONDS:-300}
+      S3_MAX_UPLOAD_BYTES: ${S3_MAX_UPLOAD_BYTES:-1048576}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
+      AWS_SESSION_TOKEN: ${AWS_SESSION_TOKEN:-}
     depends_on:
       postgres:
         condition: service_healthy
     expose:
-      - "8081"
+      - "8080"
   frontend:
     build: ./frontend
     environment:
-      API_URL: http://backend:8081/api/v1
-      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://127.0.0.1:3001}
+      API_URL: http://backend:8080/api/v1
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://127.0.0.1:3000}
       KAKAO_REST_API_KEY: ${KAKAO_REST_API_KEY:-}
     ports:
-      - "127.0.0.1:3001:3001"
+      - "127.0.0.1:3000:3000"
     depends_on:
       - backend
 volumes:

@@ -15,7 +15,7 @@ public final class PaymentSettings {
     public PaymentSettings(@Value("${TOSS_CLIENT_KEY:}") String clientKey,
                            @Value("${TOSS_SECRET_KEY:}") String secretKey,
                            @Value("${TOSS_LIVE_ENABLED:false}") boolean liveEnabled,
-                           @Value("${PUBLIC_SITE_URL:http://127.0.0.1:3001}") String site) {
+                           @Value("${PUBLIC_SITE_URL:http://127.0.0.1:3000}") String site) {
         this.clientKey = clean(clientKey); this.secretKey = clean(secretKey);
         boolean test = key(this.clientKey, "test_ck_") && key(this.secretKey, "test_sk_");
         boolean live = key(this.clientKey, "live_ck_") && key(this.secretKey, "live_sk_");

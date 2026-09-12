@@ -9,7 +9,7 @@ export const privateHeaders = { "Cache-Control": "private, no-store, max-age=0",
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export function apiBase() {
-  return (process.env.API_URL || "http://127.0.0.1:8081/api/v1").replace(/\/$/, "");
+  return (process.env.API_URL || "http://127.0.0.1:8080/api/v1").replace(/\/$/, "");
 }
 
 export async function browserIdentity() {

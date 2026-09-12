@@ -20,7 +20,7 @@ class KakaoClient {
     private final HttpClient http = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(5)).followRedirects(HttpClient.Redirect.NEVER).build();
     KakaoClient(ObjectMapper mapper, @Value("${KAKAO_REST_API_KEY:}") String key,
                 @Value("${KAKAO_CLIENT_SECRET:}") String secret,
-                @Value("${PUBLIC_SITE_URL:http://127.0.0.1:3001}") String site) {
+                @Value("${PUBLIC_SITE_URL:http://127.0.0.1:3000}") String site) {
         this.mapper = mapper; this.key = key; this.secret = secret;
         this.callback = AuthSite.origin(site) + "/api/auth/kakao/callback";
     }

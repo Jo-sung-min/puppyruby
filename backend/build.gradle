@@ -14,6 +14,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.security:spring-security-crypto'
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation platform('software.amazon.awssdk:bom:2.54.15')
+    implementation 'software.amazon.awssdk:s3'
     runtimeOnly 'com.h2database:h2:2.3.232'
     runtimeOnly 'org.postgresql:postgresql:42.7.12'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

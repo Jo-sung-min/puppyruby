@@ -16,7 +16,7 @@ Windows 실행파일 0.4부터 `/play#home`의 **실행파일과 연결**로 웹
 
 ## API와 인증
 
-웹 프록시는 `/api/desktop/*`, 내부 서버는 `/api/v1/desktop/*`입니다. 내부 API는 기존과 같이 루프백 또는 Docker 내부망에서만 사용합니다.
+웹 프록시는 `/api/desktop/*`, Java 서버는 `/api/v1/desktop/*`입니다. PC에는 Vercel의 사이트 HTTPS 주소를 입력합니다. 웹 프록시가 `API_URL`로 AWS Java API에 연결하며 로컬 개발 사이트 주소는 `http://127.0.0.1:3000`입니다. [배포 안내](DEPLOYMENT.md)를 참고하세요.
 
 | 경로 | 메서드 | 인증 | 응답/용도 |
 |---|---|---|---|

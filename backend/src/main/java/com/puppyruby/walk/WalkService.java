@@ -2,6 +2,7 @@ package com.puppyruby.walk;
 
 import com.puppyruby.game.GameService;
 import com.puppyruby.game.Puppy;
+import com.puppyruby.media.MediaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,11 +22,12 @@ public class WalkService {
     private final SocialMessageRepository messages;
     private final SocialFriendshipRepository friendships;
     private final GameService game;
+    private final MediaService media;
 
     public WalkService(WalkMutexRepository mutex, SocialProfileRepository profiles, SocialRoomRepository rooms,
-                       SocialMessageRepository messages, SocialFriendshipRepository friendships, GameService game) {
+                       SocialMessageRepository messages, SocialFriendshipRepository friendships, GameService game, MediaService media) {
         this.mutex = mutex; this.profiles = profiles; this.rooms = rooms;
-        this.messages = messages; this.friendships = friendships; this.game = game;
+        this.messages = messages; this.friendships = friendships; this.game = game; this.media = media;
     }
 
     public record Profile(String id, String nickname, Integer age, String friendship, String realName, String photo) {}
@@ -79,7 +81,7 @@ public class WalkService {
                 if (input.age() != null && (input.age() < 1 || input.age() > 120)) throw bad("나이는 1~120 사이로 적거나 비워 주세요.");
                 self.age = input.age();
                 self.realName = optionalText(input.realName(), 40, "이름은 40자 이내로 적어 주세요.");
-                self.photo = photo(input.photo()); self.configured = true;
+                self.photo = profilePhoto(self, input.photo()); self.configured = true;
                 message = "산책 프로필을 저장했어요. 이름과 사진은 서로 수락한 친구에게만 보여요.";
             }
             case "create" -> {
@@ -198,7 +200,7 @@ public class WalkService {
                 : relationship.requesterId.equals(self.id) ? "outgoing" : "incoming";
             boolean privateVisible = status.equals("self") || status.equals("friend");
             return new Profile(profile.id, profile.nickname, profile.age, status,
-                privateVisible ? profile.realName : null, privateVisible ? profile.photo : null);
+                privateVisible ? profile.realName : null, privateVisible ? media.resolve(profile.photo) : null);
         };
         var summaries = new ArrayList<RoomSummary>(); Room current = null;
         var orderedRooms = rooms.findAll().stream().filter(r -> r.closedAt == null).sorted(Comparator.comparingLong((SocialRoom r) -> r.createdAt).thenComparing(r -> r.id)).toList();
@@ -220,7 +222,7 @@ public class WalkService {
             .filter(Objects::nonNull).sorted(Comparator.comparing(Profile::nickname).thenComparing(Profile::id)).toList();
         var requests = relations.entrySet().stream().filter(e -> !e.getValue().accepted && e.getValue().recipientId.equals(self.id))
             .sorted(Comparator.comparingLong(e -> e.getValue().createdAt)).map(e -> visible.apply(allProfiles.get(e.getKey()))).filter(Objects::nonNull).toList();
-        return new State(new Me(self.id, self.nickname, self.age, "self", self.realName, self.photo, self.configured), summaries, current, friends, requests, now);
+        return new State(new Me(self.id, self.nickname, self.age, "self", self.realName, media.resolve(self.photo), self.configured), summaries, current, friends, requests, now);
     }
 
     private static String friendshipId(String first, String second) { return first.compareTo(second) < 0 ? first + ":" + second : second + ":" + first; }
@@ -235,6 +237,14 @@ public class WalkService {
     }
     private static String optionalText(String value, int max, String message) {
         String result = text(value, 0, max, message); return result.isEmpty() ? null : result;
+    }
+    private String profilePhoto(SocialProfile self, String value) {
+        if (value == null || value.isBlank()) return null;
+        // Editing another field must not require uploading an unchanged legacy or CDN image again.
+        if (value.equals(self.photo) || (self.photo != null && self.photo.startsWith("media:") && value.equals(media.resolve(self.photo)))) return self.photo;
+        if (value.startsWith("media:")) return media.ownedReference(self.playerId, value);
+        if (media.config().enabled()) throw bad("사진을 업로드한 뒤 등록해 주세요.");
+        return photo(value);
     }
     private static String photo(String value) {
         if (value == null || value.isBlank()) return null;

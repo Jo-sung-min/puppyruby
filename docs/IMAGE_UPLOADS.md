@@ -1,0 +1,119 @@
+# S3 사진 업로드와 CDN 연결
+
+산책 프로필에서 사진을 선택하면 브라우저가 사진을 줄이고, 서버에서 받은 짧은 유효기간의 업로드 URL로 S3에 직접 전송합니다. 업로드 완료를 서버가 확인한 뒤 CDN 주소로 미리보기를 표시합니다. **프로필 저장**을 눌러야 내 프로필에 반영됩니다. 이미지 파일 자체가 Vercel 요청 본문을 통과하지 않습니다.
+
+새 사진 등록은 로그인한 회원에게만 열립니다. 기존에 저장한 사진은 계속 표시하며 사진을 바꾸지 않고 이름·나이만 수정할 수도 있습니다. 기본 제공 강아지 도트와 사이트 배경 파일은 기존 프로젝트 에셋을 사용합니다.
+
+## 1. 환경변수 등록 위치
+
+**Vercel의 Next.js 프로젝트**에는 다음을 등록합니다.
+
+```dotenv
+API_URL=https://실제-Java-서버-주소/api/v1
+PUBLIC_SITE_URL=https://실제-사이트-주소
+```
+
+**AWS의 Java 백엔드 서비스**에는 다음을 등록합니다. JAR·systemd와 Vercel 설정은 [배포 안내](DEPLOYMENT.md)를 참고하세요. 로컬에서는 `backend/.env.local`에 추가하고 `backend/start-server.ps1`로 시작합니다. 예시 파일 전체를 기존 `.env.local` 위에 덮어쓰지 말고 필요한 항목만 추가하세요.
+
+```dotenv
+S3_UPLOAD_ENABLED=true
+S3_BUCKET=실제-버킷-이름
+AWS_REGION=ap-northeast-2
+S3_KEY_PREFIX=puppyruby
+CDN_BASE_URL=https://실제-CDN-도메인
+S3_PRESIGN_TTL_SECONDS=300
+S3_MAX_UPLOAD_BYTES=1048576
+AWS_ACCESS_KEY_ID=서버에서만-사용할-액세스-키
+AWS_SECRET_ACCESS_KEY=서버에서만-사용할-비밀-키
+AWS_SESSION_TOKEN=
+```
+
+| 변수 | 설명 |
+|---|---|
+| `S3_UPLOAD_ENABLED` | 설정을 마친 뒤 `true`. 기본값 `false`에서는 새 사진 업로드만 비활성화됩니다. |
+| `S3_BUCKET` | 버킷 이름만 입력합니다. `s3://`나 폴더 경로를 붙이지 않습니다. |
+| `AWS_REGION` | 버킷이 실제로 생성된 리전입니다. 서울 리전 기본값은 `ap-northeast-2`입니다. |
+| `S3_KEY_PREFIX` | 업로드 파일의 접두 경로. 기본값 `puppyruby`; 그 아래 `walk-profiles/`에 임의 이름으로 저장합니다. |
+| `CDN_BASE_URL` | HTTPS CDN 기본 주소. 버킷의 객체 키가 이 주소 뒤에 붙습니다. |
+| `S3_PRESIGN_TTL_SECONDS` | 업로드 URL 유효기간(초). 기본값 `300`입니다. |
+| `S3_MAX_UPLOAD_BYTES` | 변환 후 업로드 파일의 최대 크기. 기본값 1MiB, 최대 5MiB입니다. |
+| `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | 서버의 AWS 인증 정보. IAM 역할을 쓰는 경우 비워 둡니다. |
+| `AWS_SESSION_TOKEN` | 임시 자격증명을 사용하는 경우 함께 지정합니다. |
+
+AWS 인증은 [AWS SDK 기본 자격증명 체인](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/credentials-chain.html)을 사용합니다. AWS 키를 `NEXT_PUBLIC_*`, 소스 코드, 브라우저 설정에 넣지 않습니다. 환경변수 변경 후 백엔드를 다시 시작하고 Vercel 환경변수를 바꾼 경우 프런트엔드도 다시 배포합니다.
+
+## 2. S3 CORS
+
+S3 버킷의 CORS 설정에 실제 사이트 출처를 허용해야 브라우저가 직접 업로드할 수 있습니다. 기존 CORS 규칙이 있다면 필요한 규칙을 합쳐 적용합니다. `AllowedOrigins`에는 경로 없이 정확한 사이트 출처를 적습니다. 운영에서 필요 없는 로컬 출처는 제거합니다. [AWS CORS 항목 설명](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManageCorsUsing.html)
+
+```json
+[
+  {
+    "AllowedOrigins": [
+      "https://실제-사이트-주소",
+      "http://127.0.0.1:3000"
+    ],
+    "AllowedMethods": ["PUT"],
+    "AllowedHeaders": ["content-type", "x-amz-*"],
+    "ExposeHeaders": [],
+    "MaxAgeSeconds": 300
+  }
+]
+```
+
+프리뷰 배포에서 시험하려면 그 배포의 실제 출처도 등록합니다. CDN 도메인이 아닌 **사용자가 사이트를 여는 도메인**을 적습니다.
+
+## 3. S3 권한과 CDN 경로
+
+서버의 IAM 사용자 또는 역할에는 해당 업로드 경로에 대한 `s3:PutObject`, `s3:GetObject` 권한이 필요합니다. 업로드 URL 발급과 업로드 검증에 사용하며 버킷 전체 관리 권한은 필요하지 않습니다. 아래 버킷 이름과 접두 경로를 실제 값으로 바꿉니다.
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:GetObject"],
+      "Resource": "arn:aws:s3:::실제-버킷-이름/puppyruby/walk-profiles/*"
+    }
+  ]
+}
+```
+
+버킷은 비공개로 유지하고 CloudFront를 사용한다면 해당 배포의 OAC로 읽기를 허용합니다. 업로드에 공개 ACL을 사용하지 않습니다. 이미 연결한 CDN이 새 객체 경로를 읽을 수 있는지 확인하세요. [CloudFront의 S3 원본 접근 설정](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html)
+
+예를 들어 객체 키가 `puppyruby/walk-profiles/…/….jpg`이면 CDN 요청도 `https://CDN-주소/puppyruby/walk-profiles/…/….jpg`입니다. CDN 원본 경로와 `CDN_BASE_URL`에 같은 폴더를 중복해서 넣지 않습니다. 매 업로드에 새로운 객체 키를 사용하므로 사진을 바꿀 때 기존 파일을 덮어쓰지 않습니다. 프리사인드 URL은 업로드에만 쓰며 프로필에는 만료되는 URL 대신 완료된 이미지 참조를 보관합니다. [S3 프리사인드 업로드](https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html)
+
+사이트 API는 본인과 수락된 친구에게만 사진 주소를 전달합니다. 현재 CDN 주소는 공개 읽기 주소이므로 주소를 이미 전달받은 사람이 복사한 링크까지 회수하지는 않습니다. 링크 접근 자체에도 친구 인증이 필요한 운영 정책이라면 별도의 CDN 서명 URL·쿠키 또는 인증 이미지 프록시가 필요합니다.
+
+## 4. 동작 확인
+
+1. 로그인 후 **산책시키기 → 산책 프로필**에서 사진을 선택합니다.
+2. 업로드 완료 후 사진 미리보기를 확인하고 **프로필 저장**을 누릅니다.
+3. 새로고침한 뒤 사진이 유지되는지, S3의 지정 경로에 객체가 있는지 확인합니다.
+4. 업로드 중 실패하면 이전 사진은 유지됩니다. URL이 만료되었다면 사진을 다시 선택해 새 URL을 받습니다.
+
+새 업로드는 JPEG·PNG를 받으며 브라우저는 선택한 이미지를 JPEG로 줄여 전송합니다. 서버는 실제 파일 크기·내용·체크섬·가로세로(각 1,024px 이하)와 소유자를 검사합니다. 다른 회원의 참조나 임의 외부 URL은 새 프로필 사진으로 등록할 수 없습니다.
+
+| 증상 | 확인할 설정 |
+|---|---|
+| 사진 등록 준비 중 안내 | 백엔드의 활성화 변수, 버킷·리전·CDN 값과 재시작 여부 |
+| 사진 업로드 전 서버 연결 실패 | Vercel `API_URL`의 외부 백엔드 주소와 서버 상태 |
+| S3 전송 실패 | 버킷 CORS 출처·헤더, 리전, 서버 IAM 권한, 임시 키 만료 |
+| 업로드 후 검증 실패 | 서버 `GetObject` 권한, 이미지 형식·크기, 업로드 유효기간 |
+| CDN 사진만 표시되지 않음 | CDN 원본 경로, OAC 읽기 권한, HTTPS 주소 |
+
+프로필의 **사진 지우기**는 프로필 연결을 제거합니다. 교체하거나 저장하지 않은 업로드를 포함한 S3 객체의 자동 삭제는 수행하지 않습니다. 현재 프로필 참조를 고려한 보관·정리 정책은 별도로 운영해야 합니다.
+
+## 개발 검증
+
+프런트엔드 `npm run build`가 통과했습니다. 백엔드 전체 125개 테스트가 통과했고, 마지막 응답 크기 제한 보완 후 미디어 테스트 17개를 다시 통과했습니다. 실제 AWS SDK로 만든 서명의 파일 종류·크기·체크섬 결합을 오프라인에서 검증했습니다. 브라우저 업로드 처리와 Next.js 프록시도 AWS에 연결하지 않고 검증합니다.
+
+```powershell
+node scripts/verify-image-upload.cjs
+# frontend에서 npm run build를 실행한 뒤 프로젝트 루트에서 실행합니다.
+$env:PUPPY_TEST_ISOLATED = '1'
+node scripts/verify-media-proxy.mjs
+```
+
+프록시 검증은 자체 임시 서버와 3101 포트의 별도 Next.js 서버를 사용하고 종료합니다. 실제 사이트의 회원·프로필·S3를 사용하지 않습니다. 실제 버킷 CORS·IAM·CDN 연결 확인은 환경변수 등록 후 별도로 진행해야 합니다.

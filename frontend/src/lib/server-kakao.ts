@@ -4,7 +4,7 @@ import { cookieOptions, privateHeaders } from "./server-session";
 export const KAKAO_STATE_COOKIE = "puppyruby-kakao-state";
 
 export function publicSiteOrigin() {
-  const site = new URL(process.env.PUBLIC_SITE_URL || "http://127.0.0.1:3001");
+  const site = new URL(process.env.PUBLIC_SITE_URL || "http://127.0.0.1:3000");
   const loopback = ["127.0.0.1", "localhost", "[::1]"].includes(site.hostname);
   if (site.username || site.password || site.search || site.hash || site.pathname !== "/" || (site.protocol !== "https:" && !(site.protocol === "http:" && loopback))) throw new Error("Invalid public site origin");
   return site.origin;

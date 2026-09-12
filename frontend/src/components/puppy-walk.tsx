@@ -5,6 +5,8 @@ import { ArrowDown, ArrowLeft, ArrowUpRight, Check, ChevronRight, Clock3, Heart,
 import type { Puppy } from "@/lib/game";
 import { ownerLabel, requestWalk, walkThemes, type WalkAction, type WalkActionInput, type WalkMe, type WalkProfile, type WalkResult, type WalkRoomSummary, type WalkState, type WalkTheme } from "@/lib/walk";
 import { getWalkTime, walkSchedule, type WalkTime } from "@/lib/walk-time";
+import { getImageUploadConfig, safeProfilePhoto, uploadProfilePhoto, type ImageUploadConfig, type ImageUploadStage } from "@/lib/image-upload";
+import { useAccountSession } from "./account/use-account-session";
 import { PuppySprite } from "./puppy-sprite";
 
 type Mutate = (action: WalkAction, values?: WalkActionInput) => Promise<WalkResult | undefined>;
@@ -12,7 +14,7 @@ const themeIds: WalkTheme[] = ["meadow", "sunset", "night"];
 const themeIcon = (theme: WalkTheme, size = 16) => theme === "night" ? <Moon size={size} /> : theme === "sunset" ? <Sun size={size} /> : <Leaf size={size} />;
 function stableSeed(id: string) { return Array.from(id).reduce((seed, letter) => (seed * 31 + letter.charCodeAt(0)) >>> 0, 7); }
 function displayTime(value: number) { return new Date(value).toLocaleTimeString("ko-KR", { hour: "2-digit", minute: "2-digit", hour12: false }); }
-function safePhoto(profile: WalkProfile) { return (profile.friendship === "self" || profile.friendship === "friend") && profile.photo && /^data:image\/(jpeg|png|webp);base64,/.test(profile.photo) ? profile.photo : null; }
+function safePhoto(profile: WalkProfile) { return profile.friendship === "self" || profile.friendship === "friend" ? safeProfilePhoto(profile.photo) : null; }
 
 function useWalkTime() {
   const [time, setTime] = useState<WalkTime | null>(null);
@@ -70,62 +72,97 @@ function WalkDialog({ title, children, onClose, busy = false, wide = false }: { 
 
 function Avatar({ profile, size = "normal" }: { profile: WalkProfile; size?: "normal" | "large" }) {
   const photo = safePhoto(profile);
-  return <span className={`walk-avatar walk-avatar-${size}`}>{photo ? <img src={photo} alt={`${profile.nickname}의 프로필 사진`} /> : <UserRound size={size === "large" ? 29 : 18} />}</span>;
-}
-
-async function preparePhoto(file: File): Promise<string> {
-  if (!/^image\/(jpeg|png|webp|gif)$/.test(file.type)) throw new Error("JPG, PNG, WebP, GIF 사진을 선택해 주세요.");
-  if (file.size > 10 * 1024 * 1024) throw new Error("10MB 이하의 사진을 선택해 주세요.");
-  const source = URL.createObjectURL(file);
-  try {
-    const image = new Image();
-    image.src = source;
-    await image.decode();
-    if (!image.width || !image.height) throw new Error("사진을 읽지 못했어요. 다른 사진으로 시도해 주세요.");
-    const canvas = document.createElement("canvas"); canvas.width = 256; canvas.height = 256;
-    const context = canvas.getContext("2d");
-    if (!context) throw new Error("이 브라우저에서 사진을 준비하지 못했어요.");
-    context.fillStyle = "#fff9ef"; context.fillRect(0, 0, 256, 256);
-    const ratio = Math.min(256 / image.width, 256 / image.height);
-    const width = image.width * ratio, height = image.height * ratio;
-    context.drawImage(image, (256 - width) / 2, (256 - height) / 2, width, height);
-    const result = canvas.toDataURL("image/jpeg", .85);
-    if (atob(result.split(",")[1]).length > 160 * 1024) throw new Error("사진 용량을 줄이지 못했어요. 다른 사진을 골라 주세요.");
-    return result;
-  } finally { URL.revokeObjectURL(source); }
+  return <span className={`walk-avatar walk-avatar-${size}`}>{photo ? <img src={photo} referrerPolicy="no-referrer" alt={`${profile.nickname}의 프로필 사진`} /> : <UserRound size={size === "large" ? 29 : 18} />}</span>;
 }
 
 function ProfileEditor({ me, puppy, busy, mutate, onClose, serverError }: { me: WalkMe; puppy: Puppy; busy: boolean; mutate: Mutate; onClose: () => void; serverError: string }) {
+  const account = useAccountSession();
   const [nickname, setNickname] = useState(me.configured ? me.nickname : `${puppy.name}엄마`);
   const [age, setAge] = useState(me.age === null ? "" : String(me.age));
   const [realName, setRealName] = useState(me.realName || "");
   const [photo, setPhoto] = useState<string | null>(safePhoto(me));
+  const [photoPreview, setPhotoPreview] = useState<string | null>(safePhoto(me));
   const [photoBusy, setPhotoBusy] = useState(false);
+  const [photoStatus, setPhotoStatus] = useState("");
+  const [uploadConfig, setUploadConfig] = useState<ImageUploadConfig | null>(null);
+  const [configError, setConfigError] = useState("");
+  const [configRevision, setConfigRevision] = useState(0);
   const [error, setError] = useState("");
   const mounted = useRef(true);
-  useEffect(() => { mounted.current = true; return () => { mounted.current = false; }; }, []);
+  const uploadAbort = useRef<AbortController | null>(null);
+  const uploadVersion = useRef(0);
+  const saving = useRef(false);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; uploadVersion.current += 1; uploadAbort.current?.abort(); }; }, []);
+  useEffect(() => {
+    const controller = new AbortController();
+    setUploadConfig(null); setConfigError("");
+    getImageUploadConfig(controller.signal)
+      .then(config => { if (!controller.signal.aborted) setUploadConfig(config); })
+      .catch(() => { if (!controller.signal.aborted) setConfigError("사진 등록에 연결하지 못했어요."); });
+    return () => controller.abort();
+  }, [configRevision]);
   const waiting = busy || photoBusy;
+  const signedIn = account.session?.user?.status === "ACTIVE";
+  const canUpload = signedIn && uploadConfig?.enabled && !waiting;
+  const uploadHelp = account.loading ? "로그인 상태를 확인하고 있어요."
+    : account.error ? "로그인 상태를 확인하지 못했어요."
+      : !signedIn ? "사진은 로그인한 뒤 등록할 수 있어요."
+        : configError || (!uploadConfig ? "사진 등록을 준비하고 있어요." : !uploadConfig.enabled ? "사진 등록을 준비 중이에요. 기존 사진과 프로필은 그대로 저장할 수 있어요." : "10MB 이하 사진을 선택하면 작게 줄여 등록해요.");
   async function selectPhoto(file?: File) {
-    if (!file) return;
-    setPhotoBusy(true); setError("");
-    try { const value = await preparePhoto(file); if (mounted.current) setPhoto(value); }
-    catch (problem) { if (mounted.current) setError(problem instanceof Error ? problem.message : "사진을 읽지 못했어요."); }
-    finally { if (mounted.current) setPhotoBusy(false); }
+    if (!file || !canUpload || !uploadConfig || saving.current || uploadAbort.current) return;
+    const controller = new AbortController(); uploadAbort.current = controller;
+    const version = ++uploadVersion.current;
+    const current = () => mounted.current && version === uploadVersion.current && !controller.signal.aborted;
+    const stages: Record<ImageUploadStage, string> = { prepare: "사진을 작게 준비하고 있어요.", upload: "사진을 전송하고 있어요.", verify: "등록한 사진을 확인하고 있어요." };
+    setPhotoBusy(true); setError(""); setPhotoStatus(stages.prepare);
+    try {
+      const result = await uploadProfilePhoto(file, uploadConfig, controller.signal, stage => { if (current()) setPhotoStatus(stages[stage]); });
+      if (current()) { setPhoto(result.photo); setPhotoPreview(result.url); setPhotoStatus("사진 등록을 마쳤어요. 프로필을 저장하면 반영돼요."); }
+    } catch (problem) {
+      if (current()) { setError(problem instanceof Error ? problem.message : "사진을 등록하지 못했어요."); setPhotoStatus(""); }
+    } finally {
+      if (uploadAbort.current === controller) uploadAbort.current = null;
+      if (current()) setPhotoBusy(false);
+    }
+  }
+  function cancelPhoto() {
+    uploadVersion.current += 1; uploadAbort.current?.abort(); uploadAbort.current = null;
+    setPhotoBusy(false); setPhotoStatus("사진 등록을 취소했어요. 이전 사진을 유지해요."); setError("");
   }
   async function save() {
-    if (waiting) return;
+    if (waiting || saving.current || uploadAbort.current) return;
     const numericAge = age.trim() ? Number(age) : null;
     if (!nickname.trim()) { setError("산책에서 사용할 닉네임을 적어 주세요."); return; }
     if (numericAge !== null && (!Number.isInteger(numericAge) || numericAge < 1 || numericAge > 120)) { setError("나이는 1~120 사이로 적거나 비워 주세요."); return; }
-    setError("");
-    const result = await mutate("profile", { nickname: nickname.trim(), age: numericAge, realName: realName.trim() || null, photo });
-    if (result) onClose();
+    setError(""); saving.current = true;
+    try {
+      const result = await mutate("profile", { nickname: nickname.trim(), age: numericAge, realName: realName.trim() || null, photo });
+      if (result && mounted.current) onClose();
+    } finally { saving.current = false; }
   }
   return <WalkDialog title={me.configured ? "내 산책 프로필" : "산책 전에, 반가운 첫인사"} busy={waiting} onClose={onClose}>
     <p className="walk-modal-intro">강아지를 따라 우리도 천천히 알아가요.</p>
     <form onSubmit={event => { event.preventDefault(); void save(); }} className="walk-profile-form">
       <div className="walk-form-section"><h3><UsersRound size={15} /> 모두에게 보여요</h3><label>산책 닉네임 <b>필수</b><input autoComplete="off" value={nickname} onChange={event => setNickname(event.target.value)} maxLength={24} placeholder="쿠키엄마, 쿠키아빠" disabled={waiting} required /></label><p className="walk-field-note">강아지 이름을 넣어 ‘쿠키엄마’, ‘쿠키아빠’처럼 지어도 좋아요.</p><label>나이 <span>선택 · 입력하면 공개돼요</span><input type="number" inputMode="numeric" value={age} onChange={event => setAge(event.target.value)} min={1} max={120} placeholder="공개하고 싶을 때만 입력" disabled={waiting} /></label></div>
-      <div className="walk-form-section walk-private-section"><h3><LockKeyhole size={15} /> 서로 친구가 된 사람에게만</h3><p>친구 요청을 수락한 뒤에만 실명과 사진을 볼 수 있어요. 둘 다 비워 두어도 산책할 수 있어요.</p><label>실명 <span>선택</span><input autoComplete="off" value={realName} onChange={event => setRealName(event.target.value)} maxLength={40} placeholder="친구에게 알려 줄 이름" disabled={waiting} /></label><div className="walk-photo-field">{photo ? <img className="walk-photo-preview" src={photo} alt="내 프로필 사진 미리보기" /> : <span className="walk-photo-placeholder"><UserRound size={24} /></span>}<div><label className={`walk-upload-button ${waiting ? "walk-disabled" : ""}`}>{photoBusy ? <LoaderCircle size={14} className="walk-spin" /> : <ImagePlus size={14} />} {photo ? "사진 바꾸기" : "내 기기에서 사진 선택"}<input type="file" accept="image/jpeg,image/png,image/webp,image/gif" disabled={waiting} onChange={event => { void selectPhoto(event.target.files?.[0]); event.currentTarget.value = ""; }} /></label>{photo && <button className="walk-text-button" type="button" onClick={() => setPhoto(null)} disabled={waiting}>사진 지우기</button>}<small>사진은 작게 줄여 저장해요. 링크 입력은 받지 않아요.</small></div></div></div>
+      <div className="walk-form-section walk-private-section">
+        <h3><LockKeyhole size={15} /> 서로 친구가 된 사람에게만</h3>
+        <p>친구 요청을 수락한 뒤에만 실명과 사진을 볼 수 있어요. 둘 다 비워 두어도 산책할 수 있어요.</p>
+        <label>실명 <span>선택</span><input autoComplete="off" value={realName} onChange={event => setRealName(event.target.value)} maxLength={40} placeholder="친구에게 알려 줄 이름" disabled={waiting} /></label>
+        <div className="walk-photo-field">
+          {photoPreview ? <img className="walk-photo-preview" src={photoPreview} referrerPolicy="no-referrer" alt="내 프로필 사진 미리보기" /> : <span className="walk-photo-placeholder"><UserRound size={24} /></span>}
+          <div>
+            <label className={`walk-upload-button ${!canUpload ? "walk-disabled" : ""}`}>
+              {photoBusy ? <LoaderCircle size={14} className="walk-spin" /> : <ImagePlus size={14} />} {photo ? "사진 바꾸기" : "내 기기에서 사진 선택"}
+              <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" disabled={!canUpload} onChange={event => { void selectPhoto(event.target.files?.[0]); event.currentTarget.value = ""; }} />
+            </label>
+            {photo && <button className="walk-text-button" type="button" onClick={() => { setPhoto(null); setPhotoPreview(null); setPhotoStatus("프로필을 저장하면 사진이 지워져요."); setError(""); }} disabled={waiting}>사진 지우기</button>}
+            {photoBusy && <button className="walk-text-button" type="button" onClick={cancelPhoto}>사진 등록 취소</button>}
+            <small role="status" aria-live="polite">{photoStatus || uploadHelp}</small>
+            {!account.loading && !account.error && !signedIn && <a className="walk-text-button" href="/account">로그인하기</a>}
+            {(configError || account.error) && <button className="walk-text-button" type="button" disabled={waiting} onClick={() => { account.refresh(); setConfigRevision(value => value + 1); }}>다시 연결하기</button>}
+          </div>
+        </div>
+      </div>
       {(error || serverError) && <p className="walk-form-error" role="alert">{error || serverError}</p>}
       <div className="walk-modal-footer"><button className="walk-secondary-button" type="button" onClick={onClose} disabled={waiting}>나중에</button><button className="walk-primary-button" disabled={waiting}>{waiting ? <LoaderCircle size={16} className="walk-spin" /> : <Check size={16} />} {me.configured ? "프로필 저장" : "이 닉네임으로 시작"}</button></div>
     </form>

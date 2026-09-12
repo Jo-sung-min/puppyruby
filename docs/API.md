@@ -25,12 +25,26 @@
 | /api/walk/friend-decline | targetId | 받은 요청 거절 |
 | /api/walk/friend-remove | targetId | 친구 관계 해제 |
 
-변경 응답은 `{ state, message }`입니다. theme은 meadow/sunset/night, capacity는 4/8/12입니다. 사진은 작은 PNG/JPEG/WebP data URI를 받으며 SVG와 외부 URL은 받지 않습니다. 현재 본인과 수락된 친구 외에는 `realName`, `photo`를 null로 반환합니다. 과거 채팅 작성자와 방장에도 같은 공개 범위를 적용합니다. 공개 프로필 ID는 비공개 방문자 쿠키 ID와 별개입니다.
+변경 응답은 `{ state, message }`입니다. theme은 meadow/sunset/night, capacity는 4/8/12입니다. 새 사진은 아래 이미지 업로드를 완료한 `media:<uploadId>` 참조로 등록합니다. 기존 사진을 수정하지 않으면 서버가 반환한 기존 CDN URL을 그대로 보낼 수 있으며 `null`은 사진 연결을 제거합니다. 현재 본인과 수락된 친구 외에는 `realName`, `photo`를 null로 반환합니다. 과거 채팅 작성자와 방장에도 같은 공개 범위를 적용합니다. 공개 프로필 ID는 비공개 방문자 쿠키 ID와 별개입니다. 기존 data URI 사진은 호환을 위해 유지하며 S3 업로드 활성화 시 새 data URI와 임의 외부 URL은 받지 않습니다.
+
+## 이미지 업로드 API
+
+브라우저는 Next.js `/api/media` 프록시로 접근하며 백엔드 경로는 `/api/v1/media`입니다. POST는 로그인 세션과 동일 출처 요청이 필요합니다. 응답은 캐시하지 않습니다.
+
+| 메서드 | 브라우저 경로 | 본문 | 응답 |
+|---|---|---|---|
+| GET | `/api/media/config` | 없음 | `{ enabled, maxBytes, acceptedTypes }` |
+| POST | `/api/media/presign` | `{ contentType, size, sha256 }` | `{ uploadId, uploadUrl, method: "PUT", headers, expiresAt }` |
+| POST | `/api/media/complete` | `{ uploadId }` | `{ photo: "media:<uploadId>", url }` |
+
+`sha256`는 실제 전송할 이미지 바이트의 SHA-256을 Base64로 인코딩한 값입니다. `size`는 그 바이트 수이며 `expiresAt`은 밀리초 Unix 시각입니다. `headers`를 그대로 사용해 `uploadUrl`로 이미지 Blob을 PUT합니다. 브라우저는 S3 요청에 앱 쿠키를 보내지 않습니다. S3 업로드가 성공한 다음 `complete`를 호출하고, 반환된 `url`은 미리보기로, `photo`는 `/api/walk/profile`의 `photo` 값으로 사용합니다. 업로드 완료 자체는 프로필을 바꾸지 않습니다.
+
+서버는 업로드 소유자, 유효기간, 실제 이미지 내용·크기·체크섬을 확인한 후 완료 처리합니다. 본인의 완료된 요청을 재전송해도 같은 참조를 반환합니다. 비로그인 요청은 401, 잘못된 입력은 400, 요청 제한은 429, 저장소 비활성화·연결 문제는 503으로 안내합니다. 환경변수와 CORS 예시는 [이미지 연결 안내](IMAGE_UPLOADS.md)에 있습니다.
 
 ## 우리 집 API
 
 브라우저는 `/api/game`의 Next.js 프록시만 호출합니다. 프록시가 HttpOnly 방문 쿠키를 읽고 Spring Boot의 `X-Player-Id`로 전달합니다. 클라이언트 본문의 플레이어 ID는 사용하지 않습니다.
-백엔드 기본 주소는 `http://127.0.0.1:8081/api/v1`입니다. 프록시 `API_URL`로 변경할 수 있습니다.
+백엔드 로컬 기본 주소는 `http://127.0.0.1:8080/api/v1`입니다. Vercel의 프록시 `API_URL`에는 `https://실제-백엔드-도메인/api/v1`을 지정합니다. [배포 안내](DEPLOYMENT.md)를 참고하세요.
 
 | 메서드 | 브라우저 경로 | 본문 | 동작 |
 |---|---|---|---|
@@ -62,7 +76,7 @@
 
 잔액·경험치·등급·보상은 요청으로 직접 수정할 수 없습니다. 플레이어 행을 비관적 쓰기 잠금으로 보호해 병렬 요청 시 하트 초과 사용과 중복 보상을 방지합니다. 서버 규칙은 `GameService`, 클라이언트 타입은 `frontend/src/lib/game.ts`가 담당합니다.
 
-로그인한 사용자는 HttpOnly 세션 쿠키를 통해 계정에 연결되고, 비회원은 별도의 방문자 쿠키를 사용합니다. API 서버는 로컬 또는 Docker 내부에서 사용하며, 브라우저가 제공한 내부 식별 헤더는 프록시가 전달하지 않습니다. 회원·카카오·관리자 설정은 `docs/ACCOUNTS.md`를 참고하세요.
+로그인한 사용자는 HttpOnly 세션 쿠키를 통해 계정에 연결되고, 비회원은 별도의 방문자 쿠키를 사용합니다. Next.js 프록시는 로컬 Java 서버 또는 설정된 AWS HTTPS API로 연결하며 브라우저가 제공한 내부 식별 헤더는 전달하지 않습니다. 회원·카카오·관리자 설정은 [회원 안내](ACCOUNTS.md)를 참고하세요.
 
 
 ## 뽑기 · 결제

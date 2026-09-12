@@ -148,7 +148,7 @@ class AuthServiceTest {
         var result = register();
         String known = auth.requestReset(new AuthService.Email(result.user().email())).message(); String reset = mailToken();
         assertEquals(known, auth.requestReset(new AuthService.Email(email())).message());
-        assertTrue(delivered.get().startsWith("http://127.0.0.1:3001/account/reset?token="));
+        assertTrue(delivered.get().startsWith("http://127.0.0.1:3000/account/reset?token="));
         var row = emailTokens.findById(AuthService.hash(reset)).orElseThrow(); assertEquals(AuthService.RESET_MS, row.expiresAt - row.createdAt);
         status(400, () -> auth.confirmVerification(new AuthService.Token(reset)));
         auth.confirmReset(new AuthService.Reset(reset, "a-new-password-123"));

@@ -10,5 +10,5 @@ WORKDIR /app
 RUN addgroup -S puppy && adduser -S puppy -G puppy
 COPY --from=build --chown=puppy:puppy /app/backend/build/libs/puppyruby-api-*.jar app.jar
 USER puppy
-EXPOSE 8081
+EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

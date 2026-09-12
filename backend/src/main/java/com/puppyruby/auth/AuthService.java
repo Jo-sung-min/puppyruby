@@ -32,7 +32,7 @@ public class AuthService {
 
     public AuthService(AccountRepository accounts, AuthSessionRepository sessions, AuthEmailTokenRepository emailTokens,
                        AuthMutexRepository mutex, AuthRateLimiter limiter, AuthMailSender mail, KakaoClient kakao, ApplicationEventPublisher events,
-                       @Value("${PUBLIC_SITE_URL:http://127.0.0.1:3001}") String site, @Value("${ADMIN_EMAIL:}") String adminEmail) {
+                       @Value("${PUBLIC_SITE_URL:http://127.0.0.1:3000}") String site, @Value("${ADMIN_EMAIL:}") String adminEmail) {
         this.accounts = accounts; this.sessions = sessions; this.emailTokens = emailTokens; this.mutex = mutex;
         this.limiter = limiter; this.mail = mail; this.kakao = kakao; this.events = events;
         this.site = AuthSite.origin(site); this.adminEmail = adminEmail.strip().toLowerCase(Locale.ROOT);

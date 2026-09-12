@@ -1,6 +1,6 @@
 server:
   address: ${SERVER_ADDRESS:127.0.0.1}
-  port: ${PORT:8081}
+  port: ${PORT:8080}
 spring:
   application:
     name: puppyruby-api
