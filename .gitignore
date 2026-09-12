@@ -11,3 +11,4 @@ build/
 backend/data/
 .sites-runtime/
 output/
+desktop/dist/

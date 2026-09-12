@@ -1,0 +1,10 @@
+.git
+**/node_modules
+**/.next
+**/build
+**/.gradle
+**/.env.local
+**/.env
+backend/data
+desktop/dist
+.playwright-mcp

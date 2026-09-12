@@ -15,11 +15,13 @@ public class GameService {
     public static final List<String> BREEDS = List.of("포메라니안", "토이 푸들", "말티즈", "시바 이누", "웰시 코기", "비글");
     private static final List<String> NAMES = List.of("솜이", "모카", "구름", "두부", "감자", "쿠키");
     private final PlayerRepository repository;
+    private final CommandCatalog commands;
     private final SecureRandom random = new SecureRandom();
-    public GameService(PlayerRepository repository) { this.repository = repository; }
+    public GameService(PlayerRepository repository, CommandCatalog commands) { this.repository = repository; this.commands = commands; }
     public record GradeInfo(String id, String label, int obedience, int probability) {}
     public record State(int coins, String selectedId, List<Puppy> puppies, boolean giftAvailable,
-                        int careCount, int trainingCount, List<GradeInfo> grades, int adoptionCost, int promotionXp) {}
+                        int careCount, int trainingCount, List<GradeInfo> grades, int adoptionCost, int promotionXp,
+                        List<CommandCatalog.Command> commands) {}
     public record Result(State state, String message, boolean success, String newPuppyId) {}
     public record Action(String puppyId, String value, String fur, String eyes, String accessory) {}
 
@@ -33,7 +35,7 @@ public class GameService {
     private State view(Player player) {
         var grades = Arrays.stream(Grade.values()).map(g -> new GradeInfo(g.name(), g.label, g.obedience, g.probability)).toList();
         return new State(player.coins, player.selectedId, List.copyOf(player.puppies),
-            !today().equals(player.lastGiftDate), player.careCount, player.trainingCount, grades, ADOPTION_COST, PROMOTION_XP);
+            !today().equals(player.lastGiftDate), player.careCount, player.trainingCount, grades, ADOPTION_COST, PROMOTION_XP, commands.all());
     }
     private LocalDate today() { return LocalDate.now(ZoneId.of("Asia/Seoul")); }
     private ResponseStatusException bad(String message) { return new ResponseStatusException(HttpStatus.BAD_REQUEST, message); }
@@ -82,20 +84,25 @@ public class GameService {
                     dog.xp += 5; p.coins += 5; p.careCount++; message = "포근하게 쉬고 기운을 되찾았어요. 하트 +5";
                 }
                 case "train" -> {
-                    if (!List.of("앉아", "손", "기다려").contains(Objects.toString(input.value(), ""))) throw bad("배울 명령을 선택해 주세요.");
+                    var command = commands.training(input.value()).orElseThrow(() -> bad("배울 명령을 선택해 주세요."));
+                    if (!commands.unlocked(command, dog.grade)) throw bad(commands.lockedMessage(command));
                     cooldown(dog.lastTrain, now, 5);
                     if (dog.energy < 5) throw bad("훈련하기 전에 잠깐 쉬어 갈까요?");
                     dog.lastTrain = now; dog.energy -= 5; p.trainingCount++;
                     success = random.nextInt(100) < dog.grade.obedience;
                     dog.xp += success ? 20 : 5;
                     if (success) p.coins += 10;
-                    message = success ? "척척! '" + input.value() + "' 성공! 경험치 +20, 하트 +10" : "갸우뚱… 아직 연습 중이에요. 그래도 경험치 +5!";
+                    message = success ? "척척! '" + command.label() + "' 성공! 경험치 +20, 하트 +10" : "갸우뚱… 아직 연습 중이에요. 그래도 경험치 +5!";
+                }
+                case "ask" -> {
+                    var answer = commands.ask(input.value(), dog.grade);
+                    message = answer.message(); success = answer.success();
                 }
                 case "promote" -> {
                     if (dog.grade == Grade.SSR) throw bad("이미 최고 등급이에요. 앞으로도 함께해요!");
                     if (dog.xp < PROMOTION_XP) throw bad("등급을 올리려면 경험치 100이 필요해요.");
                     dog.xp -= PROMOTION_XP; dog.grade = Grade.values()[dog.grade.ordinal() + 1];
-                    message = dog.name + "가 " + dog.grade + " 등급이 되었어요!";
+                    message = dog.name + "가 " + dog.grade + " 등급이 되었어요! 새로 배웠다 멍: " + commands.newlyUnlocked(dog.grade);
                 }
                 case "customize" -> {
                     if (!List.of("original", "cream", "chocolate", "rose", "silver").contains(Objects.toString(input.fur(), "")) ||

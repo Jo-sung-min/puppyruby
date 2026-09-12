@@ -13,12 +13,25 @@ services:
       timeout: 3s
       retries: 20
   backend:
-    build: ./backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     environment:
       SERVER_ADDRESS: 0.0.0.0
       DB_URL: jdbc:postgresql://postgres:5432/puppyruby
       DB_USERNAME: puppyruby
       DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://127.0.0.1:3001}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      KAKAO_REST_API_KEY: ${KAKAO_REST_API_KEY:-}
+      KAKAO_CLIENT_SECRET: ${KAKAO_CLIENT_SECRET:-}
+      MAIL_ENABLED: ${MAIL_ENABLED:-false}
+      MAIL_HOST: ${MAIL_HOST:-}
+      MAIL_PORT: ${MAIL_PORT:-587}
+      MAIL_USERNAME: ${MAIL_USERNAME:-}
+      MAIL_PASSWORD: ${MAIL_PASSWORD:-}
+      MAIL_FROM: ${MAIL_FROM:-}
+      MAIL_STARTTLS: ${MAIL_STARTTLS:-true}
     depends_on:
       postgres:
         condition: service_healthy
@@ -28,6 +41,8 @@ services:
     build: ./frontend
     environment:
       API_URL: http://backend:8081/api/v1
+      PUBLIC_SITE_URL: ${PUBLIC_SITE_URL:-http://127.0.0.1:3001}
+      KAKAO_REST_API_KEY: ${KAKAO_REST_API_KEY:-}
     ports:
       - "127.0.0.1:3001:3001"
     depends_on:

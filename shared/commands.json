@@ -1,0 +1,416 @@
+[
+  {
+    "id": "puppy-sit",
+    "kind": "training",
+    "app": "puppy",
+    "label": "앉아",
+    "requiredGrade": "N",
+    "keys": "",
+    "aliases": [
+      "앉기"
+    ],
+    "context": "돌봄과 훈련으로 함께 배워요.",
+    "sourceUrl": ""
+  },
+  {
+    "id": "puppy-paw",
+    "kind": "training",
+    "app": "puppy",
+    "label": "손",
+    "requiredGrade": "R",
+    "keys": "",
+    "aliases": [
+      "손 줘",
+      "손주기"
+    ],
+    "context": "돌봄과 훈련으로 함께 배워요.",
+    "sourceUrl": ""
+  },
+  {
+    "id": "puppy-stay",
+    "kind": "training",
+    "app": "puppy",
+    "label": "기다려",
+    "requiredGrade": "SR",
+    "keys": "",
+    "aliases": [
+      "기다리기"
+    ],
+    "context": "돌봄과 훈련으로 함께 배워요.",
+    "sourceUrl": ""
+  },
+  {
+    "id": "puppy-turn",
+    "kind": "training",
+    "app": "puppy",
+    "label": "돌아",
+    "requiredGrade": "SSR",
+    "keys": "",
+    "aliases": [
+      "돌기",
+      "한 바퀴"
+    ],
+    "context": "돌봄과 훈련으로 함께 배워요.",
+    "sourceUrl": ""
+  },
+  {
+    "id": "puppy-bang",
+    "kind": "training",
+    "app": "puppy",
+    "label": "빵",
+    "requiredGrade": "SSR",
+    "keys": "",
+    "aliases": [
+      "빵야"
+    ],
+    "context": "돌봄과 훈련으로 함께 배워요.",
+    "sourceUrl": ""
+  },
+  {
+    "id": "excel-copy",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "복사",
+    "requiredGrade": "R",
+    "keys": "Ctrl + C",
+    "aliases": [
+      "복사하기",
+      "카피"
+    ],
+    "context": "Windows 기본 단축키 기준. 선택한 내용을 복사해요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-cut",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "잘라내기",
+    "requiredGrade": "R",
+    "keys": "Ctrl + X",
+    "aliases": [
+      "잘라내",
+      "오려두기",
+      "오려내기"
+    ],
+    "context": "Windows 기본 단축키 기준. 선택한 내용을 잘라내요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-paste",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "붙여넣기",
+    "requiredGrade": "R",
+    "keys": "Ctrl + V",
+    "aliases": [
+      "붙여넣어",
+      "붙이기",
+      "붙여 넣기"
+    ],
+    "context": "Windows 기본 단축키 기준. 복사하거나 잘라낸 내용을 붙여넣어요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-undo",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "실행 취소",
+    "requiredGrade": "R",
+    "keys": "Ctrl + Z",
+    "aliases": [
+      "되돌리기",
+      "되돌려",
+      "실행취소"
+    ],
+    "context": "Windows 기본 단축키 기준. 직전 작업을 되돌려요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-save",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "저장",
+    "requiredGrade": "R",
+    "keys": "Ctrl + S",
+    "aliases": [
+      "저장하기",
+      "세이브"
+    ],
+    "context": "Windows 기본 단축키 기준. 현재 문서를 저장해요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-find",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "찾기",
+    "requiredGrade": "R",
+    "keys": "Ctrl + F",
+    "aliases": [
+      "검색",
+      "검색하기",
+      "찾아"
+    ],
+    "context": "Windows 기본 단축키 기준. 문서 안의 글자나 숫자를 찾아요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-format",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "셀 서식",
+    "requiredGrade": "SR",
+    "keys": "Ctrl + 1",
+    "aliases": [
+      "셀서식",
+      "표시 형식",
+      "서식창"
+    ],
+    "context": "Windows 기본 단축키 기준. 선택한 셀의 서식 창을 열어요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-edit",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "셀 수정",
+    "requiredGrade": "SR",
+    "keys": "F2",
+    "aliases": [
+      "셀 편집",
+      "셀편집",
+      "내용 편집",
+      "셀수정"
+    ],
+    "context": "Windows 기본 단축키 기준. 현재 선택한 셀의 내용을 편집해요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-sum",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "자동 합계",
+    "requiredGrade": "SR",
+    "keys": "Alt + =",
+    "aliases": [
+      "자동합계",
+      "합계",
+      "더하기",
+      "sum"
+    ],
+    "context": "Windows 기본 단축키 기준. 선택 영역에 SUM 함수를 입력해요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-filter",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "필터",
+    "requiredGrade": "SR",
+    "keys": "Ctrl + Shift + L",
+    "aliases": [
+      "자동필터",
+      "필터 켜기",
+      "필터 끄기",
+      "필터 해제"
+    ],
+    "context": "Windows 기본 단축키 기준. 데이터 범위의 필터 화살표를 켜거나 꺼요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-date",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "오늘 날짜",
+    "requiredGrade": "SSR",
+    "keys": "Ctrl + ;",
+    "aliases": [
+      "현재 날짜",
+      "오늘날짜",
+      "날짜 입력"
+    ],
+    "context": "Windows 기본 단축키 기준. 현재 날짜를 셀에 고정된 값으로 입력해요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "excel-absolute",
+    "kind": "shortcut",
+    "app": "excel",
+    "label": "절대참조",
+    "requiredGrade": "SSR",
+    "keys": "F4",
+    "aliases": [
+      "절대 참조",
+      "참조 고정",
+      "참조 전환"
+    ],
+    "context": "Windows 기본 단축키 기준. 수식을 편집하면서 셀 참조를 선택한 상태에서 상대·절대참조 조합을 순환해요.",
+    "sourceUrl": "https://support.microsoft.com/en-us/accessibility/excel/keyboard-shortcuts-in-excel"
+  },
+  {
+    "id": "hwp-copy",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "복사",
+    "requiredGrade": "SR",
+    "keys": "Ctrl + C",
+    "aliases": [
+      "복사하기",
+      "카피"
+    ],
+    "context": "Windows 기본 단축키 기준. 선택한 내용을 복사해요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-cut",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "잘라내기",
+    "requiredGrade": "SR",
+    "keys": "Ctrl + X",
+    "aliases": [
+      "잘라내",
+      "오려두기",
+      "오려내기"
+    ],
+    "context": "Windows 기본 단축키 기준. 선택한 내용을 잘라내요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-paste",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "붙여넣기",
+    "requiredGrade": "SR",
+    "keys": "Ctrl + V",
+    "aliases": [
+      "붙여넣어",
+      "붙이기",
+      "붙여 넣기"
+    ],
+    "context": "Windows 기본 단축키 기준. 복사하거나 잘라낸 내용을 붙여넣어요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-undo",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "실행 취소",
+    "requiredGrade": "SR",
+    "keys": "Ctrl + Z",
+    "aliases": [
+      "되돌리기",
+      "되돌려",
+      "실행취소"
+    ],
+    "context": "Windows 기본 단축키 기준. 직전 작업을 되돌려요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-save",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "저장",
+    "requiredGrade": "SR",
+    "keys": "Ctrl + S",
+    "aliases": [
+      "저장하기",
+      "세이브"
+    ],
+    "context": "Windows 기본 단축키 기준. 현재 문서를 저장해요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-find",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "찾기",
+    "requiredGrade": "SR",
+    "keys": "Ctrl + F",
+    "aliases": [
+      "검색",
+      "검색하기",
+      "찾아"
+    ],
+    "context": "Windows 기본 단축키 기준. 문서 안의 글자나 숫자를 찾아요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-redo",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "다시 실행",
+    "requiredGrade": "SSR",
+    "keys": "Ctrl + Shift + Z",
+    "aliases": [
+      "다시실행",
+      "재실행",
+      "취소 복구"
+    ],
+    "context": "Windows 기본 단축키 기준. 취소한 작업을 다시 실행해요. Ctrl + Y는 한 줄 지우기이므로 다른 기능이에요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-symbols",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "문자표",
+    "requiredGrade": "SSR",
+    "keys": "Ctrl + F10",
+    "aliases": [
+      "특수문자",
+      "특수 문자",
+      "기호",
+      "문자표 열기"
+    ],
+    "context": "Windows 기본 단축키 기준. 특수문자를 선택하는 문자표를 열어요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-table",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "표 만들기",
+    "requiredGrade": "SSR",
+    "keys": "Ctrl + N → T",
+    "aliases": [
+      "표만들기",
+      "표 삽입",
+      "테이블"
+    ],
+    "context": "Windows 기본 단축키 기준. Ctrl + N을 누르고 뗀 다음 T를 눌러요. 세 키를 동시에 누르는 조합이 아니에요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-font",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "글자 모양",
+    "requiredGrade": "SSR",
+    "keys": "Alt + L",
+    "aliases": [
+      "글꼴",
+      "폰트",
+      "글자 서식",
+      "글자모양"
+    ],
+    "context": "Windows 기본 단축키 기준. 글꼴과 글자 모양을 설정해요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  },
+  {
+    "id": "hwp-paragraph",
+    "kind": "shortcut",
+    "app": "hwp",
+    "label": "문단 모양",
+    "requiredGrade": "SSR",
+    "keys": "Alt + T",
+    "aliases": [
+      "문단 서식",
+      "줄 간격",
+      "줄간격",
+      "문단모양"
+    ],
+    "context": "Windows 기본 단축키 기준. 문단 서식과 줄 간격을 설정해요.",
+    "sourceUrl": "https://help.hancom.com/hoffice120/ko-KR/Hwp/view/toolbar/shortcut%28table%29.htm"
+  }
+]

@@ -1,4 +1,10 @@
 export type Grade = "N" | "R" | "SR" | "SSR";
+export const gradeOrder: Grade[] = ["N", "R", "SR", "SSR"];
+export type PuppyCommand = {
+  id: string; kind: "training" | "shortcut"; app: "puppy" | "excel" | "hwp";
+  label: string; requiredGrade: Grade; keys: string; aliases: string[]; context: string; sourceUrl: string;
+};
+export function commandUnlocked(grade: Grade, command: PuppyCommand) { return gradeOrder.indexOf(grade) >= gradeOrder.indexOf(command.requiredGrade); }
 export type Puppy = {
   id: string; name: string; breed: number; grade: Grade; xp: number;
   hunger: number; happiness: number; energy: number;
@@ -8,7 +14,7 @@ export type Puppy = {
 export type GradeInfo = { id: Grade; label: string; obedience: number; probability: number };
 export type GameState = {
   coins: number; selectedId: string; puppies: Puppy[]; giftAvailable: boolean;
-  careCount: number; trainingCount: number; grades: GradeInfo[]; adoptionCost: number; promotionXp: number;
+  careCount: number; trainingCount: number; grades: GradeInfo[]; adoptionCost: number; promotionXp: number; commands: PuppyCommand[];
 };
 export type ActionResult = { state: GameState; message: string; success: boolean; newPuppyId: string | null };
 export const breeds = [

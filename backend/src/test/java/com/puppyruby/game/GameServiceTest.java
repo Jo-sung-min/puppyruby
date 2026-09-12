@@ -17,6 +17,12 @@ class GameServiceTest {
     @Autowired PlayerRepository repository;
     String player() { String id = UUID.randomUUID().toString(); game.state(id); return id; }
     GameService.Action action(String dogId) { return new GameService.Action(dogId, null, null, null, null); }
+    GameService.Action command(String dogId, String value) { return new GameService.Action(dogId, value, null, null, null); }
+    String puppyAtGrade(String playerId, Grade grade) {
+        Player p = repository.findById(playerId).orElseThrow();
+        p.puppies.getFirst().grade = grade; repository.save(p);
+        return p.puppies.getFirst().id;
+    }
 
     @Test void distributionBoundariesCoverExactlyOneHundredOutcomes() {
         var counts = new EnumMap<Grade, Integer>(Grade.class);
@@ -97,5 +103,92 @@ class GameServiceTest {
         Player p = repository.findById(id).orElseThrow(); p.puppies.getFirst().energy = 0; p.puppies.getFirst().lastTrain = 0; repository.save(p);
         assertThrows(ResponseStatusException.class, () -> game.act(id, "train", input));
         assertEquals(1, game.state(id).trainingCount());
+    }
+    @Test void catalogAndTrainingGatesCoverEveryTier() {
+        var expected = Map.of("앉아", Grade.N, "손", Grade.R, "기다려", Grade.SR, "돌아", Grade.SSR, "빵", Grade.SSR);
+        var catalog = game.state(player()).commands();
+        assertEquals(expected.size(), catalog.stream().filter(c -> c.kind().equals("training")).count());
+        for (var entry : expected.entrySet()) {
+            assertEquals(entry.getValue(), catalog.stream().filter(c -> c.label().equals(entry.getKey())).findFirst().orElseThrow().requiredGrade());
+            for (Grade grade : Grade.values()) {
+                String id = player(), dogId = puppyAtGrade(id, grade);
+                if (grade.ordinal() < entry.getValue().ordinal()) {
+                    var error = assertThrows(ResponseStatusException.class, () -> game.act(id, "train", command(dogId, entry.getKey())));
+                    assertTrue(error.getReason().contains(entry.getValue().name()));
+                    var unchanged = game.state(id);
+                    assertEquals(0, unchanged.trainingCount()); assertEquals(0, unchanged.puppies().getFirst().xp);
+                    assertEquals(90, unchanged.puppies().getFirst().energy); assertEquals(1000, unchanged.coins());
+                } else {
+                    var trained = game.act(id, "train", command(dogId, entry.getKey()));
+                    assertEquals(1, trained.state().trainingCount());
+                    assertEquals(85, trained.state().puppies().getFirst().energy);
+                }
+            }
+        }
+    }
+    @Test void shortcutLookupIsOwnedGradeGatedAndNeverFarmsRewards() {
+        String id = player(), dogId = puppyAtGrade(id, Grade.N), foreign = game.state(player()).selectedId();
+        assertThrows(ResponseStatusException.class, () -> game.act(id, "ask", command(foreign, "엑셀 붙여넣기")));
+        var lockedExcel = game.act(id, "ask", command(dogId, "엑셀 붙여넣기 단축키 알려줘"));
+        assertFalse(lockedExcel.success()); assertTrue(lockedExcel.message().contains("R 등급"));
+        puppyAtGrade(id, Grade.R);
+        for (String prompt : List.of("엑셀 붙여넣기", "Excel 붙여넣기 단축키 알려줘!", "엑셀에서 붙여넣기 단축키가 뭐야?")) {
+            var answered = game.act(id, "ask", command(dogId, prompt));
+            assertTrue(answered.success(), prompt); assertTrue(answered.message().contains("Ctrl + V다 멍!"));
+            assertEquals(1000, answered.state().coins()); assertEquals(0, answered.state().puppies().getFirst().xp);
+            assertEquals(90, answered.state().puppies().getFirst().energy);
+            assertEquals(0, answered.state().trainingCount()); assertEquals(0, answered.state().careCount());
+        }
+        var lockedHwp = game.act(id, "ask", command(dogId, "한글 붙여넣기"));
+        assertFalse(lockedHwp.success()); assertTrue(lockedHwp.message().contains("SR 등급"));
+        puppyAtGrade(id, Grade.SR);
+        var hwp = game.act(id, "ask", command(dogId, "한글에서 붙여넣기는 어떻게 해?"));
+        assertTrue(hwp.success()); assertTrue(hwp.message().startsWith("한글에서 붙여넣기는 Ctrl + V다 멍!"));
+    }
+    @Test void incompleteAmbiguousAndUnknownQuestionsNeverInventShortcuts() {
+        String id = player(), dogId = puppyAtGrade(id, Grade.SSR);
+        for (String prompt : List.of("붙여넣기", "엑셀 한글 붙여넣기", "엑셀 단축키 알려줘", "엑셀 붙여넣기 취소", "한글 강아지 산책", "")) {
+            var answer = game.act(id, "ask", command(dogId, prompt));
+            assertFalse(answer.success(), prompt); assertFalse(answer.message().contains("Ctrl +"), prompt);
+            assertEquals(0, answer.state().puppies().getFirst().xp);
+        }
+    }
+    @Test void everyShortcutUsesItsCatalogKeysOnlyAtItsRequiredTierOrAbove() {
+        for (var entry : game.state(player()).commands()) {
+            if (!entry.kind().equals("shortcut")) continue;
+            String id = player();
+            for (Grade grade : Grade.values()) {
+                String dogId = puppyAtGrade(id, grade);
+                var answer = game.act(id, "ask", command(dogId, entry.app() + " " + entry.label()));
+                boolean unlocked = grade.ordinal() >= entry.requiredGrade().ordinal();
+                assertEquals(unlocked, answer.success(), entry.id() + " at " + grade);
+                if (unlocked) assertTrue(answer.message().contains(entry.keys() + "다 멍!"), entry.id());
+                else assertTrue(answer.message().contains(entry.requiredGrade() + " 등급"), entry.id());
+                assertEquals(0, answer.state().puppies().getFirst().xp);
+                assertEquals(90, answer.state().puppies().getFirst().energy);
+                assertEquals(1000, answer.state().coins());
+            }
+        }
+    }
+    @Test void trainingAcceptsCanonicalIdsAndAliasesWithoutBypassingGrades() {
+        String id = player(), dogId = puppyAtGrade(id, Grade.N);
+        assertThrows(ResponseStatusException.class, () -> game.act(id, "train", command(dogId, "puppy-paw")));
+        assertThrows(ResponseStatusException.class, () -> game.act(id, "train", command(dogId, "손 줘")));
+        var trained = game.act(id, "train", command(dogId, "puppy-sit"));
+        assertEquals(1, trained.state().trainingCount());
+    }
+    @Test void eachPromotionAnnouncesExactlyTheNewlyUnlockedAbilities() {
+        String id = player(), dogId = puppyAtGrade(id, Grade.N);
+        Player p = repository.findById(id).orElseThrow(); p.puppies.getFirst().xp = 300; repository.save(p);
+        for (Grade next : List.of(Grade.R, Grade.SR, Grade.SSR)) {
+            var result = game.act(id, "promote", action(dogId));
+            assertTrue(result.message().contains("새로 배웠다 멍:"));
+            for (var entry : result.state().commands()) {
+                String display = entry.kind().equals("training") ? entry.label()
+                    : (entry.app().equals("excel") ? "엑셀 " : "한글 ") + entry.label();
+                if (entry.requiredGrade() == next) assertTrue(result.message().contains(display), display);
+            }
+            assertFalse(result.message().contains("앉아"));
+        }
     }
 }

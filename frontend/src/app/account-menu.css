@@ -1,0 +1,32 @@
+.account-menu { display:flex; align-items:center; flex-wrap:wrap; gap:12px; font-size:13px; line-height:1.6; }
+.account-menu a { display:inline-flex; align-items:center; gap:6px; min-height:40px; color:var(--ui-text); text-decoration:none; white-space:nowrap; }
+.account-menu a:hover { color:var(--ui-text); text-decoration:underline; text-underline-offset:4px; }
+.account-menu a:focus-visible, .account-quick-link:focus-visible { outline:2px solid var(--ui-accent); outline-offset:4px; }
+.account-menu .account-menu-signup { border:1px solid var(--ui-accent); border-radius:8px; padding:8px 13px; background:var(--ui-accent); color:var(--ui-on-accent); font-weight:650; }
+.account-menu .account-menu-signup:hover { color:var(--ui-on-accent); background:color-mix(in srgb, var(--ui-accent) 88%, var(--ui-on-accent)); text-decoration:none; }
+.account-menu .account-menu-admin { color:var(--ui-text); }
+.account-menu-sidebar { border-top:1px solid var(--ui-line); padding:17px 3px 0; row-gap:8px; }
+.account-menu-sidebar .account-menu-main { font-weight:700; max-width:100%; }
+.account-menu-sidebar .account-menu-main span { overflow:hidden; text-overflow:ellipsis; }
+.account-menu-sidebar small { flex-basis:100%; font-size:12px; color:var(--ui-muted); line-height:1.7; }
+.account-quick-link { display:grid; place-items:center; width:40px; height:40px; border:1px solid var(--ui-strong-line); border-radius:50%; background:var(--ui-surface); color:var(--ui-text); flex-shrink:0; }
+.account-quick-link:hover { background:var(--ui-hover); border-color:var(--ui-accent); }
+.site-header .header-content { gap:18px; }
+.site-header .header-content nav { margin-left:0; gap:24px; }
+.site-header .site-header-actions { display:flex; align-items:center; gap:18px; }
+@media(max-width:1100px) {
+  .site-header .header-content nav { gap:14px; }
+  .site-header .site-header-actions { gap:12px; }
+}
+@media(max-width:1000px) {
+  .account-menu-sidebar { display:none; }
+}
+@media(max-width:900px) {
+  .site-header .header-content { flex-wrap:wrap; padding-top:13px; padding-bottom:13px; }
+  .site-header { height:auto; min-height:77px; }
+}
+@media(max-width:600px) {
+  .site-header .site-header-actions { flex-basis:100%; justify-content:space-between; }
+  .account-menu { font-size:12px; gap:10px; }
+  .topbar-actions { gap:8px; }
+}

@@ -1,0 +1,4 @@
+.puppy-aura > .pixel-dog { overflow: visible; filter: drop-shadow(1px 0 0 var(--puppy-aura-color)) drop-shadow(-1px 0 0 var(--puppy-aura-color)) drop-shadow(0 1px 0 var(--puppy-aura-color)) drop-shadow(0 -1px 0 var(--puppy-aura-color)) drop-shadow(0 0 4px var(--puppy-aura-color)); }
+.puppy-aura[data-aura="rainbow"] > .pixel-dog { filter: drop-shadow(2px 0 0 #ed91a6) drop-shadow(-2px 0 0 #90bfee) drop-shadow(0 2px 0 #cfaaed) drop-shadow(0 -2px 0 #edd185) drop-shadow(0 0 4px #b3e3cf); }
+.puppy-aura[data-aura="starlight"] > .pixel-dog { filter: drop-shadow(1px 0 0 #c6cbff) drop-shadow(-1px 0 0 #c6cbff) drop-shadow(0 1px 0 #c6cbff) drop-shadow(0 -1px 0 #c6cbff) drop-shadow(0 0 5px #7d8be4); }
+.closet-shop-link { display: inline-flex; margin-top: 16px; text-decoration: underline; text-underline-offset: 4px; font-size: 13px; color: var(--text-primary, #252525); }
