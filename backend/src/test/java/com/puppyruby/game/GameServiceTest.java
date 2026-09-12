@@ -32,28 +32,26 @@ class GameServiceTest {
         assertEquals(Grade.SR, Grade.fromRoll(88)); assertEquals(Grade.SSR, Grade.fromRoll(98));
         assertThrows(IllegalArgumentException.class, () -> Grade.fromRoll(100));
     }
-    @Test void adoptionChargesExactlyOnceAndPersistsNewFamily() {
+    @Test void heartAdoptionCannotBypassPaidTickets() {
         String id = player();
-        var result = game.act(id, "adopt", action(null));
-        assertEquals(900, result.state().coins()); assertEquals(2, result.state().puppies().size());
-        assertEquals(result.newPuppyId(), game.state(id).selectedId());
-        assertNotEquals(result.state().puppies().get(0).id, result.newPuppyId());
-        assertNotNull(result.state().puppies().get(1).grade);
+        var error = assertThrows(ResponseStatusException.class, () -> game.act(id, "adopt", action(null)));
+        assertEquals(400, error.getStatusCode().value()); assertTrue(error.getReason().contains("뽑기권"));
+        assertEquals(1000, game.state(id).coins()); assertEquals(1, game.state(id).puppies().size());
     }
     @Test void insufficientBalanceRollsBackAdoption() {
         String id = player(); Player p = repository.findById(id).orElseThrow(); p.coins = 99; repository.save(p);
         assertThrows(ResponseStatusException.class, () -> game.act(id, "adopt", action(null)));
         assertEquals(99, game.state(id).coins()); assertEquals(1, game.state(id).puppies().size());
     }
-    @Test void concurrentAdoptionsCannotOverspend() throws Exception {
+    @Test void concurrentHeartAdoptionsAreBothBlocked() throws Exception {
         String id = player(); Player p = repository.findById(id).orElseThrow(); p.coins = 100; repository.save(p);
         try (ExecutorService pool = Executors.newFixedThreadPool(2)) {
             var barrier = new CountDownLatch(1);
             Callable<Boolean> draw = () -> { barrier.await(); try { game.act(id, "adopt", action(null)); return true; } catch (ResponseStatusException e) { return false; } };
             Future<Boolean> first = pool.submit(draw), second = pool.submit(draw); barrier.countDown();
-            assertNotEquals(first.get(10, TimeUnit.SECONDS), second.get(10, TimeUnit.SECONDS));
+            assertFalse(first.get(10, TimeUnit.SECONDS)); assertFalse(second.get(10, TimeUnit.SECONDS));
         }
-        assertEquals(0, game.state(id).coins()); assertEquals(2, game.state(id).puppies().size());
+        assertEquals(100, game.state(id).coins()); assertEquals(1, game.state(id).puppies().size());
     }
     @Test void giftAndCareCannotBeClaimedRepeatedly() {
         String id = player(); String dogId = game.state(id).selectedId();

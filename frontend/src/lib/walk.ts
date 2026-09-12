@@ -10,7 +10,7 @@ export type WalkProfile = {
 export type WalkMe = WalkProfile & { configured: boolean };
 export type WalkMember = {
   profile: WalkProfile;
-  puppy: Pick<Puppy, "id" | "name" | "breed" | "grade" | "fur" | "eyes" | "accessory">;
+  puppy: Pick<Puppy, "id" | "name" | "breed" | "grade" | "fur" | "eyes" | "accessory" | "aura">;
   x: number; y: number; lastSeen: number;
 };
 export type WalkMessage = { id: string; author: WalkProfile | null; text: string; createdAt: number; system: boolean };

@@ -8,7 +8,7 @@ export function commandUnlocked(grade: Grade, command: PuppyCommand) { return gr
 export type Puppy = {
   id: string; name: string; breed: number; grade: Grade; xp: number;
   hunger: number; happiness: number; energy: number;
-  fur: string; eyes: string; accessory: string;
+  fur: string; eyes: string; accessory: string; aura?: string | null;
   lastFeed: number; lastPlay: number; lastRest: number; lastTrain: number;
 };
 export type GradeInfo = { id: Grade; label: string; obedience: number; probability: number };

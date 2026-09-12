@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import { ArrowLeft, ChevronLeft, ChevronRight, DoorClosed, EyeOff, Grid2X2, MessageCircle, PawPrint, RefreshCw, Search, ShieldCheck, Users, X } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, DoorClosed, EyeOff, Grid2X2, MessageCircle, PawPrint, RefreshCw, Search, ShieldCheck, Store, Users, X } from "lucide-react";
 import { AccountError, accountDate, accountErrorMessage, adminFetch, isAccountAccessError, type AccountUser, type AdminMember, type AdminMembers, type AdminMessage, type AdminOverview, type AdminPage, type AdminRoom } from "@/lib/account";
 import { AccountAccess, AccountFailure, AccountLoading, AccountNotice } from "./account-ui";
 import { AdminActionDialog, type AdminAction } from "./admin-action-dialog";
 import { AdminDogStyles } from "./admin-dog-styles";
+import { AdminCommerce } from "../commerce/admin-commerce";
 import { useAccountSession } from "./use-account-session";
 
 export function AdminDashboard() {
@@ -47,8 +48,9 @@ function useAdminResource<T>(path: string | null, revision: number, onAccessErro
 }
 
 function AdminConsole({ user }: { user: AccountUser }) {
-  const [tab, setTab] = useState<"members" | "rooms" | "styles">("members");
+  const [tab, setTab] = useState<"members" | "rooms" | "styles" | "commerce">("members");
   const [stylesOpened, setStylesOpened] = useState(false);
+  const [commerceOpened, setCommerceOpened] = useState(false);
   const [revision, setRevision] = useState(0);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
@@ -128,7 +130,7 @@ function AdminConsole({ user }: { user: AccountUser }) {
         <div><span className="account-kicker"><ShieldCheck size={13} aria-hidden="true" /> PUPPYRUBY ADMIN</span><h1>함께 지키는 작은 마을</h1><p>회원과 산책방을 살펴보고 편안한 하루를 지켜요.</p></div>
         <div className="account-heading-actions">
           <Link href="/account/me" className="account-text-link"><ArrowLeft size={14} aria-hidden="true" /> 마이페이지</Link>
-          {tab !== "styles" && <button type="button" className="account-button account-button-soft" onClick={reload}><RefreshCw size={15} aria-hidden="true" /> 새로고침</button>}
+          {(tab === "members" || tab === "rooms") && <button type="button" className="account-button account-button-soft" onClick={reload}><RefreshCw size={15} aria-hidden="true" /> 새로고침</button>}
         </div>
       </div>
       <AccountNotice kind="success">{notice}</AccountNotice>
@@ -143,10 +145,11 @@ function AdminConsole({ user }: { user: AccountUser }) {
         </div>}
       </section>
 
-      <nav className="account-tabs admin-tabs admin-tabs-with-styles" aria-label="관리 항목">
+      <nav className="account-tabs admin-tabs admin-tabs-with-styles admin-tabs-with-commerce" aria-label="관리 항목">
         <button type="button" aria-pressed={tab === "members"} onClick={() => { setTab("members"); setSelectedRoom(null); }}><Users size={16} aria-hidden="true" /> 회원 관리</button>
         <button type="button" aria-pressed={tab === "rooms"} onClick={() => setTab("rooms")}><MessageCircle size={16} aria-hidden="true" /> 산책방 관리</button>
         <button type="button" aria-pressed={tab === "styles"} onClick={() => { setStylesOpened(true); setTab("styles"); }}><Grid2X2 size={16} aria-hidden="true" /> 도트 스타일</button>
+        <button type="button" aria-pressed={tab === "commerce"} onClick={() => { setCommerceOpened(true); setTab("commerce"); }}><Store size={16} aria-hidden="true" /> 뽑기·상품</button>
       </nav>
 
       {tab === "members" ? (
@@ -229,6 +232,7 @@ function AdminConsole({ user }: { user: AccountUser }) {
         </section>
       ) : null}
       {stylesOpened && <div hidden={tab !== "styles"}><AdminDogStyles onAccessError={onAccessError} /></div>}
+      {commerceOpened && <div hidden={tab !== "commerce"}><AdminCommerce onAccessError={onAccessError} /></div>}
       {action && <AdminActionDialog action={action} onClose={() => setAction(null)} onComplete={completeAction} onAccessError={onAccessError} />}
     </div>
   );

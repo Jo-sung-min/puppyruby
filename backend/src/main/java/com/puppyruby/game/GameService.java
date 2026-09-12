@@ -54,12 +54,7 @@ public class GameService {
         String newId = null;
         long now = System.currentTimeMillis();
         if (action.equals("adopt")) {
-            if (p.coins < ADOPTION_COST) throw bad("하트가 부족해요. 돌봄이나 오늘의 선물로 모아 보세요.");
-            if (p.puppies.size() >= 100) throw bad("우리 집은 최대 100마리까지 함께할 수 있어요.");
-            int breed = random.nextInt(BREEDS.size());
-            Puppy dog = new Puppy(NAMES.get(breed), breed, Grade.fromRoll(random.nextInt(100)));
-            p.coins -= ADOPTION_COST; p.puppies.add(dog); p.selectedId = dog.id; newId = dog.id;
-            message = dog.name + "가 새로운 가족이 되었어요!";
+            throw bad("새 가족은 상점의 강아지 뽑기권으로 만날 수 있어요.");
         } else if (action.equals("gift")) {
             if (today().equals(p.lastGiftDate)) throw bad("오늘의 선물은 이미 받았어요. 내일 또 만나요!");
             p.lastGiftDate = today(); p.coins += 150; message = "오늘의 선물, 하트 150개를 받았어요!";
@@ -107,7 +102,8 @@ public class GameService {
                 case "customize" -> {
                     if (!List.of("original", "cream", "chocolate", "rose", "silver").contains(Objects.toString(input.fur(), "")) ||
                         !List.of("original", "blue", "green", "amber").contains(Objects.toString(input.eyes(), "")) ||
-                        !List.of("none", "ribbon", "scarf", "crown").contains(Objects.toString(input.accessory(), "")))
+                        !(List.of("none", "ribbon", "scarf", "crown").contains(Objects.toString(input.accessory(), ""))
+                            || (input.accessory() != null && input.accessory().equals(dog.accessory))))
                         throw bad("사용할 수 없는 꾸미기 아이템이에요.");
                     dog.fur = input.fur(); dog.eyes = input.eyes(); dog.accessory = input.accessory();
                     message = "찰떡같이 어울려요! " + dog.name + "의 꾸미기를 저장했어요.";
@@ -123,5 +119,30 @@ public class GameService {
         }
         repository.save(p);
         return new Result(view(p), message, success, newId);
+    }
+
+    /** Only a server-side, already charged commerce draw calls this helper. */
+    @Transactional
+    public Result awardPuppy(String playerId, int breed, Grade grade) {
+        if (breed < 0 || breed >= BREEDS.size() || grade == null) throw bad("강아지 보상 정보를 확인해 주세요.");
+        Player player = player(playerId);
+        if (player.puppies.size() >= 100) throw new ResponseStatusException(HttpStatus.CONFLICT, "우리 집은 최대 100마리까지 함께할 수 있어요. 뽑기권은 사용되지 않았어요.");
+        Puppy puppy = new Puppy(NAMES.get(breed), breed, grade);
+        player.puppies.add(puppy); player.selectedId = puppy.id;
+        repository.save(player);
+        return new Result(view(player), puppy.name + "가 새로운 가족이 되었어요!", true, puppy.id);
+    }
+
+    /** Commerce checks inventory ownership before calling this internal helper in the same transaction. */
+    @Transactional
+    public Result equipOwnedCosmetic(String playerId, String puppyId, String kind, String itemId) {
+        if (itemId == null) throw bad("사용할 수 없는 꾸미기 아이템이에요.");
+        boolean valid = "aura".equals(kind) && ("none".equals(itemId) || com.puppyruby.commerce.CommerceDefinitions.AURAS.contains(itemId))
+            || "accessory".equals(kind) && ("none".equals(itemId) || com.puppyruby.commerce.CommerceDefinitions.ACCESSORIES.contains(itemId));
+        if (!valid) throw bad("사용할 수 없는 꾸미기 아이템이에요.");
+        Player player = player(playerId); Puppy puppy = puppy(player, puppyId);
+        if (kind.equals("aura")) puppy.aura = itemId; else puppy.accessory = itemId;
+        repository.save(player);
+        return new Result(view(player), "none".equals(itemId) ? "장식을 해제했어요." : "보유한 장식을 착용했어요!", true, null);
     }
 }

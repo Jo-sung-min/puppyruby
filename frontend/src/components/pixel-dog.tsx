@@ -51,6 +51,7 @@ export function PixelDog({ breed = "shiba", mood = "idle", fur, eyes = "#3e332c"
   return <svg viewBox="0 0 64 64" shapeRendering="crispEdges" className={`pixel-dog pixel-${mood} ${className}`} data-dog-style="classic" role={decorative ? undefined : "img"} aria-hidden={decorative || undefined} aria-label={decorative ? undefined : `${pixelBreeds.find(b => b.id === breed)?.name || "포메라니안"} 픽셀 강아지`} style={{ "--dog-coat": coat } as CSSProperties}>
     {groundShadow && <path d={oval(32, 60, 18, 2)} fill="#7d6b55" opacity=".12" />}
     <g className="dog-body">
+      <AngelWings id={accessory} />
       <g className="dog-tail"><path d={oval(51, 47, 8, 7) + oval(55, 42, 5, 5)} fill={shadow} /><path d={oval(51, 46, 7, 6) + oval(55, 42, 4, 4)} fill={coat} /><path d={oval(56, 42, 3, 3)} fill={cream} /></g>
       <path d={oval(32, 48, 14, 11)} fill={shadow} />
       <path d={oval(32, 47, 13, 10)} fill={coat} />
@@ -87,6 +88,7 @@ export function PixelDog({ breed = "shiba", mood = "idle", fur, eyes = "#3e332c"
         <path d={oval(17, 35, 3, 1.5) + oval(47, 35, 3, 1.5)} fill={mix(cream, "#e4a19b", .4)} />
         {accessory === "ribbon" && <><path d="M43 13h3v1h3v-1h4v1h1v5h-1v1h-4v-2h-3v2h-3v-1h-1v-5h1z" fill="#db8290" /><path d="M46 15h3v3h-3z" fill="#b96478" /><path d="M43 14h2v1h-2zM50 14h2v1h-2z" fill="#f3b9c0" /></>}
         {accessory === "crown" && <><path d="M24 7V1h3v3h4V0h3v4h4V1h3v9H24z" fill="#e7b84c" /><path d="M25 8h15v2H25z" fill="#b67c32" /></>}
+        <PaidAccessory id={accessory} top={10} faceY={30.5} />
       </g>
       {accessory === "scarf" && <><path d="M20 48h24v3H20zM39 50h5v7h-5z" fill="#cf665d" /><path d="M21 48h4v3h-4zM32 48h4v3h-4z" fill="#f5c090" /></>}
     </g>
@@ -102,6 +104,19 @@ export function PixelDog({ breed = "shiba", mood = "idle", fur, eyes = "#3e332c"
     {mood === "excited" && <g fill="#eab997"><path d="M17 2h3v5h-2v4h-3V7h2zM30 0h3v4h-2v4h-3V4h2zM44 2h3v5h-2v4h-3V7h2z" /></g>}
     {mood === "scroll" && <g><path d="M7 43h9v17H7zM9 41h5v2H9z" fill="#e9debf" /><path d="M9 45h5v12H9zM10 42h3v2h-3z" fill="#c79161" /><path d="M11 59h12v3H11z" fill="#e9debf" /></g>}
   </svg>;
+}
+
+function PaidAccessory({ id, top, faceY, gap = 8, side = 46 }: { id: string; top: number; faceY: number; gap?: number; side?: number }) {
+  const y = Math.max(1, top), bow = id === "bow-blue" ? "#66a7dd" : "#b292d8";
+  if (id === "bow-blue" || id === "bow-lilac") return <g transform={`translate(${side - 6} ${y + 1})`} data-cosmetic={id}><path d="M0 0h3v1h3V0h4v1h1v5h-1v1H6V5H3v2H0v-1h-1V1h1z" fill={bow} /><path d="M3 2h3v3H3z" fill={mix(bow,"#403c68",.35)} /><path d="M0 1h2v1H0zM7 1h2v1H7z" fill="#f6f3ff" /></g>;
+  if (id === "party-hat") return <g transform={`translate(25 ${Math.max(1,y - 5)})`} data-cosmetic={id}><path d="M6 0h3v3h1v3h2v3h2v4H0V9h2V6h2V3h2z" fill="#a28ace" /><path d="M2 8h10v2H2zM5 3h5v2H5z" fill="#f3c976" /><path d="M0 12h14v2H0z" fill="#68547f" /><path d="M6 0h3v2H6z" fill="#fff2c5" /></g>;
+  if (id === "flower") return <g transform={`translate(${side} ${y + 5})`} data-cosmetic={id}><path d={oval(0,-3,3,3)+oval(-3,0,3,3)+oval(3,0,3,3)+oval(0,3,3,3)} fill="#f1adc1" /><path d={oval(0,0,2,2)} fill="#f4d26d" /><path d="M2 5h3V3h2v4H2z" fill="#7ca777" /></g>;
+  if (id === "glasses") return <g data-cosmetic={id} fill="none" stroke="#3f414c" strokeWidth="1.5"><circle cx={32-gap} cy={faceY} r={Math.max(3,gap-3)} /><circle cx={32+gap} cy={faceY} r={Math.max(3,gap-3)} /><path d={`M${32-gap+Math.max(3,gap-3)} ${faceY}h${2*gap-2*Math.max(3,gap-3)}`} /></g>;
+  if (id === "halo") return <g data-cosmetic={id}><path d={oval(32,Math.max(3,y-2),11,3)} fill="#c79434" /><path d={oval(32,Math.max(3,y-2),9,2)} fill="#fbe49b" /><path d={oval(32,Math.max(3,y-2),7,1)} fill="#fff9dc" /></g>;
+  return null;
+}
+function AngelWings({ id }: { id: string }) {
+  return id === "angel-wings" ? <g data-cosmetic={id}><path d="M18 44L6 31H3v13l4 7 9 4h7zM46 44l12-13h3v13l-4 7-9 4h-7z" fill="#a6b6d1" /><path d="M18 46L5 34v9l4 6 10 4zM46 46l13-12v9l-4 6-10 4z" fill="#f3f6ff" /><path d="M7 42l8 7M57 42l-8 7" stroke="#c5cee5" strokeWidth="2" /></g> : null;
 }
 
 // Every style changes geometry at the native 64px grid. These renderers stay
@@ -235,6 +250,7 @@ function DesignedDog({ breed, mood, fur, eyes, accessory, look, frame, className
     {isPortrait && <><path d={p(32,33,30,30)} fill={edge} /><path d={p(32,33,28,28)} fill={mix(coat,cream,.7)} /><path d="M18 58h28v3H18z" fill={edge} /></>}
     {styleId === "sticker" && <g fill="#fffdf8"><path d={p(bx,by,brx+4,bry+3)+p(hx,hy,rx+4,ry+3)+p(54,47,8,9)} />{!floppy && pointedEars(3)}{floppy && <path d={p(hx-dropX,dropY,dropW+4,dropH+4)+p(hx+dropX,dropY,dropW+4,dropH+4)} />}</g>}
     <g className="dog-body">
+      <AngelWings id={accessory} />
       <g className="dog-tail">{!isPortrait && <>
         <path d={p(styleId === "mini" ? 42 : 51,48,styleId === "mini" ? 5 : 8,styleId === "plush" ? 9 : 7)+p(styleId === "mini" ? 45 : 55,42,styleId === "mini" ? 3 : 5,5)} fill={edge} />
         <path d={p(styleId === "mini" ? 42 : 51,47,styleId === "mini" ? 4 : 7,6)+p(styleId === "mini" ? 45 : 55,42,styleId === "mini" ? 2 : 4,4)} fill={coat} />
@@ -287,6 +303,7 @@ function DesignedDog({ breed, mood, fur, eyes, accessory, look, frame, className
         {styleId === "storybook" && <path d={`M${eyeX1-2} ${s.faceY-4}h4v1h-4zM${eyeX2-2} ${s.faceY-4}h4v1h-4z`} fill={mix(edge,coat,.3)} />}
         {accessory === "ribbon" && <g transform={`translate(${ribbonX-43} ${ribbonY-13})`}><path d="M43 13h3v1h3v-1h4v1h1v5h-1v1h-4v-2h-3v2h-3v-1h-1v-5h1z" fill="#db8290" /><path d="M46 15h3v3h-3z" fill="#b96478" /><path d="M43 14h2v1h-2zM50 14h2v1h-2z" fill="#f3b9c0" /></g>}
         {accessory === "crown" && <g transform={`translate(0 ${crownY})`}><path d="M24 7V1h3v3h4V0h3v4h4V1h3v9H24z" fill="#e7b84c" /><path d="M25 8h15v2H25z" fill="#b67c32" /></g>}
+        <PaidAccessory id={accessory} top={ribbonY} faceY={s.faceY} gap={s.eyeGap} side={ribbonX + 3} />
       </g>
       {accessory === "scarf" && <g transform={`translate(0 ${styleId === "storybook" ? -8 : styleId === "pocket" ? -7 : styleId === "badge" ? 4 : 0})`}><path d="M20 48h24v3H20zM39 50h5v7h-5z" fill="#cf665d" /><path d="M21 48h4v3h-4zM32 48h4v3h-4z" fill="#f5c090" /></g>}
       {styleId === "pocket" && <><path d="M17 44h30v13h-2v3H19v-3h-2z" fill={edge} /><path d="M19 45h26v12h-2v1H21v-1h-2z" fill={mix(cream,coat,.2)} /><path d="M20 47h24v1H20zM23 56h2v1h-2zM27 56h2v1h-2zM31 56h2v1h-2zM35 56h2v1h-2zM39 56h2v1h-2z" fill={edge} />

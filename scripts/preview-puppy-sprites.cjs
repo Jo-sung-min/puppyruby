@@ -46,7 +46,7 @@ function loadComponent(relative, overrides = {}) {
 const dogModule = loadComponent('src/components/pixel-dog.tsx');
 const game = loadComponent('src/lib/game.ts');
 const { PuppySprite } = loadComponent('src/components/puppy-sprite.tsx', {
-  '@/lib/game': game, './styled-pixel-dog': dogModule,
+  '../lib/cosmetics': loadComponent('src/lib/cosmetics.ts'), '@/lib/game': game, './styled-pixel-dog': dogModule,
 });
 const { PixelDog } = dogModule;
 const breeds = ['shiba', 'samoyed', 'poodle', 'corgi', 'maltese', 'beagle', 'pomeranian'];

@@ -29,6 +29,16 @@ export type CommerceWallet = {
   history: CommerceReward[]; balanceHold: boolean;
 };
 export type CommerceDrawResult = { wallet: CommerceWallet; reward: CommerceReward; game: GameState };
+export function checkedDrawResult(value: CommerceDrawResult, expectedKind: CommerceKind): CommerceDrawResult {
+  const valid = value && typeof value === "object"
+    && value.wallet && typeof value.wallet === "object" && typeof value.wallet.balanceHold === "boolean"
+    && value.wallet.tickets && commerceKinds.every(kind => Number.isSafeInteger(value.wallet.tickets[kind.id]))
+    && Array.isArray(value.wallet.items) && Array.isArray(value.wallet.history)
+    && value.reward && value.reward.kind === expectedKind && typeof value.reward.id === "string" && typeof value.reward.label === "string"
+    && value.game && typeof value.game.selectedId === "string" && Array.isArray(value.game.puppies);
+  if (!valid) throw new Error("뽑기 결과를 확인하지 못했어요. 같은 요청을 다시 확인해 주세요.");
+  return value;
+}
 export type PaymentConfig = { enabled: boolean; mode: string; clientKey: string | null; message: string };
 export type PaymentOrder = {
   orderId: string; orderName: string; amount: number; quantity: number; kind: CommerceKind;
@@ -74,9 +84,21 @@ export function probabilityText(value: string) { return value.endsWith("%") ? va
 export function paymentStatusLabel(status: string) {
   const labels: Record<string, string> = {
     READY: "결제 전", CREATED: "결제 전", IN_PROGRESS: "결제 진행 중", WAITING_FOR_DEPOSIT: "입금 대기",
-    APPROVING: "결제 확인 중", CONFIRMING: "결제 확인 중", DONE: "결제 완료", PAID: "결제 완료",
+    APPROVING: "결제 확인 중", CONFIRMING: "결제 확인 중", VERIFYING: "결제 확인 중", DONE: "결제 완료", PAID: "결제 완료",
     CANCELED: "결제 취소", CANCELLED: "결제 취소", PARTIAL_CANCELED: "일부 취소", REFUNDED: "환불 완료",
     PARTIALLY_REFUNDED: "일부 환불", FAILED: "결제 실패", ABORTED: "결제 중단", EXPIRED: "유효 시간 만료",
   };
   return labels[status] ?? "상태 확인 필요";
+}
+
+/** Allocate the last decimal places so the displayed relative weights sum to exactly 100%. */
+export function relativeProbabilities(weights: number[]): string[] {
+  const total = weights.reduce((sum, weight) => sum + weight, 0);
+  if (!total || weights.some(weight => !Number.isSafeInteger(weight) || weight < 0 || weight > 1_000_000)) return weights.map(() => "—");
+  const scale = 100_000_000;
+  const portions = weights.map((weight, index) => ({ index, units: Math.floor(weight * scale / total), remainder: weight * scale % total }));
+  let remaining = scale - portions.reduce((sum, item) => sum + item.units, 0);
+  const byRemainder = [...portions].sort((a, b) => b.remainder - a.remainder || a.index - b.index);
+  for (const item of byRemainder) { if (remaining-- <= 0) break; item.units++; }
+  return portions.map(item => `${(item.units / 1_000_000).toFixed(6).replace(/\.?0+$/, "")}%`);
 }

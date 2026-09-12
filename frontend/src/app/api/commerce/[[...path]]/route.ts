@@ -1,0 +1,7 @@
+import { NextRequest } from "next/server";
+import { commerceProxy } from "@/lib/commerce-proxy";
+async function handle(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
+  return commerceProxy(request, "commerce", (await context.params).path?.join("/") ?? "catalog");
+}
+export const GET = handle;
+export const POST = handle;

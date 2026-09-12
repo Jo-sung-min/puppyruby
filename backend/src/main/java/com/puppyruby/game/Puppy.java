@@ -16,6 +16,7 @@ public class Puppy {
     public String fur;
     public String eyes;
     public String accessory;
+    public String aura;
     public long lastFeed;
     public long lastPlay;
     public long lastRest;
@@ -24,6 +25,6 @@ public class Puppy {
     Puppy(String name, int breed, Grade grade) {
         this.id = UUID.randomUUID().toString(); this.name = name; this.breed = breed; this.grade = grade;
         hunger = 80; happiness = 85; energy = 90;
-        fur = "original"; eyes = "original"; accessory = "none";
+        fur = "original"; eyes = "original"; accessory = "none"; aura = "none";
     }
 }

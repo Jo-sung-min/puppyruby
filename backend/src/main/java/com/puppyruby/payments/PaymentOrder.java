@@ -26,6 +26,7 @@ class PaymentOrder {
     @Column(name = "payment_key", length = 200) String paymentKey;
     @Column(nullable = false, length = 36) String idempotencyKey;
     Long confirmationRequestedAt;
+    Long approvalSentAt;
     Long paidAt;
     @Column(nullable = false) boolean ticketsGranted;
     @Column(nullable = false) int refundedAmount;

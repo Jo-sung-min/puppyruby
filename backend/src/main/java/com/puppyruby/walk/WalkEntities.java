@@ -31,6 +31,7 @@ class SocialProfile {
     String puppyGrade;
     String puppyFur;
     String puppyEyes;
+    String puppyAura;
     String puppyAccessory;
 }
 

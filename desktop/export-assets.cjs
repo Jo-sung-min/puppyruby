@@ -36,7 +36,7 @@ function loadFrontend(relativePath, overrides = {}) {
 }
 const game = loadFrontend('src/lib/game.ts');
 // Native exports use the pure default renderer. Runtime web settings are not embedded here.
-const { PuppySprite } = loadFrontend('src/components/puppy-sprite.tsx', { '@/lib/game': game, './styled-pixel-dog': component.exports });
+const { PuppySprite } = loadFrontend('src/components/puppy-sprite.tsx', { '../lib/cosmetics': loadFrontend('src/lib/cosmetics.ts'), '@/lib/game': game, './styled-pixel-dog': component.exports });
 const out = path.join(__dirname, 'build/assets');
 fs.mkdirSync(out, { recursive: true });
 

@@ -38,7 +38,7 @@ public class DesktopService {
     public record Links(List<Device> devices) {}
     public record PairCode(String code, long expiresAt) {}
     public record Dog(String id, String name, int breed, String grade, int xp, int hunger, int happiness, int energy,
-                      String fur, String eyes, String accessory, long lastFeed, long lastPlay, long lastRest, long lastTrain) {}
+                      String fur, String eyes, String accessory, String aura, long lastFeed, long lastPlay, long lastRest, long lastTrain) {}
     public record State(Dog puppy, int coins, int promotionXp, int obedience, long syncedAt) {}
     public record PairResult(String token, Device device, State state) {}
     public record Result(State state, boolean success, String message) {}
@@ -165,7 +165,7 @@ public class DesktopService {
     private static State view(GameService.State state, long now) {
         Puppy dog = state.puppies().stream().filter(p -> p.id.equals(state.selectedId())).findFirst().orElseThrow();
         return new State(new Dog(dog.id, dog.name, dog.breed, dog.grade.name(), dog.xp, dog.hunger, dog.happiness, dog.energy,
-            dog.fur, dog.eyes, dog.accessory, dog.lastFeed, dog.lastPlay, dog.lastRest, dog.lastTrain),
+            dog.fur, dog.eyes, dog.accessory, dog.aura, dog.lastFeed, dog.lastPlay, dog.lastRest, dog.lastTrain),
             state.coins(), state.promotionXp(), dog.grade.obedience, now);
     }
     private static String normalizeCode(String value) { return Objects.toString(value, "").toUpperCase(Locale.ROOT).replaceAll("[\\s-]", ""); }

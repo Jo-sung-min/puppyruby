@@ -35,7 +35,7 @@
 | 메서드 | 브라우저 경로 | 본문 | 동작 |
 |---|---|---|---|
 | GET | /api/game | 없음 | 현재 상태, 첫 방문 초기화 |
-| POST | /api/game/adopt | {} | 100 하트로 가족 1마리 분양 |
+| POST | /api/game/adopt | {} | 400: 뽑기권 상점 이용 안내 (기존 하트 분양 종료) |
 | POST | /api/game/gift | {} | 오늘의 선물 수령 |
 | POST | /api/game/select | puppyId | 함께할 강아지 선택 |
 | POST | /api/game/feed | puppyId | 밥 주기 |
@@ -63,3 +63,24 @@
 잔액·경험치·등급·보상은 요청으로 직접 수정할 수 없습니다. 플레이어 행을 비관적 쓰기 잠금으로 보호해 병렬 요청 시 하트 초과 사용과 중복 보상을 방지합니다. 서버 규칙은 `GameService`, 클라이언트 타입은 `frontend/src/lib/game.ts`가 담당합니다.
 
 로그인한 사용자는 HttpOnly 세션 쿠키를 통해 계정에 연결되고, 비회원은 별도의 방문자 쿠키를 사용합니다. API 서버는 로컬 또는 Docker 내부에서 사용하며, 브라우저가 제공한 내부 식별 헤더는 프록시가 전달하지 않습니다. 회원·카카오·관리자 설정은 `docs/ACCOUNTS.md`를 참고하세요.
+
+
+## 뽑기 · 결제
+
+Next 프록시 `/api/commerce`, `/api/payments`는 백엔드 `/api/v1/commerce`, `/api/v1/payments`에 연결합니다. 공개 카탈로그·결제 설정을 제외한 회원 작업은 HttpOnly 세션이 필요하며 POST는 동일 출처만 허용합니다. 웹훅만 별도 서버 알림 경로입니다.
+
+| 메서드 | 프록시 경로 | 기능 |
+|---|---|---|
+| GET | /api/commerce/catalog | 상품·확률·설정 revision 공개 |
+| GET | /api/commerce/me | 종류별 뽑기권·보유 장식·최근 뽑기 |
+| POST | /api/commerce/draw | kind, requestId(UUID), catalogRevision: 1매 사용·서버 추첨 |
+| POST | /api/commerce/equip | puppyId, kind(aura/accessory), itemId(none으로 해제) |
+| GET/POST | /api/admin/commerce/catalog | 관리자 카탈로그 조회/수정; expectedRevision 충돌은409 |
+| GET | /api/payments/config | 결제 활성·test/live·공개 클라이언트 키 |
+| POST | /api/payments/orders | productId, requestId, catalogRevision, termsAccepted: 서버 가격 주문 |
+| GET | /api/payments/orders | 내 최근50개 주문·지급·환불 상태 |
+| POST | /api/payments/confirm | orderId, paymentKey, amount: 소유권·금액 검증 후 승인 |
+| POST | /api/payments/orders/{id}/reconcile | 동일 주문 결제 상태 재조회 |
+| POST | /api/payments/webhook | PAYMENT_STATUS_CHANGED 알림; 서버가 토스 API 재검증 |
+
+상점 결제 설정은 [PAYMENTS.md](PAYMENTS.md)를 참고하세요. 판매를 꺼도 이미 보유한 뽑기권은 사용할 수 있습니다. 변경된 확률 revision으로는 뽑기권을 차감하지 않고409를 반환하며, 같은 요청 번호의 성공한 뽑기는 기존 보상과 현재 잔액을 돌려줍니다.

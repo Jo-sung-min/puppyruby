@@ -133,14 +133,14 @@ class DesktopServiceTest {
 
     @Test void webSelectionAndAppearanceAreAuthoritativeAndOldDogActionsRequireRefresh() {
         String player = owner(); var connection = connect(player); var staleAction = action(connection, "feed");
-        var adopted = game.act(player, "adopt", new GameService.Action(null, null, null, null, null));
+        var adopted = game.awardPuppy(player, 1, com.puppyruby.game.Grade.R);
         game.act(player, "rename", new GameService.Action(adopted.newPuppyId(), "동기화강아지", null, null, null));
         game.act(player, "customize", new GameService.Action(adopted.newPuppyId(), null, "rose", "blue", "ribbon"));
         status(409, () -> desktop.act(connection.token(), staleAction));
         var state = desktop.state(connection.token());
         assertEquals(adopted.newPuppyId(), state.puppy().id()); assertEquals("동기화강아지", state.puppy().name());
         assertEquals("rose", state.puppy().fur()); assertEquals("blue", state.puppy().eyes()); assertEquals("ribbon", state.puppy().accessory());
-        assertEquals(0, state.puppy().xp()); assertEquals(900, state.coins());
+        assertEquals(0, state.puppy().xp()); assertEquals(1000, state.coins());
         for (String action : List.of("adopt", "gift", "select", "customize", "rename", "profile", "friend-request"))
             status(400, () -> desktop.act(connection.token(), new DesktopService.Action(action, state.puppy().id(), null, UUID.randomUUID().toString())));
     }

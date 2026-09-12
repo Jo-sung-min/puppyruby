@@ -13,7 +13,7 @@ public final class CommerceDefinitions {
     record Entry(String id, String kind, String label, String grade, Integer breed, String itemId, int weight) {}
     static final List<Product> PRODUCTS = products();
     static final List<Entry> ENTRIES = entries();
-    static String name(String kind) { return switch (kind) { case "dog" -> "강아지"; case "aura" -> "오라"; case "accessory" -> "액세서리"; default -> throw new IllegalArgumentException(); }; }
+    static String name(String kind) { return switch (kind) { case "dog" -> "강아지"; case "aura" -> "아우라"; case "accessory" -> "치장품"; default -> throw new IllegalArgumentException(); }; }
     private static List<Product> products() {
         List<Product> result = new ArrayList<>();
         for (String kind : KINDS) for (int quantity : List.of(1, 10))

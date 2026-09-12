@@ -32,6 +32,9 @@ services:
       MAIL_PASSWORD: ${MAIL_PASSWORD:-}
       MAIL_FROM: ${MAIL_FROM:-}
       MAIL_STARTTLS: ${MAIL_STARTTLS:-true}
+      TOSS_CLIENT_KEY: ${TOSS_CLIENT_KEY:-}
+      TOSS_SECRET_KEY: ${TOSS_SECRET_KEY:-}
+      TOSS_LIVE_ENABLED: ${TOSS_LIVE_ENABLED:-false}
     depends_on:
       postgres:
         condition: service_healthy

@@ -3,7 +3,8 @@ $ErrorActionPreference = 'Stop'
 $serverDirectory = $PSScriptRoot
 $localConfig = Join-Path $serverDirectory '.env.local'
 $supportedSettings = @('PORT','SERVER_ADDRESS','PUBLIC_SITE_URL','ADMIN_EMAIL','DB_URL','DB_USERNAME','DB_PASSWORD',
-    'KAKAO_REST_API_KEY','KAKAO_CLIENT_SECRET','MAIL_ENABLED','MAIL_HOST','MAIL_PORT','MAIL_USERNAME','MAIL_PASSWORD','MAIL_FROM','MAIL_STARTTLS')
+    'KAKAO_REST_API_KEY','KAKAO_CLIENT_SECRET','MAIL_ENABLED','MAIL_HOST','MAIL_PORT','MAIL_USERNAME','MAIL_PASSWORD','MAIL_FROM','MAIL_STARTTLS',
+    'TOSS_CLIENT_KEY','TOSS_SECRET_KEY','TOSS_LIVE_ENABLED')
 
 # Treat configuration as literal data; never execute its contents as PowerShell.
 if (Test-Path -LiteralPath $localConfig) {

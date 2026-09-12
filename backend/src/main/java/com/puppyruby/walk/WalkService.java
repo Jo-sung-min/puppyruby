@@ -30,7 +30,7 @@ public class WalkService {
 
     public record Profile(String id, String nickname, Integer age, String friendship, String realName, String photo) {}
     public record Me(String id, String nickname, Integer age, String friendship, String realName, String photo, boolean configured) {}
-    public record Dog(String id, String name, int breed, String grade, String fur, String eyes, String accessory) {}
+    public record Dog(String id, String name, int breed, String grade, String fur, String eyes, String accessory, String aura) {}
     public record Member(Profile profile, Dog puppy, double x, double y, long lastSeen) {}
     public record Message(String id, Profile author, String text, long createdAt, boolean system) {}
     public record RoomSummary(String id, String title, String description, String theme, int capacity, int memberCount,
@@ -170,7 +170,7 @@ public class WalkService {
             profile.nickname = dog.name + "엄마"; return profiles.save(profile);
         });
         self.lastSeen = now; self.puppyId = dog.id; self.puppyName = dog.name; self.puppyBreed = dog.breed;
-        self.puppyGrade = dog.grade.name(); self.puppyFur = dog.fur; self.puppyEyes = dog.eyes; self.puppyAccessory = dog.accessory;
+        self.puppyGrade = dog.grade.name(); self.puppyFur = dog.fur; self.puppyEyes = dog.eyes; self.puppyAccessory = dog.accessory; self.puppyAura = dog.aura;
         return self;
     }
 
@@ -209,7 +209,7 @@ public class WalkService {
             summaries.add(new RoomSummary(room.id, room.title, room.description, room.theme, room.capacity, occupants.size(), owner, room.createdAt));
             if (room.id.equals(self.roomId)) {
                 var members = occupants.stream().map(p -> new Member(visible.apply(p),
-                    new Dog(p.puppyId, p.puppyName, p.puppyBreed, p.puppyGrade, p.puppyFur, p.puppyEyes, p.puppyAccessory), p.x, p.y, p.lastSeen)).toList();
+                    new Dog(p.puppyId, p.puppyName, p.puppyBreed, p.puppyGrade, p.puppyFur, p.puppyEyes, p.puppyAccessory, p.puppyAura), p.x, p.y, p.lastSeen)).toList();
                 var history = messages.findByRoomIdOrderByCreatedAtAscIdAsc(room.id).stream()
                     .filter(m -> m.hiddenAt == null)
                     .map(m -> new Message(m.id, visible.apply(allProfiles.get(m.authorId)), m.text, m.createdAt, false)).toList();
