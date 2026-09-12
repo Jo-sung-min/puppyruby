@@ -8,6 +8,7 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.ConfigurableApplicationContext;
 import java.util.Map;
+import java.util.List;
 import java.util.UUID;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,10 +23,12 @@ class AppearancePersistenceTest {
             Account admin = accounts.findById(login.user().id()).orElseThrow();
             admin.role = Account.Role.ADMIN; admin.emailVerified = true; accounts.save(admin);
             saved = first.getBean(AdminAppearanceService.class).save(login.token(), Map.of(
-                "defaultStyle", "storybook", "breedStyles", Map.of("maltese", "soft", "samoyed", "mochi"), "expectedRevision", 0));
+                "defaultStyle", "storybook", "breedStyles", Map.of("maltese", "soft", "samoyed", "mochi"), "expectedRevision", 0,
+                "deletedStyles", List.of("classic", "retro", "badge")));
         }
         try (var restarted = start(database)) {
             assertEquals(saved, restarted.getBean(AppearanceService.class).current());
+            assertEquals(List.of("classic", "retro", "badge"), restarted.getBean(AppearanceService.class).current().deletedStyles());
             assertEquals(1, restarted.getBean(AppearanceRepository.class).count());
         }
     }

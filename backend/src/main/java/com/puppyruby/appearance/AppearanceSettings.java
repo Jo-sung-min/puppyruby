@@ -3,6 +3,8 @@ package com.puppyruby.appearance;
 import jakarta.persistence.*;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "appearance_settings")
@@ -15,6 +17,11 @@ class AppearanceSettings {
     @MapKeyColumn(name = "breed", length = 24)
     @Column(name = "style", nullable = false, length = 24)
     Map<String, String> breedStyles = new LinkedHashMap<>();
+    @ElementCollection
+    @CollectionTable(name = "appearance_deleted_styles", joinColumns = @JoinColumn(name = "settings_id"),
+        uniqueConstraints = @UniqueConstraint(columnNames = {"settings_id", "style"}))
+    @Column(name = "style", nullable = false, length = 24)
+    Set<String> deletedStyles = new LinkedHashSet<>();
     @Column(nullable = false) long revision;
     Long updatedAt;
     @Version Long rowVersion;

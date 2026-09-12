@@ -21,6 +21,21 @@
 .admin-dog-gallery legend { float: none; width: 100%; margin-bottom: 15px; color: var(--ui-text); font-size: 15px; font-weight: 700; line-height: 1.6; }
 .admin-dog-gallery legend span { color: var(--ui-muted); font-size: 12px; font-weight: 400; }
 .admin-dog-style-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.admin-dog-style-tile { display: flex; flex-direction: column; min-width: 0; }
+.admin-dog-style-tile .admin-dog-style-option { flex: 1; }
+.admin-dog-delete { align-self: flex-end; display: inline-flex; align-items: center; gap: 5px; min-height: 36px; padding: 7px 9px; margin-top: 3px; border: 0; border-radius: 6px; background: transparent; color: var(--ui-muted); font-size: 12px; }
+.admin-dog-delete:hover:not(:disabled) { color: var(--ui-danger); background: var(--ui-danger-bg); }
+.admin-dog-delete:disabled { cursor: default; opacity: .45; }
+.admin-dog-delete-note { color: var(--ui-muted); font-size: 13px; line-height: 1.7; margin: 14px 0 0; }
+.admin-dog-deleted summary { color: var(--ui-text); cursor: pointer; font-size: 15px; font-weight: 700; }
+.admin-dog-deleted summary span { margin-left: 8px; color: var(--ui-muted); font-size: 13px; font-weight: 400; }
+.admin-dog-deleted > p { margin: 14px 0 18px; color: var(--ui-muted); font-size: 13px; line-height: 1.7; }
+.admin-dog-deleted-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 12px; }
+.admin-dog-deleted-item { display: grid; justify-items: center; gap: 9px; padding: 14px; border: 1px solid var(--ui-line); border-radius: 10px; background: var(--ui-surface-2); color: var(--ui-text); }
+.admin-dog-deleted-item strong { font-size: 13px; text-align: center; }
+.admin-dog-deleted-art { width: 72px; height: 72px; }
+.admin-dog-deleted-art > svg { display: block; width: 100%; height: 100%; image-rendering: pixelated; }
+.admin-dog-deleted-item .account-button { min-height: 36px; font-size: 12px; }
 .admin-dog-style-option { position: relative; display: flex; min-width: 0; cursor: pointer; }
 .admin-dog-style-card { position: relative; display: flex; flex-direction: column; align-items: center; width: 100%; min-width: 0; padding: 12px 9px; border: 1px solid var(--ui-line); border-radius: 10px; background: var(--ui-surface); color: var(--ui-text); text-align: center; transition: border-color .15s, background .15s; }
 .admin-dog-style-option:hover .admin-dog-style-card { border-color: var(--ui-strong-line); background: var(--ui-hover); }

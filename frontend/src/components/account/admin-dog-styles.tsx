@@ -1,12 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
-import { Check, CheckCheck, Grid2X2, RefreshCw, RotateCcw, Save } from "lucide-react";
+import { Check, CheckCheck, Grid2X2, RefreshCw, RotateCcw, Save, Trash2 } from "lucide-react";
 import { publishAppearance } from "@/components/dog-appearance-provider";
 import { AccountError, accountErrorMessage, adminFetch, isAccountAccessError } from "@/lib/account";
 import { parseAppearance } from "@/lib/dog-appearance";
 import {
   defaultAppearance,
+  activeDogStyles,
   dogStyles,
   isDogStyleId,
   resolveDogStyle,
@@ -25,7 +26,7 @@ const previewMoods: { id: PixelMood; name: string }[] = [
 ];
 
 function cloneAppearance(config: AppearanceConfig): AppearanceConfig {
-  return { ...config, breedStyles: { ...config.breedStyles } };
+  return { ...config, breedStyles: { ...config.breedStyles }, deletedStyles: [...(config.deletedStyles ?? [])] };
 }
 
 function styleName(id: DogStyleId): string {
@@ -34,7 +35,8 @@ function styleName(id: DogStyleId): string {
 
 function countChanges(saved: AppearanceConfig, draft: AppearanceConfig): number {
   return Number(saved.defaultStyle !== draft.defaultStyle)
-    + styleBreeds.filter(breed => saved.breedStyles[breed.id] !== draft.breedStyles[breed.id]).length;
+    + styleBreeds.filter(breed => saved.breedStyles[breed.id] !== draft.breedStyles[breed.id]).length
+    + dogStyles.filter(style => (saved.deletedStyles ?? []).includes(style.id) !== (draft.deletedStyles ?? []).includes(style.id)).length;
 }
 
 export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unknown) => void }) {
@@ -87,6 +89,8 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
 
   const changes = saved && draft ? countChanges(saved, draft) : 0;
   const busy = loading || saving;
+  const availableStyles = activeDogStyles(draft);
+  const deletedStyles = dogStyles.filter(style => (draft?.deletedStyles ?? []).includes(style.id));
   const chosenStyle = dogStyles.find(style => style.id === selectedStyle) ?? dogStyles[0];
   const chosenBreedName = styleBreeds.find(breed => breed.id === selectedBreed)?.name ?? "포메라니안";
 
@@ -141,13 +145,33 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
   }
 
   function changeBreedStyle(breed: PixelBreed, value: string) {
-    if (value !== "inherit" && !isDogStyleId(value)) return;
+    if (value !== "inherit" && !availableStyles.some(style => style.id === value)) return;
     editDraft(current => {
       const breedStyles = { ...current.breedStyles };
       if (value === "inherit") delete breedStyles[breed];
       else breedStyles[breed] = value as DogStyleId;
       return { ...current, breedStyles };
     });
+  }
+
+  function deleteStyle(styleId: DogStyleId) {
+    if (!draft || busy || availableStyles.length <= 1) return;
+    const remaining = availableStyles.filter(style => style.id !== styleId);
+    if (!remaining.length) return;
+    const nextDefault = draft.defaultStyle === styleId ? remaining[0].id : draft.defaultStyle;
+    const breedStyles = { ...draft.breedStyles };
+    const inUse = draft.defaultStyle === styleId || Object.values(breedStyles).includes(styleId);
+    for (const breed of styleBreeds) if (breedStyles[breed.id] === styleId) delete breedStyles[breed.id];
+    editDraft(current => ({
+      ...current, defaultStyle: nextDefault, breedStyles,
+      deletedStyles: dogStyles.filter(style => style.id === styleId || (current.deletedStyles ?? []).includes(style.id)).map(style => style.id),
+    }), `‘${styleName(styleId)}’를 삭제 목록으로 옮겼어요.${inUse ? ` 적용 중인 강아지는 ‘${styleName(nextDefault)}’로 바뀌어요.` : ""} 변경사항을 저장하면 반영돼요.`);
+    if (selectedStyle === styleId) setSelectedStyle(nextDefault);
+  }
+
+  function restoreStyle(styleId: DogStyleId) {
+    editDraft(current => ({ ...current, deletedStyles: (current.deletedStyles ?? []).filter(style => style !== styleId) }),
+      `‘${styleName(styleId)}’를 다시 선택할 수 있어요. 변경사항을 저장해 주세요.`);
   }
 
   function revertDraft() {
@@ -170,6 +194,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
       const config = parseAppearance(await adminFetch<AppearanceConfig>("appearance", {
         defaultStyle: draft.defaultStyle,
         breedStyles: { ...draft.breedStyles },
+        deletedStyles: [...(draft.deletedStyles ?? [])],
         expectedRevision: saved.revision,
       }));
       publishAppearance(config);
@@ -206,7 +231,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
           <div>
             <span className="account-kicker"><Grid2X2 size={14} aria-hidden="true" /> LITTLE PIXEL FRIENDS</span>
             <h2 id={`${id}-heading`}>강아지 도트 스타일</h2>
-            <p>같은 강아지를 16가지 모습으로 비교해 보세요.</p>
+            <p>마음에 드는 도트만 남기고, 견종마다 어울리는 모습을 골라요.</p>
           </div>
           <button type="button" className="account-button account-button-soft" onClick={requestReload} disabled={busy}>
             <RefreshCw size={15} aria-hidden="true" /> 설정 새로 불러오기
@@ -214,7 +239,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
         </div>
         <div className="admin-dog-preview-note">
           <strong>저장 전에는 미리보기만 바뀌어요.</strong>
-          <span>전체 적용·개별 적용 후 ‘변경사항 저장’을 눌러야 사이트에 반영돼요.</span>
+          <span>스타일 적용과 삭제는 ‘변경사항 저장’을 눌러야 사이트에 반영돼요. 삭제한 스타일은 다시 복원할 수 있어요.</span>
         </div>
       </div>
 
@@ -256,10 +281,11 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
 
         <div className="admin-dog-comparison-layout">
           <fieldset className="admin-dog-gallery" disabled={busy}>
-            <legend>16가지 스타일 비교 <span>· {chosenBreedName}</span></legend>
+            <legend>사용할 스타일 {availableStyles.length}가지 <span>· {chosenBreedName}</span></legend>
             <div className="admin-dog-style-grid">
-              {dogStyles.map(style => (
-                <label className="admin-dog-style-option" key={style.id}>
+              {availableStyles.map(style => (
+                <div className="admin-dog-style-tile" key={style.id}>
+                <label className="admin-dog-style-option">
                   <input
                     className="account-sr-only" type="radio" name={`${id}-style`} value={style.id}
                     checked={selectedStyle === style.id} onChange={() => setSelectedStyle(style.id)}
@@ -272,8 +298,11 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
                     {resolveDogStyle(saved, selectedBreed) === style.id && <span className="admin-dog-current-label">현재 적용</span>}
                   </span>
                 </label>
+                <button type="button" className="admin-dog-delete" aria-label={`${style.name} 삭제`} disabled={busy || availableStyles.length <= 1} onClick={() => deleteStyle(style.id)} title={availableStyles.length <= 1 ? "스타일은 최소 1개 남겨야 해요." : `${style.name} 삭제`}><Trash2 size={13} aria-hidden="true" /> 삭제</button>
+                </div>
               ))}
             </div>
+            {availableStyles.length === 1 && <p className="admin-dog-delete-note">강아지를 표시하려면 스타일을 최소 1개 남겨야 해요.</p>}
           </fieldset>
 
           <aside className="admin-dog-selected" aria-labelledby={`${id}-selected-heading`}>
@@ -298,6 +327,15 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
         <AccountNotice>{previewMessage}</AccountNotice>
       </div>
 
+      {deletedStyles.length > 0 && <details className="account-card admin-dog-deleted">
+        <summary>삭제한 스타일 <span>{deletedStyles.length}개</span></summary>
+        <p>복원하면 스타일 목록에 다시 나타나요. 복원한 뒤 변경사항을 저장해 주세요.</p>
+        <div className="admin-dog-deleted-grid">{deletedStyles.map(style => <div key={style.id} className="admin-dog-deleted-item">
+          <span className="admin-dog-deleted-art"><PixelDog breed={selectedBreed} styleId={style.id} mood={mood} decorative /></span>
+          <strong>{style.name}</strong><button type="button" className="account-button account-button-soft" disabled={busy} onClick={() => restoreStyle(style.id)} aria-label={`${style.name} 복원`}><RotateCcw size={13} aria-hidden="true" /> 복원</button>
+        </div>)}</div>
+      </details>}
+
       <section className="account-card admin-dog-assignments" aria-labelledby={`${id}-assignments-heading`}>
         <div className="account-section-heading">
           <div>
@@ -313,7 +351,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
               const value = event.target.value;
               if (isDogStyleId(value)) editDraft(current => ({ ...current, defaultStyle: value }));
             }}>
-              {dogStyles.map(style => <option value={style.id} key={style.id}>{style.name}</option>)}
+              {availableStyles.map(style => <option value={style.id} key={style.id}>{style.name}</option>)}
             </select>
             <small>‘전체 기본 사용’인 견종만 함께 바뀌어요. 개별 지정한 견종은 그대로예요.</small>
           </label>
@@ -337,7 +375,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
                     aria-label={`${breed.name} 스타일`} onChange={event => changeBreedStyle(breed.id, event.target.value)}
                   >
                     <option value="inherit">전체 기본 사용 · {styleName(draft.defaultStyle)}</option>
-                    {dogStyles.map(style => <option value={style.id} key={style.id}>{style.name}</option>)}
+                    {availableStyles.map(style => <option value={style.id} key={style.id}>{style.name}</option>)}
                   </select>
                   <small>{override ? "개별 지정" : "전체 기본 사용"} · {styleName(effectiveStyle)}</small>
                 </label>

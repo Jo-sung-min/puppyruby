@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.Optional;
 
 interface AppearanceRepository extends JpaRepository<AppearanceSettings, String> {
-    @Query("select settings from AppearanceSettings settings left join fetch settings.breedStyles where settings.id = 'global'")
+    @Query("select settings from AppearanceSettings settings left join fetch settings.breedStyles left join fetch settings.deletedStyles where settings.id = 'global'")
     Optional<AppearanceSettings> findCurrent();
 
     @Lock(LockModeType.PESSIMISTIC_WRITE)

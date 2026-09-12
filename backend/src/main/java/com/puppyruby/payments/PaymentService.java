@@ -265,7 +265,8 @@ public class PaymentService {
         if ("IN_PROGRESS".equals(payment.status()) && payment.method() != null
             && !("간편결제".equals(payment.method()) || "카드".equals(payment.method()))) throw new InvalidPayment();
         int refunded = canceledAmount(payment);
-        if (payment.balanceAmount() != payment.amount() - refunded) throw new InvalidPayment();
+        // Cancellation balance is authoritative after approval; its pre-approval value is not a price check.
+        if (paid && payment.balanceAmount() != payment.amount() - refunded) throw new InvalidPayment();
         switch (payment.status()) {
             case "DONE" -> { if (refunded != 0 || payment.approvedAt() == null) throw new InvalidPayment(); }
             case "PARTIAL_CANCELED" -> { if (refunded <= 0 || refunded >= payment.amount() || payment.approvedAt() == null) throw new InvalidPayment(); }

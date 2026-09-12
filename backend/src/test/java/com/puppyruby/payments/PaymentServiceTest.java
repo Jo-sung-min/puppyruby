@@ -193,6 +193,17 @@ class PaymentServiceTest {
         assertEquals("DONE", confirm(order, key).order().status()); assertEquals(1, tickets());
     }
 
+    @Test void zeroPreApprovalBalanceAllowsApprovalButDoneBalanceMustMatchOrderAmount() {
+        var order = create("dog-1"); String key = prepare(order);
+        gateway.payments.put(key, new TossGateway.Payment(key, order.orderId(), order.amount(), 0, "KRW", "간편결제", "토스페이", "IN_PROGRESS", null, null, List.of()));
+        assertEquals("DONE", confirm(order, key).order().status()); assertEquals(1, gateway.confirmations.get()); assertEquals(1, tickets());
+
+        var invalid = create("dog-1"); String invalidKey = prepare(invalid);
+        gateway.payments.put(invalidKey, new TossGateway.Payment(invalidKey, invalid.orderId(), invalid.amount(), 0, "KRW", "간편결제", "토스페이", "DONE", System.currentTimeMillis(), null, List.of()));
+        rejected(502, () -> confirm(invalid, invalidKey));
+        assertFalse(orders.findById(invalid.orderId()).orElseThrow().ticketsGranted); assertEquals(1, tickets());
+    }
+
     @Test void timeoutBeforeApprovalRetriesWithPersistedSameIdempotencyKey() {
         var order = create("dog-10"); String key = prepare(order); gateway.failBeforeApproval = key;
         assertEquals("VERIFYING", confirm(order, key).order().status());

@@ -26,7 +26,7 @@ public class AdminAppearanceService {
         var result = appearance.update(input);
         audits.save(new AdminAudit(actor.id, "APPEARANCE", "global", "APPEARANCE_UPDATE",
             "도트 스타일 설정 저장: 버전 " + input.expectedRevision() + " → " + result.revision()
-                + ", 기본 " + result.defaultStyle() + ", 품종별 " + result.breedStyles()));
+                + ", 기본 " + result.defaultStyle() + ", 품종별 " + result.breedStyles() + ", 삭제 " + result.deletedStyles()));
         return result;
     }
 }

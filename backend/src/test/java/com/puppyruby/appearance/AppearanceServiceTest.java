@@ -50,6 +50,9 @@ class AppearanceServiceTest {
     Map<String, Object> input(String style, Map<String, String> breeds, long revision) {
         return Map.of("defaultStyle", style, "breedStyles", breeds, "expectedRevision", revision);
     }
+    Map<String, Object> input(String style, Map<String, String> breeds, long revision, List<String> deletedStyles) {
+        return Map.of("defaultStyle", style, "breedStyles", breeds, "expectedRevision", revision, "deletedStyles", deletedStyles);
+    }
     HttpResponse<String> http(String method, String path, String token, String body) throws Exception {
         var request = HttpRequest.newBuilder(URI.create("http://127.0.0.1:" + port + path)).timeout(Duration.ofSeconds(10));
         request.header("X-Player-Id", operator.account.playerId); // A guest header never grants administrator permissions.
@@ -70,9 +73,10 @@ class AppearanceServiceTest {
         assertEquals(200, response.statusCode());
         assertTrue(response.headers().firstValue("Cache-Control").orElse("").contains("no-store"));
         var body = mapper.readValue(response.body(), Map.class);
-        assertEquals(Set.of("defaultStyle", "breedStyles", "revision", "updatedAt"), body.keySet());
+        assertEquals(Set.of("defaultStyle", "breedStyles", "revision", "updatedAt", "deletedStyles"), body.keySet());
         assertEquals("classic", body.get("defaultStyle"));
         assertEquals(Map.of(), body.get("breedStyles"));
+        assertEquals(List.of(), body.get("deletedStyles"));
         assertEquals(0, ((Number) body.get("revision")).longValue());
         assertNull(body.get("updatedAt"));
         assertEquals(0, settings.count()); assertEquals(0, auditCount());
@@ -130,6 +134,70 @@ class AppearanceServiceTest {
         assertEquals(16, revision); assertEquals(16, auditCount());
     }
 
+    @Test void deletionsPersistAndLegacySavePreservesThemUntilAnExplicitRestore() throws Exception {
+        var removed = admin.save(operator.token, input("round", Map.of("poodle", "soft"), 0, List.of("badge", "classic", "retro")));
+        assertEquals(List.of("classic", "retro", "badge"), removed.deletedStyles());
+        assertEquals(removed, mapper.readValue(http("GET", "/api/v1/appearance", null, null).body(), AppearanceService.Config.class));
+        assertEquals(removed, admin.current(operator.token));
+        var legacy = admin.save(operator.token, input("mochi", Map.of("shiba", "cookie"), removed.revision()));
+        assertEquals(removed.deletedStyles(), legacy.deletedStyles());
+        assertEquals(2, legacy.revision());
+        // The existing three-argument internal contract also means preserve rather than restore.
+        var directLegacy = appearance.update(new AppearanceService.Input("mochi", Map.of(), legacy.revision()));
+        assertEquals(removed.deletedStyles(), directLegacy.deletedStyles());
+        var restored = admin.save(operator.token, input("classic", Map.of("poodle", "badge"), directLegacy.revision(), List.of()));
+        assertEquals(List.of(), restored.deletedStyles()); assertEquals("classic", restored.defaultStyle());
+        assertEquals("badge", restored.breedStyles().get("poodle")); assertEquals(4, restored.revision());
+        assertEquals(restored, appearance.current());
+        assertEquals(3, auditCount()); // Direct internal compatibility call intentionally has no administrator audit.
+        assertTrue(jdbc.queryForList("select reason from admin_audit where target_type='APPEARANCE'").stream()
+            .anyMatch(row -> row.get("reason").toString().contains("삭제 [classic, retro, badge]")));
+    }
+
+    @Test void deletingReferencedStylesAndLegacyAttemptsToReuseDeletedStylesAreRejectedAtomically() {
+        var original = admin.save(operator.token, input("round", Map.of("poodle", "fluffy"), 0));
+        rejected(400, () -> admin.save(operator.token, input("round", Map.of("poodle", "fluffy"), original.revision(), List.of("round"))));
+        rejected(400, () -> admin.save(operator.token, input("round", Map.of("poodle", "fluffy"), original.revision(), List.of("fluffy"))));
+        assertEquals(original, appearance.current()); assertEquals(1, auditCount());
+        var removed = admin.save(operator.token, input("mochi", Map.of(), original.revision(), List.of("round", "fluffy")));
+        rejected(400, () -> admin.save(operator.token, input("round", Map.of(), removed.revision())));
+        rejected(400, () -> admin.save(operator.token, input("mochi", Map.of("poodle", "fluffy"), removed.revision())));
+        assertEquals(removed, appearance.current()); assertEquals(2, auditCount());
+        rejected(409, () -> admin.save(operator.token, input("round", Map.of(), original.revision(), List.of())));
+        assertEquals(removed, appearance.current()); assertEquals(2, auditCount());
+    }
+
+    @Test void invalidDeletionListsAreRejectedAndAtLeastOneStyleMustRemain() throws Exception {
+        for (Object invalid : Arrays.asList(null, "round", 1, Map.of(), List.of("unknown"), List.of("round", "round"),
+            List.of(1), Arrays.asList("round", null), AppearanceService.STYLES)) {
+            Map<String, Object> body = new LinkedHashMap<>(input("classic", Map.of(), 0)); body.put("deletedStyles", invalid);
+            assertEquals(400, http("POST", "/api/v1/admin/appearance", operator.token, mapper.writeValueAsString(body)).statusCode());
+            assertEquals(new AppearanceService.Config("classic", Map.of(), 0, null), appearance.current());
+        }
+        var deleted = AppearanceService.STYLES.stream().filter(style -> !style.equals("badge")).toList();
+        var last = admin.save(operator.token, input("badge", Map.of("shiba", "badge"), 0, deleted));
+        assertEquals(15, last.deletedStyles().size()); assertEquals("badge", last.defaultStyle());
+        rejected(400, () -> admin.save(operator.token, input("badge", Map.of(), last.revision(), AppearanceService.STYLES)));
+        assertEquals(last, appearance.current()); assertEquals(1, auditCount());
+        var restored = admin.save(operator.token, input("classic", Map.of(), last.revision(), List.of()));
+        assertTrue(restored.deletedStyles().isEmpty());
+    }
+
+    @Test void unauthorizedClientsCannotDeleteOrRestoreStyles() throws Exception {
+        var saved = admin.save(operator.token, input("round", Map.of(), 0, List.of("classic")));
+        var member = account(Account.Role.USER, true, Account.Status.ACTIVE);
+        var unverified = account(Account.Role.ADMIN, false, Account.Status.ACTIVE);
+        var suspended = account(Account.Role.ADMIN, true, Account.Status.SUSPENDED);
+        for (String token : Arrays.asList(null, member.token, unverified.token, suspended.token)) {
+            int expected = token == null ? 401 : 403;
+            for (List<String> deleted : List.of(List.<String>of(), List.of("classic", "badge"))) {
+                assertEquals(expected, http("POST", "/api/v1/admin/appearance", token,
+                    mapper.writeValueAsString(input("round", Map.of(), saved.revision(), deleted))).statusCode());
+            }
+        }
+        assertEquals(saved, appearance.current()); assertEquals(1, auditCount());
+    }
+
     @Test void malformedMissingUnknownAndCoercedInputsAreRejectedWithoutChanges() throws Exception {
         var original = admin.save(operator.token, input("round", Map.of("beagle", "badge"), 0));
         var invalid = List.of("null", "[]", "{}", "{\"defaultStyle\":\"classic\",\"breedStyles\":{}}",
@@ -178,7 +246,7 @@ class AppearanceServiceTest {
             List<Future<Outcome>> tasks = new ArrayList<>();
             for (String style : List.of("round", "fluffy")) tasks.add(pool.submit(() -> {
                 start.await();
-                try { return new Outcome(200, admin.save(operator.token, input(style, Map.of("poodle", style), revision))); }
+                try { return new Outcome(200, admin.save(operator.token, input(style, Map.of("poodle", style), revision, List.of("classic", "badge")))); }
                 catch (ResponseStatusException error) { return new Outcome(error.getStatusCode().value(), null); }
             }));
             start.countDown();

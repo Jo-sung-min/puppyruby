@@ -6,11 +6,17 @@ import { fileURLToPath } from "node:url";
 
 // This script creates only disposable local test accounts and changes only their isolated server.
 if (process.env.PUPPY_TEST_ISOLATED !== "1") throw new Error("Set PUPPY_TEST_ISOLATED=1 for the disposable appearance verifier.");
-const base = "http://127.0.0.1:3101";
+const target = new URL(process.env.PUPPY_TEST_URL || "http://127.0.0.1:3101");
+assert.equal(target.protocol, "http:"); assert.ok(["127.0.0.1", "localhost"].includes(target.hostname));
+assert.equal(target.port, "3101"); assert.equal(target.pathname, "/");
+assert.equal(target.search, ""); assert.equal(target.hash, "");
+assert.equal(target.username, ""); assert.equal(target.password, "");
+const base = target.origin;
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const fixture = JSON.parse(await readFile(path.join(root, "backend/build/account-fixture.json"), "utf8"));
 const mailbox = new URL(fixture.httpUrl);
 assert.equal(mailbox.hostname, "127.0.0.1"); assert.equal(mailbox.protocol, "http:");
+assert.equal(mailbox.username, ""); assert.equal(mailbox.password, "");
 assert.match(fixture.readToken, /^[A-Za-z0-9_-]{43}$/);
 const password = "Puppy-Style-Test-2026!";
 const adminEmail = "admin@puppyruby.test";
@@ -42,8 +48,9 @@ function person() {
 }
 const admin = person(), member = person(), guest = person();
 const initial = await guest.call("/api/appearance");
-equal(Object.keys(initial).sort(), ["breedStyles", "defaultStyle", "revision", "updatedAt"], "Public configuration contains no private identities");
+equal(Object.keys(initial).sort(), ["breedStyles", "defaultStyle", "deletedStyles", "revision", "updatedAt"], "Public configuration contains no private identities");
 check(styles.includes(initial.defaultStyle), "Public default belongs to the finite catalog");
+equal(initial.deletedStyles, [], "A fresh isolated server starts with all 16 styles available");
 await guest.call("/api/admin/appearance", undefined, 401);
 await guest.call("/api/admin/appearance", { defaultStyle: "badge", breedStyles: {}, expectedRevision: initial.revision }, 401,
   { "X-Session-Token": "x".repeat(43), "X-Player-Id": randomUUID() });
@@ -64,9 +71,13 @@ equal(link?.origin, base, "Verification remains on the isolated frontend");
 await guest.call("/api/auth/verify-email/confirm", { token: link.searchParams.get("token") });
 equal((await admin.call("/api/auth/me")).user.role, "ADMIN", "Verified configured test admin is authorized");
 const ownedBefore = await admin.call("/api/game");
+const memberOwnedBefore = await member.call("/api/game");
 let current = await admin.call("/api/admin/appearance");
 equal(current, initial, "Failed writes left the configuration unchanged");
-const save = (defaultStyle, breedStyles = {}) => admin.call("/api/admin/appearance", { defaultStyle, breedStyles, expectedRevision: current.revision });
+const save = (defaultStyle, breedStyles = {}, deletedStyles) => admin.call("/api/admin/appearance", {
+  defaultStyle, breedStyles, expectedRevision: current.revision,
+  ...(deletedStyles === undefined ? {} : { deletedStyles }),
+});
 const firstRevision = current.revision;
 current = await save("round");
 equal(current.revision, firstRevision + 1, "One save increments the revision once");
@@ -84,12 +95,80 @@ for (const body of [
   { defaultStyle: "round", breedStyles: {} },
 ]) await admin.call("/api/admin/appearance", body, 400);
 await admin.call("/api/admin/appearance", { defaultStyle: "badge", breedStyles: {}, expectedRevision: current.revision }, 403, { Origin: "https://attacker.example" });
-await admin.call("/api/admin/appearance", { defaultStyle: "badge", breedStyles: {}, expectedRevision: current.revision }, 403, { Origin: "http://localhost:3101" });
+const crossedAlias = target.hostname === "127.0.0.1" ? "http://localhost:3101" : "http://127.0.0.1:3101";
+await admin.call("/api/admin/appearance", { defaultStyle: "badge", breedStyles: {}, expectedRevision: current.revision }, 403, { Origin: crossedAlias });
 equal(await guest.call("/api/appearance"), current, "Invalid data, stale saves, and cross-origin writes have no effects");
+
+// Deletion changes the public style catalog only; no puppy or account record is removed.
+const beforeDeletion = current;
+for (const deletedStyles of [null, "badge", {}, [42], [""], ["unknown"], ["badge", "badge"], styles]) {
+  await admin.call("/api/admin/appearance", {
+    defaultStyle: "round", breedStyles: {}, deletedStyles, expectedRevision: current.revision,
+  }, 400);
+}
+await admin.call("/api/admin/appearance", {
+  defaultStyle: "round", breedStyles: {}, deletedStyles: ["round"], expectedRevision: current.revision,
+}, 400);
+await admin.call("/api/admin/appearance", {
+  defaultStyle: "round", breedStyles: { beagle: "mini" }, deletedStyles: ["mini"], expectedRevision: current.revision,
+}, 400);
+equal(await guest.call("/api/appearance"), beforeDeletion, "Rejected deletions preserve the complete configuration and revision");
+
+try {
+  current = await save("round", { beagle: "mini", maltese: "mochi" }, ["badge", "classic"]);
+  equal(current.revision, beforeDeletion.revision + 1, "Valid deletion advances the revision once");
+  equal(current.deletedStyles, ["classic", "badge"], "Deleted styles are normalized in catalog order");
+  equal(current.defaultStyle, "round", "A remaining style is the active default after deleting classic");
+  equal(current.breedStyles, { beagle: "mini", maltese: "mochi" }, "Valid individual overrides remain explicit");
+  equal(await guest.call("/api/appearance"), current, "Anonymous readers see the saved deletion list");
+  equal(await member.call("/api/appearance"), current, "Another account sees the same remaining styles");
+  equal(await admin.call("/api/admin/appearance"), current, "A fresh administrator read preserves deletions");
+
+  const deletedRevision = current.revision;
+  current = await save("mochi", { pomeranian: "round", beagle: "mini" });
+  equal(current.revision, deletedRevision + 1, "A legacy save still increments the revision once");
+  equal(current.deletedStyles, ["classic", "badge"], "Omitting deletedStyles preserves previously deleted styles");
+  equal(await person().call("/api/appearance"), current, "A new reader receives persisted deletions after an omitted-field save");
+  for (const selection of [
+    { defaultStyle: "classic", breedStyles: {} },
+    { defaultStyle: "mochi", breedStyles: { maltese: "badge" } },
+  ]) {
+    await admin.call("/api/admin/appearance", { ...selection, expectedRevision: current.revision }, 400);
+    await admin.call("/api/admin/appearance", { ...selection, deletedStyles: ["classic", "badge"], expectedRevision: current.revision }, 400);
+  }
+  await admin.call("/api/admin/appearance", {
+    defaultStyle: "classic", breedStyles: {}, deletedStyles: [], expectedRevision: deletedRevision,
+  }, 409);
+  equal(await guest.call("/api/appearance"), current, "Stale restoration and deleted-style references cannot overwrite the current draft basis");
+
+  const memberWhileDeleted = await member.call("/api/game");
+  equal(memberWhileDeleted, memberOwnedBefore, "Deleting styles leaves another member's full game state and puppies intact");
+  equal(await admin.call("/api/game"), ownedBefore, "Deleting styles preserves the administrator's game data too");
+
+  current = await save("mini", {}, styles.filter(style => style !== "mini").reverse());
+  equal(current.deletedStyles, styles.filter(style => style !== "mini"), "Deleting 15 styles is allowed when one usable style remains");
+  equal(current.defaultStyle, "mini", "The single remaining style stays selected");
+  equal(current.breedStyles, {}, "Single-style configuration contains no deleted override references");
+  equal(await guest.call("/api/appearance"), current, "The single remaining style is visible in public configuration");
+
+  current = await save("classic", {}, []);
+  equal(current.deletedStyles, [], "An explicit empty list restores all styles");
+  equal(current.defaultStyle, "classic", "A restored style can be selected in the same save");
+  equal(await admin.call("/api/admin/appearance"), current, "Restoration persists on re-read");
+  equal(await member.call("/api/appearance"), current, "Restoration is visible to other accounts");
+} finally {
+  // Leave the disposable UI fixture usable even if one deletion assertion fails.
+  current = await admin.call("/api/admin/appearance");
+  if (current.defaultStyle !== "classic" || Object.keys(current.breedStyles).length || current.deletedStyles.length) {
+    current = await save("classic", {}, []);
+  }
+}
+
 for (const style of styles) {
   const revision = current.revision;
   current = await save(style);
   equal(current.defaultStyle, style, `Style ${style} persists`);
+  equal(current.deletedStyles, [], `Restored style ${style} stays available through legacy saves`);
   equal(current.revision, revision + 1, "Saved revisions are monotonic");
   equal(await guest.call("/api/appearance"), current, "Public readers receive the saved configuration");
 }
@@ -97,5 +176,6 @@ current = await save("classic");
 const ownedAfter = await admin.call("/api/game");
 equal(ownedAfter.puppies, ownedBefore.puppies, "Style settings preserve individual puppy names, breeds, stats, and wardrobe");
 equal(ownedAfter.coins, ownedBefore.coins, "Style changes do not spend hearts");
+equal(await member.call("/api/game"), memberOwnedBefore, "Deleting and restoring styles never edits another member's puppy collection or progress");
 await writeFile(path.join(root, "backend/build/appearance-ui-fixture.json"), JSON.stringify({ base, adminEmail, password, checks, revision: current.revision }, null, 2));
 console.log(`PASS ${checks} appearance checks. Disposable administrator ready for local UI verification.`);

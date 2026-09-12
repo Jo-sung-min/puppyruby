@@ -29,16 +29,24 @@ export const styleBreeds: { id: PixelBreed; name: string }[] = [
 export type AppearanceConfig = {
   defaultStyle: DogStyleId;
   breedStyles: Partial<Record<PixelBreed, DogStyleId>>;
+  deletedStyles?: DogStyleId[];
   revision: number;
   updatedAt: number | null;
 };
-export const defaultAppearance: AppearanceConfig = { defaultStyle: "classic", breedStyles: {}, revision: 0, updatedAt: null };
+export const defaultAppearance: AppearanceConfig = { defaultStyle: "classic", breedStyles: {}, deletedStyles: [], revision: 0, updatedAt: null };
 
 export function isDogStyleId(value: unknown): value is DogStyleId {
   return typeof value === "string" && dogStyles.some(style => style.id === value);
 }
+export function isStyleAvailable(config: AppearanceConfig | null | undefined, style: unknown): style is DogStyleId {
+  return isDogStyleId(style) && !(Array.isArray(config?.deletedStyles) && config.deletedStyles.includes(style));
+}
+export function activeDogStyles(config: AppearanceConfig | null | undefined) {
+  return dogStyles.filter(style => isStyleAvailable(config, style.id));
+}
 export function resolveDogStyle(config: AppearanceConfig | null | undefined, breed: PixelBreed): DogStyleId {
   const override = config?.breedStyles?.[breed];
-  if (isDogStyleId(override)) return override;
-  return isDogStyleId(config?.defaultStyle) ? config.defaultStyle : "classic";
+  if (isStyleAvailable(config, override)) return override;
+  if (isStyleAvailable(config, config?.defaultStyle)) return config.defaultStyle;
+  return activeDogStyles(config)[0]?.id ?? "classic";
 }
