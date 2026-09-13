@@ -20,7 +20,7 @@ const second = adoption.state.puppies.find(dog => dog.id === adoption.newPuppyId
 await call("/api/game/rename", { puppyId: second.id, value: "둘째" });
 await call("/api/game/select", { puppyId: first.id });
 const pairing = await call("/api/desktop/pair-code", {});
-const output = resolve("desktop/build/native-sync-test.txt");
+const output = resolve("local-assets/desktop/build/native-sync-test.txt");
 const steps = [
   { op: "expect", expectedName: "쿠키", expectedBreed: first.breed, expectedGrade: first.grade, expectedXp: first.xp, expectedFur: "rose", expectedEyes: "green", expectedAccessory: "crown" },
   { op: "action", action: "feed", xpDelta: 10, expectedPending: false },
@@ -41,7 +41,7 @@ const steps = [
   { op: "revoke" },
   { op: "poll", expectedLinked: false, expectedOnline: false, expectedPending: false },
 ];
-await mkdir(resolve("desktop/build"), { recursive: true });
-const config = resolve("desktop/build/native-sync-scenario.json");
+await mkdir(resolve("local-assets/desktop/build"), { recursive: true });
+const config = resolve("local-assets/desktop/build/native-sync-scenario.json");
 await writeFile(config, JSON.stringify({ origin, code: pairing.code, browserCookie: cookie, output, steps }, null, 2));
 console.log(`Disposable native sync scenario ready: ${config}`);

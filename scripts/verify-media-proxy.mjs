@@ -19,21 +19,25 @@ const serverFile = resolve(frontend, "node_modules/next/dist/bin/next");
 await access(serverFile);
 const manifest = JSON.parse(await readFile(resolve(frontend, ".next/server/app-paths-manifest.json"), "utf8"));
 assert.ok(manifest["/api/media/[[...path]]/route"], "Build the current frontend with /api/media first.");
+assert.ok(manifest["/api/admin/seo-media/[[...path]]/route"], "Build the current frontend with the administrator SEO media route first.");
 
 const session = "S".repeat(43);
 const forgedSession = "F".repeat(43);
+const memberSession = "M".repeat(43);
 const player = randomUUID();
 const forgedPlayer = randomUUID();
 const uploadId = randomUUID();
 const checksum = createHash("sha256").update("local media fixture; never uploaded").digest("base64");
 const credentialMarker = "FIXTURE-PRIVATE-CREDENTIAL-DO-NOT-ECHO";
 const cookie = `puppyruby-session=${session}; puppyruby-player=${player}`;
-const forbiddenEchoes = [session, forgedSession, player, forgedPlayer, credentialMarker];
+const forbiddenEchoes = [session, forgedSession, memberSession, player, forgedPlayer, credentialMarker];
 const config = { enabled: true, maxBytes: 163840, acceptedTypes: ["image/jpeg", "image/png"] };
 // .invalid deliberately cannot represent a real bucket. This URL is never fetched.
 const presigned = { uploadId, uploadUrl: "https://fixture-s3.invalid/photo?signature=fixture-only", method: "PUT",
   headers: { "Content-Type": "image/jpeg", "x-amz-checksum-sha256": checksum }, expiresAt: Date.now() + 300000 };
 const completed = { photo: `media:${uploadId}`, url: "https://fixture-s3.invalid/photo?view=fixture-only" };
+const seoCompleted = { url: "https://fixture-s3.invalid/seo-shares/image.jpg" };
+const upstreamPaths = ["/api/v1/media", "/api/v1/admin/seo-media"].flatMap(base => ["config", "presign", "complete"].map(action => `${base}/${action}`));
 const validBody = { contentType: "image/jpeg", size: 1024, sha256: checksum };
 let checks = 0;
 let requests = [];
@@ -70,7 +74,7 @@ const fake = createServer(async (request, response) => {
     const raw = Buffer.concat(chunks).toString("utf8");
     const record = { method: request.method, path: request.url, headers: request.headers, body: raw ? JSON.parse(raw) : null };
     requests.push(record);
-    assert.ok(["/api/v1/media/config", "/api/v1/media/presign", "/api/v1/media/complete"].includes(request.url),
+    assert.ok(upstreamPaths.includes(request.url),
       "BFF must not follow an upstream redirect or invent an upstream route.");
     if (behavior.type === "disconnect") { request.socket.destroy(); return; }
     if (behavior.type === "redirect") {
@@ -84,11 +88,15 @@ const fake = createServer(async (request, response) => {
       response.writeHead(behavior.status, { "Content-Type": "application/json", "Set-Cookie": `upstream-secret=${credentialMarker}; Path=/` });
       response.end(JSON.stringify({ message: credentialMarker, token: session, playerId: player, stack: forgedSession })); return;
     }
-    if (request.method === "POST" && request.headers["x-session-token"] !== session) {
+    const admin = request.url.startsWith("/api/v1/admin/seo-media/");
+    if (admin && request.headers["x-session-token"] === memberSession) {
+      response.writeHead(403, { "Content-Type": "application/json" }); response.end(JSON.stringify({ message: credentialMarker })); return;
+    }
+    if ((request.method === "POST" || admin) && request.headers["x-session-token"] !== session) {
       response.writeHead(401, { "Content-Type": "application/json" }); response.end(JSON.stringify({ message: credentialMarker })); return;
     }
     response.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "public, max-age=3600" });
-    response.end(JSON.stringify(request.url.endsWith("/config") ? config : request.url.endsWith("/presign") ? presigned : completed));
+    response.end(JSON.stringify(request.url.endsWith("/config") ? config : request.url.endsWith("/presign") ? presigned : admin ? seoCompleted : completed));
   } catch (error) {
     fakeError = error;
     if (!response.headersSent) response.writeHead(500, { "Content-Type": "application/json" });
@@ -124,7 +132,7 @@ function privacy(result, label) {
 }
 
 async function call(path, options = {}) {
-  assert.ok(path.startsWith("/api/media") && !path.includes("://"), "Only local media BFF paths may be requested.");
+  assert.ok((path.startsWith("/api/media") || path.startsWith("/api/admin/seo-media")) && !path.includes("://"), "Only local media BFF paths may be requested.");
   const method = options.method || "GET";
   const headers = new Headers(options.headers);
   if (options.auth !== false) headers.set("Cookie", options.cookie ?? cookie);
@@ -323,8 +331,62 @@ try {
   }
   behavior = { type: "normal" };
   await accepted("Route recovers after upstream failures", "/api/media/complete", { method: "POST", body: { uploadId } }, completed);
+
+  const seoBase = "/api/admin/seo-media";
+  for (const action of ["config", "presign", "complete"]) {
+    const options = action === "config" ? {} : { method: "POST", body: action === "presign" ? validBody : { uploadId } };
+    await rejected(`SEO ${action} requires cookie authentication`, `${seoBase}/${action}`, { ...options, auth: false, headers: forgedHeaders }, 401);
+    const before = requests.length;
+    const denied = await call(`${seoBase}/${action}`, { ...options, cookie: `puppyruby-session=${memberSession}; puppyruby-player=${player}`, headers: { ...forgedHeaders, "X-Role": "ADMIN" } });
+    equal(denied.status, 403, `SEO ${action} preserves backend administrator denial`);
+    equal(requests.length, before + 1, `SEO ${action} delegates role authorization to backend`);
+    equal(requests.at(-1).headers["x-session-token"], memberSession, `SEO ${action} cannot forge administrator token`);
+    check(!requests.at(-1).headers["x-role"], `SEO ${action} ignores browser role header`);
+    privacy(denied, `SEO ${action} member denial`);
+    check(!denied.headers.has("set-cookie"), `SEO ${action} does not log out non-admin member`);
+    const allowed = await accepted(`SEO ${action} administrator route`, `${seoBase}/${action}`, { ...options, headers: forgedHeaders },
+      action === "config" ? config : action === "presign" ? presigned : seoCompleted);
+    equal(allowed.path, `/api/v1/admin/seo-media/${action}`, `SEO ${action} uses purpose-specific upstream`);
+    equal(allowed.headers["x-session-token"], session, `SEO ${action} forwards cookie session only`);
+    for (const key of ["authorization", "cookie", "x-amz-security-token"]) check(!allowed.headers[key], `SEO ${action} excludes ${key}`);
+  }
+  for (const [path, method] of [[seoBase, "GET"], [`${seoBase}/presign`, "GET"], [`${seoBase}/config`, "POST"], [`${seoBase}/complete/extra`, "POST"]]) {
+    await rejected("SEO route allowlist", path, { method, ...(method === "POST" ? { body: {} } : {}) }, 404);
+  }
+  for (const action of ["presign", "complete"]) {
+    const body = action === "presign" ? validBody : { uploadId };
+    for (const invalidOrigin of [null, "https://evil.invalid", "http://localhost:3101"]) {
+      await rejected("SEO write enforces exact origin", `${seoBase}/${action}`, { method: "POST", body, origin: invalidOrigin }, 403);
+    }
+    await rejected("SEO write rejects JSON suffix MIME", `${seoBase}/${action}`, { method: "POST", body, contentType: "application/jsonp" }, 400);
+    await rejected("SEO write rejects extra metadata", `${seoBase}/${action}`, { method: "POST", body: { ...body, role: "ADMIN" } }, 400);
+  }
+  for (const body of [{ ...validBody, size: 5 * 1024 * 1024 + 1 }, { ...validBody, size: "1024" }, { ...validBody, contentType: "image/svg+xml" }, { ...validBody, sha256: "bad" }]) {
+    await rejected("SEO presign rejects unsafe metadata", `${seoBase}/presign`, { method: "POST", body }, 400);
+  }
+  await accepted("SEO accepts bounded chunked JSON", `${seoBase}/presign`, { method: "POST", raw: padded, chunked: true }, presigned);
+  await rejected("SEO rejects oversized chunked JSON", `${seoBase}/presign`, { method: "POST", raw: padded + " ", chunked: true }, 400);
+  for (const action of ["config", "presign", "complete"]) for (const status of [401, 403, 429, 503]) {
+    behavior = { type: "failure", status };
+    const result = await call(`${seoBase}/${action}`, action === "config" ? {} : { method: "POST", body: action === "presign" ? validBody : { uploadId } });
+    equal(result.status, status, `SEO ${action} preserves HTTP${status}`);
+    equal(Object.keys(result.json || {}), ["message"], `SEO ${action} replaces upstream error body`);
+    privacy(result, `SEO ${action} HTTP${status}`);
+    const setCookie = result.headers.get("set-cookie") || "";
+    check(!setCookie.includes("upstream-secret"), "SEO never forwards upstream cookie");
+    if (status === 401) {
+      check(/puppyruby-session=;[^,]*Max-Age=0/i.test(setCookie), `SEO ${action} clears expired session`);
+      check(/puppyruby-player=[0-9a-f-]{36}/i.test(setCookie), `SEO ${action} rotates guest identity`);
+    } else check(!setCookie, `SEO ${action} keeps unrelated failures from changing session`);
+  }
+  behavior = { type: "redirect" };
+  const beforeRedirect = requests.length;
+  const seoRedirect = await call(`${seoBase}/complete`, { method: "POST", body: { uploadId } });
+  equal(seoRedirect.status, 503, "SEO backend redirects are blocked");
+  equal(requests.length, beforeRedirect + 1, "SEO backend redirects are not followed");
+  privacy(seoRedirect, "SEO backend redirect");
   check(!fakeError, "Every fake-backend request stayed within the media contract");
-  check(requests.every(item => item.path.startsWith("/api/v1/media/")), "All upstream requests stayed local and scoped");
+  check(requests.every(item => upstreamPaths.includes(item.path)), "All upstream requests stayed local and scoped");
   check(!closed, "Owned test server remained active until checks finished");
 } finally {
   await cleanup();

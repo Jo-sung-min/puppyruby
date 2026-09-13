@@ -24,9 +24,15 @@ public class AdminAppearanceService {
         var actor = auth.requireAdmin(token);
         var input = AppearanceService.parse(body);
         var result = appearance.update(input);
+        String deleted = result.deletedStyles().size() <= 8 ? result.deletedStyles().toString()
+            : result.deletedStyles().subList(0, 8) + " 외 " + (result.deletedStyles().size() - 8) + "개";
+        String reason = "도트 스타일 설정 저장: 버전 " + input.expectedRevision() + " → " + result.revision()
+            + ", 기본 " + result.defaultStyle() + ", 품종별 " + result.breedStyles() + ", 삭제 " + deleted
+            + ", 세부 타입 " + result.varieties().size() + "개, 적용 " + result.breedVarieties().size() + "견종, 이름 "
+            + result.varieties().stream().limit(3).map(AppearanceService.Variety::name).toList();
+        if (reason.length() > 600) reason = reason.substring(0, Character.isHighSurrogate(reason.charAt(599)) ? 599 : 600);
         audits.save(new AdminAudit(actor.id, "APPEARANCE", "global", "APPEARANCE_UPDATE",
-            "도트 스타일 설정 저장: 버전 " + input.expectedRevision() + " → " + result.revision()
-                + ", 기본 " + result.defaultStyle() + ", 품종별 " + result.breedStyles() + ", 삭제 " + result.deletedStyles()));
+            reason));
         return result;
     }
 }

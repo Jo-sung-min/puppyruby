@@ -3,15 +3,15 @@ import { apiBase, apiFailure, browserIdentity, clearSession, isSameOrigin, priva
 
 async function handle(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
   const action = (await context.params).path?.join("/") || "overview";
-  const read = /^(overview|appearance|commerce\/catalog|members|rooms|rooms\/[A-Za-z0-9_-]{1,80}\/messages)$/.test(action);
-  const write = /^(appearance|commerce\/catalog|members\/[0-9a-f-]{36}\/status|rooms\/[A-Za-z0-9_-]{1,80}\/close|messages\/[0-9a-f-]{36}\/hide)$/.test(action);
+  const read = /^(overview|appearance|seo|commerce\/catalog|members|rooms|rooms\/[A-Za-z0-9_-]{1,80}\/messages)$/.test(action);
+  const write = /^(appearance|seo|commerce\/catalog|members\/[0-9a-f-]{36}\/status|rooms\/[A-Za-z0-9_-]{1,80}\/close|messages\/[0-9a-f-]{36}\/hide)$/.test(action);
   if ((request.method === "GET" && !read) || (request.method === "POST" && !write)) return apiFailure("관리 메뉴를 찾을 수 없어요.", 404);
   if (request.method === "POST" && !isSameOrigin(request, true)) return apiFailure("요청 출처를 확인할 수 없어요.", 403);
   const identity = await browserIdentity();
   if (!identity.hasSession) return apiFailure("관리자 계정으로 로그인해 주세요.", 401);
   let body: Record<string, unknown> | undefined;
   if (request.method === "POST") {
-    try { body = await readJsonBody(request, action === "commerce/catalog" ? 16384 : 4096); }
+    try { body = await readJsonBody(request, action === "appearance" ? 65536 : action === "seo" || action === "commerce/catalog" ? 16384 : 4096); }
     catch { return apiFailure("입력 내용을 확인해 주세요.", 400); }
   }
   const query = new URLSearchParams();

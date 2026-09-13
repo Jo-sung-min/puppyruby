@@ -1,0 +1,13 @@
+.belly {
+  transform-origin: 50% 55%;
+  animation: belly 2400ms ease-in-out 1 both !important;
+}
+@keyframes belly {
+  0%, 100% { transform: rotate(0deg); }
+  18%, 70% { transform: rotate(180deg); }
+  30%, 54% { transform: rotate(174deg); }
+  42%, 64% { transform: rotate(186deg); }
+  78% { transform: rotate(180deg); }
+}
+:global(.motion-paused) .belly { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .belly { animation: none !important; } }

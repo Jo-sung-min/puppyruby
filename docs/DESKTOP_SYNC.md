@@ -35,6 +35,8 @@ Windows 실행파일 0.4부터 `/play#home`의 **실행파일과 연결**로 웹
 
 ## 검증
 
+프로젝트 루트에서 실행합니다. 이미지·다운로드와 생성 파일은 Git에서 제외되는 `local-assets/`에 보관합니다. Windows 빌드는 `local-assets/desktop/dist/`, 검증 구성과 결과는 `local-assets/desktop/build/`를 사용합니다. 새 저장소 복제본에서 네이티브 검증을 실행하려면 로컬 보관 파일을 먼저 준비해야 합니다.
+
 기존 사용자 데이터와 분리된 임시 H2 데이터베이스 및 Next.js 프로덕션 서버에서 검증합니다. 아래 스크립트는 실제 데이터를 생성하므로 기본 `3101` 테스트 주소가 임시 서버를 가리키는지 확인합니다.
 
 ```powershell
@@ -42,9 +44,9 @@ $env:PUPPY_TEST_ISOLATED='1'
 $env:PUPPY_TEST_URL='http://127.0.0.1:3101'
 node scripts/verify-desktop-sync.mjs
 node scripts/prepare-desktop-native-test.mjs
-$config = Join-Path $PWD 'desktop/build/native-sync-scenario.json'
-Start-Process desktop/dist/PuppyRuby.exe -ArgumentList @('--sync-test', $config) -WindowStyle Hidden -Wait
-Get-Content desktop/build/native-sync-test.txt
+$config = Join-Path $PWD 'local-assets/desktop/build/native-sync-scenario.json'
+Start-Process local-assets/desktop/dist/PuppyRuby.exe -ArgumentList @('--sync-test', $config) -WindowStyle Hidden -Wait
+Get-Content local-assets/desktop/build/native-sync-test.txt
 node scripts/verify-desktop-retry.mjs
 ```
 

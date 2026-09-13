@@ -1,3 +1,5 @@
+import { dogBreeds } from "./dog-breeds";
+
 export type Grade = "N" | "R" | "SR" | "SSR";
 export const gradeOrder: Grade[] = ["N", "R", "SR", "SSR"];
 export type PuppyCommand = {
@@ -17,14 +19,7 @@ export type GameState = {
   careCount: number; trainingCount: number; grades: GradeInfo[]; adoptionCost: number; promotionXp: number; commands: PuppyCommand[];
 };
 export type ActionResult = { state: GameState; message: string; success: boolean; newPuppyId: string | null };
-export const breeds = [
-  { name: "포메라니안", personality: "작은 몸에 가득한 사랑", color: "#f8eddf" },
-  { name: "토이 푸들", personality: "호기심 많은 똑똑이", color: "#f5e5db" },
-  { name: "말티즈", personality: "네 곁이 가장 좋은 애교쟁이", color: "#eeedf7" },
-  { name: "시바 이누", personality: "알수록 사랑스러운 친구", color: "#f9ebd9" },
-  { name: "웰시 코기", personality: "짧은 다리로 성큼 오는 행복", color: "#e7efe5" },
-  { name: "비글", personality: "매일이 신나는 장난꾸러기", color: "#f7e6e6" },
-];
+export const breeds = dogBreeds;
 export const furOptions = [
   { id: "original", label: "원래 털색", color: "#f4d6aa" },
   { id: "cream", label: "바닐라 크림", color: "#ffefd1" },

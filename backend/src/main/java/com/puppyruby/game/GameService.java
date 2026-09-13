@@ -12,8 +12,7 @@ import java.util.*;
 public class GameService {
     public static final int ADOPTION_COST = 100;
     public static final int PROMOTION_XP = 100;
-    public static final List<String> BREEDS = List.of("포메라니안", "토이 푸들", "말티즈", "시바 이누", "웰시 코기", "비글");
-    private static final List<String> NAMES = List.of("솜이", "모카", "구름", "두부", "감자", "쿠키");
+    public static final List<String> BREEDS = BreedCatalog.NAMES;
     private final PlayerRepository repository;
     private final CommandCatalog commands;
     private final SecureRandom random = new SecureRandom();
@@ -127,7 +126,7 @@ public class GameService {
         if (breed < 0 || breed >= BREEDS.size() || grade == null) throw bad("강아지 보상 정보를 확인해 주세요.");
         Player player = player(playerId);
         if (player.puppies.size() >= 100) throw new ResponseStatusException(HttpStatus.CONFLICT, "우리 집은 최대 100마리까지 함께할 수 있어요. 뽑기권은 사용되지 않았어요.");
-        Puppy puppy = new Puppy(NAMES.get(breed), breed, grade);
+        Puppy puppy = new Puppy(BreedCatalog.ALL.get(breed).puppyName(), breed, grade);
         player.puppies.add(puppy); player.selectedId = puppy.id;
         repository.save(player);
         return new Result(view(player), puppy.name + "가 새로운 가족이 되었어요!", true, puppy.id);

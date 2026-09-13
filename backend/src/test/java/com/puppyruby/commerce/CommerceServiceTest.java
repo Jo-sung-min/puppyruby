@@ -88,15 +88,56 @@ class CommerceServiceTest {
             assertEquals(product.kind() + "-" + product.quantity(), product.id());
             assertEquals(product.quantity() * (product.kind().equals("dog") ? 1500 : 1000), product.price()); assertTrue(product.enabled());
         }
-        assertEquals(List.of(24, 8, 7), catalog.pools().stream().map(pool -> pool.entries().size()).toList());
+        assertEquals(List.of(120, 8, 7), catalog.pools().stream().map(pool -> pool.entries().size()).toList());
         for (var pool : catalog.pools()) {
             BigDecimal probability = pool.entries().stream().map(entry -> new BigDecimal(entry.probability().replace("%", ""))).reduce(BigDecimal.ZERO, BigDecimal::add);
             assertTrue(probability.subtract(BigDecimal.valueOf(100)).abs().doubleValue() < 0.0001);
-            assertTrue(pool.entries().stream().allMatch(entry -> entry.weight() > 0));
+            assertTrue(pool.entries().stream().allMatch(entry -> entry.breed() != null && entry.breed() >= 6 ? entry.weight() == 0 : entry.weight() > 0));
         }
         assertEquals(200, http("GET", "/api/v1/commerce/catalog", null, null).statusCode());
         rejected(503, () -> commerce.productForPurchase("dog-1"));
         assertEquals(0, settings.count());
+    }
+
+    @Test void readingAnExistingPaidCatalogAddsOnlyZeroWeightBreedsAndPreservesEverySavedValue() {
+        var legacy = new CommerceSettings(); legacy.revision = 41; legacy.updatedAt = 123456789L; legacy.salesEnabled = true;
+        var savedWeights = new LinkedHashMap<String, Integer>();
+        for (int breed = 0; breed < 6; breed++) for (Grade grade : Grade.values()) savedWeights.put("dog-" + breed + "-" + grade, 0);
+        savedWeights.put("dog-0-N", 11); savedWeights.put("dog-5-SSR", 3);
+        legacy.weightsJson = mapper.writeValueAsString(savedWeights);
+        legacy.productsJson = mapper.writeValueAsString(Map.of("dog-1", Map.of("price", 2400, "enabled", false), "aura-10", Map.of("price", 8300, "enabled", true)));
+        settings.saveAndFlush(legacy);
+        var expanded = catalogs.current(); assertEquals(41, expanded.revision()); assertEquals(legacy.updatedAt, expanded.updatedAt()); assertTrue(expanded.salesEnabled());
+        assertEquals(2400, expanded.products().getFirst().price()); assertFalse(expanded.products().getFirst().enabled());
+        assertEquals(8300, expanded.products().stream().filter(product -> product.id().equals("aura-10")).findFirst().orElseThrow().price());
+        var dogs = expanded.pools().getFirst().entries(); assertEquals(120, dogs.size());
+        for (var entry : dogs) {
+            if (entry.breed() < 6) assertEquals(savedWeights.get(entry.id()), entry.weight());
+            else { assertEquals(0, entry.weight()); assertEquals("0%", entry.probability()); }
+        }
+        assertEquals("78.571429%", dogs.stream().filter(entry -> entry.id().equals("dog-0-N")).findFirst().orElseThrow().probability());
+        assertEquals("21.428571%", dogs.stream().filter(entry -> entry.id().equals("dog-5-SSR")).findFirst().orElseThrow().probability());
+        var unchanged = settings.findById(CommerceSettings.ID).orElseThrow();
+        assertEquals(legacy.weightsJson, unchanged.weightsJson); assertEquals(legacy.productsJson, unchanged.productsJson); assertEquals(41, unchanged.revision);
+        assertEquals(0L, jdbc.queryForObject("select count(*) from admin_audit where target_type='COMMERCE'", Long.class));
+    }
+
+    @Test void administratorsCanEnableNewBreedsAndRewardsKeepIndicesInGameWalkAndDesktop() {
+        var original = game.state(customer.account.playerId).puppies().getFirst();
+        credit(customer, "dog", 4);
+        for (int breed : List.of(6, 10, 16, 29)) {
+            force("dog", "dog-" + breed + "-SSR");
+            var reward = draw(customer, "dog"); assertEquals(breed, reward.reward().breed()); assertEquals("SSR", reward.reward().grade());
+            assertEquals(breed, reward.game().puppies().getLast().breed); assertEquals(1000, reward.game().coins());
+            assertEquals(1500, catalogs.current().products().getFirst().price());
+        }
+        var grown = game.state(customer.account.playerId); assertEquals(5, grown.puppies().size()); assertEquals(original.id, grown.puppies().getFirst().id);
+        assertEquals(original.name, grown.puppies().getFirst().name); assertEquals(0, grown.puppies().getFirst().breed); assertEquals(0, tickets(customer, "dog"));
+        var connection = desktop.pair(new DesktopService.PairInput(desktop.pairCode(customer.account.playerId).code(), "새 견종 검증 PC"));
+        assertEquals(29, connection.state().puppy().breed()); assertEquals(grown.selectedId(), connection.state().puppy().id());
+        walk.act(customer.account.playerId, "profile", mapper.convertValue(Map.of("nickname", "차우차우 엄마"), WalkService.Action.class));
+        var walking = walk.act(customer.account.playerId, "join", mapper.convertValue(Map.of("roomId", "official-meadow"), WalkService.Action.class));
+        assertEquals(29, walking.state().room().members().stream().filter(member -> member.profile().id().equals(walking.state().me().id())).findFirst().orElseThrow().puppy().breed());
     }
 
     @Test void catalogUpdatesPricesAndActualProbabilityWithRevisionAndAudit() {

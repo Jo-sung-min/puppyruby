@@ -1,17 +1,21 @@
 "use client";
 
 import Link from "next/link";
+import { assetUrl } from "@/lib/asset-url";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDown, ArrowRight, ArrowUpRight, Bone, Check, ChevronDown, Download, Heart, Keyboard, Maximize2, Moon, MousePointer2, Pause, PawPrint, Play, RotateCcw, Sun, Volleyball } from "lucide-react";
 import { PixelDog, pixelBreeds, type PixelBreed, type PixelMood } from "./styled-pixel-dog";
 import { usePuppyInput } from "./use-puppy-input";
+import { puppyBellyLabel } from "../lib/puppy-click-burst";
+import { BreedPagination } from "./breed-pagination";
 import { AccountMenu } from "./account-menu";
 import { ThemeToggle, useTheme } from "./theme-provider";
 
 const coats = [{ name: "오리지널", value: undefined, swatch: "#dda469" }, { name: "흑시바", value: "#514944", swatch: "#514944" }, { name: "크림", value: "#f7e8cb", swatch: "#f7e8cb" }, { name: "초코", value: "#967057", swatch: "#967057" }, { name: "딸기 우유", value: "#d7a0a2", swatch: "#d7a0a2" }];
-const reactions: Record<PixelMood, string> = { idle: "안녕! 나랑 친구 할래?", love: "헤헤, 네 손길이 제일 좋아 ♡", eat: "냠냠! 하나만 더 주면 안 돼?", play: "멍! 공놀이가 제일 신나!", sleep: "네 옆에서 잠깐 쉴게… zZ", typing: "나도 같이 타닥타닥!", excited: "우와, 엄청 빠르다!", scroll: "데굴데굴~", drag: "우리 어디 가는 거야?", walk: "같이 가자 멍!" };
+const reactions: Record<PixelMood, string> = { idle: "안녕! 나랑 친구 할래?", love: "헤헤, 네 손길이 제일 좋아 ♡", eat: "냠냠! 하나만 더 주면 안 돼?", play: "멍! 공놀이가 제일 신나!", sleep: "네 옆에서 잠깐 쉴게… zZ", typing: "나도 같이 타닥타닥!", excited: "우와, 엄청 빠르다!", scroll: "데굴데굴~", drag: "우리 어디 가는 거야?", walk: "같이 가자 멍!", belly: puppyBellyLabel };
 
 export function PuppyLanding() {
+  const [breedPage, setBreedPage] = useState(1);
   const [breed, setBreed] = useState<PixelBreed>("shiba");
   const [mood, setMood] = useState<PixelMood>("idle");
   const [coat, setCoat] = useState(0);
@@ -25,7 +29,7 @@ export function PuppyLanding() {
   const deadline = useRef(0);
   const stage = useRef<HTMLDivElement>(null);
   const playground = useRef<HTMLDivElement>(null);
-  const input = usePuppyInput(stage, paused);
+  const input = usePuppyInput(stage, paused, () => setMood("idle"));
   const [manualUntil, setManualUntil] = useState(0);
   const [dogOffset, setDogOffset] = useState({ x: 0, y: 0 });
   const drag = useRef({ active: false, moved: false, x: 0, y: 0, originalX: 0, originalY: 0, minX: 0, maxX: 0, minY: 0, maxY: 0 });
@@ -65,8 +69,12 @@ export function PuppyLanding() {
     window.addEventListener("keydown", close);
     return () => { document.body.style.overflow = previous; window.removeEventListener("keydown", close); focused?.focus(); };
   }, [expanded]);
-  function react(next: PixelMood) { setMood(next); setManualUntil(performance.now()); setPetCount(n => n + 1); }
-  function choose(next: PixelBreed) { setBreed(next); setCoat(0); setMood("idle"); setDogOffset({ x: 0, y: 0 }); }
+  function react(next: PixelMood, petClick = false) {
+    if (petClick && input.isBellyActive()) return;
+    if (!petClick) input.cancelReaction();
+    setMood(next); setManualUntil(performance.now()); setPetCount(n => n + 1);
+  }
+  function choose(next: PixelBreed) { input.cancelReaction(); setBreed(next); setCoat(0); setMood("idle"); setDogOffset({ x: 0, y: 0 }); }
   function toggleTimer() {
     if (running) { setSeconds(Math.max(0, Math.ceil((deadline.current - Date.now()) / 1000))); setRunning(false); }
     else { const duration = seconds || 25 * 60; setSeconds(duration); deadline.current = Date.now() + duration * 1000; setRunning(true); }
@@ -78,7 +86,7 @@ export function PuppyLanding() {
     <header className="site-header"><div className="site-container header-content">
       <Link href="/" className="pixel-brand" aria-label="퍼피루비 홈"><span className="brand-dog"><PixelDog decorative /></span><span>PUPPY<span>RUBY</span><small>작은 발자국, 커다란 행복</small></span></Link>
       <nav aria-label="메인 메뉴"><a href="#friends">강아지 소개</a><a href="#moments">함께하는 일상</a><a href="#questions">궁금해요</a></nav>
-      <div className="site-header-actions"><ThemeToggle compact className="landing-theme-toggle" /><AccountMenu /><a href="/downloads/PuppyRuby.exe" download className="header-start" aria-label="Windows용 PuppyRuby 다운로드"><span className="header-download-full">Windows 다운로드</span><span className="header-download-short">다운로드</span><Download size={16} /></a></div>
+      <div className="site-header-actions"><ThemeToggle compact className="landing-theme-toggle" /><AccountMenu /><a href="/downloads/PuppyRuby-Setup.exe" download className="header-start" aria-label="Windows용 PuppyRuby 설치파일 다운로드"><span className="header-download-full">Windows 다운로드</span><span className="header-download-short">다운로드</span><Download size={16} /></a></div>
     </div></header>
 
     <main id="puppy-main" className="landing-main">
@@ -87,8 +95,9 @@ export function PuppyLanding() {
           <span className="little-label"><i /> YOUR LITTLE PIXEL COMPANION</span>
           <h1 id="hero-title">너의 하루에<br />작은 <span className="hero-highlight">멍!</span> 하나<span className="title-dot">.</span></h1>
           <p className="hero-description">마우스를 따라 보고, 함께 타닥타닥.<br />다른 앱을 쓸 때도 화면 위에서 함께하는<br />나만의 작은 픽셀 강아지를 만나세요.</p>
-          <div className="hero-buttons"><a className="pixel-button coral" href="/downloads/PuppyRuby.exe" download><Download size={19} /> Windows용 강아지 받기 <ArrowRight size={18} /></a><a className="demo-link" href="#playground" onClick={() => stage.current?.focus()}><Play size={15} fill="currentColor" /> 먼저 놀아보기</a></div>
-          <div className="hero-notes"><span><Check size={13} /> Windows 10·11 · 바로 실행</span><span><Heart size={13} /> 입력 내용은 기록하지 않아요</span></div>
+          <div className="hero-buttons"><a className="pixel-button coral" href="/downloads/PuppyRuby-Setup.exe" download aria-describedby="windows-install-guide"><Download size={19} /> Windows용 강아지 받기 <ArrowRight size={18} /></a><a className="demo-link" href="#playground" onClick={() => stage.current?.focus()}><Play size={15} fill="currentColor" /> 먼저 놀아보기</a></div>
+          <p className="windows-install-guide" id="windows-install-guide">받은 설치파일을 한 번 열면, 바탕화면 바로가기에서 만나요.</p>
+          <div className="hero-notes"><span><Check size={13} /> Windows 10·11 · 설치 후 바로 시작</span><span><Heart size={13} /> 입력 내용은 기록하지 않아요</span></div>
           <div className="hello-note"><span className="tiny-pups"><PixelDog breed="samoyed" decorative /><PixelDog breed="poodle" decorative /><PixelDog breed="corgi" decorative /></span><p>성격도, 모습도 제각각.<br /><b>당신만의 단짝을 만나 보세요.</b></p><span className="hand-star">✧</span></div>
         </div>
 
@@ -96,7 +105,7 @@ export function PuppyLanding() {
           <div className="garden-sticker">100% PIXEL<br /><span>200% LOVE</span><Heart size={13} fill="currentColor" /></div>
           <div className="playground-window" ref={stage} tabIndex={-1}>
             <div className="window-bar"><span className="window-dots"><i /><i /><i /></span><span>puppyruby / 작은 정원</span><button aria-label={expanded ? "정원 축소" : "정원 확대"} aria-expanded={expanded} onClick={() => setExpanded(v => !v)}><Maximize2 size={13} /></button></div>
-            <div className={`pixel-garden ${night ? "night" : ""}`}>
+            <div className={`pixel-garden ${night ? "night" : ""}`} style={{ backgroundImage: `url("${assetUrl("/images/pixel-garden.svg")}")` }}>
               <div className="garden-night-sky" aria-hidden="true"><span className="garden-moon" />{Array.from({ length: 9 }, (_, index) => <i key={index} className={`garden-star garden-star-${index + 1}`} />)}</div>
               <div className="garden-time"><span className="live-dot" />{night ? "고요한 밤, 너와 함께" : "햇살 좋은 오후"}</div>
               <button className="day-toggle" aria-label={night ? "라이트 모드로 바꾸기" : "다크 모드로 바꾸기"} title={night ? "사이트 전체를 밝게 바꾸기" : "사이트 전체를 어둡게 바꾸기"} aria-pressed={night} onClick={toggleTheme}>{night ? <Moon size={16} /> : <Sun size={17} />}</button>
@@ -118,24 +127,25 @@ export function PuppyLanding() {
                 }}
                 onPointerUp={e => { if (drag.current.active) { drag.current.active = false; e.currentTarget.releasePointerCapture(e.pointerId); if (drag.current.moved) react("love"); } }}
                 onPointerCancel={() => { drag.current.active = false; setDogOffset({ x: 0, y: 0 }); react("idle"); }}
-                onClick={e => { if (!drag.current.moved || e.detail === 0) react("love"); }}><PixelDog {...dog} mood={previewMood} look={input.look} frame={input.frame} decorative /></button>
+                onClick={e => { if (!drag.current.moved || e.detail === 0) react("love", true); }}><PixelDog {...dog} mood={previewMood} look={input.look} lookY={input.lookY} frame={input.frame} paused={paused} decorative /></button>
               {previewMood === "play" && <span className="garden-ball" aria-hidden="true" />}
               <div className="garden-name"><Heart size={10} fill="currentColor" /> {selected.name} <span>·</span> 나의 작은 친구</div>
               <span className="garden-coordinate">HOME, SWEET HOME.</span>
             </div>
             <div className="garden-controls">{([{ id: "eat", label: "간식 주기", icon: Bone }, { id: "play", label: "공놀이", icon: Volleyball }, { id: "sleep", label: mood === "sleep" ? "깨우기" : "낮잠 자기", icon: Moon }] as const).map(action => <button key={action.id} aria-pressed={mood === action.id} onClick={() => react(action.id === "sleep" && mood === "sleep" ? "idle" : action.id)}><action.icon size={17} />{action.label}</button>)}</div>
           </div>
-          <div className="playground-caption"><span><MousePointer2 size={13} /> 강아지를 콕! 눌러 쓰다듬어 보세요.</span><button onClick={() => setPaused(v => !v)} aria-label={paused ? "애니메이션 재생" : "애니메이션 일시정지"}>{paused ? <Play size={13} /> : <Pause size={13} />}</button></div>
+          <div className="playground-caption"><span><MousePointer2 size={13} /> 빠르게 다섯 번 클릭하면 발라당!</span><button onClick={() => setPaused(v => !v)} aria-label={paused ? "애니메이션 재생" : "애니메이션 일시정지"}>{paused ? <Play size={13} /> : <Pause size={13} />}</button></div>
           <label className="typing-preview"><Keyboard size={16} /><input aria-label="키보드 반응 체험" placeholder="여기에 타이핑하면 강아지도 타닥타닥!" autoComplete="off" maxLength={120} /><span>TRY ME</span></label>
-          <p className="desktop-preview-note">웹 체험은 이 페이지에서만 반응해요. 다른 앱에서도 함께하려면 Windows 실행파일을 받아 주세요.</p>
+          <p className="desktop-preview-note">웹 체험은 이 페이지에서만 반응해요. 다른 앱에서도 함께하려면 Windows용 강아지를 설치해 주세요.</p>
         </div>
       </section>
 
       <div className="love-strip" aria-hidden="true"><div><PawPrint size={16} /><span>SMALL PIXELS, BIG LOVE</span><span className="strip-star">✦</span><span>작지만 확실한 행복</span><Heart size={16} /><span>YOUR NEW BEST FRIEND</span><span className="strip-star">✦</span><span>오늘도 꼬리 흔들며 기다릴게</span><PawPrint size={16} /></div></div>
 
       <section className="friends-section site-container" id="friends" aria-labelledby="friends-title">
-        <div className="section-heading"><div><span className="section-kicker">MEET YOUR BEST FRIEND</span><h2 id="friends-title">어떤 친구에게 마음이 가나요<span>?</span></h2><p>닮은 듯 다른 매력. 콕 고르면 위 정원에서 먼저 만날 수 있어요.</p></div><a href="#playground">우리 친구 만나기 <ArrowUpRight size={17} /></a></div>
-        <div className="breed-grid">{pixelBreeds.map((b, index) => <button key={b.id} className={`breed-card ${breed === b.id ? "chosen" : ""}`} aria-pressed={breed === b.id} onClick={() => choose(b.id)}><span className="breed-index">NO. 0{index + 1}</span>{breed === b.id && <span className="breed-selected"><Check size={12} /> 함께하는 중</span>}<span className="breed-art"><PixelDog breed={b.id} decorative /></span><strong>{b.name}</strong><span className="breed-note">{b.note}</span><span className="breed-select-label">{breed === b.id ? "반가워, 내 친구!" : "이 친구 만나기"}<ArrowRight size={13} /></span></button>)}</div>
+        <div className="section-heading"><div><span className="section-kicker">MEET YOUR BEST FRIEND</span><h2 id="friends-title">어떤 친구에게 마음이 가나요<span>?</span></h2><p>{pixelBreeds.length}종의 도트 친구들. 콕 고르면 위 정원에서 먼저 만날 수 있어요.</p></div><a href="#playground">우리 친구 만나기 <ArrowUpRight size={17} /></a></div>
+        <div className="breed-grid">{pixelBreeds.slice((breedPage - 1) * 12, breedPage * 12).map((b, index) => <button key={b.id} className={`breed-card ${breed === b.id ? "chosen" : ""}`} aria-pressed={breed === b.id} onClick={() => choose(b.id)}><span className="breed-index">NO. {String((breedPage - 1) * 12 + index + 1).padStart(2, "0")}</span>{breed === b.id && <span className="breed-selected"><Check size={12} /> 함께하는 중</span>}<span className="breed-art"><PixelDog breed={b.id} decorative /></span><strong>{b.name}</strong><span className="breed-note">{b.note}</span><span className="breed-select-label">{breed === b.id ? "반가워, 내 친구!" : "이 친구 만나기"}<ArrowRight size={13} /></span></button>)}</div>
+        <BreedPagination page={breedPage} total={Math.ceil(pixelBreeds.length / 12)} onChange={setBreedPage} label="강아지 소개 페이지" />
         <div className="friends-footnote"><Heart size={13} /> 어떤 모습이든, 사랑스러움은 똑같으니까.</div>
       </section>
 
@@ -152,7 +162,8 @@ export function PuppyLanding() {
 
       <section className="faq-section site-container" id="questions"><div><span className="section-kicker">A FEW LITTLE ANSWERS</span><h2>궁금한 게 있나요?</h2><p>처음 만나는 친구를 위한 작은 안내서.</p><PawPrint size={39} strokeWidth={1.2} /></div><div className="faq-list">{[
         ["퍼피루비는 어떤 서비스인가요?", "브라우저에서 픽셀 강아지를 만나고 돌보는 작은 반려 공간이에요. 첫 화면의 정원에서 먼저 놀아 보고, ‘나의 강아지 만나기’를 누르면 분양·돌봄·훈련·꾸미기를 즐길 수 있어요."],
-        ["다른 프로그램을 사용할 때도 반응하나요?", "Windows용 PuppyRuby.exe를 실행하면 강아지가 마우스 옆으로 따라오고 클릭·키보드·스크롤에 반응해요. 우클릭 → ‘여기에 멈추기’로 멈추거나 ‘마우스 따라가기’로 다시 걸어요. 드래그해 놓은 자리에도 머물러요. 평소에는 강아지만 보이고 대답할 때 짧은 말풍선이 나타나요. 웹 정원 체험은 이 페이지에서만 반응해요."],
+        ["Windows에서 어떻게 시작하나요?", "‘Windows용 강아지 받기’를 누르고, 다운로드한 PuppyRuby-Setup.exe를 열어 설치하세요. 바탕화면과 시작 메뉴에 퍼피루비 바로가기가 생겨요. 설치가 끝나면 강아지를 바로 실행할 수 있고, 다음부터는 바로가기를 두 번 누르면 돼요. 다시 설치해도 기존 강아지 기록과 웹 연결 정보는 유지돼요."],
+        ["다른 프로그램을 사용할 때도 반응하나요?", "바탕화면의 퍼피루비 바로가기를 실행하면 강아지가 마우스 옆으로 따라오고 클릭·키보드·스크롤에 반응해요. 우클릭 → ‘여기에 멈추기’로 멈추거나 ‘마우스 따라가기’로 다시 걸어요. 드래그해 놓은 자리에도 머물러요. 평소에는 강아지만 보이고 대답할 때 짧은 말풍선이 나타나요. 웹 정원 체험은 이 페이지에서만 반응해요."],
         ["키보드 입력은 저장되나요?", "입력한 문자나 키 이름을 읽거나 저장하지 않아요. 입력 발생 여부와 최근 입력 속도만 반응에 사용하며, 네트워크로 보내지 않아요. 트레이의 ‘입력 반응 일시정지’를 켜면 입력 감지도 중지해요. 단독 모드는 서버 없이 동작하고, 웹 강아지와 연결하면 돌봄과 성장 정보를 함께 저장해요."],
         ["나의 강아지는 어디에 저장되나요?", "우리 집의 강아지와 돌봄 기록은 서버에 저장돼요. 회원가입하면 지금 키우는 강아지를 계정에 담고, 다른 브라우저에서도 로그인해 이어갈 수 있어요. 가입 전 체험은 이 브라우저에서만 이어지며, 첫 화면 정원은 저장되지 않는 미리보기예요."],
         ["어떤 강아지를 만날 수 있나요?", "정원에서는 시바견, 사모예드, 토이 푸들, 웰시 코기, 말티즈, 비글을 미리 만나요. 실제 우리 집에서는 기존 분양 규칙에 따라 포메라니안, 푸들, 말티즈, 시바, 코기, 비글을 만날 수 있어요. 모든 강아지는 돌봄으로 SSR 등급까지 자랄 수 있어요."],

@@ -1,0 +1,4292 @@
+{
+  "pomeranian": {
+    "width": 369,
+    "height": 384,
+    "scenes": {
+      "idle": {
+        "headCenterX": 28,
+        "foreheadY": 16,
+        "neckCenterX": 28,
+        "neckY": 41,
+        "ribbonX": 37,
+        "ribbonY": 20,
+        "eyeY": 31.0,
+        "eyes": [
+          {
+            "x": 22.201,
+            "y": 31.0,
+            "rx": 2.081,
+            "ry": 2.167
+          },
+          {
+            "x": 34.341,
+            "y": 31.0,
+            "rx": 2.081,
+            "ry": 2.167
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 21,
+        "foreheadY": 16,
+        "neckCenterX": 21,
+        "neckY": 41,
+        "ribbonX": 30,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 15.263,
+            "y": 29.5,
+            "rx": 2.081,
+            "ry": 2.167
+          },
+          {
+            "x": 26.016,
+            "y": 31.667,
+            "rx": 2.081,
+            "ry": 2.167
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 16,
+        "neckCenterX": 24,
+        "neckY": 41,
+        "ribbonX": 25,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 11.794,
+            "y": 30.167,
+            "rx": 2.081,
+            "ry": 2.167
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 19,
+        "neckCenterX": 24,
+        "neckY": 43,
+        "ribbonX": 25,
+        "ribbonY": 23,
+        "eyeY": 33,
+        "eyes": [
+          {
+            "x": 12.141,
+            "y": 32.5,
+            "rx": 2.081,
+            "ry": 2.167
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 23,
+        "foreheadY": 33,
+        "neckCenterX": 27,
+        "neckY": 55,
+        "ribbonX": 32,
+        "ribbonY": 37,
+        "eyeY": 47,
+        "eyes": [
+          {
+            "x": 19.302,
+            "y": 50.292,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.418,
+            "y": 46.79,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.173,
+        "y": 0.0
+      },
+      {
+        "x": -0.347,
+        "y": -0.167
+      },
+      {
+        "x": -0.347,
+        "y": 0.833
+      },
+      {
+        "x": -0.347,
+        "y": 0.0
+      },
+      {
+        "x": -0.347,
+        "y": -0.167
+      },
+      {
+        "x": -0.347,
+        "y": -0.167
+      },
+      {
+        "x": -0.347,
+        "y": 0.5
+      }
+    ]
+  },
+  "poodle": {
+    "width": 369,
+    "height": 386,
+    "scenes": {
+      "idle": {
+        "headCenterX": 31,
+        "foreheadY": 12,
+        "neckCenterX": 31,
+        "neckY": 41,
+        "ribbonX": 40,
+        "ribbonY": 16,
+        "eyeY": 28.52,
+        "eyes": [
+          {
+            "x": 25.843,
+            "y": 28.518,
+            "rx": 2.081,
+            "ry": 2.155
+          },
+          {
+            "x": 36.423,
+            "y": 28.518,
+            "rx": 2.081,
+            "ry": 2.155
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 23,
+        "foreheadY": 12,
+        "neckCenterX": 23,
+        "neckY": 41,
+        "ribbonX": 32,
+        "ribbonY": 16,
+        "eyeY": 26,
+        "eyes": [
+          {
+            "x": 18.558,
+            "y": 27.855,
+            "rx": 2.081,
+            "ry": 2.155
+          },
+          {
+            "x": 28.965,
+            "y": 29.513,
+            "rx": 2.081,
+            "ry": 2.155
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 13,
+        "neckCenterX": 24,
+        "neckY": 40,
+        "ribbonX": 25,
+        "ribbonY": 17,
+        "eyeY": 27,
+        "eyes": [
+          {
+            "x": 11.621,
+            "y": 28.021,
+            "rx": 2.081,
+            "ry": 2.155
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 21,
+        "foreheadY": 17,
+        "neckCenterX": 25,
+        "neckY": 42,
+        "ribbonX": 26,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 12.835,
+            "y": 31.005,
+            "rx": 2.081,
+            "ry": 2.155
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 30,
+        "neckCenterX": 28,
+        "neckY": 55,
+        "ribbonX": 33,
+        "ribbonY": 34,
+        "eyeY": 44,
+        "eyes": [
+          {
+            "x": 20.941,
+            "y": 49.351,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 31.112,
+            "y": 44.825,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -1.214,
+        "y": 0.0
+      },
+      {
+        "x": -1.214,
+        "y": 0.0
+      },
+      {
+        "x": -1.214,
+        "y": 0.0
+      },
+      {
+        "x": 0.0,
+        "y": -0.497
+      },
+      {
+        "x": -1.388,
+        "y": -1.161
+      },
+      {
+        "x": -0.867,
+        "y": -0.829
+      },
+      {
+        "x": -0.694,
+        "y": -0.829
+      }
+    ]
+  },
+  "maltese": {
+    "width": 368,
+    "height": 391,
+    "scenes": {
+      "idle": {
+        "headCenterX": 30,
+        "foreheadY": 16,
+        "neckCenterX": 30,
+        "neckY": 41,
+        "ribbonX": 39,
+        "ribbonY": 20,
+        "eyeY": 30.61,
+        "eyes": [
+          {
+            "x": 24.87,
+            "y": 30.609,
+            "rx": 2.087,
+            "ry": 2.128
+          },
+          {
+            "x": 36.0,
+            "y": 30.609,
+            "rx": 2.087,
+            "ry": 2.128
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 22,
+        "foreheadY": 16,
+        "neckCenterX": 22,
+        "neckY": 42,
+        "ribbonX": 31,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 18.261,
+            "y": 29.954,
+            "rx": 2.087,
+            "ry": 2.128
+          },
+          {
+            "x": 28.87,
+            "y": 31.591,
+            "rx": 2.087,
+            "ry": 2.128
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 15,
+        "neckCenterX": 24,
+        "neckY": 41,
+        "ribbonX": 25,
+        "ribbonY": 19,
+        "eyeY": 29,
+        "eyes": [
+          {
+            "x": 11.826,
+            "y": 29.463,
+            "rx": 2.087,
+            "ry": 2.128
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 18,
+        "neckCenterX": 24,
+        "neckY": 43,
+        "ribbonX": 25,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 12.522,
+            "y": 31.754,
+            "rx": 2.087,
+            "ry": 2.128
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 23,
+        "foreheadY": 32,
+        "neckCenterX": 27,
+        "neckY": 55,
+        "ribbonX": 32,
+        "ribbonY": 36,
+        "eyeY": 46,
+        "eyes": [
+          {
+            "x": 19.983,
+            "y": 50.756,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.704,
+            "y": 46.502,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.696,
+        "y": 0.655
+      },
+      {
+        "x": -0.87,
+        "y": 0.164
+      },
+      {
+        "x": -1.043,
+        "y": 0.491
+      },
+      {
+        "x": 0.0,
+        "y": -0.655
+      },
+      {
+        "x": -1.391,
+        "y": -1.146
+      },
+      {
+        "x": -0.522,
+        "y": -0.982
+      },
+      {
+        "x": -1.043,
+        "y": -1.146
+      }
+    ]
+  },
+  "shiba": {
+    "width": 371,
+    "height": 389,
+    "scenes": {
+      "idle": {
+        "headCenterX": 28,
+        "foreheadY": 18,
+        "neckCenterX": 28,
+        "neckY": 39,
+        "ribbonX": 37,
+        "ribbonY": 22,
+        "eyeY": 29.61,
+        "eyes": [
+          {
+            "x": 22.081,
+            "y": 29.614,
+            "rx": 2.07,
+            "ry": 2.139
+          },
+          {
+            "x": 34.329,
+            "y": 29.614,
+            "rx": 2.07,
+            "ry": 2.139
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 21,
+        "foreheadY": 18,
+        "neckCenterX": 21,
+        "neckY": 39,
+        "ribbonX": 30,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 15.353,
+            "y": 28.792,
+            "rx": 2.07,
+            "ry": 2.139
+          },
+          {
+            "x": 25.876,
+            "y": 30.766,
+            "rx": 2.07,
+            "ry": 2.139
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 18,
+        "neckCenterX": 24,
+        "neckY": 40,
+        "ribbonX": 25,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 11.903,
+            "y": 29.45,
+            "rx": 2.07,
+            "ry": 2.139
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 22,
+        "neckCenterX": 24,
+        "neckY": 42,
+        "ribbonX": 25,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 12.765,
+            "y": 32.576,
+            "rx": 2.07,
+            "ry": 2.139
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 35,
+        "neckCenterX": 28,
+        "neckY": 55,
+        "ribbonX": 33,
+        "ribbonY": 39,
+        "eyeY": 49,
+        "eyes": [
+          {
+            "x": 19.728,
+            "y": 50.384,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.585,
+            "y": 46.224,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.518,
+        "y": 0.0
+      },
+      {
+        "x": -0.863,
+        "y": 0.165
+      },
+      {
+        "x": -0.345,
+        "y": 0.329
+      },
+      {
+        "x": 0.0,
+        "y": -0.165
+      },
+      {
+        "x": -0.69,
+        "y": -0.165
+      },
+      {
+        "x": 0.0,
+        "y": -0.165
+      },
+      {
+        "x": -0.518,
+        "y": -0.165
+      }
+    ]
+  },
+  "corgi": {
+    "width": 375,
+    "height": 381,
+    "scenes": {
+      "idle": {
+        "headCenterX": 31,
+        "foreheadY": 22,
+        "neckCenterX": 31,
+        "neckY": 43,
+        "ribbonX": 40,
+        "ribbonY": 26,
+        "eyeY": 32.42,
+        "eyes": [
+          {
+            "x": 25.429,
+            "y": 32.42,
+            "rx": 2.048,
+            "ry": 2.184
+          },
+          {
+            "x": 37.205,
+            "y": 32.42,
+            "rx": 2.048,
+            "ry": 2.184
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 24,
+        "foreheadY": 22,
+        "neckCenterX": 24,
+        "neckY": 44,
+        "ribbonX": 33,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 17.579,
+            "y": 30.572,
+            "rx": 2.048,
+            "ry": 2.184
+          },
+          {
+            "x": 28.672,
+            "y": 32.42,
+            "rx": 2.048,
+            "ry": 2.184
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 24,
+        "neckCenterX": 24,
+        "neckY": 43,
+        "ribbonX": 25,
+        "ribbonY": 28,
+        "eyeY": 38,
+        "eyes": [
+          {
+            "x": 13.141,
+            "y": 31.412,
+            "rx": 2.048,
+            "ry": 2.184
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 21,
+        "foreheadY": 27,
+        "neckCenterX": 25,
+        "neckY": 44,
+        "ribbonX": 26,
+        "ribbonY": 31,
+        "eyeY": 41,
+        "eyes": [
+          {
+            "x": 13.312,
+            "y": 34.436,
+            "rx": 2.048,
+            "ry": 2.184
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 39,
+        "neckCenterX": 29,
+        "neckY": 56,
+        "ribbonX": 34,
+        "ribbonY": 43,
+        "eyeY": 53,
+        "eyes": [
+          {
+            "x": 21.206,
+            "y": 50.854,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 31.96,
+            "y": 47.149,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.341,
+        "y": 0.336
+      },
+      {
+        "x": -1.024,
+        "y": 0.168
+      },
+      {
+        "x": -1.536,
+        "y": 0.672
+      },
+      {
+        "x": -0.341,
+        "y": -0.504
+      },
+      {
+        "x": -1.365,
+        "y": -0.168
+      },
+      {
+        "x": -0.853,
+        "y": -0.504
+      },
+      {
+        "x": -0.512,
+        "y": -0.168
+      }
+    ]
+  },
+  "beagle": {
+    "width": 374,
+    "height": 384,
+    "scenes": {
+      "idle": {
+        "headCenterX": 30,
+        "foreheadY": 14,
+        "neckCenterX": 30,
+        "neckY": 39,
+        "ribbonX": 39,
+        "ribbonY": 18,
+        "eyeY": 28.5,
+        "eyes": [
+          {
+            "x": 24.128,
+            "y": 28.5,
+            "rx": 2.053,
+            "ry": 2.167
+          },
+          {
+            "x": 36.791,
+            "y": 28.5,
+            "rx": 2.053,
+            "ry": 2.167
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 22,
+        "foreheadY": 14,
+        "neckCenterX": 22,
+        "neckY": 39,
+        "ribbonX": 31,
+        "ribbonY": 18,
+        "eyeY": 28,
+        "eyes": [
+          {
+            "x": 16.77,
+            "y": 26.5,
+            "rx": 2.053,
+            "ry": 2.167
+          },
+          {
+            "x": 28.406,
+            "y": 28.5,
+            "rx": 2.053,
+            "ry": 2.167
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 14,
+        "neckCenterX": 24,
+        "neckY": 39,
+        "ribbonX": 25,
+        "ribbonY": 18,
+        "eyeY": 28,
+        "eyes": [
+          {
+            "x": 11.807,
+            "y": 27.5,
+            "rx": 2.053,
+            "ry": 2.167
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 17,
+        "neckCenterX": 24,
+        "neckY": 41,
+        "ribbonX": 25,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 13.348,
+            "y": 30.5,
+            "rx": 2.053,
+            "ry": 2.167
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 32,
+        "neckCenterX": 28,
+        "neckY": 54,
+        "ribbonX": 33,
+        "ribbonY": 36,
+        "eyeY": 46,
+        "eyes": [
+          {
+            "x": 20.006,
+            "y": 48.779,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.693,
+            "y": 45.144,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -1.027,
+        "y": 0.333
+      },
+      {
+        "x": -1.54,
+        "y": 0.0
+      },
+      {
+        "x": -0.342,
+        "y": 0.0
+      },
+      {
+        "x": 0.684,
+        "y": -1.0
+      },
+      {
+        "x": -1.027,
+        "y": -1.0
+      },
+      {
+        "x": -0.684,
+        "y": -1.0
+      },
+      {
+        "x": -0.513,
+        "y": -1.0
+      }
+    ]
+  },
+  "samoyed": {
+    "width": 365,
+    "height": 392,
+    "scenes": {
+      "idle": {
+        "headCenterX": 29,
+        "foreheadY": 17,
+        "neckCenterX": 29,
+        "neckY": 40,
+        "ribbonX": 38,
+        "ribbonY": 21,
+        "eyeY": 28.73,
+        "eyes": [
+          {
+            "x": 23.145,
+            "y": 28.735,
+            "rx": 2.104,
+            "ry": 2.122
+          },
+          {
+            "x": 35.068,
+            "y": 28.735,
+            "rx": 2.104,
+            "ry": 2.122
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 22,
+        "foreheadY": 17,
+        "neckCenterX": 22,
+        "neckY": 41,
+        "ribbonX": 31,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 15.956,
+            "y": 27.265,
+            "rx": 2.104,
+            "ry": 2.122
+          },
+          {
+            "x": 26.652,
+            "y": 29.224,
+            "rx": 2.104,
+            "ry": 2.122
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 18,
+        "neckCenterX": 24,
+        "neckY": 40,
+        "ribbonX": 25,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 9.995,
+            "y": 28.082,
+            "rx": 2.104,
+            "ry": 2.122
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 22,
+        "neckCenterX": 24,
+        "neckY": 43,
+        "ribbonX": 25,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 11.573,
+            "y": 32.163,
+            "rx": 2.104,
+            "ry": 2.122
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 23,
+        "foreheadY": 36,
+        "neckCenterX": 27,
+        "neckY": 55,
+        "ribbonX": 32,
+        "ribbonY": 40,
+        "eyeY": 50,
+        "eyes": [
+          {
+            "x": 17.95,
+            "y": 50.341,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 27.891,
+            "y": 45.979,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.351,
+        "y": 0.327
+      },
+      {
+        "x": -0.701,
+        "y": 0.0
+      },
+      {
+        "x": -0.351,
+        "y": 0.327
+      },
+      {
+        "x": -0.351,
+        "y": -0.816
+      },
+      {
+        "x": -0.351,
+        "y": -0.49
+      },
+      {
+        "x": -0.701,
+        "y": -0.49
+      },
+      {
+        "x": -0.351,
+        "y": -0.653
+      }
+    ]
+  },
+  "bichon": {
+    "width": 366,
+    "height": 392,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 14,
+        "neckCenterX": 32,
+        "neckY": 41,
+        "ribbonX": 41,
+        "ribbonY": 18,
+        "eyeY": 31.02,
+        "eyes": [
+          {
+            "x": 25.705,
+            "y": 31.02,
+            "rx": 2.098,
+            "ry": 2.122
+          },
+          {
+            "x": 38.295,
+            "y": 31.02,
+            "rx": 2.098,
+            "ry": 2.122
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 23,
+        "foreheadY": 14,
+        "neckCenterX": 23,
+        "neckY": 41,
+        "ribbonX": 32,
+        "ribbonY": 18,
+        "eyeY": 28,
+        "eyes": [
+          {
+            "x": 16.612,
+            "y": 29.061,
+            "rx": 2.098,
+            "ry": 2.122
+          },
+          {
+            "x": 27.628,
+            "y": 31.184,
+            "rx": 2.098,
+            "ry": 2.122
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 14,
+        "neckCenterX": 24,
+        "neckY": 41,
+        "ribbonX": 25,
+        "ribbonY": 18,
+        "eyeY": 28,
+        "eyes": [
+          {
+            "x": 10.667,
+            "y": 29.878,
+            "rx": 2.098,
+            "ry": 2.122
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 21,
+        "foreheadY": 18,
+        "neckCenterX": 25,
+        "neckY": 43,
+        "ribbonX": 26,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 12.415,
+            "y": 33.306,
+            "rx": 2.098,
+            "ry": 2.122
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 32,
+        "neckCenterX": 28,
+        "neckY": 55,
+        "ribbonX": 33,
+        "ribbonY": 36,
+        "eyeY": 46,
+        "eyes": [
+          {
+            "x": 19.573,
+            "y": 50.746,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.334,
+            "y": 46.447,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.874,
+        "y": 0.0
+      },
+      {
+        "x": -0.874,
+        "y": 0.0
+      },
+      {
+        "x": -0.874,
+        "y": 0.327
+      },
+      {
+        "x": -0.525,
+        "y": -1.306
+      },
+      {
+        "x": -1.224,
+        "y": -1.469
+      },
+      {
+        "x": -1.049,
+        "y": -1.306
+      },
+      {
+        "x": -0.525,
+        "y": -1.143
+      }
+    ]
+  },
+  "golden": {
+    "width": 412,
+    "height": 387,
+    "scenes": {
+      "idle": {
+        "headCenterX": 28,
+        "foreheadY": 13,
+        "neckCenterX": 28,
+        "neckY": 37,
+        "ribbonX": 37,
+        "ribbonY": 17,
+        "eyeY": 25.63,
+        "eyes": [
+          {
+            "x": 23.456,
+            "y": 25.633,
+            "rx": 1.864,
+            "ry": 2.15
+          },
+          {
+            "x": 33.243,
+            "y": 25.633,
+            "rx": 1.864,
+            "ry": 2.15
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 22,
+        "foreheadY": 12,
+        "neckCenterX": 22,
+        "neckY": 38,
+        "ribbonX": 30,
+        "ribbonY": 16,
+        "eyeY": 26,
+        "eyes": [
+          {
+            "x": 18.33,
+            "y": 24.31,
+            "rx": 1.864,
+            "ry": 2.15
+          },
+          {
+            "x": 27.495,
+            "y": 26.46,
+            "rx": 1.864,
+            "ry": 2.15
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 18,
+        "foreheadY": 13,
+        "neckCenterX": 22,
+        "neckY": 37,
+        "ribbonX": 23,
+        "ribbonY": 17,
+        "eyeY": 27,
+        "eyes": [
+          {
+            "x": 10.097,
+            "y": 24.972,
+            "rx": 1.864,
+            "ry": 2.15
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 19,
+        "foreheadY": 19,
+        "neckCenterX": 23,
+        "neckY": 41,
+        "ribbonX": 24,
+        "ribbonY": 23,
+        "eyeY": 33,
+        "eyes": [
+          {
+            "x": 13.204,
+            "y": 30.098,
+            "rx": 1.864,
+            "ry": 2.15
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 34,
+        "neckCenterX": 28,
+        "neckY": 55,
+        "ribbonX": 33,
+        "ribbonY": 38,
+        "eyeY": 48,
+        "eyes": [
+          {
+            "x": 19.237,
+            "y": 49.24,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 29.103,
+            "y": 44.921,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.466,
+        "y": -0.165
+      },
+      {
+        "x": -0.466,
+        "y": -0.331
+      },
+      {
+        "x": -0.621,
+        "y": -0.165
+      },
+      {
+        "x": 0.0,
+        "y": -1.654
+      },
+      {
+        "x": -0.466,
+        "y": -1.654
+      },
+      {
+        "x": -0.155,
+        "y": -0.992
+      },
+      {
+        "x": -0.621,
+        "y": -1.488
+      }
+    ]
+  },
+  "labrador": {
+    "width": 420,
+    "height": 392,
+    "scenes": {
+      "idle": {
+        "headCenterX": 30,
+        "foreheadY": 17,
+        "neckCenterX": 30,
+        "neckY": 40,
+        "ribbonX": 39,
+        "ribbonY": 21,
+        "eyeY": 29.22,
+        "eyes": [
+          {
+            "x": 24.686,
+            "y": 29.224,
+            "rx": 1.829,
+            "ry": 2.122
+          },
+          {
+            "x": 35.048,
+            "y": 29.224,
+            "rx": 1.829,
+            "ry": 2.122
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 23,
+        "foreheadY": 17,
+        "neckCenterX": 23,
+        "neckY": 40,
+        "ribbonX": 32,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 18.438,
+            "y": 27.265,
+            "rx": 1.829,
+            "ry": 2.122
+          },
+          {
+            "x": 28.495,
+            "y": 29.224,
+            "rx": 1.829,
+            "ry": 2.122
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 19,
+        "foreheadY": 17,
+        "neckCenterX": 23,
+        "neckY": 40,
+        "ribbonX": 24,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 10.514,
+            "y": 27.755,
+            "rx": 1.829,
+            "ry": 2.122
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 21,
+        "foreheadY": 22,
+        "neckCenterX": 25,
+        "neckY": 43,
+        "ribbonX": 26,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 14.171,
+            "y": 31.347,
+            "rx": 1.829,
+            "ry": 2.122
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 34,
+        "neckCenterX": 29,
+        "neckY": 55,
+        "ribbonX": 34,
+        "ribbonY": 38,
+        "eyeY": 48,
+        "eyes": [
+          {
+            "x": 21.77,
+            "y": 49.635,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.719,
+            "y": 45.43,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.457,
+        "y": 0.163
+      },
+      {
+        "x": -1.219,
+        "y": 0.0
+      },
+      {
+        "x": -0.762,
+        "y": 0.163
+      },
+      {
+        "x": -0.457,
+        "y": -0.98
+      },
+      {
+        "x": -0.762,
+        "y": -0.98
+      },
+      {
+        "x": -0.762,
+        "y": -0.98
+      },
+      {
+        "x": -0.457,
+        "y": -0.98
+      }
+    ]
+  },
+  "husky": {
+    "width": 384,
+    "height": 388,
+    "scenes": {
+      "idle": {
+        "headCenterX": 27,
+        "foreheadY": 17,
+        "neckCenterX": 27,
+        "neckY": 38,
+        "ribbonX": 36,
+        "ribbonY": 21,
+        "eyeY": 29.69,
+        "eyes": [
+          {
+            "x": 21.0,
+            "y": 29.691,
+            "rx": 2.0,
+            "ry": 2.144
+          },
+          {
+            "x": 33.167,
+            "y": 29.691,
+            "rx": 2.0,
+            "ry": 2.144
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 22,
+        "foreheadY": 17,
+        "neckCenterX": 22,
+        "neckY": 38,
+        "ribbonX": 31,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 15.167,
+            "y": 28.371,
+            "rx": 2.0,
+            "ry": 2.144
+          },
+          {
+            "x": 26.833,
+            "y": 30.021,
+            "rx": 2.0,
+            "ry": 2.144
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 19,
+        "neckCenterX": 24,
+        "neckY": 39,
+        "ribbonX": 25,
+        "ribbonY": 23,
+        "eyeY": 33,
+        "eyes": [
+          {
+            "x": 11.333,
+            "y": 29.361,
+            "rx": 2.0,
+            "ry": 2.144
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 22,
+        "neckCenterX": 24,
+        "neckY": 41,
+        "ribbonX": 25,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 13.0,
+            "y": 32.66,
+            "rx": 2.0,
+            "ry": 2.144
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 23,
+        "foreheadY": 37,
+        "neckCenterX": 27,
+        "neckY": 55,
+        "ribbonX": 32,
+        "ribbonY": 41,
+        "eyeY": 51,
+        "eyes": [
+          {
+            "x": 19.076,
+            "y": 50.496,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 31.13,
+            "y": 45.691,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.333,
+        "y": 0.33
+      },
+      {
+        "x": -0.167,
+        "y": 0.0
+      },
+      {
+        "x": 0.0,
+        "y": 0.33
+      },
+      {
+        "x": -0.5,
+        "y": -0.825
+      },
+      {
+        "x": -0.333,
+        "y": -0.99
+      },
+      {
+        "x": -0.167,
+        "y": -0.66
+      },
+      {
+        "x": 0.0,
+        "y": -0.99
+      }
+    ]
+  },
+  "shihtzu": {
+    "width": 375,
+    "height": 380,
+    "scenes": {
+      "idle": {
+        "headCenterX": 31,
+        "foreheadY": 17,
+        "neckCenterX": 31,
+        "neckY": 42,
+        "ribbonX": 40,
+        "ribbonY": 21,
+        "eyeY": 30.65,
+        "eyes": [
+          {
+            "x": 25.429,
+            "y": 30.653,
+            "rx": 2.048,
+            "ry": 2.189
+          },
+          {
+            "x": 37.888,
+            "y": 30.653,
+            "rx": 2.048,
+            "ry": 2.189
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 23,
+        "foreheadY": 17,
+        "neckCenterX": 23,
+        "neckY": 42,
+        "ribbonX": 32,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 17.237,
+            "y": 28.463,
+            "rx": 2.048,
+            "ry": 2.189
+          },
+          {
+            "x": 28.501,
+            "y": 30.316,
+            "rx": 2.048,
+            "ry": 2.189
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 18,
+        "neckCenterX": 24,
+        "neckY": 42,
+        "ribbonX": 25,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 11.947,
+            "y": 29.979,
+            "rx": 2.048,
+            "ry": 2.189
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 21,
+        "foreheadY": 21,
+        "neckCenterX": 25,
+        "neckY": 44,
+        "ribbonX": 26,
+        "ribbonY": 25,
+        "eyeY": 35,
+        "eyes": [
+          {
+            "x": 13.141,
+            "y": 33.179,
+            "rx": 2.048,
+            "ry": 2.189
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 37,
+        "neckCenterX": 28,
+        "neckY": 56,
+        "ribbonX": 33,
+        "ribbonY": 41,
+        "eyeY": 51,
+        "eyes": [
+          {
+            "x": 20.666,
+            "y": 49.611,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 32.335,
+            "y": 46.049,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.853,
+        "y": 0.168
+      },
+      {
+        "x": -0.341,
+        "y": 0.0
+      },
+      {
+        "x": -0.341,
+        "y": 0.674
+      },
+      {
+        "x": -0.853,
+        "y": -0.674
+      },
+      {
+        "x": -0.853,
+        "y": -0.674
+      },
+      {
+        "x": -0.341,
+        "y": -0.168
+      },
+      {
+        "x": -0.512,
+        "y": -0.337
+      }
+    ]
+  },
+  "frenchbulldog": {
+    "width": 407,
+    "height": 387,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 21,
+        "neckCenterX": 32,
+        "neckY": 40,
+        "ribbonX": 41,
+        "ribbonY": 25,
+        "eyeY": 32.08,
+        "eyes": [
+          {
+            "x": 24.845,
+            "y": 32.083,
+            "rx": 2.201,
+            "ry": 2.481
+          },
+          {
+            "x": 38.683,
+            "y": 32.083,
+            "rx": 2.201,
+            "ry": 2.481
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 25,
+        "foreheadY": 22,
+        "neckCenterX": 25,
+        "neckY": 42,
+        "ribbonX": 34,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 18.398,
+            "y": 29.767,
+            "rx": 2.201,
+            "ry": 2.481
+          },
+          {
+            "x": 31.607,
+            "y": 33.075,
+            "rx": 2.201,
+            "ry": 2.481
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 21,
+        "foreheadY": 22,
+        "neckCenterX": 25,
+        "neckY": 40,
+        "ribbonX": 26,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 11.794,
+            "y": 31.421,
+            "rx": 2.201,
+            "ry": 2.481
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 21,
+        "foreheadY": 27,
+        "neckCenterX": 25,
+        "neckY": 42,
+        "ribbonX": 26,
+        "ribbonY": 31,
+        "eyeY": 41,
+        "eyes": [
+          {
+            "x": 13.209,
+            "y": 35.556,
+            "rx": 2.201,
+            "ry": 2.481
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 37,
+        "neckCenterX": 29,
+        "neckY": 55,
+        "ribbonX": 34,
+        "ribbonY": 41,
+        "eyeY": 51,
+        "eyes": [
+          {
+            "x": 21.425,
+            "y": 51.93,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 34.616,
+            "y": 46.334,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": 0.157,
+        "y": -0.165
+      },
+      {
+        "x": 0.0,
+        "y": -0.165
+      },
+      {
+        "x": 0.157,
+        "y": 0.0
+      },
+      {
+        "x": 0.157,
+        "y": -0.992
+      },
+      {
+        "x": -0.157,
+        "y": -0.992
+      },
+      {
+        "x": 0.157,
+        "y": -0.992
+      },
+      {
+        "x": -0.157,
+        "y": -0.661
+      }
+    ]
+  },
+  "dachshund": {
+    "width": 396,
+    "height": 387,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 18,
+        "neckCenterX": 32,
+        "neckY": 40,
+        "ribbonX": 41,
+        "ribbonY": 22,
+        "eyeY": 29.93,
+        "eyes": [
+          {
+            "x": 26.343,
+            "y": 29.933,
+            "rx": 1.939,
+            "ry": 2.15
+          },
+          {
+            "x": 37.98,
+            "y": 29.933,
+            "rx": 1.939,
+            "ry": 2.15
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 24,
+        "foreheadY": 18,
+        "neckCenterX": 24,
+        "neckY": 41,
+        "ribbonX": 33,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 19.232,
+            "y": 28.279,
+            "rx": 1.939,
+            "ry": 2.15
+          },
+          {
+            "x": 29.737,
+            "y": 30.925,
+            "rx": 1.939,
+            "ry": 2.15
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 21,
+        "foreheadY": 18,
+        "neckCenterX": 25,
+        "neckY": 40,
+        "ribbonX": 26,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 12.283,
+            "y": 29.767,
+            "rx": 1.939,
+            "ry": 2.15
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 22,
+        "foreheadY": 24,
+        "neckCenterX": 26,
+        "neckY": 43,
+        "ribbonX": 27,
+        "ribbonY": 28,
+        "eyeY": 38,
+        "eyes": [
+          {
+            "x": 13.414,
+            "y": 33.902,
+            "rx": 1.939,
+            "ry": 2.15
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 37,
+        "neckCenterX": 29,
+        "neckY": 56,
+        "ribbonX": 34,
+        "ribbonY": 41,
+        "eyeY": 51,
+        "eyes": [
+          {
+            "x": 20.693,
+            "y": 50.77,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.976,
+            "y": 46.07,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.485,
+        "y": 0.165
+      },
+      {
+        "x": -0.485,
+        "y": 0.992
+      },
+      {
+        "x": -0.97,
+        "y": 0.331
+      },
+      {
+        "x": 0.323,
+        "y": 0.496
+      },
+      {
+        "x": -0.97,
+        "y": -0.331
+      },
+      {
+        "x": -0.97,
+        "y": 0.165
+      },
+      {
+        "x": -0.808,
+        "y": -0.331
+      }
+    ]
+  },
+  "schnauzer": {
+    "width": 406,
+    "height": 389,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 16,
+        "neckCenterX": 32,
+        "neckY": 41,
+        "ribbonX": 41,
+        "ribbonY": 20,
+        "eyeY": 26.49,
+        "eyes": [
+          {
+            "x": 26.325,
+            "y": 26.488,
+            "rx": 1.892,
+            "ry": 2.139
+          },
+          {
+            "x": 37.202,
+            "y": 26.488,
+            "rx": 1.892,
+            "ry": 2.139
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 23,
+        "foreheadY": 16,
+        "neckCenterX": 23,
+        "neckY": 41,
+        "ribbonX": 32,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 19.074,
+            "y": 24.679,
+            "rx": 1.892,
+            "ry": 2.139
+          },
+          {
+            "x": 29.478,
+            "y": 26.653,
+            "rx": 1.892,
+            "ry": 2.139
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 21,
+        "foreheadY": 18,
+        "neckCenterX": 25,
+        "neckY": 41,
+        "ribbonX": 26,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 13.872,
+            "y": 26.324,
+            "rx": 1.892,
+            "ry": 2.139
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 22,
+        "foreheadY": 22,
+        "neckCenterX": 26,
+        "neckY": 43,
+        "ribbonX": 27,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 14.03,
+            "y": 29.779,
+            "rx": 1.892,
+            "ry": 2.139
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 37,
+        "neckCenterX": 29,
+        "neckY": 56,
+        "ribbonX": 34,
+        "ribbonY": 41,
+        "eyeY": 51,
+        "eyes": [
+          {
+            "x": 20.902,
+            "y": 49.062,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 31.071,
+            "y": 44.781,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -1.419,
+        "y": -0.165
+      },
+      {
+        "x": -1.892,
+        "y": 0.0
+      },
+      {
+        "x": -1.103,
+        "y": 0.165
+      },
+      {
+        "x": -0.788,
+        "y": -0.165
+      },
+      {
+        "x": -1.261,
+        "y": -0.658
+      },
+      {
+        "x": -1.734,
+        "y": -0.494
+      },
+      {
+        "x": -0.946,
+        "y": -0.658
+      }
+    ]
+  },
+  "chihuahua": {
+    "width": 390,
+    "height": 383,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 20,
+        "neckCenterX": 32,
+        "neckY": 39,
+        "ribbonX": 41,
+        "ribbonY": 24,
+        "eyeY": 33.09,
+        "eyes": [
+          {
+            "x": 25.108,
+            "y": 33.086,
+            "rx": 2.297,
+            "ry": 2.507
+          },
+          {
+            "x": 38.4,
+            "y": 33.086,
+            "rx": 2.297,
+            "ry": 2.507
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 24,
+        "foreheadY": 20,
+        "neckCenterX": 24,
+        "neckY": 40,
+        "ribbonX": 33,
+        "ribbonY": 24,
+        "eyeY": 34,
+        "eyes": [
+          {
+            "x": 18.544,
+            "y": 31.916,
+            "rx": 2.297,
+            "ry": 2.507
+          },
+          {
+            "x": 30.359,
+            "y": 34.256,
+            "rx": 2.297,
+            "ry": 2.507
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 22,
+        "foreheadY": 20,
+        "neckCenterX": 26,
+        "neckY": 40,
+        "ribbonX": 27,
+        "ribbonY": 24,
+        "eyeY": 34,
+        "eyes": [
+          {
+            "x": 13.621,
+            "y": 32.084,
+            "rx": 2.297,
+            "ry": 2.507
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 22,
+        "foreheadY": 24,
+        "neckCenterX": 26,
+        "neckY": 41,
+        "ribbonX": 27,
+        "ribbonY": 28,
+        "eyeY": 38,
+        "eyes": [
+          {
+            "x": 14.441,
+            "y": 34.757,
+            "rx": 2.297,
+            "ry": 2.507
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 26,
+        "foreheadY": 36,
+        "neckCenterX": 30,
+        "neckY": 55,
+        "ribbonX": 35,
+        "ribbonY": 40,
+        "eyeY": 50,
+        "eyes": [
+          {
+            "x": 22.5,
+            "y": 53.5,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 34.805,
+            "y": 47.244,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.656,
+        "y": 0.0
+      },
+      {
+        "x": -0.985,
+        "y": -0.167
+      },
+      {
+        "x": -1.477,
+        "y": 0.501
+      },
+      {
+        "x": -1.149,
+        "y": -1.003
+      },
+      {
+        "x": -1.313,
+        "y": -0.501
+      },
+      {
+        "x": -1.149,
+        "y": 0.0
+      },
+      {
+        "x": -1.641,
+        "y": -0.167
+      }
+    ]
+  },
+  "dalmatian": {
+    "width": 387,
+    "height": 389,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 16,
+        "neckCenterX": 32,
+        "neckY": 40,
+        "ribbonX": 41,
+        "ribbonY": 20,
+        "eyeY": 30.27,
+        "eyes": [
+          {
+            "x": 26.129,
+            "y": 30.272,
+            "rx": 1.984,
+            "ry": 2.139
+          },
+          {
+            "x": 37.871,
+            "y": 30.272,
+            "rx": 1.984,
+            "ry": 2.139
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 23,
+        "foreheadY": 16,
+        "neckCenterX": 23,
+        "neckY": 40,
+        "ribbonX": 32,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 19.018,
+            "y": 28.627,
+            "rx": 1.984,
+            "ry": 2.139
+          },
+          {
+            "x": 30.098,
+            "y": 30.602,
+            "rx": 1.984,
+            "ry": 2.139
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 21,
+        "foreheadY": 17,
+        "neckCenterX": 25,
+        "neckY": 40,
+        "ribbonX": 26,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 11.907,
+            "y": 30.108,
+            "rx": 1.984,
+            "ry": 2.139
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 22,
+        "foreheadY": 20,
+        "neckCenterX": 26,
+        "neckY": 42,
+        "ribbonX": 26,
+        "ribbonY": 24,
+        "eyeY": 34,
+        "eyes": [
+          {
+            "x": 12.899,
+            "y": 31.589,
+            "rx": 1.984,
+            "ry": 2.139
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 26,
+        "foreheadY": 35,
+        "neckCenterX": 30,
+        "neckY": 55,
+        "ribbonX": 35,
+        "ribbonY": 39,
+        "eyeY": 49,
+        "eyes": [
+          {
+            "x": 21.469,
+            "y": 52.036,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 31.213,
+            "y": 46.958,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -1.158,
+        "y": 0.0
+      },
+      {
+        "x": -1.488,
+        "y": 0.329
+      },
+      {
+        "x": -1.158,
+        "y": -0.165
+      },
+      {
+        "x": -0.661,
+        "y": -0.987
+      },
+      {
+        "x": -1.323,
+        "y": -1.152
+      },
+      {
+        "x": -1.158,
+        "y": -0.823
+      },
+      {
+        "x": -1.654,
+        "y": -1.152
+      }
+    ]
+  },
+  "akita": {
+    "width": 374,
+    "height": 384,
+    "scenes": {
+      "idle": {
+        "headCenterX": 28,
+        "foreheadY": 17,
+        "neckCenterX": 28,
+        "neckY": 39,
+        "ribbonX": 37,
+        "ribbonY": 21,
+        "eyeY": 30.5,
+        "eyes": [
+          {
+            "x": 22.417,
+            "y": 30.5,
+            "rx": 2.053,
+            "ry": 2.167
+          },
+          {
+            "x": 34.053,
+            "y": 30.5,
+            "rx": 2.053,
+            "ry": 2.167
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 21,
+        "foreheadY": 17,
+        "neckCenterX": 21,
+        "neckY": 39,
+        "ribbonX": 30,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 15.914,
+            "y": 29.0,
+            "rx": 2.053,
+            "ry": 2.167
+          },
+          {
+            "x": 26.353,
+            "y": 30.833,
+            "rx": 2.053,
+            "ry": 2.167
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 18,
+        "neckCenterX": 24,
+        "neckY": 40,
+        "ribbonX": 25,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 12.15,
+            "y": 30.167,
+            "rx": 2.053,
+            "ry": 2.167
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 22,
+        "neckCenterX": 24,
+        "neckY": 42,
+        "ribbonX": 25,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 12.492,
+            "y": 32.5,
+            "rx": 2.053,
+            "ry": 2.167
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 23,
+        "foreheadY": 36,
+        "neckCenterX": 27,
+        "neckY": 55,
+        "ribbonX": 32,
+        "ribbonY": 40,
+        "eyeY": 50,
+        "eyes": [
+          {
+            "x": 19.348,
+            "y": 50.561,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 29.679,
+            "y": 47.114,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": 0.0,
+        "y": 0.167
+      },
+      {
+        "x": -0.171,
+        "y": 0.167
+      },
+      {
+        "x": -0.684,
+        "y": 0.833
+      },
+      {
+        "x": -0.171,
+        "y": 0.0
+      },
+      {
+        "x": 0.0,
+        "y": -0.333
+      },
+      {
+        "x": -0.513,
+        "y": 0.333
+      },
+      {
+        "x": -0.171,
+        "y": -0.167
+      }
+    ]
+  },
+  "bordercollie": {
+    "width": 392,
+    "height": 389,
+    "scenes": {
+      "idle": {
+        "headCenterX": 28,
+        "foreheadY": 15,
+        "neckCenterX": 28,
+        "neckY": 39,
+        "ribbonX": 37,
+        "ribbonY": 19,
+        "eyeY": 30.27,
+        "eyes": [
+          {
+            "x": 21.714,
+            "y": 30.272,
+            "rx": 1.959,
+            "ry": 2.139
+          },
+          {
+            "x": 33.469,
+            "y": 30.272,
+            "rx": 1.959,
+            "ry": 2.139
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 22,
+        "foreheadY": 15,
+        "neckCenterX": 22,
+        "neckY": 40,
+        "ribbonX": 31,
+        "ribbonY": 19,
+        "eyeY": 29,
+        "eyes": [
+          {
+            "x": 16.816,
+            "y": 28.298,
+            "rx": 1.959,
+            "ry": 2.139
+          },
+          {
+            "x": 27.429,
+            "y": 30.437,
+            "rx": 1.959,
+            "ry": 2.139
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 16,
+        "neckCenterX": 24,
+        "neckY": 39,
+        "ribbonX": 25,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 10.939,
+            "y": 28.298,
+            "rx": 1.959,
+            "ry": 2.139
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 21,
+        "neckCenterX": 24,
+        "neckY": 42,
+        "ribbonX": 25,
+        "ribbonY": 25,
+        "eyeY": 35,
+        "eyes": [
+          {
+            "x": 12,
+            "y": 30.25,
+            "rx": 1.959,
+            "ry": 2.139
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 37,
+        "neckCenterX": 28,
+        "neckY": 55,
+        "ribbonX": 33,
+        "ribbonY": 41,
+        "eyeY": 51,
+        "eyes": [
+          {
+            "x": 20.079,
+            "y": 49.564,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.776,
+            "y": 45.342,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.816,
+        "y": 0.0
+      },
+      {
+        "x": -0.98,
+        "y": 0.823
+      },
+      {
+        "x": -0.98,
+        "y": 0.0
+      },
+      {
+        "x": -0.163,
+        "y": 0.165
+      },
+      {
+        "x": -0.653,
+        "y": -0.823
+      },
+      {
+        "x": 0.0,
+        "y": -0.658
+      },
+      {
+        "x": -0.98,
+        "y": -0.823
+      }
+    ]
+  },
+  "doberman": {
+    "width": 402,
+    "height": 389,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 15,
+        "neckCenterX": 32,
+        "neckY": 35,
+        "ribbonX": 41,
+        "ribbonY": 19,
+        "eyeY": 28.13,
+        "eyes": [
+          {
+            "x": 26.269,
+            "y": 28.134,
+            "rx": 1.91,
+            "ry": 2.139
+          },
+          {
+            "x": 37.572,
+            "y": 28.134,
+            "rx": 1.91,
+            "ry": 2.139
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 24,
+        "foreheadY": 16,
+        "neckCenterX": 24,
+        "neckY": 36,
+        "ribbonX": 33,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 18.468,
+            "y": 25.83,
+            "rx": 1.91,
+            "ry": 2.139
+          },
+          {
+            "x": 29.134,
+            "y": 27.969,
+            "rx": 1.91,
+            "ry": 2.139
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 23,
+        "foreheadY": 17,
+        "neckCenterX": 27,
+        "neckY": 36,
+        "ribbonX": 28,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 14.328,
+            "y": 27.311,
+            "rx": 1.91,
+            "ry": 2.139
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 24,
+        "foreheadY": 24,
+        "neckCenterX": 28,
+        "neckY": 40,
+        "ribbonX": 27,
+        "ribbonY": 28,
+        "eyeY": 38,
+        "eyes": [
+          {
+            "x": 15.75,
+            "y": 31,
+            "rx": 1.91,
+            "ry": 2.139
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 42,
+        "neckCenterX": 29,
+        "neckY": 55,
+        "ribbonX": 34,
+        "ribbonY": 46,
+        "eyeY": 56,
+        "eyes": [
+          {
+            "x": 20.34,
+            "y": 51.203,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 29.783,
+            "y": 47.459,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.955,
+        "y": 0.0
+      },
+      {
+        "x": -1.114,
+        "y": 0.165
+      },
+      {
+        "x": -0.955,
+        "y": 0.329
+      },
+      {
+        "x": -0.955,
+        "y": -1.481
+      },
+      {
+        "x": -0.637,
+        "y": -0.165
+      },
+      {
+        "x": -0.637,
+        "y": -0.329
+      },
+      {
+        "x": 0.0,
+        "y": -0.823
+      }
+    ]
+  },
+  "rottweiler": {
+    "width": 386,
+    "height": 383,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 12,
+        "neckCenterX": 32,
+        "neckY": 38,
+        "ribbonX": 41,
+        "ribbonY": 16,
+        "eyeY": 28.07,
+        "eyes": [
+          {
+            "x": 25.036,
+            "y": 28.073,
+            "rx": 2.321,
+            "ry": 2.507
+          },
+          {
+            "x": 38.964,
+            "y": 28.073,
+            "rx": 2.321,
+            "ry": 2.507
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 24,
+        "foreheadY": 12,
+        "neckCenterX": 24,
+        "neckY": 39,
+        "ribbonX": 33,
+        "ribbonY": 16,
+        "eyeY": 26,
+        "eyes": [
+          {
+            "x": 17.907,
+            "y": 26.903,
+            "rx": 2.321,
+            "ry": 2.507
+          },
+          {
+            "x": 30.839,
+            "y": 28.909,
+            "rx": 2.321,
+            "ry": 2.507
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 22,
+        "foreheadY": 12,
+        "neckCenterX": 26,
+        "neckY": 39,
+        "ribbonX": 27,
+        "ribbonY": 16,
+        "eyeY": 26,
+        "eyes": [
+          {
+            "x": 11.938,
+            "y": 26.903,
+            "rx": 2.321,
+            "ry": 2.507
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 22,
+        "foreheadY": 16,
+        "neckCenterX": 26,
+        "neckY": 41,
+        "ribbonX": 27,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 11.938,
+            "y": 29.744,
+            "rx": 2.321,
+            "ry": 2.507
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 30,
+        "neckCenterX": 29,
+        "neckY": 55,
+        "ribbonX": 34,
+        "ribbonY": 34,
+        "eyeY": 44,
+        "eyes": [
+          {
+            "x": 19.031,
+            "y": 50.014,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 29.864,
+            "y": 44.802,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.663,
+        "y": 0.167
+      },
+      {
+        "x": -0.995,
+        "y": -0.334
+      },
+      {
+        "x": -0.995,
+        "y": 0.501
+      },
+      {
+        "x": -0.166,
+        "y": -0.334
+      },
+      {
+        "x": -0.663,
+        "y": -0.668
+      },
+      {
+        "x": -0.332,
+        "y": -0.668
+      },
+      {
+        "x": -0.663,
+        "y": -0.501
+      }
+    ]
+  },
+  "greatdane": {
+    "width": 421,
+    "height": 387,
+    "scenes": {
+      "idle": {
+        "headCenterX": 28,
+        "foreheadY": 10,
+        "neckCenterX": 28,
+        "neckY": 29,
+        "ribbonX": 37,
+        "ribbonY": 14,
+        "eyeY": 21.66,
+        "eyes": [
+          {
+            "x": 24.627,
+            "y": 21.664,
+            "rx": 1.824,
+            "ry": 2.15
+          },
+          {
+            "x": 33.444,
+            "y": 21.664,
+            "rx": 1.824,
+            "ry": 2.15
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 19,
+        "foreheadY": 10,
+        "neckCenterX": 19,
+        "neckY": 29,
+        "ribbonX": 28,
+        "ribbonY": 14,
+        "eyeY": 24,
+        "eyes": [
+          {
+            "x": 15.05,
+            "y": 19.183,
+            "rx": 1.824,
+            "ry": 2.15
+          },
+          {
+            "x": 23.259,
+            "y": 21.499,
+            "rx": 1.824,
+            "ry": 2.15
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 18,
+        "foreheadY": 10,
+        "neckCenterX": 22,
+        "neckY": 28,
+        "ribbonX": 22,
+        "ribbonY": 14,
+        "eyeY": 24,
+        "eyes": [
+          {
+            "x": 11.249,
+            "y": 20.506,
+            "rx": 1.824,
+            "ry": 2.15
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 21,
+        "foreheadY": 18,
+        "neckCenterX": 25,
+        "neckY": 35,
+        "ribbonX": 23,
+        "ribbonY": 24,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 13.834,
+            "y": 26.625,
+            "rx": 1.824,
+            "ry": 2.15
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 34,
+        "neckCenterX": 29,
+        "neckY": 55,
+        "ribbonX": 34,
+        "ribbonY": 38,
+        "eyeY": 48,
+        "eyes": [
+          {
+            "x": 21.5,
+            "y": 48.38,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.749,
+            "y": 44.167,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -1.216,
+        "y": 0.0
+      },
+      {
+        "x": -0.304,
+        "y": 0.165
+      },
+      {
+        "x": -0.304,
+        "y": 0.165
+      },
+      {
+        "x": -0.304,
+        "y": -0.661
+      },
+      {
+        "x": -0.608,
+        "y": -0.661
+      },
+      {
+        "x": -0.608,
+        "y": -0.661
+      },
+      {
+        "x": -0.152,
+        "y": -0.661
+      }
+    ]
+  },
+  "saintbernard": {
+    "width": 376,
+    "height": 384,
+    "scenes": {
+      "idle": {
+        "headCenterX": 30,
+        "foreheadY": 12,
+        "neckCenterX": 30,
+        "neckY": 39,
+        "ribbonX": 39,
+        "ribbonY": 16,
+        "eyeY": 28.17,
+        "eyes": [
+          {
+            "x": 24.0,
+            "y": 28.167,
+            "rx": 2.043,
+            "ry": 2.167
+          },
+          {
+            "x": 35.745,
+            "y": 28.167,
+            "rx": 2.043,
+            "ry": 2.167
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 22,
+        "foreheadY": 12,
+        "neckCenterX": 22,
+        "neckY": 40,
+        "ribbonX": 31,
+        "ribbonY": 16,
+        "eyeY": 26,
+        "eyes": [
+          {
+            "x": 17.191,
+            "y": 25.667,
+            "rx": 2.043,
+            "ry": 2.167
+          },
+          {
+            "x": 28.085,
+            "y": 27.5,
+            "rx": 2.043,
+            "ry": 2.167
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 12,
+        "neckCenterX": 24,
+        "neckY": 40,
+        "ribbonX": 25,
+        "ribbonY": 16,
+        "eyeY": 26,
+        "eyes": [
+          {
+            "x": 11.745,
+            "y": 28.0,
+            "rx": 2.043,
+            "ry": 2.167
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 17,
+        "neckCenterX": 24,
+        "neckY": 42,
+        "ribbonX": 25,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 11.915,
+            "y": 30.667,
+            "rx": 2.043,
+            "ry": 2.167
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 34,
+        "neckCenterX": 28,
+        "neckY": 55,
+        "ribbonX": 33,
+        "ribbonY": 38,
+        "eyeY": 48,
+        "eyes": [
+          {
+            "x": 19.616,
+            "y": 47.277,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.005,
+            "y": 42.987,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.17,
+        "y": 0.167
+      },
+      {
+        "x": -1.021,
+        "y": -0.333
+      },
+      {
+        "x": -0.17,
+        "y": 0.0
+      },
+      {
+        "x": 0.0,
+        "y": -0.833
+      },
+      {
+        "x": -0.17,
+        "y": -0.833
+      },
+      {
+        "x": -0.34,
+        "y": -0.833
+      },
+      {
+        "x": 0.0,
+        "y": -0.833
+      }
+    ]
+  },
+  "bassethound": {
+    "width": 386,
+    "height": 386,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 18,
+        "neckCenterX": 32,
+        "neckY": 41,
+        "ribbonX": 41,
+        "ribbonY": 22,
+        "eyeY": 30.18,
+        "eyes": [
+          {
+            "x": 27.026,
+            "y": 30.176,
+            "rx": 1.99,
+            "ry": 2.155
+          },
+          {
+            "x": 37.306,
+            "y": 30.176,
+            "rx": 1.99,
+            "ry": 2.155
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 25,
+        "foreheadY": 20,
+        "neckCenterX": 25,
+        "neckY": 43,
+        "ribbonX": 34,
+        "ribbonY": 24,
+        "eyeY": 34,
+        "eyes": [
+          {
+            "x": 20.725,
+            "y": 30.176,
+            "rx": 1.99,
+            "ry": 2.155
+          },
+          {
+            "x": 31.171,
+            "y": 31.668,
+            "rx": 1.99,
+            "ry": 2.155
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 21,
+        "foreheadY": 20,
+        "neckCenterX": 25,
+        "neckY": 43,
+        "ribbonX": 26,
+        "ribbonY": 24,
+        "eyeY": 34,
+        "eyes": [
+          {
+            "x": 13.098,
+            "y": 30.01,
+            "rx": 1.99,
+            "ry": 2.155
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 22,
+        "foreheadY": 22,
+        "neckCenterX": 26,
+        "neckY": 44,
+        "ribbonX": 26,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 14.093,
+            "y": 32.497,
+            "rx": 1.99,
+            "ry": 2.155
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 35,
+        "neckCenterX": 29,
+        "neckY": 56,
+        "ribbonX": 34,
+        "ribbonY": 39,
+        "eyeY": 49,
+        "eyes": [
+          {
+            "x": 19.195,
+            "y": 49.032,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 29.99,
+            "y": 45.617,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -1.161,
+        "y": 0.332
+      },
+      {
+        "x": -0.995,
+        "y": 0.663
+      },
+      {
+        "x": -0.332,
+        "y": 0.829
+      },
+      {
+        "x": 0.497,
+        "y": -0.663
+      },
+      {
+        "x": 0.332,
+        "y": -0.663
+      },
+      {
+        "x": 0.0,
+        "y": -1.161
+      },
+      {
+        "x": 0.332,
+        "y": -0.497
+      }
+    ]
+  },
+  "englishbulldog": {
+    "width": 405,
+    "height": 387,
+    "scenes": {
+      "idle": {
+        "headCenterX": 31,
+        "foreheadY": 18,
+        "neckCenterX": 31,
+        "neckY": 41,
+        "ribbonX": 40,
+        "ribbonY": 22,
+        "eyeY": 28.61,
+        "eyes": [
+          {
+            "x": 24.178,
+            "y": 28.61,
+            "rx": 1.896,
+            "ry": 2.15
+          },
+          {
+            "x": 39.664,
+            "y": 28.61,
+            "rx": 1.896,
+            "ry": 2.15
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 25,
+        "foreheadY": 18,
+        "neckCenterX": 25,
+        "neckY": 42,
+        "ribbonX": 34,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 19.121,
+            "y": 27.287,
+            "rx": 1.896,
+            "ry": 2.15
+          },
+          {
+            "x": 32.553,
+            "y": 29.933,
+            "rx": 1.896,
+            "ry": 2.15
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 22,
+        "foreheadY": 19,
+        "neckCenterX": 26,
+        "neckY": 43,
+        "ribbonX": 27,
+        "ribbonY": 23,
+        "eyeY": 33,
+        "eyes": [
+          {
+            "x": 13.906,
+            "y": 28.775,
+            "rx": 1.896,
+            "ry": 2.15
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 23,
+        "foreheadY": 23,
+        "neckCenterX": 27,
+        "neckY": 45,
+        "ribbonX": 28,
+        "ribbonY": 27,
+        "eyeY": 37,
+        "eyes": [
+          {
+            "x": 15.17,
+            "y": 31.587,
+            "rx": 1.896,
+            "ry": 2.15
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 32,
+        "neckCenterX": 28,
+        "neckY": 56,
+        "ribbonX": 33,
+        "ribbonY": 36,
+        "eyeY": 46,
+        "eyes": [
+          {
+            "x": 19.064,
+            "y": 49.572,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 32.229,
+            "y": 44.379,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -1.106,
+        "y": 0.165
+      },
+      {
+        "x": -1.422,
+        "y": -0.165
+      },
+      {
+        "x": -1.264,
+        "y": 0.0
+      },
+      {
+        "x": 0.316,
+        "y": -0.165
+      },
+      {
+        "x": -1.106,
+        "y": -0.165
+      },
+      {
+        "x": -0.79,
+        "y": -0.165
+      },
+      {
+        "x": -0.632,
+        "y": -0.331
+      }
+    ]
+  },
+  "westie": {
+    "width": 383,
+    "height": 392,
+    "scenes": {
+      "idle": {
+        "headCenterX": 30,
+        "foreheadY": 17,
+        "neckCenterX": 30,
+        "neckY": 39,
+        "ribbonX": 39,
+        "ribbonY": 21,
+        "eyeY": 30.04,
+        "eyes": [
+          {
+            "x": 25.065,
+            "y": 30.041,
+            "rx": 2.005,
+            "ry": 2.122
+          },
+          {
+            "x": 35.593,
+            "y": 30.041,
+            "rx": 2.005,
+            "ry": 2.122
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 23,
+        "foreheadY": 16,
+        "neckCenterX": 23,
+        "neckY": 40,
+        "ribbonX": 32,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 18.214,
+            "y": 28.898,
+            "rx": 2.005,
+            "ry": 2.122
+          },
+          {
+            "x": 28.073,
+            "y": 30.531,
+            "rx": 2.005,
+            "ry": 2.122
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 17,
+        "neckCenterX": 24,
+        "neckY": 40,
+        "ribbonX": 25,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 14.538,
+            "y": 28.735,
+            "rx": 2.005,
+            "ry": 2.122
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 21,
+        "foreheadY": 22,
+        "neckCenterX": 25,
+        "neckY": 43,
+        "ribbonX": 26,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 15.206,
+            "y": 33.306,
+            "rx": 2.005,
+            "ry": 2.122
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 37,
+        "neckCenterX": 28,
+        "neckY": 55,
+        "ribbonX": 33,
+        "ribbonY": 41,
+        "eyeY": 51,
+        "eyes": [
+          {
+            "x": 20.097,
+            "y": 50.653,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 29.582,
+            "y": 46.303,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.668,
+        "y": 0.0
+      },
+      {
+        "x": -0.334,
+        "y": -0.163
+      },
+      {
+        "x": -0.501,
+        "y": 0.163
+      },
+      {
+        "x": -0.167,
+        "y": -0.816
+      },
+      {
+        "x": -0.668,
+        "y": -0.816
+      },
+      {
+        "x": 0.334,
+        "y": -0.653
+      },
+      {
+        "x": -0.334,
+        "y": -0.816
+      }
+    ]
+  },
+  "bostonterrier": {
+    "width": 388,
+    "height": 379,
+    "scenes": {
+      "idle": {
+        "headCenterX": 32,
+        "foreheadY": 15,
+        "neckCenterX": 32,
+        "neckY": 41,
+        "ribbonX": 41,
+        "ribbonY": 19,
+        "eyeY": 29.89,
+        "eyes": [
+          {
+            "x": 24.412,
+            "y": 29.889,
+            "rx": 2.309,
+            "ry": 2.533
+          },
+          {
+            "x": 39.588,
+            "y": 29.889,
+            "rx": 2.309,
+            "ry": 2.533
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 24,
+        "foreheadY": 15,
+        "neckCenterX": 24,
+        "neckY": 41,
+        "ribbonX": 33,
+        "ribbonY": 19,
+        "eyeY": 29,
+        "eyes": [
+          {
+            "x": 17.814,
+            "y": 27.694,
+            "rx": 2.309,
+            "ry": 2.533
+          },
+          {
+            "x": 31.67,
+            "y": 29.889,
+            "rx": 2.309,
+            "ry": 2.533
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 22,
+        "foreheadY": 16,
+        "neckCenterX": 26,
+        "neckY": 40,
+        "ribbonX": 27,
+        "ribbonY": 20,
+        "eyeY": 30,
+        "eyes": [
+          {
+            "x": 13.196,
+            "y": 29.214,
+            "rx": 2.309,
+            "ry": 2.533
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 22,
+        "foreheadY": 21,
+        "neckCenterX": 26,
+        "neckY": 43,
+        "ribbonX": 27,
+        "ribbonY": 25,
+        "eyeY": 35,
+        "eyes": [
+          {
+            "x": 14.5,
+            "y": 31.75,
+            "rx": 2.309,
+            "ry": 2.533
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 25,
+        "foreheadY": 36,
+        "neckCenterX": 29,
+        "neckY": 56,
+        "ribbonX": 34,
+        "ribbonY": 40,
+        "eyeY": 50,
+        "eyes": [
+          {
+            "x": 20.798,
+            "y": 49.862,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 31.137,
+            "y": 47.262,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -1.155,
+        "y": 0.0
+      },
+      {
+        "x": -1.32,
+        "y": 0.0
+      },
+      {
+        "x": -0.99,
+        "y": 0.338
+      },
+      {
+        "x": -0.165,
+        "y": -0.338
+      },
+      {
+        "x": -0.99,
+        "y": -0.338
+      },
+      {
+        "x": -0.33,
+        "y": -0.338
+      },
+      {
+        "x": -0.66,
+        "y": -0.338
+      }
+    ]
+  },
+  "yorkshireterrier": {
+    "width": 394,
+    "height": 390,
+    "scenes": {
+      "idle": {
+        "headCenterX": 31,
+        "foreheadY": 19,
+        "neckCenterX": 31,
+        "neckY": 40,
+        "ribbonX": 40,
+        "ribbonY": 23,
+        "eyeY": 30.36,
+        "eyes": [
+          {
+            "x": 26.315,
+            "y": 30.359,
+            "rx": 1.949,
+            "ry": 2.133
+          },
+          {
+            "x": 37.685,
+            "y": 30.359,
+            "rx": 1.949,
+            "ry": 2.133
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 25,
+        "foreheadY": 18,
+        "neckCenterX": 25,
+        "neckY": 41,
+        "ribbonX": 34,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 19.655,
+            "y": 28.39,
+            "rx": 1.949,
+            "ry": 2.133
+          },
+          {
+            "x": 30.701,
+            "y": 30.687,
+            "rx": 1.949,
+            "ry": 2.133
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 21,
+        "foreheadY": 19,
+        "neckCenterX": 25,
+        "neckY": 41,
+        "ribbonX": 26,
+        "ribbonY": 23,
+        "eyeY": 33,
+        "eyes": [
+          {
+            "x": 13.645,
+            "y": 28.882,
+            "rx": 1.949,
+            "ry": 2.133
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 22,
+        "foreheadY": 24,
+        "neckCenterX": 26,
+        "neckY": 43,
+        "ribbonX": 27,
+        "ribbonY": 28,
+        "eyeY": 38,
+        "eyes": [
+          {
+            "x": 14.619,
+            "y": 33.313,
+            "rx": 1.949,
+            "ry": 2.133
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 26,
+        "foreheadY": 36,
+        "neckCenterX": 30,
+        "neckY": 56,
+        "ribbonX": 35,
+        "ribbonY": 40,
+        "eyeY": 50,
+        "eyes": [
+          {
+            "x": 21.391,
+            "y": 50.477,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 32.198,
+            "y": 45.629,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.65,
+        "y": 0.164
+      },
+      {
+        "x": 0.162,
+        "y": -0.164
+      },
+      {
+        "x": -0.325,
+        "y": 0.0
+      },
+      {
+        "x": -0.487,
+        "y": -0.821
+      },
+      {
+        "x": -0.812,
+        "y": -0.985
+      },
+      {
+        "x": -0.325,
+        "y": -1.149
+      },
+      {
+        "x": -0.65,
+        "y": -0.821
+      }
+    ]
+  },
+  "pekingese": {
+    "width": 371,
+    "height": 388,
+    "scenes": {
+      "idle": {
+        "headCenterX": 31,
+        "foreheadY": 18,
+        "neckCenterX": 31,
+        "neckY": 43,
+        "ribbonX": 40,
+        "ribbonY": 22,
+        "eyeY": 32.49,
+        "eyes": [
+          {
+            "x": 24.323,
+            "y": 32.495,
+            "rx": 2.07,
+            "ry": 2.144
+          },
+          {
+            "x": 37.606,
+            "y": 32.495,
+            "rx": 2.07,
+            "ry": 2.144
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 24,
+        "foreheadY": 18,
+        "neckCenterX": 24,
+        "neckY": 44,
+        "ribbonX": 33,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 18.458,
+            "y": 30.515,
+            "rx": 2.07,
+            "ry": 2.144
+          },
+          {
+            "x": 30.534,
+            "y": 32.165,
+            "rx": 2.07,
+            "ry": 2.144
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 18,
+        "foreheadY": 18,
+        "neckCenterX": 22,
+        "neckY": 43,
+        "ribbonX": 23,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 8.625,
+            "y": 31.835,
+            "rx": 2.07,
+            "ry": 2.144
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 18,
+        "foreheadY": 21,
+        "neckCenterX": 22,
+        "neckY": 44,
+        "ribbonX": 23,
+        "ribbonY": 25,
+        "eyeY": 35,
+        "eyes": [
+          {
+            "x": 9.66,
+            "y": 32.495,
+            "rx": 2.07,
+            "ry": 2.144
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 24,
+        "foreheadY": 36,
+        "neckCenterX": 28,
+        "neckY": 56,
+        "ribbonX": 33,
+        "ribbonY": 40,
+        "eyeY": 50,
+        "eyes": [
+          {
+            "x": 19.833,
+            "y": 51.743,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.879,
+            "y": 46.68,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.345,
+        "y": 0.495
+      },
+      {
+        "x": -0.173,
+        "y": 0.0
+      },
+      {
+        "x": -0.863,
+        "y": 0.33
+      },
+      {
+        "x": 0.173,
+        "y": -0.66
+      },
+      {
+        "x": -0.518,
+        "y": -1.155
+      },
+      {
+        "x": -0.345,
+        "y": -0.99
+      },
+      {
+        "x": -0.69,
+        "y": -1.485
+      }
+    ]
+  },
+  "chowchow": {
+    "width": 380,
+    "height": 385,
+    "scenes": {
+      "idle": {
+        "headCenterX": 27,
+        "foreheadY": 17,
+        "neckCenterX": 27,
+        "neckY": 41,
+        "ribbonX": 36,
+        "ribbonY": 21,
+        "eyeY": 29.92,
+        "eyes": [
+          {
+            "x": 21.221,
+            "y": 29.922,
+            "rx": 2.021,
+            "ry": 2.161
+          },
+          {
+            "x": 33.179,
+            "y": 29.922,
+            "rx": 2.021,
+            "ry": 2.161
+          }
+        ]
+      },
+      "happy": {
+        "headCenterX": 21,
+        "foreheadY": 17,
+        "neckCenterX": 21,
+        "neckY": 41,
+        "ribbonX": 30,
+        "ribbonY": 21,
+        "eyeY": 31,
+        "eyes": [
+          {
+            "x": 16.505,
+            "y": 28.094,
+            "rx": 2.021,
+            "ry": 2.161
+          },
+          {
+            "x": 27.284,
+            "y": 30.255,
+            "rx": 2.021,
+            "ry": 2.161
+          }
+        ]
+      },
+      "side": {
+        "headCenterX": 20,
+        "foreheadY": 18,
+        "neckCenterX": 24,
+        "neckY": 41,
+        "ribbonX": 25,
+        "ribbonY": 22,
+        "eyeY": 32,
+        "eyes": [
+          {
+            "x": 12.463,
+            "y": 29.257,
+            "rx": 2.021,
+            "ry": 2.161
+          }
+        ]
+      },
+      "walk": {
+        "headCenterX": 20,
+        "foreheadY": 22,
+        "neckCenterX": 24,
+        "neckY": 43,
+        "ribbonX": 25,
+        "ribbonY": 26,
+        "eyeY": 36,
+        "eyes": [
+          {
+            "x": 12.8,
+            "y": 31.917,
+            "rx": 2.021,
+            "ry": 2.161
+          }
+        ]
+      },
+      "sleep": {
+        "headCenterX": 23,
+        "foreheadY": 36,
+        "neckCenterX": 27,
+        "neckY": 55,
+        "ribbonX": 32,
+        "ribbonY": 40,
+        "eyeY": 50,
+        "eyes": [
+          {
+            "x": 18.782,
+            "y": 50.906,
+            "rx": 2.5,
+            "ry": 1.7
+          },
+          {
+            "x": 30.162,
+            "y": 46.275,
+            "rx": 2.5,
+            "ry": 1.7
+          }
+        ]
+      }
+    },
+    "walkOffsets": [
+      {
+        "x": 0.0,
+        "y": 0.0
+      },
+      {
+        "x": -0.337,
+        "y": 0.332
+      },
+      {
+        "x": -1.011,
+        "y": 0.0
+      },
+      {
+        "x": -0.505,
+        "y": 0.166
+      },
+      {
+        "x": -0.505,
+        "y": -0.831
+      },
+      {
+        "x": -0.337,
+        "y": -0.997
+      },
+      {
+        "x": -0.168,
+        "y": -0.831
+      },
+      {
+        "x": -0.505,
+        "y": -0.665
+      }
+    ]
+  }
+}

@@ -10,6 +10,8 @@ repositories { mavenCentral() }
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-flyway'
+    runtimeOnly 'org.flywaydb:flyway-database-postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.security:spring-security-crypto'
@@ -20,7 +22,39 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql:42.7.12'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
-tasks.named('test') { useJUnitPlatform() }
+tasks.named('test') {
+    useJUnitPlatform()
+    setEnvironment(getEnvironment().findAll { key, value -> !(key in [
+        'SPRING_DATASOURCE_URL', 'SPRING_DATASOURCE_USERNAME', 'SPRING_DATASOURCE_PASSWORD',
+        'SPRING_FLYWAY_URL', 'SPRING_FLYWAY_USER', 'SPRING_FLYWAY_PASSWORD',
+        'SPRING_CONFIG_LOCATION', 'SPRING_CONFIG_ADDITIONAL_LOCATION', 'SPRING_CONFIG_IMPORT'
+    ]) })
+    // Service tests manage disposable H2 schemas themselves. Migration tests opt in explicitly.
+    environment 'SPRING_FLYWAY_ENABLED', 'false'
+    environment 'DB_SCHEMA', ''
+    environment 'S3_UPLOAD_ENABLED', 'false'
+    environment 'MAIL_ENABLED', 'false'
+}
+
+sourceSets {
+    dbTools {
+        java.srcDir 'src/dbTools/java'
+        compileClasspath += sourceSets.main.output + configurations.runtimeClasspath
+        runtimeClasspath += output + compileClasspath
+    }
+}
+
+tasks.register('database', JavaExec) {
+    group = 'database'
+    description = 'Database Info, Validate, or explicit version-1 Baseline without starting the application.'
+    dependsOn tasks.named('dbToolsClasses')
+    classpath = sourceSets.dbTools.runtimeClasspath
+    mainClass = 'com.puppyruby.dbtools.DatabaseTool'
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(21) }
+    args providers.gradleProperty('dbAction').getOrElse('Info'),
+        sourceSets.main.output.classesDirs.singleFile.absolutePath,
+        providers.gradleProperty('baselineVersion').getOrElse('')
+}
 tasks.named('processResources') {
     from('../shared') { include 'commands.json' }
 }

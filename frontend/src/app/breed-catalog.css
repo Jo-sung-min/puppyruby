@@ -1,0 +1,6 @@
+.breed-pagination { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; margin: 24px 0; }
+.breed-pagination button { min-width: 40px; min-height: 40px; padding: 7px 12px; border: 1px solid var(--ui-line, #d5d5d5); border-radius: 8px; background: var(--ui-surface, #fff); color: var(--ui-text, #222); font-size: 13px; }
+.breed-pagination button[aria-current="page"] { background: var(--ui-text, #222); color: var(--ui-surface, #fff); font-weight: 700; }
+.breed-pagination span { flex-basis: 100%; text-align: center; color: var(--ui-muted, #666); font-size: 12px; margin-top: 4px; }
+.breed-catalog-note { margin: 8px 0 16px; color: var(--ui-muted, #666); font-size: 12px; }
+.collection-copy h3 { overflow-wrap: anywhere; }

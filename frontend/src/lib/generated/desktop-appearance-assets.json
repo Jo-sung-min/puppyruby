@@ -1,0 +1,3314 @@
+{
+  "/images/pixel-art-dogs-v1/art-01.png": {
+    "sha256": "17c72361a5e802e1d18f2ac077786818f5001a3fb073135c28676e1c70ad8cb7",
+    "width": 1024,
+    "height": 1024,
+    "bytes": 480072
+  },
+  "/images/pixel-art-dogs-v1/art-02.png": {
+    "sha256": "5cf4d1d541022d5c6ff9379fed94919ef26d5e0eb171966ea5787ca012aea81d",
+    "width": 1024,
+    "height": 1024,
+    "bytes": 540341
+  },
+  "/images/pixel-art-dogs-v1/art-03.png": {
+    "sha256": "667c7e4ee168e4efc923f3769ac4a514fc5bff2aa4e781eb7cfd1714f3f97282",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 985933
+  },
+  "/images/pixel-art-dogs-v1/art-04.png": {
+    "sha256": "346763d943d33738cd51710893beb56c2db5e0df14bf2733f08138365105d79b",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 857444
+  },
+  "/images/pixel-art-dogs-v1/art-05.png": {
+    "sha256": "60a89a8b0310fc8cfa5475299d294bf0048b833cc9306723ff7aa58636529090",
+    "width": 1024,
+    "height": 1024,
+    "bytes": 562440
+  },
+  "/images/pixel-art-dogs-v1/art-06.png": {
+    "sha256": "d23d09d9907d23c7f36aa356f1674f7996d28fba06e0dd261717489c6bc9855f",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 788534
+  },
+  "/images/pixel-art-dogs-v1/art-07.png": {
+    "sha256": "4c3cf2c2702309a00145b8bdcd1dd45849fe9d0389d1a76df12e1b8c4685acc9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 814930
+  },
+  "/images/pixel-art-dogs-v1/art-08.png": {
+    "sha256": "c356196c4a4e5374ea5beb20b35dfc0ba6423a1df64369d15be1f0e42b08d6cf",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 966079
+  },
+  "/images/pixel-art-dogs-v1/art-09.png": {
+    "sha256": "ce26c9d8f7be918ffb69b4cde10da2d28fb09bc7e1fc8419fd40693187f7bf83",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 834368
+  },
+  "/images/pixel-art-dogs-v1/art-10.png": {
+    "sha256": "14159143f3f8f79f7409f993624c2e5ecf0d0d7c48eed3b24f7f95b53e7949bf",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 802232
+  },
+  "/images/pixel-art-dogs-v1/art-11.png": {
+    "sha256": "d9a391dfa6b9dfd64e1ed38a003c4ebcfd8f056d050aa60816b0cfe16291340c",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 956535
+  },
+  "/images/pixel-art-dogs-v1/art-12.png": {
+    "sha256": "a9f2c31500c7f210ba496b5f8190a9b54626ee45982f0885bf63bed118dec6ab",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 795405
+  },
+  "/images/pixel-art-dogs-v1/art-13.png": {
+    "sha256": "0ea505beda9dd743fc3ba7932e2b194c8f68d41e35d4abb5fbf31418271d3c80",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 767912
+  },
+  "/images/pixel-art-dogs-v1/art-14.png": {
+    "sha256": "4a3ca3f59520fae201f63efed960925b79811d798e3c5594eda71a347573ecac",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 898909
+  },
+  "/images/pixel-art-dogs-v1/art-15.png": {
+    "sha256": "f7e346a63b4bcd5bcd38f9f2b029031723582526ece8fa60c89290a56fad6f6a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 917060
+  },
+  "/images/pixel-art-dogs-v1/art-16.png": {
+    "sha256": "357089f5c540ccd194767b3516b08dcf140a4736d7b74b3eedbbf63691b0f24b",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 670208
+  },
+  "/images/pixel-art-dogs-v1/art-17.png": {
+    "sha256": "b4f0560a20663f21fd0a1d90b7de869ec24c311a4b983f31a1983a44399c1d3e",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 912056
+  },
+  "/images/pixel-art-dogs-v1/art-18.png": {
+    "sha256": "e434448ed589b0d9b0fc776844f8da48562cbd1ba571f40a683d41db040d21d7",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 923794
+  },
+  "/images/pixel-art-dogs-v1/art-19.png": {
+    "sha256": "dfe5ecded90309b2744838bab12c752c5fb258a4e0b482b5cc2b181d96925e71",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 698296
+  },
+  "/images/pixel-art-dogs-v1/art-20.png": {
+    "sha256": "a8d8bb4951480d8f7d9d8f57975e436fba74077e202133b81fa49bcb0258e23a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 878674
+  },
+  "/images/pixel-art-dogs-v1/art-21.png": {
+    "sha256": "5a469af1a924995d60f4a3610a8abc246ba51e7ca509c828c78b1910e5bd117a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 802189
+  },
+  "/images/pixel-art-dogs-v1/art-22.png": {
+    "sha256": "a8188bfe9392e55aeef12decf1dba8ac034ed6e8e72eb358bbbae1f1413599ef",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 861804
+  },
+  "/images/pixel-art-dogs-v1/art-23.png": {
+    "sha256": "d7e4042c5800ba2502d0a8a4d5e7d081aaa5aa1e56870e360d6f3d68c2ee5e17",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 877932
+  },
+  "/images/pixel-art-dogs-v1/art-24.png": {
+    "sha256": "6449bc4381872021f4f1fa4da77b9021aae91efaa161845d3fdbcefdee0a1073",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 954709
+  },
+  "/images/pixel-art-dogs-v1/art-25.png": {
+    "sha256": "fe3a2f2579686321210ca95051580723d017895dbcde398c63a40204ac1f260c",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 955914
+  },
+  "/images/pixel-art-dogs-v1/art-26.png": {
+    "sha256": "71da199725fed06c7f046ef178bfc588108abd9332466073e5120a1e70ca5878",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 933626
+  },
+  "/images/pixel-art-dogs-v1/art-27.png": {
+    "sha256": "6b4d1519a8af7040c74eca31a693aa306185a07cc5e6a6b119808f0ea225b82a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 846617
+  },
+  "/images/pixel-art-dogs-v1/art-28.png": {
+    "sha256": "25a6450dde65de9b19230669f4f1657a10f2e2c18ba3565826d53150c35f839d",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 939484
+  },
+  "/images/pixel-art-dogs-v1/art-29.png": {
+    "sha256": "8b20db18e70505b9a012fdd5810c88f78c643213c483a719976d99f9f87a221d",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 1074515
+  },
+  "/images/pixel-art-dogs-v1/art-30.png": {
+    "sha256": "d8f4a3e8746be2c8b98505ffaf91d55ef53e67276348b6f28dc26ff2b834997a",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 1035178
+  },
+  "/images/premium-puppies-v1/premium-marshmallow.png": {
+    "sha256": "1cd99d20e89a7037e2717f0e5537ce6a664c38ac2fd58422c56371fb54cb9773",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 723074
+  },
+  "/images/premium-puppies-v1/premium-milkbean.png": {
+    "sha256": "d53af227353ce22f96c7a87692047dda5a326e5b7f58f5a1b1e05fe4d5569482",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 707735
+  },
+  "/images/premium-puppies-v1/premium-honeybun.png": {
+    "sha256": "23eeee2fdf4b733b61b305acdf7ef55dc82b946b1d0857dc53618ac6fda64b63",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 792221
+  },
+  "/images/premium-puppies-v1/premium-cloudpuff.png": {
+    "sha256": "26348ab8c8fe42d0406ab5b74e88a036f09daff39f492ef182b2376a53999fb1",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 816347
+  },
+  "/images/premium-puppies-v1/premium-biscuit.png": {
+    "sha256": "5982459d1b771cc47b45ea1c9387bcb0229b1f98024c2701fbced84d3360189d",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 738052
+  },
+  "/images/premium-puppies-v1/premium-naploaf.png": {
+    "sha256": "c3b23e65d9f5472ee5fa75396fbe96b0774068472737f2f25422d20822d96dc9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 699387
+  },
+  "/images/premium-puppies-v1/premium-teddycub.png": {
+    "sha256": "a9ac9e3a14dbddc13a54c06e6735216b2dccf54bfd15581274e97c3bab7416f9",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 806872
+  },
+  "/images/premium-puppies-v1/premium-peachcheek.png": {
+    "sha256": "dcd75ca6da737aa4c23a496e169b47c64fe2128135fa2273e7e30d7c167ba641",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 730998
+  },
+  "/images/premium-puppies-v1/premium-buttonpaw.png": {
+    "sha256": "8b4228f032be4a41e845ae36d1296d401571a3b4d2fdfc5ae552f0707554c089",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 796293
+  },
+  "/images/premium-puppies-v1/premium-rounddrop.png": {
+    "sha256": "650e571b50111a10b507358da885be85c9668733f4823c8e731ef6013decda78",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 699645
+  },
+  "/images/premium-puppies-v1/premium-cottonball.png": {
+    "sha256": "0a748d8a0401bf1a4c55cb3fc20cad3385de1ebec8b599c15d8033af846ff33b",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 745279
+  },
+  "/images/premium-puppies-v1/premium-caramel.png": {
+    "sha256": "66fe2903e550aab18ce5be34bd9647a9d38b7818e696dfac22e838cfe1cd9f25",
+    "width": 1254,
+    "height": 1254,
+    "bytes": 765796
+  },
+  "/images/art16-scenes-v1/pomeranian/idle.png": {
+    "sha256": "28611c15a893c1eab7978b5a95db3ba365ce5e1c7be23cdb8c02ab224a6e9b0e",
+    "width": 369,
+    "height": 384,
+    "bytes": 114880
+  },
+  "/images/art16-scenes-v1/pomeranian/side.png": {
+    "sha256": "1342d6aa08a75e2b05ad52e3deca014b7e0c115a07d05452d630293c4e099d3c",
+    "width": 369,
+    "height": 384,
+    "bytes": 126478
+  },
+  "/images/art16-scenes-v1/pomeranian/walk.png": {
+    "sha256": "62999ee599dfaae0ac0b4a5a9e38ed443b7c3d53888b39478e8729fceeb7176d",
+    "width": 2952,
+    "height": 384,
+    "bytes": 992555
+  },
+  "/images/art16-scenes-v1/pomeranian/happy.png": {
+    "sha256": "82394a4195f8c1866c90d40967f60086392e31c39816dc543248fb2dd7f8a244",
+    "width": 369,
+    "height": 384,
+    "bytes": 128475
+  },
+  "/images/art16-scenes-v1/pomeranian/sleep.png": {
+    "sha256": "71ee56799bee8ffe51a4d1632fbc751aba3593e1d09dbda8c0df49181d997bdf",
+    "width": 369,
+    "height": 384,
+    "bytes": 103122
+  },
+  "/images/art16-scenes-v1/poodle/idle.png": {
+    "sha256": "8b533f40216fe23d268eeb65cfb62338602214e1d44c57dfcffe7a7826c18762",
+    "width": 369,
+    "height": 386,
+    "bytes": 124369
+  },
+  "/images/art16-scenes-v1/poodle/side.png": {
+    "sha256": "de4ecd4f569c00b1e131749e83ab6b6de5b737a79f9240902b422d616c9a0681",
+    "width": 369,
+    "height": 386,
+    "bytes": 134892
+  },
+  "/images/art16-scenes-v1/poodle/walk.png": {
+    "sha256": "c1eaef5e0986188f6db81cb0406f72a8706c891f5c0995c930b6710e583db39c",
+    "width": 2952,
+    "height": 386,
+    "bytes": 977495
+  },
+  "/images/art16-scenes-v1/poodle/happy.png": {
+    "sha256": "cf7d689219994745195c23370c2e1c66607198f33fe371ee6b82e6b32cef7fa9",
+    "width": 369,
+    "height": 386,
+    "bytes": 138523
+  },
+  "/images/art16-scenes-v1/poodle/sleep.png": {
+    "sha256": "099a5c52ae8452608095ecf0b038e51c81b1535a3be9f97a44b5f66962778c2b",
+    "width": 369,
+    "height": 386,
+    "bytes": 104750
+  },
+  "/images/art16-scenes-v1/maltese/idle.png": {
+    "sha256": "070aa25e95386904cbf2584685b24a1ec6160bbdaf516250b212784b741772f8",
+    "width": 368,
+    "height": 391,
+    "bytes": 123016
+  },
+  "/images/art16-scenes-v1/maltese/side.png": {
+    "sha256": "21d782cbf06c0a1df627573371be5e38ed9afb843647dfccd4867e603fc9cee0",
+    "width": 368,
+    "height": 391,
+    "bytes": 136300
+  },
+  "/images/art16-scenes-v1/maltese/walk.png": {
+    "sha256": "ed5bf4b7f4587cd9f72f74abfde0b6122f5b56689439123a0803c38858551c97",
+    "width": 2944,
+    "height": 391,
+    "bytes": 1025393
+  },
+  "/images/art16-scenes-v1/maltese/happy.png": {
+    "sha256": "5f82dc332fab2263f3d4922b959a742e8a1c38a05db8912a7b1f4df3a8271fe1",
+    "width": 368,
+    "height": 391,
+    "bytes": 136061
+  },
+  "/images/art16-scenes-v1/maltese/sleep.png": {
+    "sha256": "c3a6c0515b126d9e66dbeee2e9f50d2563c3a95f60c0a82874db670d9c89940d",
+    "width": 368,
+    "height": 391,
+    "bytes": 98588
+  },
+  "/images/art16-scenes-v1/shiba/idle.png": {
+    "sha256": "fadec8634a7495b1e8d4465488b682bc5009a1e76a237fa286127260349ce90d",
+    "width": 371,
+    "height": 389,
+    "bytes": 123061
+  },
+  "/images/art16-scenes-v1/shiba/side.png": {
+    "sha256": "201bedb185b7f495c9cbf84ad355b84071e118723d8781b0c7695b5dffc58f45",
+    "width": 371,
+    "height": 389,
+    "bytes": 135131
+  },
+  "/images/art16-scenes-v1/shiba/walk.png": {
+    "sha256": "8b4db77d9b4ef43f1e404df3004fe187c2e45484e0b1dfec0607d16a8ea8ff80",
+    "width": 2968,
+    "height": 389,
+    "bytes": 1003965
+  },
+  "/images/art16-scenes-v1/shiba/happy.png": {
+    "sha256": "2677eaacc21a1a7823c6ceacef14adc35de6e776e769d664cf373f374345a3cf",
+    "width": 371,
+    "height": 389,
+    "bytes": 135645
+  },
+  "/images/art16-scenes-v1/shiba/sleep.png": {
+    "sha256": "01b8f037f5b30af604b3c2179bb22d6425a475f719c7398a999badba65359b6f",
+    "width": 371,
+    "height": 389,
+    "bytes": 112825
+  },
+  "/images/art16-scenes-v1/corgi/idle.png": {
+    "sha256": "9661e84ec1040f042e06ffd740925a33b0434dc9f10ff68e235534f8c8fc68b8",
+    "width": 375,
+    "height": 381,
+    "bytes": 118068
+  },
+  "/images/art16-scenes-v1/corgi/side.png": {
+    "sha256": "3596ac9dadd270480df4c11e42998533ee80eed6c7345b5f6c1aaed5b4654f60",
+    "width": 375,
+    "height": 381,
+    "bytes": 121228
+  },
+  "/images/art16-scenes-v1/corgi/walk.png": {
+    "sha256": "24d50dcdbdc2007e651476e0f305576f7b62c1c5b29737fdd2b3ac1b75037c63",
+    "width": 3000,
+    "height": 381,
+    "bytes": 860470
+  },
+  "/images/art16-scenes-v1/corgi/happy.png": {
+    "sha256": "0e8403370226c229a664b7597fe7d35221583b6ef5f5cd0f19f2721f2acb31c5",
+    "width": 375,
+    "height": 381,
+    "bytes": 127537
+  },
+  "/images/art16-scenes-v1/corgi/sleep.png": {
+    "sha256": "ec8aedd500310de7160ac7d0dc2f7a5bde64697a53c782429dbe44450805a33d",
+    "width": 375,
+    "height": 381,
+    "bytes": 104710
+  },
+  "/images/art16-scenes-v1/beagle/idle.png": {
+    "sha256": "54c72df7335f2ff354346507bb00083ce341283be778856515c308b614d1aabc",
+    "width": 374,
+    "height": 384,
+    "bytes": 122288
+  },
+  "/images/art16-scenes-v1/beagle/side.png": {
+    "sha256": "505e4b8cffd149faa70eaa796e84ccc1e77cb408676d5b92a564208f531a8b6c",
+    "width": 374,
+    "height": 384,
+    "bytes": 127780
+  },
+  "/images/art16-scenes-v1/beagle/walk.png": {
+    "sha256": "3e387440169c85e5fb74706b8171ca5f691eac2e72a53c6de0452728851d8205",
+    "width": 2992,
+    "height": 384,
+    "bytes": 943325
+  },
+  "/images/art16-scenes-v1/beagle/happy.png": {
+    "sha256": "3a5b786b272fb131c6a9dad1b850c01230835a779365f3ac36cb6f0e372fcc66",
+    "width": 374,
+    "height": 384,
+    "bytes": 133821
+  },
+  "/images/art16-scenes-v1/beagle/sleep.png": {
+    "sha256": "935a63c3cec01f52387e6ceceb21e3ac2634e3cdcb452a6c61e89018ff3c12b9",
+    "width": 374,
+    "height": 384,
+    "bytes": 103246
+  },
+  "/images/art16-scenes-v1/samoyed/idle.png": {
+    "sha256": "5c9f9be3d61947aa79fb61e39606875fa214cffab8e30b183e7b98b3dd1a1f38",
+    "width": 365,
+    "height": 392,
+    "bytes": 135152
+  },
+  "/images/art16-scenes-v1/samoyed/side.png": {
+    "sha256": "52b2b3eab3e847af0c430d6b4cbf7c87350ec47c91f0b024d42c13f5958fb0da",
+    "width": 365,
+    "height": 392,
+    "bytes": 153175
+  },
+  "/images/art16-scenes-v1/samoyed/walk.png": {
+    "sha256": "3f4681fbb2c3b6aac609ae15d0f129ebc8a757958f440d4ae765ea7b19ecbcfd",
+    "width": 2920,
+    "height": 392,
+    "bytes": 1059285
+  },
+  "/images/art16-scenes-v1/samoyed/happy.png": {
+    "sha256": "f5032e1ca2dd51e10c7c11085234178a39decafd9dc72c5393e44f8d15320f27",
+    "width": 365,
+    "height": 392,
+    "bytes": 148067
+  },
+  "/images/art16-scenes-v1/samoyed/sleep.png": {
+    "sha256": "f2191933cc259fff396b315835ebb33a2a61921ca7f45d3c71984acef11fa4b8",
+    "width": 365,
+    "height": 392,
+    "bytes": 109974
+  },
+  "/images/art16-scenes-v1/bichon/idle.png": {
+    "sha256": "f0ddb8e89149820d95fc24959c4ca884292d9c6c0a2865819327171bbf233a24",
+    "width": 366,
+    "height": 392,
+    "bytes": 114094
+  },
+  "/images/art16-scenes-v1/bichon/side.png": {
+    "sha256": "4418440c079bb4e9f667679a02c41f06484c8f25010e985d756755e170e2cc3c",
+    "width": 366,
+    "height": 392,
+    "bytes": 137960
+  },
+  "/images/art16-scenes-v1/bichon/walk.png": {
+    "sha256": "70808c7b47a4bc01016432d60dbaef939d8fe9e30b34aaf7e697b58fe0d27824",
+    "width": 2928,
+    "height": 392,
+    "bytes": 1034025
+  },
+  "/images/art16-scenes-v1/bichon/happy.png": {
+    "sha256": "467fc8bb0e0b1a2626e2f5359567703e9e5b0b7f1a691cd1e4ea6a8f77719a62",
+    "width": 366,
+    "height": 392,
+    "bytes": 138898
+  },
+  "/images/art16-scenes-v1/bichon/sleep.png": {
+    "sha256": "a0b42516a5ea427290bf61b620646c71be54294f4f2eb0362555bb80bec1b7b8",
+    "width": 366,
+    "height": 392,
+    "bytes": 100426
+  },
+  "/images/art16-scenes-v1/golden/idle.png": {
+    "sha256": "3fa1072ab36619fda03f6f5ac2f818724619e9b435365b852eed62912ae36223",
+    "width": 412,
+    "height": 387,
+    "bytes": 132296
+  },
+  "/images/art16-scenes-v1/golden/side.png": {
+    "sha256": "8fc9c93871aa04185f3325ff6e08a292a7e3947dd0112dcc6da25d6cd8ab1a6c",
+    "width": 412,
+    "height": 387,
+    "bytes": 154870
+  },
+  "/images/art16-scenes-v1/golden/walk.png": {
+    "sha256": "0b7e6d49cf396cfd4fe9e399a936c0849eaf6e65a9002b790bc5f27f579b26c4",
+    "width": 3296,
+    "height": 387,
+    "bytes": 1019396
+  },
+  "/images/art16-scenes-v1/golden/happy.png": {
+    "sha256": "071b648ef19ffdbf725ef0067652f2212874e686c1e7f3755e965ad673ce4bec",
+    "width": 412,
+    "height": 387,
+    "bytes": 147080
+  },
+  "/images/art16-scenes-v1/golden/sleep.png": {
+    "sha256": "dcdd3ca798b667261b7b2457c5578c69f41f0aab28ba0ef7b5d4611bf7f7d176",
+    "width": 412,
+    "height": 387,
+    "bytes": 107727
+  },
+  "/images/art16-scenes-v1/labrador/idle.png": {
+    "sha256": "c9a266365693b511cbbd4cb1a20eb499e5bb577b2fab1eb1e25119fc06dadfc5",
+    "width": 420,
+    "height": 392,
+    "bytes": 107797
+  },
+  "/images/art16-scenes-v1/labrador/side.png": {
+    "sha256": "de0bfbefa486ae3754d4a72e0269806258fe920884065fa39eff5eadfb72089e",
+    "width": 420,
+    "height": 392,
+    "bytes": 123073
+  },
+  "/images/art16-scenes-v1/labrador/walk.png": {
+    "sha256": "5b082145be5ab1ec7ee6284a2b5a4c72d28a01ba4cdf7cdeecf17380cf4de34f",
+    "width": 3360,
+    "height": 392,
+    "bytes": 866311
+  },
+  "/images/art16-scenes-v1/labrador/happy.png": {
+    "sha256": "b6bd8750cca4e0185460425a85f6d5f56ebb03584c012b820c9c25a582d83b16",
+    "width": 420,
+    "height": 392,
+    "bytes": 118966
+  },
+  "/images/art16-scenes-v1/labrador/sleep.png": {
+    "sha256": "607af142376b21a16172ee4533571b9f68f9adcc3455ed9b06ea4d6de95bda04",
+    "width": 420,
+    "height": 392,
+    "bytes": 91184
+  },
+  "/images/art16-scenes-v1/husky/idle.png": {
+    "sha256": "bf22fb212129d9521159ff6d86dd784cde795070d30b3bd286b3265328813d2d",
+    "width": 384,
+    "height": 388,
+    "bytes": 136456
+  },
+  "/images/art16-scenes-v1/husky/side.png": {
+    "sha256": "be54f08ebf55bb33209a301e4c6f4c0c639d6cb47346f7f7c95d3fe2b7e6d2ab",
+    "width": 384,
+    "height": 388,
+    "bytes": 151742
+  },
+  "/images/art16-scenes-v1/husky/walk.png": {
+    "sha256": "459b68c4c7a45d70fce3a2a8beb0bf61c7aaf80433df23f754833b9d30688ea8",
+    "width": 3072,
+    "height": 388,
+    "bytes": 1097653
+  },
+  "/images/art16-scenes-v1/husky/happy.png": {
+    "sha256": "d55be1b9fafc41198af585f8ae0f14ed61b418368214b7f050b8b15998d0c78f",
+    "width": 384,
+    "height": 388,
+    "bytes": 154244
+  },
+  "/images/art16-scenes-v1/husky/sleep.png": {
+    "sha256": "372eac531c4d980e4f3bb391c8df2ea5d407bf35af048a72b83f269b017d7f16",
+    "width": 384,
+    "height": 388,
+    "bytes": 112211
+  },
+  "/images/art16-scenes-v1/shihtzu/idle.png": {
+    "sha256": "98547bb6ca77c29e66615693f300916d4bc86318b2eb9e8a7dd529246bcd8875",
+    "width": 375,
+    "height": 380,
+    "bytes": 149500
+  },
+  "/images/art16-scenes-v1/shihtzu/side.png": {
+    "sha256": "1f4a6f2d6e8a7c80316bf4b5b7b80ca8e07cd40b398dcce94d90c67b5bce12b9",
+    "width": 375,
+    "height": 380,
+    "bytes": 172976
+  },
+  "/images/art16-scenes-v1/shihtzu/walk.png": {
+    "sha256": "21bb4933142e2595315039fb493f249120d39b834bb4b103ac915139a6efe575",
+    "width": 3000,
+    "height": 380,
+    "bytes": 1240092
+  },
+  "/images/art16-scenes-v1/shihtzu/happy.png": {
+    "sha256": "5638af33658d8c972f8ff88e7d76b4ddc292ebe1c063a9ceab105b7ce6cf611d",
+    "width": 375,
+    "height": 380,
+    "bytes": 177503
+  },
+  "/images/art16-scenes-v1/shihtzu/sleep.png": {
+    "sha256": "716568cd8ba1465165485a17587bfeec2a4964c0958a8a984cf2cbf9009c2a3d",
+    "width": 375,
+    "height": 380,
+    "bytes": 133056
+  },
+  "/images/art16-scenes-v1/frenchbulldog/idle.png": {
+    "sha256": "83d8b6f11d699c040fce628701ed3438004dbe9529811fb5dbdc68e9ee14b7a9",
+    "width": 407,
+    "height": 387,
+    "bytes": 110177
+  },
+  "/images/art16-scenes-v1/frenchbulldog/side.png": {
+    "sha256": "fa1a96ba5e6841c41b9e835815d46e96f7d66f3e4bb4b8854963c82186b7b0a7",
+    "width": 407,
+    "height": 387,
+    "bytes": 119156
+  },
+  "/images/art16-scenes-v1/frenchbulldog/walk.png": {
+    "sha256": "4168342c380e5ccb65393413a8bf85265660d79f676d15d84e0d3fd2317558a9",
+    "width": 3256,
+    "height": 387,
+    "bytes": 827573
+  },
+  "/images/art16-scenes-v1/frenchbulldog/happy.png": {
+    "sha256": "d9ff737c3175151b49f218366574dededd28cbb35eb1e3bddc237d381c4317b5",
+    "width": 407,
+    "height": 387,
+    "bytes": 118559
+  },
+  "/images/art16-scenes-v1/frenchbulldog/sleep.png": {
+    "sha256": "e3aaecf1d3a5d5c0584b26df7f4e2fcbe469ad21183a045b02209fdea2a29032",
+    "width": 407,
+    "height": 387,
+    "bytes": 95856
+  },
+  "/images/art16-scenes-v1/dachshund/idle.png": {
+    "sha256": "1e4f3200bd221ae49a5301389c64f7b5d25ac33154cd70fb9216cf1f9216502f",
+    "width": 396,
+    "height": 387,
+    "bytes": 109467
+  },
+  "/images/art16-scenes-v1/dachshund/side.png": {
+    "sha256": "714794568f89da12cc40c1078b1db585eae6185f106118d376c6da14572e1a34",
+    "width": 396,
+    "height": 387,
+    "bytes": 109885
+  },
+  "/images/art16-scenes-v1/dachshund/walk.png": {
+    "sha256": "1b123665a1ba92f0614c6ab18010299b6fce68778d1222383dd9f45183b226e3",
+    "width": 3168,
+    "height": 387,
+    "bytes": 766450
+  },
+  "/images/art16-scenes-v1/dachshund/happy.png": {
+    "sha256": "d105ffd565730bdba456e6889fabcf656d4699870dc025e6316660cbb1ee6e98",
+    "width": 396,
+    "height": 387,
+    "bytes": 123452
+  },
+  "/images/art16-scenes-v1/dachshund/sleep.png": {
+    "sha256": "2175ff736b7df366707a2d3a7dc4c4f583d971c64fb0391b303a913f7b2f5631",
+    "width": 396,
+    "height": 387,
+    "bytes": 91180
+  },
+  "/images/art16-scenes-v1/schnauzer/idle.png": {
+    "sha256": "99fba3a61d3505eb0aaca17eaa711339a30cb1bd71e739226708ea0aab8a6911",
+    "width": 406,
+    "height": 389,
+    "bytes": 131637
+  },
+  "/images/art16-scenes-v1/schnauzer/side.png": {
+    "sha256": "5e0a44bfd7674f2ddb2094a7f7abafb472917d30e9ba09abf053aee5ee3d3628",
+    "width": 406,
+    "height": 389,
+    "bytes": 149680
+  },
+  "/images/art16-scenes-v1/schnauzer/walk.png": {
+    "sha256": "2a959463833032c73c9bb658921e59ce8f4431e03d59c002f082c3fa18e33c1e",
+    "width": 3248,
+    "height": 389,
+    "bytes": 1054619
+  },
+  "/images/art16-scenes-v1/schnauzer/happy.png": {
+    "sha256": "50e1ea4ed817edc34ef1c3127004af5cdcc98fc0d97318f2a428946397dbb71a",
+    "width": 406,
+    "height": 389,
+    "bytes": 153514
+  },
+  "/images/art16-scenes-v1/schnauzer/sleep.png": {
+    "sha256": "843c9cd10b6a44e73d3c5453eec0a525160465c12b6b9a1c58d16fd93ca4cc4a",
+    "width": 406,
+    "height": 389,
+    "bytes": 113860
+  },
+  "/images/art16-scenes-v1/chihuahua/idle.png": {
+    "sha256": "eccc1efe791ca268228277fb4a2f09ae3e8a973a0896f62a5270e95e4b06a700",
+    "width": 390,
+    "height": 383,
+    "bytes": 113965
+  },
+  "/images/art16-scenes-v1/chihuahua/side.png": {
+    "sha256": "f5b3610fbf39167650576a65b00247922b97f8c6507632f1008099d99a603130",
+    "width": 390,
+    "height": 383,
+    "bytes": 111673
+  },
+  "/images/art16-scenes-v1/chihuahua/walk.png": {
+    "sha256": "fde08561601d0f2da7f2a92bc7a72720ed1732de9a85c02eb9df2deaa077caaf",
+    "width": 3120,
+    "height": 383,
+    "bytes": 841871
+  },
+  "/images/art16-scenes-v1/chihuahua/happy.png": {
+    "sha256": "e7f6f2864c98fb43a79376d09d79712b150b583dc6c562ea0249b5359f25eccc",
+    "width": 390,
+    "height": 383,
+    "bytes": 122114
+  },
+  "/images/art16-scenes-v1/chihuahua/sleep.png": {
+    "sha256": "fedc72841efd0a8f0fe180e1ddae033bf597fabdfcd5c147a3bf2767dc958bef",
+    "width": 390,
+    "height": 383,
+    "bytes": 102818
+  },
+  "/images/art16-scenes-v1/dalmatian/idle.png": {
+    "sha256": "8e1cd6bbbded2d59c15d3203a6e6d70dd5d1dadda6d031da4722af4abb2098d9",
+    "width": 387,
+    "height": 389,
+    "bytes": 107757
+  },
+  "/images/art16-scenes-v1/dalmatian/side.png": {
+    "sha256": "38c89189763a374e12060f10e0d64e85a05ce1b38e16d2ed4c287e1dfb10aaf7",
+    "width": 387,
+    "height": 389,
+    "bytes": 110685
+  },
+  "/images/art16-scenes-v1/dalmatian/walk.png": {
+    "sha256": "7bc93d3325e614ae761714fd87db1f14e484f2b17112129f8654cbd6137f787e",
+    "width": 3096,
+    "height": 389,
+    "bytes": 871024
+  },
+  "/images/art16-scenes-v1/dalmatian/happy.png": {
+    "sha256": "f2a0f886bf95ab2bad339010ce9d148ff133ce61663aa1d882f7a00793987e28",
+    "width": 387,
+    "height": 389,
+    "bytes": 120910
+  },
+  "/images/art16-scenes-v1/dalmatian/sleep.png": {
+    "sha256": "65d815c3c016e93cc2383889a4464fd2a1d810e3c780da31cab99b9c84b428b4",
+    "width": 387,
+    "height": 389,
+    "bytes": 101999
+  },
+  "/images/art16-scenes-v1/akita/idle.png": {
+    "sha256": "60b93fc8f65f0cf73fed4cf348c1ffd790fbd837d81d87cfc386857d02800d55",
+    "width": 374,
+    "height": 384,
+    "bytes": 124960
+  },
+  "/images/art16-scenes-v1/akita/side.png": {
+    "sha256": "530867f1cf55461edbcb9e45a38a5cdc2dbdbdc62ed5bec0744f5aa26bf0d142",
+    "width": 374,
+    "height": 384,
+    "bytes": 138332
+  },
+  "/images/art16-scenes-v1/akita/walk.png": {
+    "sha256": "aaf372f219b479673e9426c95fa08e543e8ad0135c90a008b6a540069cb150bc",
+    "width": 2992,
+    "height": 384,
+    "bytes": 1065410
+  },
+  "/images/art16-scenes-v1/akita/happy.png": {
+    "sha256": "403b40474cb2ab31cbc078f974cfc0b107eeb0ec7061ec6041126ad29b3aa445",
+    "width": 374,
+    "height": 384,
+    "bytes": 139742
+  },
+  "/images/art16-scenes-v1/akita/sleep.png": {
+    "sha256": "878212653b69317fc6ef73eca0fe59e8e92443a3a1878790cc10ec2fd3398c9b",
+    "width": 374,
+    "height": 384,
+    "bytes": 110610
+  },
+  "/images/art16-scenes-v1/bordercollie/idle.png": {
+    "sha256": "1484de4fd58f2991c9179e2302b47e4dccbb2ddb4895b927e02eb4cd3c999e89",
+    "width": 392,
+    "height": 389,
+    "bytes": 136166
+  },
+  "/images/art16-scenes-v1/bordercollie/side.png": {
+    "sha256": "6de00a26de08cad9bc85149be3155407decac35bc5d7fc2a92edac6f7f6e502a",
+    "width": 392,
+    "height": 389,
+    "bytes": 144700
+  },
+  "/images/art16-scenes-v1/bordercollie/walk.png": {
+    "sha256": "d84d41b5cef2fbfeb29b01aac1c39323dfeeb8b39066acb7ec38d2d8cd2e38fa",
+    "width": 3136,
+    "height": 389,
+    "bytes": 1025927
+  },
+  "/images/art16-scenes-v1/bordercollie/happy.png": {
+    "sha256": "e27a78d76f9af8b9a52a008c06a1c880dc9004242fa2791e3cbb46a38d7f5873",
+    "width": 392,
+    "height": 389,
+    "bytes": 144360
+  },
+  "/images/art16-scenes-v1/bordercollie/sleep.png": {
+    "sha256": "d66b713cc0dce8764f59c22c2763a5e8388eabeeb5719256769497d0dd9a6e98",
+    "width": 392,
+    "height": 389,
+    "bytes": 112278
+  },
+  "/images/art16-scenes-v1/doberman/idle.png": {
+    "sha256": "ae156eaac9ddf2e7ce316f019b8bd44104ebc246aa43d6e7fde07c1fd8fbfb74",
+    "width": 402,
+    "height": 389,
+    "bytes": 101077
+  },
+  "/images/art16-scenes-v1/doberman/side.png": {
+    "sha256": "927c089132a78c96087b0da61ce25ad5e324a793b4f7220f2c86812cde4cd3ec",
+    "width": 402,
+    "height": 389,
+    "bytes": 111322
+  },
+  "/images/art16-scenes-v1/doberman/walk.png": {
+    "sha256": "59b024e27140b5b33936df7aa555f998656145d086f811f3cb8afc596880c7d1",
+    "width": 3216,
+    "height": 389,
+    "bytes": 764248
+  },
+  "/images/art16-scenes-v1/doberman/happy.png": {
+    "sha256": "2452a1e36279f1dd132f8f3f7291b99793b32e3a1469f72a5a38d57a5573c7ec",
+    "width": 402,
+    "height": 389,
+    "bytes": 116773
+  },
+  "/images/art16-scenes-v1/doberman/sleep.png": {
+    "sha256": "dde721c6dc728fceae63f42b03943fe4225cf23d75bd5f4041418d413f8a1958",
+    "width": 402,
+    "height": 389,
+    "bytes": 96166
+  },
+  "/images/art16-scenes-v1/rottweiler/idle.png": {
+    "sha256": "d0b7eedb5ab6025d39fe1fc4e5b054cced3a7ff6e276edf9bae34be8c9ebbcc6",
+    "width": 386,
+    "height": 383,
+    "bytes": 124369
+  },
+  "/images/art16-scenes-v1/rottweiler/side.png": {
+    "sha256": "bbde842584b903d4f550e8eca11e13f53b70ac04f928b97f256df7fddf6cfd71",
+    "width": 386,
+    "height": 383,
+    "bytes": 130249
+  },
+  "/images/art16-scenes-v1/rottweiler/walk.png": {
+    "sha256": "cff7196f27059c99b0e5fff1ff07f2ebd7a4e46633909d8138863a332d2682bb",
+    "width": 3088,
+    "height": 383,
+    "bytes": 955271
+  },
+  "/images/art16-scenes-v1/rottweiler/happy.png": {
+    "sha256": "8105504f465817b7007b327ee9dd145ebbd3c7bfb4b8bd1b7b28ecef871cbebe",
+    "width": 386,
+    "height": 383,
+    "bytes": 136157
+  },
+  "/images/art16-scenes-v1/rottweiler/sleep.png": {
+    "sha256": "934482182fd46611d8519672a49197e9d6b81fd9ad620d3ef0bfef07de45725c",
+    "width": 386,
+    "height": 383,
+    "bytes": 105472
+  },
+  "/images/art16-scenes-v1/greatdane/idle.png": {
+    "sha256": "ec9e8d1e26f90ff1f1f37621bd25cbd83c026303e6459452ea1b9da3f6ef7e3a",
+    "width": 421,
+    "height": 387,
+    "bytes": 97098
+  },
+  "/images/art16-scenes-v1/greatdane/side.png": {
+    "sha256": "4205cd94adfffc98fa2ab7f7f15040570c9d44b30b69fae0c18bd67f456bb83c",
+    "width": 421,
+    "height": 387,
+    "bytes": 117179
+  },
+  "/images/art16-scenes-v1/greatdane/walk.png": {
+    "sha256": "bdc3be180663808170396e66d0a3537c413f56281c05bd59321a8e5451376cf2",
+    "width": 3368,
+    "height": 387,
+    "bytes": 789929
+  },
+  "/images/art16-scenes-v1/greatdane/happy.png": {
+    "sha256": "1197e3bb4150a6b45799bc8d2e1af304f0d38d3931efa896d57dc2fb44a76001",
+    "width": 421,
+    "height": 387,
+    "bytes": 117694
+  },
+  "/images/art16-scenes-v1/greatdane/sleep.png": {
+    "sha256": "a787be5ec70e4adfb6a1d83043b62694aef7a0384b46c2cc9a089ed91b093cdc",
+    "width": 421,
+    "height": 387,
+    "bytes": 90709
+  },
+  "/images/art16-scenes-v1/saintbernard/idle.png": {
+    "sha256": "9b53077cf5c932eda2790d0f41fe66fbb3db2cec43d0922d58000475620e80ac",
+    "width": 376,
+    "height": 384,
+    "bytes": 138714
+  },
+  "/images/art16-scenes-v1/saintbernard/side.png": {
+    "sha256": "80782c9fb75b3d7ce0bf8a0566f3b8a3a7411746f7df40a692e4074d81043885",
+    "width": 376,
+    "height": 384,
+    "bytes": 166426
+  },
+  "/images/art16-scenes-v1/saintbernard/walk.png": {
+    "sha256": "acd7cf41cf0f92df5af7b700ab095880fa4a1f7c7e9082e1fe420afa0d3c6a3c",
+    "width": 3008,
+    "height": 384,
+    "bytes": 1179157
+  },
+  "/images/art16-scenes-v1/saintbernard/happy.png": {
+    "sha256": "6238e187e3d9f53c6013aebfe6913f8ad2f2cfdf6c1d2ef203ca7367ab923ff0",
+    "width": 376,
+    "height": 384,
+    "bytes": 158197
+  },
+  "/images/art16-scenes-v1/saintbernard/sleep.png": {
+    "sha256": "244f73e4a11adcc7f53f56bc0c441fb9c5f548f097c4e79fa57cbd3111dcb137",
+    "width": 376,
+    "height": 384,
+    "bytes": 116950
+  },
+  "/images/art16-scenes-v1/bassethound/idle.png": {
+    "sha256": "61155d3f0b6e5f39bb4a501a552b4e8f6e31cb9a04ba59c38326c2767a82a99a",
+    "width": 386,
+    "height": 386,
+    "bytes": 106741
+  },
+  "/images/art16-scenes-v1/bassethound/side.png": {
+    "sha256": "5a88ef06409105b818816ac4350d8ab91c974bbdfcb43b42801a46b1d3341c68",
+    "width": 386,
+    "height": 386,
+    "bytes": 131318
+  },
+  "/images/art16-scenes-v1/bassethound/walk.png": {
+    "sha256": "66caa2636a56cb5eeeee6dd6a9a6d608fb753327041cebb687061d013fe1996b",
+    "width": 3088,
+    "height": 386,
+    "bytes": 935846
+  },
+  "/images/art16-scenes-v1/bassethound/happy.png": {
+    "sha256": "c155523ddab5172706b36fa1bf718c10f085710b400274ca902ad8429e3670d0",
+    "width": 386,
+    "height": 386,
+    "bytes": 128161
+  },
+  "/images/art16-scenes-v1/bassethound/sleep.png": {
+    "sha256": "6cefe677d28ba5e9c7fb76093e42a6f8062e22a52abeccfac912f257b7ae1432",
+    "width": 386,
+    "height": 386,
+    "bytes": 99087
+  },
+  "/images/art16-scenes-v1/englishbulldog/idle.png": {
+    "sha256": "3a8b98446a3f569cdcd15b2749a2cbad45ed2ac387a74151fb6815b7727d9c11",
+    "width": 405,
+    "height": 387,
+    "bytes": 127714
+  },
+  "/images/art16-scenes-v1/englishbulldog/side.png": {
+    "sha256": "05a6b0b2679b51ab7491fd4814968aa352246ac4fda3831c8c9c03b094a24207",
+    "width": 405,
+    "height": 387,
+    "bytes": 145543
+  },
+  "/images/art16-scenes-v1/englishbulldog/walk.png": {
+    "sha256": "0b1eaa0cf418ed5c73a63e113062f1f34aa1e4e4007eca7cc3e0428eadcd3452",
+    "width": 3240,
+    "height": 387,
+    "bytes": 994931
+  },
+  "/images/art16-scenes-v1/englishbulldog/happy.png": {
+    "sha256": "759c797882f5879d5606c0ab629c1b90ee0c58ae8da54deb9230944301249152",
+    "width": 405,
+    "height": 387,
+    "bytes": 129382
+  },
+  "/images/art16-scenes-v1/englishbulldog/sleep.png": {
+    "sha256": "804124d0deb408a7f1ca9f564e2c7c63474bf29d570d2fc1f8371d7a6caebadf",
+    "width": 405,
+    "height": 387,
+    "bytes": 112632
+  },
+  "/images/art16-scenes-v1/westie/idle.png": {
+    "sha256": "c99886fd295f314b8156df0ca36fe717887cce34123fd062656e812808e45704",
+    "width": 383,
+    "height": 392,
+    "bytes": 125288
+  },
+  "/images/art16-scenes-v1/westie/side.png": {
+    "sha256": "fd106451f68f8a7b8cfee7586a6ec5c23327787c15ae168ccdf3bc6d47ab5056",
+    "width": 383,
+    "height": 392,
+    "bytes": 139891
+  },
+  "/images/art16-scenes-v1/westie/walk.png": {
+    "sha256": "f8f09bcd8ee163b51338307a96fef26fdcbc2e66057d15bc2031414becd2f580",
+    "width": 3064,
+    "height": 392,
+    "bytes": 997666
+  },
+  "/images/art16-scenes-v1/westie/happy.png": {
+    "sha256": "0a81a64377c7f468e29f709c947b6846bf942588706a33a56247c9d60cae56f7",
+    "width": 383,
+    "height": 392,
+    "bytes": 142917
+  },
+  "/images/art16-scenes-v1/westie/sleep.png": {
+    "sha256": "bf9f58229be90138bb376a53cc11bcebd70de5f2ba5d2865b1aeba0b703dc33a",
+    "width": 383,
+    "height": 392,
+    "bytes": 107190
+  },
+  "/images/art16-scenes-v1/bostonterrier/idle.png": {
+    "sha256": "07894e4631c36d177c2f9bd9b538b24dcff18abecad193215c770efb1d776dc8",
+    "width": 388,
+    "height": 379,
+    "bytes": 108816
+  },
+  "/images/art16-scenes-v1/bostonterrier/side.png": {
+    "sha256": "389f8f858d10c4139ba6579c0803abac611e58fe5cd1d305cf13ead3414c81d5",
+    "width": 388,
+    "height": 379,
+    "bytes": 115812
+  },
+  "/images/art16-scenes-v1/bostonterrier/walk.png": {
+    "sha256": "08c93f74a8f123e8747fb3399ea2e2b3c800e72377ee538201f434e8d4cddc50",
+    "width": 3104,
+    "height": 379,
+    "bytes": 866557
+  },
+  "/images/art16-scenes-v1/bostonterrier/happy.png": {
+    "sha256": "50d12df8301b56d2796faf0492b64f42501bd2ff85cfdd4a5dbe4e808d67509f",
+    "width": 388,
+    "height": 379,
+    "bytes": 120402
+  },
+  "/images/art16-scenes-v1/bostonterrier/sleep.png": {
+    "sha256": "4d72d972343a380fdede3ab383808006fefbf86f6d20cc3abb4511ec059fc489",
+    "width": 388,
+    "height": 379,
+    "bytes": 93445
+  },
+  "/images/art16-scenes-v1/yorkshireterrier/idle.png": {
+    "sha256": "64a7b3780c6ce5853332e65fb01d902a3fbf4246b3648aeb50fa94d9992ffbe1",
+    "width": 394,
+    "height": 390,
+    "bytes": 137377
+  },
+  "/images/art16-scenes-v1/yorkshireterrier/side.png": {
+    "sha256": "cd717b3c3e33388497b9479d2703d3a2b44a20e5fb416bca7901d1b4a23b90b9",
+    "width": 394,
+    "height": 390,
+    "bytes": 155399
+  },
+  "/images/art16-scenes-v1/yorkshireterrier/walk.png": {
+    "sha256": "a5b2160472fe349b01ff220921f65e6a1ad29b66c878e2d6204310c6c098007c",
+    "width": 3152,
+    "height": 390,
+    "bytes": 1107773
+  },
+  "/images/art16-scenes-v1/yorkshireterrier/happy.png": {
+    "sha256": "67ebe8393ba440a54c149d2bfe89e62e6ebc8d2c42bfdb872a43dbbaed06bec1",
+    "width": 394,
+    "height": 390,
+    "bytes": 157984
+  },
+  "/images/art16-scenes-v1/yorkshireterrier/sleep.png": {
+    "sha256": "1ef14fdcc56f836e08555fc03b3a17d3f2a05bd644042d9485fb1c62d629ddf4",
+    "width": 394,
+    "height": 390,
+    "bytes": 122082
+  },
+  "/images/art16-scenes-v1/pekingese/idle.png": {
+    "sha256": "3b0c9f279e5ba2f0bd3dc9a6b317262ad06c8d5ca82324b943b9cf03c0e5d447",
+    "width": 371,
+    "height": 388,
+    "bytes": 142006
+  },
+  "/images/art16-scenes-v1/pekingese/side.png": {
+    "sha256": "6fede2b0c2c07e198d90be012d2e5d7ecf095cf93a65b2cfa938c7a214846cab",
+    "width": 371,
+    "height": 388,
+    "bytes": 160919
+  },
+  "/images/art16-scenes-v1/pekingese/walk.png": {
+    "sha256": "75cbd4f963d815cec189fa4d3399931d74115f92689c803d933b129604dd07bf",
+    "width": 2968,
+    "height": 388,
+    "bytes": 1229805
+  },
+  "/images/art16-scenes-v1/pekingese/happy.png": {
+    "sha256": "c08c486820b5a38f8da2cea68eca47b85a1d92b3fb6c06b90653e540e3b62b9e",
+    "width": 371,
+    "height": 388,
+    "bytes": 158625
+  },
+  "/images/art16-scenes-v1/pekingese/sleep.png": {
+    "sha256": "fef7738d6557516bbeb71f320d54eb334c32bec7584d0a63a303483069dcec5a",
+    "width": 371,
+    "height": 388,
+    "bytes": 124482
+  },
+  "/images/art16-scenes-v1/chowchow/idle.png": {
+    "sha256": "1cfc391f91c9f67adf4eb1c40e6f5ac7a6d8251afc7860bd9de1e73be36e7a6a",
+    "width": 380,
+    "height": 385,
+    "bytes": 137213
+  },
+  "/images/art16-scenes-v1/chowchow/side.png": {
+    "sha256": "1eeb9441de4de87c58be7bf77212ddfe7f1233f39b9f1ce42d22be6daa621817",
+    "width": 380,
+    "height": 385,
+    "bytes": 146820
+  },
+  "/images/art16-scenes-v1/chowchow/walk.png": {
+    "sha256": "62e27e71487159860825fcd39aa7f924df06e3cfd82b8889fdd071c638d621b7",
+    "width": 3040,
+    "height": 385,
+    "bytes": 1092695
+  },
+  "/images/art16-scenes-v1/chowchow/happy.png": {
+    "sha256": "bb10dd144f501c26e8271a0b1b3b82963d9bf7d6469cac7d6b05630080b63f26",
+    "width": 380,
+    "height": 385,
+    "bytes": 149154
+  },
+  "/images/art16-scenes-v1/chowchow/sleep.png": {
+    "sha256": "f36f2f625b0308fb18d6afe7b2647a4a33c7d096802b132174d4a3a7a5aafd8b",
+    "width": 380,
+    "height": 385,
+    "bytes": 116094
+  },
+  "/images/sp-scenes-v1/sp08/pomeranian/idle.png": {
+    "sha256": "22abe92360e4561d599e79a909185959794697fdf10bc287f59460e46230af74",
+    "width": 335,
+    "height": 344,
+    "bytes": 85511
+  },
+  "/images/sp-scenes-v1/sp08/pomeranian/side.png": {
+    "sha256": "83595e637ebb0a3c5f8b370ed537423806ba8d013ababf1119cbc1b6624d6a9a",
+    "width": 335,
+    "height": 344,
+    "bytes": 78115
+  },
+  "/images/sp-scenes-v1/sp08/pomeranian/walk.png": {
+    "sha256": "30bc1777003650e5e2c4a6a5d0e4410db171db9f9bcdd07470c26d0644237bfe",
+    "width": 2680,
+    "height": 344,
+    "bytes": 574926
+  },
+  "/images/sp-scenes-v1/sp08/pomeranian/happy.png": {
+    "sha256": "58e7d6fa799cebae46b6dd8757113c8d0125295aca5137d1928703cbb23386ed",
+    "width": 335,
+    "height": 344,
+    "bytes": 84724
+  },
+  "/images/sp-scenes-v1/sp08/pomeranian/sleep.png": {
+    "sha256": "0555c1637a9b68c07dadadde7aea7e55be3a572026c50c0618e94db7c95a1c7a",
+    "width": 335,
+    "height": 344,
+    "bytes": 68508
+  },
+  "/images/sp-scenes-v1/sp08/pomeranian/wag.png": {
+    "sha256": "e819ea26015a54bffee6ac553547fd375af0ab7e23a71a82233606d4a66dbb40",
+    "width": 1340,
+    "height": 344,
+    "bytes": 305229
+  },
+  "/images/sp-scenes-v1/sp08/poodle/idle.png": {
+    "sha256": "f28f9cf7068b43e05cbf5eafb7fcd5e779e2653320698c8acf8e2ac2a620e55b",
+    "width": 326,
+    "height": 344,
+    "bytes": 97746
+  },
+  "/images/sp-scenes-v1/sp08/poodle/side.png": {
+    "sha256": "468a3676aee6f7f8994675d7f16aa05c4f4a843f7df693e3464cd8f574164ec8",
+    "width": 326,
+    "height": 344,
+    "bytes": 92994
+  },
+  "/images/sp-scenes-v1/sp08/poodle/walk.png": {
+    "sha256": "0bba89a7c02779b28f96795c40b4e32737c100320947eae9527b7a9d0e7b32f3",
+    "width": 2608,
+    "height": 344,
+    "bytes": 680817
+  },
+  "/images/sp-scenes-v1/sp08/poodle/happy.png": {
+    "sha256": "07718d2f7d83de56a6a79180a1b086fb453a11e5ac6e50c383cdc96f1aa0ec07",
+    "width": 326,
+    "height": 344,
+    "bytes": 93788
+  },
+  "/images/sp-scenes-v1/sp08/poodle/sleep.png": {
+    "sha256": "d8946b5eb01dba0e82678bb453356f92b49ee2a4f6a90e86cbe90cbeec6d87cb",
+    "width": 326,
+    "height": 344,
+    "bytes": 79059
+  },
+  "/images/sp-scenes-v1/sp08/poodle/wag.png": {
+    "sha256": "304496c6fbfd7c039ae5e03e3fdd666df4c000fa194eafd9874315592ad122df",
+    "width": 1304,
+    "height": 344,
+    "bytes": 371157
+  },
+  "/images/sp-scenes-v1/sp08/maltese/idle.png": {
+    "sha256": "89a6cc3a16b8f8e56062e98aa949380ad3ec59eb8ded10a0d100687cd982b5a1",
+    "width": 330,
+    "height": 343,
+    "bytes": 90457
+  },
+  "/images/sp-scenes-v1/sp08/maltese/side.png": {
+    "sha256": "ef45b66f4cc9131b82c65d98be2fe72b5cc12ec23d340bb550a00f54aefd58f7",
+    "width": 330,
+    "height": 343,
+    "bytes": 80077
+  },
+  "/images/sp-scenes-v1/sp08/maltese/walk.png": {
+    "sha256": "bde9c8fa894cc8f21018580ddd166e0a7e163b074795de3d12f20661da02601f",
+    "width": 2640,
+    "height": 343,
+    "bytes": 590391
+  },
+  "/images/sp-scenes-v1/sp08/maltese/happy.png": {
+    "sha256": "25c95eb3f0e8c71b295678b938700241df9e2bb811326619a1989508bebe2f69",
+    "width": 330,
+    "height": 343,
+    "bytes": 88646
+  },
+  "/images/sp-scenes-v1/sp08/maltese/sleep.png": {
+    "sha256": "fa95a28e68a25fb84d87938cbb75663cc7c3b7d5b4a77376f5769da6be4acf0c",
+    "width": 330,
+    "height": 343,
+    "bytes": 68437
+  },
+  "/images/sp-scenes-v1/sp08/maltese/wag.png": {
+    "sha256": "e10f518cb6f592b8917d1bd7cb046ebf1ffc423ffddb1e819915b53aed7eea3c",
+    "width": 1320,
+    "height": 343,
+    "bytes": 350288
+  },
+  "/images/sp-scenes-v1/sp08/shiba/idle.png": {
+    "sha256": "01b29ffc8ec5bea050cfd003ab626428d122e884151f27dc5599d5956ad12ec5",
+    "width": 335,
+    "height": 345,
+    "bytes": 89132
+  },
+  "/images/sp-scenes-v1/sp08/shiba/side.png": {
+    "sha256": "5e2add7136639e84adcf057fc27a9da27a0a18400e9db0d06f9ede13cc05cef8",
+    "width": 335,
+    "height": 345,
+    "bytes": 81858
+  },
+  "/images/sp-scenes-v1/sp08/shiba/walk.png": {
+    "sha256": "87cf84b4282b8278186cbdff71973cc4ee1c3b1d799c9522815191e55c4c1174",
+    "width": 2680,
+    "height": 345,
+    "bytes": 593746
+  },
+  "/images/sp-scenes-v1/sp08/shiba/happy.png": {
+    "sha256": "ee6bc41d2611d969ae200e5766482bb30843775bff9747996f474a7f38d1b6e5",
+    "width": 335,
+    "height": 345,
+    "bytes": 86057
+  },
+  "/images/sp-scenes-v1/sp08/shiba/sleep.png": {
+    "sha256": "0ce993425ff7303ecd74f2d4e1c6e28c7d864302f12cc657ed10317a942f0974",
+    "width": 335,
+    "height": 345,
+    "bytes": 72933
+  },
+  "/images/sp-scenes-v1/sp08/shiba/wag.png": {
+    "sha256": "5f2f1453eac5c693b1a1d07d8008a39c5c1ca789684a04f440dc2b6d90bb52f4",
+    "width": 1340,
+    "height": 345,
+    "bytes": 316419
+  },
+  "/images/sp-scenes-v1/sp08/corgi/idle.png": {
+    "sha256": "55469624d5954d0e67a23da0b488255b5ca686d7bc0bfa1aa98e7f39bf06495b",
+    "width": 346,
+    "height": 341,
+    "bytes": 88246
+  },
+  "/images/sp-scenes-v1/sp08/corgi/side.png": {
+    "sha256": "a4008fb15993caca6c7433118e557f67cf96eaf98a4f812a136fe3bf2fe49f70",
+    "width": 346,
+    "height": 341,
+    "bytes": 83393
+  },
+  "/images/sp-scenes-v1/sp08/corgi/walk.png": {
+    "sha256": "d264c758c468adc41c4ac346d44f0714a27205b96f3e7aee3f3322eb0ade0f79",
+    "width": 2768,
+    "height": 341,
+    "bytes": 599365
+  },
+  "/images/sp-scenes-v1/sp08/corgi/happy.png": {
+    "sha256": "76d48ad81bcd083a87945b2423f03a3f973d23541d55c1e6d170dcb358ad9f73",
+    "width": 346,
+    "height": 341,
+    "bytes": 92589
+  },
+  "/images/sp-scenes-v1/sp08/corgi/sleep.png": {
+    "sha256": "cbb9cfc8ff09138273c7563040b4a7e5c37681223589cfeaa0ff9fb9f75c9058",
+    "width": 346,
+    "height": 341,
+    "bytes": 78286
+  },
+  "/images/sp-scenes-v1/sp08/corgi/wag.png": {
+    "sha256": "0b7aad870050e944be7d2bd00507294fed7b6033f148c4aa2845ecdceaa61be1",
+    "width": 1384,
+    "height": 341,
+    "bytes": 350430
+  },
+  "/images/sp-scenes-v1/sp08/beagle/idle.png": {
+    "sha256": "18bbea0afa06e8d1d35f9a5b92a88dd5886205056644ce5271c2877bcf4a66f6",
+    "width": 336,
+    "height": 344,
+    "bytes": 83733
+  },
+  "/images/sp-scenes-v1/sp08/beagle/side.png": {
+    "sha256": "a0875a4279a92e4cc1cc5df26c213f7672b3b9fc9fc5358c565ca86d67c6c79d",
+    "width": 336,
+    "height": 344,
+    "bytes": 78698
+  },
+  "/images/sp-scenes-v1/sp08/beagle/walk.png": {
+    "sha256": "93c50f712016b56ad9f18515ad403a84b0d16a05be5805bcf5b4428972295840",
+    "width": 2688,
+    "height": 344,
+    "bytes": 565516
+  },
+  "/images/sp-scenes-v1/sp08/beagle/happy.png": {
+    "sha256": "0a70cf5b280435b52b68d1f8fb6ec07ea75952b24e55526ab93309cc83211c91",
+    "width": 336,
+    "height": 344,
+    "bytes": 84560
+  },
+  "/images/sp-scenes-v1/sp08/beagle/sleep.png": {
+    "sha256": "7d92c6773f3349c8cd09b2e44aa5d1ca96fa9ad0393f0bee21998e45908c3cd5",
+    "width": 336,
+    "height": 344,
+    "bytes": 67283
+  },
+  "/images/sp-scenes-v1/sp08/beagle/wag.png": {
+    "sha256": "3f27ab58087d7cd57be7749df1bd2cd0847e669fae7aa58a3fbc17df9990f17c",
+    "width": 1344,
+    "height": 344,
+    "bytes": 325574
+  },
+  "/images/sp-scenes-v1/sp08/samoyed/idle.png": {
+    "sha256": "1449ef876afc93bf365a9b58bddfd354f4b6bc7954c2fe499ad511322ee9249c",
+    "width": 338,
+    "height": 349,
+    "bytes": 97509
+  },
+  "/images/sp-scenes-v1/sp08/samoyed/side.png": {
+    "sha256": "2abb8b91f91630b15c9f16a8b502bf15faaafb16c690e5547c6b52264f02cbf2",
+    "width": 338,
+    "height": 349,
+    "bytes": 96166
+  },
+  "/images/sp-scenes-v1/sp08/samoyed/walk.png": {
+    "sha256": "aba0105ffc6fe7fce8f1a53add2e705fd8e7486ba471e76b0198f66c45217df7",
+    "width": 2704,
+    "height": 349,
+    "bytes": 651171
+  },
+  "/images/sp-scenes-v1/sp08/samoyed/happy.png": {
+    "sha256": "45a246a6006b4b76efbb9437886602e424da088ef4160450abfeea4fccec8de9",
+    "width": 338,
+    "height": 349,
+    "bytes": 98152
+  },
+  "/images/sp-scenes-v1/sp08/samoyed/sleep.png": {
+    "sha256": "d6327c34cd6528a95e678495e50ae7018600590df4d024a0fc943e7e8f234941",
+    "width": 338,
+    "height": 349,
+    "bytes": 77854
+  },
+  "/images/sp-scenes-v1/sp08/samoyed/wag.png": {
+    "sha256": "25e27da9928ec5509960b4206ea10fb9936c9f9795f5736ee7b8a5985b8578c7",
+    "width": 1352,
+    "height": 349,
+    "bytes": 348700
+  },
+  "/images/sp-scenes-v1/sp08/bichon/idle.png": {
+    "sha256": "7b17ef7f0990b74625664c935546d205148b39ac1ab8d6c42d0d2072632c528e",
+    "width": 329,
+    "height": 342,
+    "bytes": 83373
+  },
+  "/images/sp-scenes-v1/sp08/bichon/side.png": {
+    "sha256": "041d8bbcfdfda9b6fb1d469c5c42d23fdebfc43e2035926407bb6a3af19e7b37",
+    "width": 329,
+    "height": 342,
+    "bytes": 78326
+  },
+  "/images/sp-scenes-v1/sp08/bichon/walk.png": {
+    "sha256": "e3bf9e1cbafa09e83dad513244f5b79563ad626829e5c9813d7ad2c02f3b7b8b",
+    "width": 2632,
+    "height": 342,
+    "bytes": 600066
+  },
+  "/images/sp-scenes-v1/sp08/bichon/happy.png": {
+    "sha256": "cb37b206c8aa33b14eb619c97dab1a85444acfdca770143181db6f55784e7f9c",
+    "width": 329,
+    "height": 342,
+    "bytes": 86052
+  },
+  "/images/sp-scenes-v1/sp08/bichon/sleep.png": {
+    "sha256": "73af9827309e3ad361fdf87cb638a6ebe2d4ae8b948631bf343294a84fb6551a",
+    "width": 329,
+    "height": 342,
+    "bytes": 70160
+  },
+  "/images/sp-scenes-v1/sp08/bichon/wag.png": {
+    "sha256": "a162f1e18b8aef7fb11a2c2f2065a5847f1dbf1f6638d7e16efb7f6bcba7f708",
+    "width": 1316,
+    "height": 342,
+    "bytes": 301783
+  },
+  "/images/sp-scenes-v1/sp08/golden/idle.png": {
+    "sha256": "4dc0fc328672b200638dbb137e66f515ac6324dadbfab4738d61a64bf871aa47",
+    "width": 338,
+    "height": 339,
+    "bytes": 89014
+  },
+  "/images/sp-scenes-v1/sp08/golden/side.png": {
+    "sha256": "d1b1bb8a4644fc29935a9c818d1f1ee061a6051f589482539d9f0473a6dd6cdd",
+    "width": 338,
+    "height": 339,
+    "bytes": 85640
+  },
+  "/images/sp-scenes-v1/sp08/golden/walk.png": {
+    "sha256": "8b4b50601c2bbaa4a3c542dbddec8b731f0f4daaee6616dac9f17b687ed8ec2b",
+    "width": 2704,
+    "height": 339,
+    "bytes": 647995
+  },
+  "/images/sp-scenes-v1/sp08/golden/happy.png": {
+    "sha256": "f2aa9ad32fe4381b5ce58542c7bdfa3e910d8be9fb7297f3a0da14d0e07f19c3",
+    "width": 338,
+    "height": 339,
+    "bytes": 90365
+  },
+  "/images/sp-scenes-v1/sp08/golden/sleep.png": {
+    "sha256": "2cebf778ba358dabc980c9491b47e40725f2125996175eb8508c4c2c7d916960",
+    "width": 338,
+    "height": 339,
+    "bytes": 71002
+  },
+  "/images/sp-scenes-v1/sp08/golden/wag.png": {
+    "sha256": "0c1bcf418b48a4af810dd71382ca42a04756c191426c41d7ce5567df0396af90",
+    "width": 1352,
+    "height": 339,
+    "bytes": 347440
+  },
+  "/images/sp-scenes-v1/sp08/labrador/idle.png": {
+    "sha256": "27766b07e25498ab2a15342da8b972e27b06b58cbc6ed9eb1f3220dd2c7eb697",
+    "width": 332,
+    "height": 344,
+    "bytes": 79559
+  },
+  "/images/sp-scenes-v1/sp08/labrador/side.png": {
+    "sha256": "ce4c8f7db307a1db8f9af8f43ed0b4afd9ce4bdde19e8f5feb10a3f1d9a1c642",
+    "width": 332,
+    "height": 344,
+    "bytes": 75098
+  },
+  "/images/sp-scenes-v1/sp08/labrador/walk.png": {
+    "sha256": "8e8d6e482b3888027722b6f9c85120ea307c06c965c65d9bc73eca9530998425",
+    "width": 2656,
+    "height": 344,
+    "bytes": 553811
+  },
+  "/images/sp-scenes-v1/sp08/labrador/happy.png": {
+    "sha256": "8996ba7baa4288eae2e69072fd935736a4cd5bedd3d32f529fee476b639fcc15",
+    "width": 332,
+    "height": 344,
+    "bytes": 81639
+  },
+  "/images/sp-scenes-v1/sp08/labrador/sleep.png": {
+    "sha256": "cc80cc3a60701d12572b64c87a37003da5eb5e1d9242b334b5e75e07bc61fbf8",
+    "width": 332,
+    "height": 344,
+    "bytes": 61445
+  },
+  "/images/sp-scenes-v1/sp08/labrador/wag.png": {
+    "sha256": "d0ae4595fdeef5c37c6a1dbd1e65ddea462ac295fbd49734d929341ec5594533",
+    "width": 1328,
+    "height": 344,
+    "bytes": 315382
+  },
+  "/images/sp-scenes-v1/sp08/husky/idle.png": {
+    "sha256": "a66b183c98cade93d5713d305ccfc097ea61302e2455e164a7be1729692bf0ad",
+    "width": 339,
+    "height": 346,
+    "bytes": 97642
+  },
+  "/images/sp-scenes-v1/sp08/husky/side.png": {
+    "sha256": "664327e7581bf7e326d3909ea190cf80aaa1597c4f0fb8be678b144d7bb6a37b",
+    "width": 339,
+    "height": 346,
+    "bytes": 92198
+  },
+  "/images/sp-scenes-v1/sp08/husky/walk.png": {
+    "sha256": "80f95c6d063eb0fe89bc7928c9552d840fc8849ba58affe13c244d3c6802591c",
+    "width": 2712,
+    "height": 346,
+    "bytes": 663405
+  },
+  "/images/sp-scenes-v1/sp08/husky/happy.png": {
+    "sha256": "6c4f770fd92aba82893222a62afd64e4293d34c83944114fdb0389e44fabfcae",
+    "width": 339,
+    "height": 346,
+    "bytes": 96856
+  },
+  "/images/sp-scenes-v1/sp08/husky/sleep.png": {
+    "sha256": "8cb437820ce445af633195cb62a3572b2d513f7e4583196af7030cb34df59ddb",
+    "width": 339,
+    "height": 346,
+    "bytes": 79353
+  },
+  "/images/sp-scenes-v1/sp08/husky/wag.png": {
+    "sha256": "14a0804a6adb0e4e380b48683beecfab7464d21076cff2f74f73f8f802939f2c",
+    "width": 1356,
+    "height": 346,
+    "bytes": 347890
+  },
+  "/images/sp-scenes-v1/sp08/shihtzu/idle.png": {
+    "sha256": "1f1c6c334cad6d6a84ef7317ab4fe375957557319e22f5aef30dd41052ad3aad",
+    "width": 330,
+    "height": 345,
+    "bytes": 93307
+  },
+  "/images/sp-scenes-v1/sp08/shihtzu/side.png": {
+    "sha256": "54f83393312cb64d578bb5e43364fd1865a9f14482d5c002577618d4cc68fe74",
+    "width": 330,
+    "height": 345,
+    "bytes": 92746
+  },
+  "/images/sp-scenes-v1/sp08/shihtzu/walk.png": {
+    "sha256": "74863b69afcb9e5152cd0fc7791f6781825aafc69279de16cc653f123949d82a",
+    "width": 2640,
+    "height": 345,
+    "bytes": 673735
+  },
+  "/images/sp-scenes-v1/sp08/shihtzu/happy.png": {
+    "sha256": "538c783c2309334da8659cb469e6fd819abce650fb49cda427e7cbbe4d759b26",
+    "width": 330,
+    "height": 345,
+    "bytes": 94837
+  },
+  "/images/sp-scenes-v1/sp08/shihtzu/sleep.png": {
+    "sha256": "faea4cb9148b37bfca17d998e545d91bcce40586c51172598491d8403d16002d",
+    "width": 330,
+    "height": 345,
+    "bytes": 76253
+  },
+  "/images/sp-scenes-v1/sp08/shihtzu/wag.png": {
+    "sha256": "fd2ed22c4ad4b12ca5e73a7311253ba227488451234463d178b29bcc375ef0bd",
+    "width": 1320,
+    "height": 345,
+    "bytes": 356827
+  },
+  "/images/sp-scenes-v1/sp08/frenchbulldog/idle.png": {
+    "sha256": "bfe1d1a932c8526f2f5836c1010620e03f7572d2406ea80efa01479436d3027c",
+    "width": 338,
+    "height": 348,
+    "bytes": 85939
+  },
+  "/images/sp-scenes-v1/sp08/frenchbulldog/side.png": {
+    "sha256": "8c591b99059a46bc2bba7843f0800fb32f8a80c38bbdcdb668e304277ddee2fa",
+    "width": 338,
+    "height": 348,
+    "bytes": 79818
+  },
+  "/images/sp-scenes-v1/sp08/frenchbulldog/walk.png": {
+    "sha256": "a42a9392418fdb60e62a638721544454656defcf5346dce62d1d3b6f97558224",
+    "width": 2704,
+    "height": 348,
+    "bytes": 557277
+  },
+  "/images/sp-scenes-v1/sp08/frenchbulldog/happy.png": {
+    "sha256": "dad0f648ce91f29694ee8279f8830a0ec7f9a5adc512be9a39f69137a66d364c",
+    "width": 338,
+    "height": 348,
+    "bytes": 84856
+  },
+  "/images/sp-scenes-v1/sp08/frenchbulldog/sleep.png": {
+    "sha256": "42e60cc2217ee8cf7d7da6f878ba139e54a1d8f5a9ef8abec88f8e2159e47a58",
+    "width": 338,
+    "height": 348,
+    "bytes": 72626
+  },
+  "/images/sp-scenes-v1/sp08/frenchbulldog/wag.png": {
+    "sha256": "b66e973ac8aae928dbd7ed86136eee970a75772cb930ca647a9aae3e20156890",
+    "width": 1352,
+    "height": 348,
+    "bytes": 314567
+  },
+  "/images/sp-scenes-v1/sp08/dachshund/idle.png": {
+    "sha256": "4735f6e1f43bae317ae697e779f20e60d8937f75a67c01907b48156699c17d08",
+    "width": 325,
+    "height": 340,
+    "bytes": 74583
+  },
+  "/images/sp-scenes-v1/sp08/dachshund/side.png": {
+    "sha256": "003131ea057306d355438fa53b59330dca1610758efc89c22444c51804d4793f",
+    "width": 325,
+    "height": 340,
+    "bytes": 66356
+  },
+  "/images/sp-scenes-v1/sp08/dachshund/walk.png": {
+    "sha256": "e63c8bfa4218298fe3628667eaae0fc6c6f81385e1e706b5a81ef7beceeca3cc",
+    "width": 2600,
+    "height": 340,
+    "bytes": 506446
+  },
+  "/images/sp-scenes-v1/sp08/dachshund/happy.png": {
+    "sha256": "103de7f2b9e7a5c2fc8d11d9a5143215c6610908acdcf16989c5b7266e99499f",
+    "width": 325,
+    "height": 340,
+    "bytes": 79255
+  },
+  "/images/sp-scenes-v1/sp08/dachshund/sleep.png": {
+    "sha256": "130447e807ec0d903bc2fc0993cfb86ea53e47cfe1d9857e9c46ce86c3e6405e",
+    "width": 325,
+    "height": 340,
+    "bytes": 64117
+  },
+  "/images/sp-scenes-v1/sp08/dachshund/wag.png": {
+    "sha256": "ce586e2c321013d9e15d839782755df98d9a795dd692079a15da91e730084099",
+    "width": 1300,
+    "height": 340,
+    "bytes": 308368
+  },
+  "/images/sp-scenes-v1/sp08/schnauzer/idle.png": {
+    "sha256": "726f83829610c1c6afd427ec36ea0d8a25cd01bd54d8705ccf2cd81118e95a05",
+    "width": 345,
+    "height": 350,
+    "bytes": 90828
+  },
+  "/images/sp-scenes-v1/sp08/schnauzer/side.png": {
+    "sha256": "23f838dd0bec811a04c988307a68798461c90ca0109da879e6834fb889b0ab24",
+    "width": 345,
+    "height": 350,
+    "bytes": 90066
+  },
+  "/images/sp-scenes-v1/sp08/schnauzer/walk.png": {
+    "sha256": "d01f132e1071341c9624a61443c9a401fa37df3de2decf71eb5f9756bb1b0a65",
+    "width": 2760,
+    "height": 350,
+    "bytes": 618651
+  },
+  "/images/sp-scenes-v1/sp08/schnauzer/happy.png": {
+    "sha256": "638081ed51ea650f4b2b8e989a2aa380c1e05245930366bba481aab34290c7b1",
+    "width": 345,
+    "height": 350,
+    "bytes": 92614
+  },
+  "/images/sp-scenes-v1/sp08/schnauzer/sleep.png": {
+    "sha256": "5afc0a3d5dafc0e8cef54ae17fa99cf6a4b2f573eb7e7f1f05764f395ca43695",
+    "width": 345,
+    "height": 350,
+    "bytes": 73933
+  },
+  "/images/sp-scenes-v1/sp08/schnauzer/wag.png": {
+    "sha256": "4d5edc99b5b849f3790859a05411ce9c55c2ec832ddb73e31a0e4539635efbb7",
+    "width": 1380,
+    "height": 350,
+    "bytes": 353120
+  },
+  "/images/sp-scenes-v1/sp08/chihuahua/idle.png": {
+    "sha256": "0c0f2a4b2736b50c2a50d02b8919a97c681f178d31efc04745b3ea3882f6b50a",
+    "width": 331,
+    "height": 332,
+    "bytes": 80013
+  },
+  "/images/sp-scenes-v1/sp08/chihuahua/side.png": {
+    "sha256": "607019cc88fd4c6869161d3e4135e71d6d719ef96f7177621a2624ff105b5c15",
+    "width": 331,
+    "height": 332,
+    "bytes": 71275
+  },
+  "/images/sp-scenes-v1/sp08/chihuahua/walk.png": {
+    "sha256": "10cc5c8f116d2e254399e6473ac755ced82d4e3e1f41d5a98fad087cc36c7ee8",
+    "width": 2648,
+    "height": 332,
+    "bytes": 541678
+  },
+  "/images/sp-scenes-v1/sp08/chihuahua/happy.png": {
+    "sha256": "fd482157bf7eaaad2927b35665564c79a634ac10d73e3fb0c58d5fb19ed8cf53",
+    "width": 331,
+    "height": 332,
+    "bytes": 79129
+  },
+  "/images/sp-scenes-v1/sp08/chihuahua/sleep.png": {
+    "sha256": "7cb960f72870bab247fc55084c63feb11d759d4bbe708402df24877e824e1cad",
+    "width": 331,
+    "height": 332,
+    "bytes": 65933
+  },
+  "/images/sp-scenes-v1/sp08/chihuahua/wag.png": {
+    "sha256": "cac61c1a7e9f945531f4f3b36d5bdc4abc86c0b2c9ccd842783c9813dec4eefe",
+    "width": 1324,
+    "height": 332,
+    "bytes": 298933
+  },
+  "/images/sp-scenes-v1/sp08/dalmatian/idle.png": {
+    "sha256": "1c1f4e0131d16da3691d43c972091fc5c70c44d397f9854fb4f758747745aa43",
+    "width": 330,
+    "height": 344,
+    "bytes": 90128
+  },
+  "/images/sp-scenes-v1/sp08/dalmatian/side.png": {
+    "sha256": "ddabea01bdc33b96f3b76624fa049c797f822eddd69a8374c4b3bc7a835e283c",
+    "width": 330,
+    "height": 344,
+    "bytes": 79644
+  },
+  "/images/sp-scenes-v1/sp08/dalmatian/walk.png": {
+    "sha256": "c79de1e458a51a20843be8a7df1eeed37659d2a3811dcca92b3e9ab145a5a0ff",
+    "width": 2640,
+    "height": 344,
+    "bytes": 588806
+  },
+  "/images/sp-scenes-v1/sp08/dalmatian/happy.png": {
+    "sha256": "25cedf1a7559f945089fb304bb94b3308ef5f6703e72a2acd942e895d1c0b039",
+    "width": 330,
+    "height": 344,
+    "bytes": 88822
+  },
+  "/images/sp-scenes-v1/sp08/dalmatian/sleep.png": {
+    "sha256": "d2b6e4d1ce75e9f44e615c0ce061a870494186350c66f58c092d570c0e18ab8e",
+    "width": 330,
+    "height": 344,
+    "bytes": 71955
+  },
+  "/images/sp-scenes-v1/sp08/dalmatian/wag.png": {
+    "sha256": "82a39ad4aec3cb194f55f4b196e0260b6e75046fa6bca69da50ec81b73dde5e5",
+    "width": 1320,
+    "height": 344,
+    "bytes": 333056
+  },
+  "/images/sp-scenes-v1/sp08/akita/idle.png": {
+    "sha256": "ba940f3af0da642eeb0517c189faf463a4d26cfe3be58443e173edc5b0193fe2",
+    "width": 336,
+    "height": 345,
+    "bytes": 93885
+  },
+  "/images/sp-scenes-v1/sp08/akita/side.png": {
+    "sha256": "c32bd4b8c7ff8e0489ff7da97f528d47c5e05fe5f7472f1f2a5bbd4836159628",
+    "width": 336,
+    "height": 345,
+    "bytes": 89475
+  },
+  "/images/sp-scenes-v1/sp08/akita/walk.png": {
+    "sha256": "4e5946265e0d4d6cf4a808281ea719b8a1f2db32c469260faf05ddb23ea12310",
+    "width": 2688,
+    "height": 345,
+    "bytes": 635990
+  },
+  "/images/sp-scenes-v1/sp08/akita/happy.png": {
+    "sha256": "d330b7c8083672b5f5762ba11165600d33ba37f252d2c4ad3d0cbea25d271687",
+    "width": 336,
+    "height": 345,
+    "bytes": 94450
+  },
+  "/images/sp-scenes-v1/sp08/akita/sleep.png": {
+    "sha256": "e930d7a279829e0a98fdba9fa8ca0a6005acb540151b657b6cfec817de4e720d",
+    "width": 336,
+    "height": 345,
+    "bytes": 75891
+  },
+  "/images/sp-scenes-v1/sp08/akita/wag.png": {
+    "sha256": "953b7dad58de087c7dcbc8d67f73feafd213c97a68e886470e1a6d895add33b9",
+    "width": 1344,
+    "height": 345,
+    "bytes": 332894
+  },
+  "/images/sp-scenes-v1/sp08/bordercollie/idle.png": {
+    "sha256": "47105db53f1df71d3659fdc3d8bba5d1245ad67ec7157f9f680da2a70adf35dc",
+    "width": 339,
+    "height": 346,
+    "bytes": 96856
+  },
+  "/images/sp-scenes-v1/sp08/bordercollie/side.png": {
+    "sha256": "95696c81479a12b98a9706695b14ed45ba2a3da216152c054268332298344217",
+    "width": 339,
+    "height": 346,
+    "bytes": 90076
+  },
+  "/images/sp-scenes-v1/sp08/bordercollie/walk.png": {
+    "sha256": "ca7dd19657ff435d8b480acbc2b4492cefb14cf04d5c9286bf6332758f449479",
+    "width": 2712,
+    "height": 346,
+    "bytes": 646140
+  },
+  "/images/sp-scenes-v1/sp08/bordercollie/happy.png": {
+    "sha256": "bc6ff70e8348828f7c725c3ce4c68d04d52fa4d0b02fb83f9e7946d588abd8f5",
+    "width": 339,
+    "height": 346,
+    "bytes": 95734
+  },
+  "/images/sp-scenes-v1/sp08/bordercollie/sleep.png": {
+    "sha256": "d6e066106aa13bbd7003f277333061dc17971c7094a5c0e0ca874419c8b3b328",
+    "width": 339,
+    "height": 346,
+    "bytes": 73173
+  },
+  "/images/sp-scenes-v1/sp08/bordercollie/wag.png": {
+    "sha256": "e192827f2c5a5cbd4afa7ccc9dfdd22372f04ebfc749350f0ada4e45ce4b3ec1",
+    "width": 1356,
+    "height": 346,
+    "bytes": 343552
+  },
+  "/images/sp-scenes-v1/sp08/doberman/idle.png": {
+    "sha256": "18a766451b9db43c1973719273d2d176ab86cdc63792084e2c17e697c359d714",
+    "width": 332,
+    "height": 344,
+    "bytes": 74611
+  },
+  "/images/sp-scenes-v1/sp08/doberman/side.png": {
+    "sha256": "321289ac5de226db4c7950c612ea3f7f0845a3dc26b15483d37fafc43c29564e",
+    "width": 332,
+    "height": 344,
+    "bytes": 67462
+  },
+  "/images/sp-scenes-v1/sp08/doberman/walk.png": {
+    "sha256": "f54e5f17b3cf2d2720a5024d9c126f92925c849998acb2cff55b307f2f24fde9",
+    "width": 2656,
+    "height": 344,
+    "bytes": 497377
+  },
+  "/images/sp-scenes-v1/sp08/doberman/happy.png": {
+    "sha256": "076ec8462da6573af645797c9ae4e53e0166a424ac884db865a074e7ed08dc4e",
+    "width": 332,
+    "height": 344,
+    "bytes": 76076
+  },
+  "/images/sp-scenes-v1/sp08/doberman/sleep.png": {
+    "sha256": "79879aee5ddcd355baae08d43bf19b3cf3d0b693beb1b1e4cc19dface4e7e590",
+    "width": 332,
+    "height": 344,
+    "bytes": 61042
+  },
+  "/images/sp-scenes-v1/sp08/doberman/wag.png": {
+    "sha256": "7d7342a31a669c5582a6a01ee3ca33a62737575373d60ce307ba5e430012f555",
+    "width": 1328,
+    "height": 344,
+    "bytes": 278773
+  },
+  "/images/sp-scenes-v1/sp08/rottweiler/idle.png": {
+    "sha256": "7c3db6e9c7c00f77d0fba1df87d5d05d754c864506ce0d51905dfbb42ca0ced5",
+    "width": 341,
+    "height": 346,
+    "bytes": 87666
+  },
+  "/images/sp-scenes-v1/sp08/rottweiler/side.png": {
+    "sha256": "cc12f559a48236bf185d82a6c5fdcd9e2e64a2c482f91ba082fddf425369502c",
+    "width": 341,
+    "height": 346,
+    "bytes": 79584
+  },
+  "/images/sp-scenes-v1/sp08/rottweiler/walk.png": {
+    "sha256": "2e2d90dfc272e87f4fda4bd68eeecb33ba0ca87413d07761c288fcf5c2d85d1b",
+    "width": 2728,
+    "height": 346,
+    "bytes": 575862
+  },
+  "/images/sp-scenes-v1/sp08/rottweiler/happy.png": {
+    "sha256": "c776c8b29629521053a0b3fda709374c6455c81247075a30af3d2292de48f4e8",
+    "width": 341,
+    "height": 346,
+    "bytes": 88513
+  },
+  "/images/sp-scenes-v1/sp08/rottweiler/sleep.png": {
+    "sha256": "b30c2fe0e27299c7a6b0c1843b670a327aadde9abf63117fbc1480716df58cfb",
+    "width": 341,
+    "height": 346,
+    "bytes": 66654
+  },
+  "/images/sp-scenes-v1/sp08/rottweiler/wag.png": {
+    "sha256": "63d5dbfe1c199eac71d9d41756789fb0ea721eabb636016df9c857b7e9ee1a2d",
+    "width": 1364,
+    "height": 346,
+    "bytes": 322884
+  },
+  "/images/sp-scenes-v1/sp08/greatdane/idle.png": {
+    "sha256": "c5bd147617abed7d90f026a209b3416186c85acffb3e8c59eed500890725b283",
+    "width": 345,
+    "height": 348,
+    "bytes": 84805
+  },
+  "/images/sp-scenes-v1/sp08/greatdane/side.png": {
+    "sha256": "2c1bad9ab84744f1b65b04deb41c9c620ae3cd5889f6f61b3322f6540a2be53e",
+    "width": 345,
+    "height": 348,
+    "bytes": 79692
+  },
+  "/images/sp-scenes-v1/sp08/greatdane/walk.png": {
+    "sha256": "785629f6eb4adc9337394b14bd2c9269c7c27b39cfbb47e38cbaf012bdd7082a",
+    "width": 2760,
+    "height": 348,
+    "bytes": 572976
+  },
+  "/images/sp-scenes-v1/sp08/greatdane/happy.png": {
+    "sha256": "dcaa7da9bb17233d3dab850cf97efc358253b0150b5f4b12c77063748f60c34d",
+    "width": 345,
+    "height": 348,
+    "bytes": 85429
+  },
+  "/images/sp-scenes-v1/sp08/greatdane/sleep.png": {
+    "sha256": "eee7fd5482815751835c6f5e85fcee51afb61ef21c66a287841fa265358335ae",
+    "width": 345,
+    "height": 348,
+    "bytes": 71218
+  },
+  "/images/sp-scenes-v1/sp08/greatdane/wag.png": {
+    "sha256": "482b281a70f32bcf4b06c0e0c440638917cc23580fdbdf288596d5d2df843525",
+    "width": 1380,
+    "height": 348,
+    "bytes": 323641
+  },
+  "/images/sp-scenes-v1/sp08/saintbernard/idle.png": {
+    "sha256": "c389e6ed746f6afc6e45e0700ae26881cbdfe52c414ff3e54f4db7c94ff1738b",
+    "width": 337,
+    "height": 349,
+    "bytes": 89582
+  },
+  "/images/sp-scenes-v1/sp08/saintbernard/side.png": {
+    "sha256": "23b76af31b47e559ab16659984ba5aeb5edc32f62f2f573fc5194a53edb5e219",
+    "width": 337,
+    "height": 349,
+    "bytes": 87905
+  },
+  "/images/sp-scenes-v1/sp08/saintbernard/walk.png": {
+    "sha256": "df1c0bc48deffb978f992ba7a33bbe032654115061c6559307e686fc5c61e276",
+    "width": 2696,
+    "height": 349,
+    "bytes": 652746
+  },
+  "/images/sp-scenes-v1/sp08/saintbernard/happy.png": {
+    "sha256": "3fd4d195931cd14dca645350fd5558dd028f7c12d81d3f038682c82c6e0d8b26",
+    "width": 337,
+    "height": 349,
+    "bytes": 92327
+  },
+  "/images/sp-scenes-v1/sp08/saintbernard/sleep.png": {
+    "sha256": "ede3ebc89d56af1c0973e6bd129968cb6e96e4afd5588b2e12b8f0029de5a1e1",
+    "width": 337,
+    "height": 349,
+    "bytes": 73432
+  },
+  "/images/sp-scenes-v1/sp08/saintbernard/wag.png": {
+    "sha256": "0f3480f08912155401626cbd24642fa57587e0a0de4eac604cd330a0cee97f26",
+    "width": 1348,
+    "height": 349,
+    "bytes": 353351
+  },
+  "/images/sp-scenes-v1/sp08/bassethound/idle.png": {
+    "sha256": "ab0e3687fd2c5047814fd0d5597b2642449a22b13ece9313e6bbbf676bf4bf16",
+    "width": 330,
+    "height": 339,
+    "bytes": 82256
+  },
+  "/images/sp-scenes-v1/sp08/bassethound/side.png": {
+    "sha256": "02de685a8fa748927ec1b0982ec147c37d4e050a0a2093664ad57fdba40713e6",
+    "width": 330,
+    "height": 339,
+    "bytes": 78628
+  },
+  "/images/sp-scenes-v1/sp08/bassethound/walk.png": {
+    "sha256": "a9d1f01f064235fe4ce94e1d3e74f77d3f82ede538e70f7b0b637a962f790c1a",
+    "width": 2640,
+    "height": 339,
+    "bytes": 584415
+  },
+  "/images/sp-scenes-v1/sp08/bassethound/happy.png": {
+    "sha256": "a4c8409681a8ba46662d04cee0c1880ec3e994817322e16933dab83b22ff86f5",
+    "width": 330,
+    "height": 339,
+    "bytes": 84001
+  },
+  "/images/sp-scenes-v1/sp08/bassethound/sleep.png": {
+    "sha256": "13cc410d412a29dfd6710115b7be401ff8701c78b8178b3598d771454ed1039b",
+    "width": 330,
+    "height": 339,
+    "bytes": 73055
+  },
+  "/images/sp-scenes-v1/sp08/bassethound/wag.png": {
+    "sha256": "85c8c600ac962c932efee1279ca0e1f385d2932909d4b16c3e8d10b445b0bc70",
+    "width": 1320,
+    "height": 339,
+    "bytes": 329742
+  },
+  "/images/sp-scenes-v1/sp08/englishbulldog/idle.png": {
+    "sha256": "17b348f3751b0f76d82eca612e8f19d71691bb3e266f432590e280e59a57e1ac",
+    "width": 348,
+    "height": 343,
+    "bytes": 81590
+  },
+  "/images/sp-scenes-v1/sp08/englishbulldog/side.png": {
+    "sha256": "89a4e2fd08841c819b10737acfec07fafa0669b6acd2572a8761179ae78f6214",
+    "width": 348,
+    "height": 343,
+    "bytes": 80253
+  },
+  "/images/sp-scenes-v1/sp08/englishbulldog/walk.png": {
+    "sha256": "716c4cf382ad08f97838796c2aaa94a41c73d498ff0a956782905ed2919b604f",
+    "width": 2784,
+    "height": 343,
+    "bytes": 580443
+  },
+  "/images/sp-scenes-v1/sp08/englishbulldog/happy.png": {
+    "sha256": "bf59aafc69938abd67b1d8d2e40e190bb721f2dffa0cc3d36575c7d8199d46d7",
+    "width": 348,
+    "height": 343,
+    "bytes": 81879
+  },
+  "/images/sp-scenes-v1/sp08/englishbulldog/sleep.png": {
+    "sha256": "ccc9947b89a229950dadc1568fdb47ff47302feed4f656010f458ca859734d17",
+    "width": 348,
+    "height": 343,
+    "bytes": 71115
+  },
+  "/images/sp-scenes-v1/sp08/englishbulldog/wag.png": {
+    "sha256": "98a3261a0a584202760d47a9e8f7a067e0f1b94d27a54174fcf5d3b79f42f255",
+    "width": 1392,
+    "height": 343,
+    "bytes": 309971
+  },
+  "/images/sp-scenes-v1/sp08/westie/idle.png": {
+    "sha256": "38cf192f0ed91f2721d79403f565de784977b5b2eaf64633a3f8f4c8a611c2a5",
+    "width": 338,
+    "height": 351,
+    "bytes": 91750
+  },
+  "/images/sp-scenes-v1/sp08/westie/side.png": {
+    "sha256": "44209fdd76b1c30c5c925293f8c2a72c57dfb7c2abf9176cd146fd47c4e9216e",
+    "width": 338,
+    "height": 351,
+    "bytes": 84535
+  },
+  "/images/sp-scenes-v1/sp08/westie/walk.png": {
+    "sha256": "74d48b978cd8bad0081bc3dc64c569751843e5b7eddc265d65e66e61d4d7ce57",
+    "width": 2704,
+    "height": 351,
+    "bytes": 583999
+  },
+  "/images/sp-scenes-v1/sp08/westie/happy.png": {
+    "sha256": "8b24f36cd381fcdab6fa0ab192ae5b514b6fcd166beef7e8eaf03e34ddda12c3",
+    "width": 338,
+    "height": 351,
+    "bytes": 94171
+  },
+  "/images/sp-scenes-v1/sp08/westie/sleep.png": {
+    "sha256": "efdc433698b0b9a3e2faacd965346d9ca7fccc4055f989cc55edb7a7d7d808b6",
+    "width": 338,
+    "height": 351,
+    "bytes": 75863
+  },
+  "/images/sp-scenes-v1/sp08/westie/wag.png": {
+    "sha256": "b2beee87c27ad90221ce80bb436e559a4b59bca2f4c3f9d91ed5c04f8ff83052",
+    "width": 1352,
+    "height": 351,
+    "bytes": 335664
+  },
+  "/images/sp-scenes-v1/sp08/bostonterrier/idle.png": {
+    "sha256": "3b20832c63ee4dcdb4b76235c287f6b73d1e8e650339688b2cb5c286cb43f185",
+    "width": 336,
+    "height": 348,
+    "bytes": 81441
+  },
+  "/images/sp-scenes-v1/sp08/bostonterrier/side.png": {
+    "sha256": "6dc11071593190ef2c5349ba6dd57d9f52af9e007aaa6be695128dc06323ab55",
+    "width": 336,
+    "height": 348,
+    "bytes": 85349
+  },
+  "/images/sp-scenes-v1/sp08/bostonterrier/walk.png": {
+    "sha256": "e6bd3b4edc9a8960ad31136bcdb3b71bffc333a92432efe5c37d8414374e0e78",
+    "width": 2688,
+    "height": 348,
+    "bytes": 542848
+  },
+  "/images/sp-scenes-v1/sp08/bostonterrier/happy.png": {
+    "sha256": "80e895a6118da27d501a9bc55bab34e0cd00707655e32f4d0be9f16686d671ef",
+    "width": 336,
+    "height": 348,
+    "bytes": 84017
+  },
+  "/images/sp-scenes-v1/sp08/bostonterrier/sleep.png": {
+    "sha256": "ac2dabfc653ec65787746c9f0f57387a6f1df33e53e3241928ea7c6ebea5e608",
+    "width": 336,
+    "height": 348,
+    "bytes": 71248
+  },
+  "/images/sp-scenes-v1/sp08/bostonterrier/wag.png": {
+    "sha256": "3e38c811a5653a322b724da861439135ded7662445da7d1de545876740eacc9b",
+    "width": 1344,
+    "height": 348,
+    "bytes": 287538
+  },
+  "/images/sp-scenes-v1/sp08/yorkshireterrier/idle.png": {
+    "sha256": "358a3fa6bfc6f05affe5b7cc36db880aa96220b01d6d5c3ea0f969720ef41456",
+    "width": 330,
+    "height": 346,
+    "bytes": 102677
+  },
+  "/images/sp-scenes-v1/sp08/yorkshireterrier/side.png": {
+    "sha256": "277f12fb1a25599ce50a2319505b248ebf8a2cd9f0567173b5a450749ecdfa94",
+    "width": 330,
+    "height": 346,
+    "bytes": 99488
+  },
+  "/images/sp-scenes-v1/sp08/yorkshireterrier/walk.png": {
+    "sha256": "e698b1033ec0997bef0cd5779919f41fb5bee6cb412de1029883743410243f35",
+    "width": 2640,
+    "height": 346,
+    "bytes": 706422
+  },
+  "/images/sp-scenes-v1/sp08/yorkshireterrier/happy.png": {
+    "sha256": "56b23037b41cffb19f0ee81a58fb02a044426a2d3eb41c09e907adf26480f8bd",
+    "width": 330,
+    "height": 346,
+    "bytes": 101706
+  },
+  "/images/sp-scenes-v1/sp08/yorkshireterrier/sleep.png": {
+    "sha256": "b9e0aed9b78a33d800bd068aa72a119c3f4cfb91828da8c922b30cb5ffb1445a",
+    "width": 330,
+    "height": 346,
+    "bytes": 88198
+  },
+  "/images/sp-scenes-v1/sp08/yorkshireterrier/wag.png": {
+    "sha256": "a2b1b683b74fc6d062fcb924ef242df07f3cd18a485f012fec8e99ad4a573fbc",
+    "width": 1320,
+    "height": 346,
+    "bytes": 377612
+  },
+  "/images/sp-scenes-v1/sp08/pekingese/idle.png": {
+    "sha256": "1ebf6c99358be79ef2aa6df272e37e1902a5a30bd738e86a6b1405f0dacf1877",
+    "width": 322,
+    "height": 339,
+    "bytes": 90599
+  },
+  "/images/sp-scenes-v1/sp08/pekingese/side.png": {
+    "sha256": "8e1d68b5e81627583e66a00afad66c7c747598658762bc2cdb8e7e2e1b93f6de",
+    "width": 322,
+    "height": 339,
+    "bytes": 83468
+  },
+  "/images/sp-scenes-v1/sp08/pekingese/walk.png": {
+    "sha256": "46970e5feff85f69ed9903b17703a0ae4df6e84e4020c62c6f6119b9e99e9ec8",
+    "width": 2576,
+    "height": 339,
+    "bytes": 607387
+  },
+  "/images/sp-scenes-v1/sp08/pekingese/happy.png": {
+    "sha256": "414fe3fbbeb1143c5cabe870e7cb9be72e8695b2b348e2939eec71d33270e370",
+    "width": 322,
+    "height": 339,
+    "bytes": 88445
+  },
+  "/images/sp-scenes-v1/sp08/pekingese/sleep.png": {
+    "sha256": "65ccbc96e18eb11cd426cfa4180d977a7c77e65defb0cc84c8858ee6d059a8af",
+    "width": 322,
+    "height": 339,
+    "bytes": 76015
+  },
+  "/images/sp-scenes-v1/sp08/pekingese/wag.png": {
+    "sha256": "b69dbe192cfda49946237d013956a4e23108076c87b009225bcb4107ddaf2fc7",
+    "width": 1288,
+    "height": 339,
+    "bytes": 349973
+  },
+  "/images/sp-scenes-v1/sp08/chowchow/idle.png": {
+    "sha256": "142e7ae054cf83e51eb70ce9745d22c93ae6a1b1ff65fdd7415341c0362a6d16",
+    "width": 329,
+    "height": 347,
+    "bytes": 95718
+  },
+  "/images/sp-scenes-v1/sp08/chowchow/side.png": {
+    "sha256": "7593eca0403059942a33a64c4912d4444e9486e1a4f08ab361d258eb68579833",
+    "width": 329,
+    "height": 347,
+    "bytes": 94355
+  },
+  "/images/sp-scenes-v1/sp08/chowchow/walk.png": {
+    "sha256": "5c729ed84883c5b08fed7ca4ccf484e2c9b869a8ff1c4d3123c065017c8b2945",
+    "width": 2632,
+    "height": 347,
+    "bytes": 650433
+  },
+  "/images/sp-scenes-v1/sp08/chowchow/happy.png": {
+    "sha256": "cba30c55e2c6fac1ce4f79ca9d9a65f4b4b9d8756194eb28269cc129c2e958d2",
+    "width": 329,
+    "height": 347,
+    "bytes": 96026
+  },
+  "/images/sp-scenes-v1/sp08/chowchow/sleep.png": {
+    "sha256": "f2da09ed6a8e11528bda7cccacf809191967d8a8cbf9dbf2689cecbbbe99da74",
+    "width": 329,
+    "height": 347,
+    "bytes": 80054
+  },
+  "/images/sp-scenes-v1/sp08/chowchow/wag.png": {
+    "sha256": "24bcdf59f3afe04203bf66b1b983e41bb4517b37d43de1b252eb675d21beaf58",
+    "width": 1316,
+    "height": 347,
+    "bytes": 335582
+  },
+  "/images/sp-scenes-v1/sp15/pomeranian/idle.png": {
+    "sha256": "6672e78067306d7cb36ec8630bb4db8a54fd8a18c733e447229e13a8e73ee607",
+    "width": 330,
+    "height": 342,
+    "bytes": 93373
+  },
+  "/images/sp-scenes-v1/sp15/pomeranian/side.png": {
+    "sha256": "1bcb25c17351ef95b2f4d70b449df8530c0c6223140fe9a47500c7524e0cd8ed",
+    "width": 330,
+    "height": 342,
+    "bytes": 91895
+  },
+  "/images/sp-scenes-v1/sp15/pomeranian/walk.png": {
+    "sha256": "7e55136d78975b13f338ab772199dd2f813e2a09890249e78e3377b948526b54",
+    "width": 2640,
+    "height": 342,
+    "bytes": 676214
+  },
+  "/images/sp-scenes-v1/sp15/pomeranian/happy.png": {
+    "sha256": "e918f52affcea89f51be7d40ee1d876b8d469e6c0d8a65db54ab42d6d34472f5",
+    "width": 330,
+    "height": 342,
+    "bytes": 96909
+  },
+  "/images/sp-scenes-v1/sp15/pomeranian/sleep.png": {
+    "sha256": "03ea1eeec6ff42f53819340424c967f71c41a8bf9b12ed6059e4a1ab8539827d",
+    "width": 330,
+    "height": 342,
+    "bytes": 77540
+  },
+  "/images/sp-scenes-v1/sp15/pomeranian/wag.png": {
+    "sha256": "5919083fee433b91753d4ede7ec2be3b724d6c77a7fed37b0d67cf8973824741",
+    "width": 1320,
+    "height": 342,
+    "bytes": 374384
+  },
+  "/images/sp-scenes-v1/sp15/poodle/idle.png": {
+    "sha256": "4e1e877b20286aea835165f2c9d0a36c58dff5fa43a5ce1302e967404891be0b",
+    "width": 328,
+    "height": 342,
+    "bytes": 102162
+  },
+  "/images/sp-scenes-v1/sp15/poodle/side.png": {
+    "sha256": "fb78fc606d764afc5171430e7f95651a589aa847938274615f9cf6847427a570",
+    "width": 328,
+    "height": 342,
+    "bytes": 101057
+  },
+  "/images/sp-scenes-v1/sp15/poodle/walk.png": {
+    "sha256": "db746dfcf7ea051d22cc47ad29d0f0f2bd5792ef976efb61f87914e0aac3d26f",
+    "width": 2624,
+    "height": 342,
+    "bytes": 760579
+  },
+  "/images/sp-scenes-v1/sp15/poodle/happy.png": {
+    "sha256": "886bf5a4cd39c26e011947b63fc2ed13c2d9cc50e499e946e86233f4d7b885d6",
+    "width": 328,
+    "height": 342,
+    "bytes": 108181
+  },
+  "/images/sp-scenes-v1/sp15/poodle/sleep.png": {
+    "sha256": "e30724de4d379ba982938946d7ab404847e5e762876eeb5a28ce5eefc82b45f1",
+    "width": 328,
+    "height": 342,
+    "bytes": 86411
+  },
+  "/images/sp-scenes-v1/sp15/poodle/wag.png": {
+    "sha256": "8a8ef8e333dca8a43e47dbc3c706faef233876977dd02155df672bf21a67e365",
+    "width": 1312,
+    "height": 342,
+    "bytes": 411316
+  },
+  "/images/sp-scenes-v1/sp15/maltese/idle.png": {
+    "sha256": "30ff03a60acba87628918f11bf9db2d80209c4972e17e126e33fef6d17fd1d25",
+    "width": 325,
+    "height": 342,
+    "bytes": 92699
+  },
+  "/images/sp-scenes-v1/sp15/maltese/side.png": {
+    "sha256": "2ac3c8360501b489a03494f1f893972d54b243ce13e5e1916e38bfbf39f977fa",
+    "width": 325,
+    "height": 342,
+    "bytes": 91155
+  },
+  "/images/sp-scenes-v1/sp15/maltese/walk.png": {
+    "sha256": "581595a29b00dd0f53a363a60bd858154bace02b57f68367d8b9c432571940d4",
+    "width": 2600,
+    "height": 342,
+    "bytes": 682597
+  },
+  "/images/sp-scenes-v1/sp15/maltese/happy.png": {
+    "sha256": "b5fdda1fb0b510d5035ff1ddd75f00182f11aed73ec3b67f7bd0b105c8ba14af",
+    "width": 325,
+    "height": 342,
+    "bytes": 94213
+  },
+  "/images/sp-scenes-v1/sp15/maltese/sleep.png": {
+    "sha256": "52d504a9f9169cc1d3616e5711c6352075bb1ca6c15ca5c67dbeab4a8ee5ab4a",
+    "width": 325,
+    "height": 342,
+    "bytes": 76695
+  },
+  "/images/sp-scenes-v1/sp15/maltese/wag.png": {
+    "sha256": "5ae3793a698bc4198be4315476b2c871e4754f6aed959aa122f9cf33957b5898",
+    "width": 1300,
+    "height": 342,
+    "bytes": 353245
+  },
+  "/images/sp-scenes-v1/sp15/shiba/idle.png": {
+    "sha256": "f3b74886c88d2871666b70bd841bf892ecc4c81987676b2dcbc65facaea7a1e7",
+    "width": 335,
+    "height": 345,
+    "bytes": 96903
+  },
+  "/images/sp-scenes-v1/sp15/shiba/side.png": {
+    "sha256": "0423403c5db4ebde5cc43bd54611755db00319fbfc344dd64f0c32686798767e",
+    "width": 335,
+    "height": 345,
+    "bytes": 95441
+  },
+  "/images/sp-scenes-v1/sp15/shiba/walk.png": {
+    "sha256": "5c1f3ce52dc28800fad0a96c6a5ff589599fc60145fd07080f2dd568b0cbd106",
+    "width": 2680,
+    "height": 345,
+    "bytes": 686497
+  },
+  "/images/sp-scenes-v1/sp15/shiba/happy.png": {
+    "sha256": "27d75f9272332077d5af95d527205de44eaf68d23359fd41ee2f8944eb4a76ea",
+    "width": 335,
+    "height": 345,
+    "bytes": 96820
+  },
+  "/images/sp-scenes-v1/sp15/shiba/sleep.png": {
+    "sha256": "b9f3e0e5bc286cd619aa32b95b58e04084d5ec9eb2ceecbe501a44e1b017ad51",
+    "width": 335,
+    "height": 345,
+    "bytes": 82794
+  },
+  "/images/sp-scenes-v1/sp15/shiba/wag.png": {
+    "sha256": "41e411d0514ced579a732a9a0ad3441660e9320c1654ece09fd698d0681e7b4e",
+    "width": 1340,
+    "height": 345,
+    "bytes": 378846
+  },
+  "/images/sp-scenes-v1/sp15/corgi/idle.png": {
+    "sha256": "1af119a26b1f62ced55df118167c9613b059a78be5f8ec15a2c7ba8ba3a9e9d6",
+    "width": 343,
+    "height": 338,
+    "bytes": 95036
+  },
+  "/images/sp-scenes-v1/sp15/corgi/side.png": {
+    "sha256": "58638c4fa487ec4f541a87e7a557bc1480acb955e73400b2be0a0516d884bc1a",
+    "width": 343,
+    "height": 338,
+    "bytes": 92890
+  },
+  "/images/sp-scenes-v1/sp15/corgi/walk.png": {
+    "sha256": "1a931dc3b0570dfa686f299cc14cca1bbbc4c060cb091bc3d52a10dd19cb4821",
+    "width": 2744,
+    "height": 338,
+    "bytes": 668624
+  },
+  "/images/sp-scenes-v1/sp15/corgi/happy.png": {
+    "sha256": "152ec148372a1427b3a1ac0acbae0a344621d4b5ecbc42dfb1a6f7ddbc70f612",
+    "width": 343,
+    "height": 338,
+    "bytes": 101610
+  },
+  "/images/sp-scenes-v1/sp15/corgi/sleep.png": {
+    "sha256": "4f156f477eab77f07c6d6c3023fa66074b326bb3e734e343752af699f95bfd17",
+    "width": 343,
+    "height": 338,
+    "bytes": 83624
+  },
+  "/images/sp-scenes-v1/sp15/corgi/wag.png": {
+    "sha256": "66a1f94b77d3640d9dc63b62f6e1c695ac3d5930a5a35ee35471cfecee4fc57b",
+    "width": 1372,
+    "height": 338,
+    "bytes": 368881
+  },
+  "/images/sp-scenes-v1/sp15/beagle/idle.png": {
+    "sha256": "4dd127564a089ee14a0f5bc857b61e6482d9febac02e4bed81344929c40d61c9",
+    "width": 326,
+    "height": 343,
+    "bytes": 84882
+  },
+  "/images/sp-scenes-v1/sp15/beagle/side.png": {
+    "sha256": "750e126aebb6c926d536a176ce52caa3f0c18c9a1e7bc99ae65955a0f87f627e",
+    "width": 326,
+    "height": 343,
+    "bytes": 82322
+  },
+  "/images/sp-scenes-v1/sp15/beagle/walk.png": {
+    "sha256": "b5313c2260ddf7dfc6c2d6ca340f670ff1600b64e16b1dd7abd483b03b399fa9",
+    "width": 2608,
+    "height": 343,
+    "bytes": 600943
+  },
+  "/images/sp-scenes-v1/sp15/beagle/happy.png": {
+    "sha256": "9a2a66e2690f7e67dc2f7251c7d9dce314ca17cd627b3fe1233afe0a853ee55d",
+    "width": 326,
+    "height": 343,
+    "bytes": 87378
+  },
+  "/images/sp-scenes-v1/sp15/beagle/sleep.png": {
+    "sha256": "318afc504f8ae4852d27bcd7385ea6443d376962965bf595c253f1727a4215fb",
+    "width": 326,
+    "height": 343,
+    "bytes": 73291
+  },
+  "/images/sp-scenes-v1/sp15/beagle/wag.png": {
+    "sha256": "ebeecd286a63f0a188a22bf16f75bb3b08e59947e536f7b794248c65cebcfcf3",
+    "width": 1304,
+    "height": 343,
+    "bytes": 347614
+  },
+  "/images/sp-scenes-v1/sp15/samoyed/idle.png": {
+    "sha256": "c43e32661fad8caa6d2b808a2d77ec7d877b1e90f9483d605f1acd5d42d4ff95",
+    "width": 326,
+    "height": 343,
+    "bytes": 94455
+  },
+  "/images/sp-scenes-v1/sp15/samoyed/side.png": {
+    "sha256": "bd7d42d0bae623a5321d1d6c56ec228179dca8c562e0f2441a8cb0330163e439",
+    "width": 326,
+    "height": 343,
+    "bytes": 91042
+  },
+  "/images/sp-scenes-v1/sp15/samoyed/walk.png": {
+    "sha256": "463dd9e5795ea4a682d10314730fd99846267532c08e31314f4d3de2ebc8985d",
+    "width": 2608,
+    "height": 343,
+    "bytes": 672757
+  },
+  "/images/sp-scenes-v1/sp15/samoyed/happy.png": {
+    "sha256": "af468bfb7ce0f70b4466ea6ecc89a89c945c92a8ee9efff1b7f9e34644a97fd9",
+    "width": 326,
+    "height": 343,
+    "bytes": 96500
+  },
+  "/images/sp-scenes-v1/sp15/samoyed/sleep.png": {
+    "sha256": "2436a7f310d8bbba5581c0c97df506586732810bd7c5a3c2b77badcb6baf06c1",
+    "width": 326,
+    "height": 343,
+    "bytes": 76985
+  },
+  "/images/sp-scenes-v1/sp15/samoyed/wag.png": {
+    "sha256": "9886a14e25cfa5036cd254a022c6f8655e0f2923ec48e977592ba42748202aae",
+    "width": 1304,
+    "height": 343,
+    "bytes": 369187
+  },
+  "/images/sp-scenes-v1/sp15/bichon/idle.png": {
+    "sha256": "4d329430e977cf9d761e9f85278bfa14510b1bd6249bb65294be8681435ee723",
+    "width": 327,
+    "height": 343,
+    "bytes": 90072
+  },
+  "/images/sp-scenes-v1/sp15/bichon/side.png": {
+    "sha256": "870f89331a997c78c491b8a7288ce3c0b31a62f8529899a5575dab3ab9581fbf",
+    "width": 327,
+    "height": 343,
+    "bytes": 88552
+  },
+  "/images/sp-scenes-v1/sp15/bichon/walk.png": {
+    "sha256": "fe6d7a51d0accfe3a8f0a0ff109ea44f36928614b517cfe3924c526ecfd916bd",
+    "width": 2616,
+    "height": 343,
+    "bytes": 672334
+  },
+  "/images/sp-scenes-v1/sp15/bichon/happy.png": {
+    "sha256": "e1385dd2f53723a0174424057bd713a636c3c2ea8d5b6b01f13b3b5fa3a26564",
+    "width": 327,
+    "height": 343,
+    "bytes": 91016
+  },
+  "/images/sp-scenes-v1/sp15/bichon/sleep.png": {
+    "sha256": "a0d06945ad19f5688009575be88aea5a2b8c4e8104d04c29003bf0f7150b64e4",
+    "width": 327,
+    "height": 343,
+    "bytes": 69743
+  },
+  "/images/sp-scenes-v1/sp15/bichon/wag.png": {
+    "sha256": "0cf8a877d38bcce852873c84143713929ca1a4b5d2a2921223aa5906ea5663ef",
+    "width": 1308,
+    "height": 343,
+    "bytes": 352680
+  },
+  "/images/sp-scenes-v1/sp15/golden/idle.png": {
+    "sha256": "bc3bc435407038fb57e74efa431941d9eeef20fbb141a1a5b5238f39864fcb02",
+    "width": 327,
+    "height": 343,
+    "bytes": 99080
+  },
+  "/images/sp-scenes-v1/sp15/golden/side.png": {
+    "sha256": "b20e48fdaaf9b711618473f19607ea11805860b210d2b5238a78533d035c3434",
+    "width": 327,
+    "height": 343,
+    "bytes": 98145
+  },
+  "/images/sp-scenes-v1/sp15/golden/walk.png": {
+    "sha256": "e47dd98fbdbe1bbcf0709fd7ee82f641c0373c3665f8275285b5e927075f3a62",
+    "width": 2616,
+    "height": 343,
+    "bytes": 717146
+  },
+  "/images/sp-scenes-v1/sp15/golden/happy.png": {
+    "sha256": "8f1275ed2937ee28e4f2ca99c0374db7f8c4bee1f799bbc969aecb4957564690",
+    "width": 327,
+    "height": 343,
+    "bytes": 100073
+  },
+  "/images/sp-scenes-v1/sp15/golden/sleep.png": {
+    "sha256": "30d6e83bc85af42a79d932a4637f977b38764bfffe48afe8f97ce49d634fb342",
+    "width": 327,
+    "height": 343,
+    "bytes": 79224
+  },
+  "/images/sp-scenes-v1/sp15/golden/wag.png": {
+    "sha256": "723d62e2848bf7c9aedd12228c3f8648a0ee18604ecc2b155bd82a8324228f37",
+    "width": 1308,
+    "height": 343,
+    "bytes": 395136
+  },
+  "/images/sp-scenes-v1/sp15/labrador/idle.png": {
+    "sha256": "e88544267212482f1a522ad19d775b7512710eff7cc563896fca5fd14ed0db86",
+    "width": 333,
+    "height": 349,
+    "bytes": 80344
+  },
+  "/images/sp-scenes-v1/sp15/labrador/side.png": {
+    "sha256": "e823c4920680c30c016b544aa499dbf30afabdbd8df98903da1e1ef038b9ed02",
+    "width": 333,
+    "height": 349,
+    "bytes": 77473
+  },
+  "/images/sp-scenes-v1/sp15/labrador/walk.png": {
+    "sha256": "40b1b9be6c2a35544700a88993fc610deb8ad0aede66e3ff0294b33b64110148",
+    "width": 2664,
+    "height": 349,
+    "bytes": 587417
+  },
+  "/images/sp-scenes-v1/sp15/labrador/happy.png": {
+    "sha256": "1361df4a157b6f65c7670a2be1a8fe5ca58e4de034109f811931e4afce185bda",
+    "width": 333,
+    "height": 349,
+    "bytes": 84372
+  },
+  "/images/sp-scenes-v1/sp15/labrador/sleep.png": {
+    "sha256": "50b7cbefbbd111c0c43ac0081ca2ff62e2ede9bae9c76c4953b470e45b5300f3",
+    "width": 333,
+    "height": 349,
+    "bytes": 72361
+  },
+  "/images/sp-scenes-v1/sp15/labrador/wag.png": {
+    "sha256": "6b34f71fabe675ace9ea7f4d44af96bfe10e4bf14c270aaaf2a9df478300b14a",
+    "width": 1332,
+    "height": 349,
+    "bytes": 331319
+  },
+  "/images/sp-scenes-v1/sp15/husky/idle.png": {
+    "sha256": "0d4b8d19217580290e9a66b9e2bbbdce4640360f7e47beb398ebaf872d77fa67",
+    "width": 330,
+    "height": 341,
+    "bytes": 106804
+  },
+  "/images/sp-scenes-v1/sp15/husky/side.png": {
+    "sha256": "6ad32ff2f231b6e4dc33d34c75c5b44b09210147cf3982b15e5b7fc3ced91a3b",
+    "width": 330,
+    "height": 341,
+    "bytes": 106615
+  },
+  "/images/sp-scenes-v1/sp15/husky/walk.png": {
+    "sha256": "e88789bc5d0f6444e2c4463ec204e21ec4524aea60f5db836285a077d08d414a",
+    "width": 2640,
+    "height": 341,
+    "bytes": 776825
+  },
+  "/images/sp-scenes-v1/sp15/husky/happy.png": {
+    "sha256": "2542e8fec2184893bdb35c8ae84de7c83d56f17b3fa845b8c810d3d762003ec8",
+    "width": 330,
+    "height": 341,
+    "bytes": 110184
+  },
+  "/images/sp-scenes-v1/sp15/husky/sleep.png": {
+    "sha256": "68bf0077efaef3947f40d00327a9a627999a86d6688965e106bdfc43aeaf53d9",
+    "width": 330,
+    "height": 341,
+    "bytes": 88348
+  },
+  "/images/sp-scenes-v1/sp15/husky/wag.png": {
+    "sha256": "528a22352f6375a4b909c142601e40fdf2800b84a8a1d69748a81e6bee620e93",
+    "width": 1320,
+    "height": 341,
+    "bytes": 426083
+  },
+  "/images/sp-scenes-v1/sp15/shihtzu/idle.png": {
+    "sha256": "d0e28d8c93fab87a523ae8aab54c031a49f1d0edecec14ab7eef3592e046d63a",
+    "width": 327,
+    "height": 344,
+    "bytes": 108748
+  },
+  "/images/sp-scenes-v1/sp15/shihtzu/side.png": {
+    "sha256": "6862d24bcf09d805174b3c660b20fe63ae0c1439ba4944a7fe9019304fa72274",
+    "width": 327,
+    "height": 344,
+    "bytes": 108993
+  },
+  "/images/sp-scenes-v1/sp15/shihtzu/walk.png": {
+    "sha256": "224d20a9a56599a910bb1a6ac603645ed6c10b9e4e83c6dd0821defc5b93a5be",
+    "width": 2616,
+    "height": 344,
+    "bytes": 799182
+  },
+  "/images/sp-scenes-v1/sp15/shihtzu/happy.png": {
+    "sha256": "132eff19dda057e166eda277411dc805504ba4465a0d913616eaac6013339bf7",
+    "width": 327,
+    "height": 344,
+    "bytes": 111535
+  },
+  "/images/sp-scenes-v1/sp15/shihtzu/sleep.png": {
+    "sha256": "92cf9fd07fbc43576085ec5c820b11f30b53f104d70df9a521bd5f508cffb018",
+    "width": 327,
+    "height": 344,
+    "bytes": 88574
+  },
+  "/images/sp-scenes-v1/sp15/shihtzu/wag.png": {
+    "sha256": "a5b2a6448e2bec1dbb13147d88db95bbbd242a242c71612995950fa4efdaa680",
+    "width": 1308,
+    "height": 344,
+    "bytes": 413545
+  },
+  "/images/sp-scenes-v1/sp15/frenchbulldog/idle.png": {
+    "sha256": "600a6910e4e284870f6710b4e67d0b0a25f4c860bc83ff5fc61bce405c90b700",
+    "width": 340,
+    "height": 341,
+    "bytes": 86867
+  },
+  "/images/sp-scenes-v1/sp15/frenchbulldog/side.png": {
+    "sha256": "caf752c0a772b3741073c7545058e98c2e7736ef853a5aa1381b7a4bdbceca4a",
+    "width": 340,
+    "height": 341,
+    "bytes": 91059
+  },
+  "/images/sp-scenes-v1/sp15/frenchbulldog/walk.png": {
+    "sha256": "054c6caee9e4736c001815fbf026b49369697f69131785931942060dd0090eb3",
+    "width": 2720,
+    "height": 341,
+    "bytes": 650848
+  },
+  "/images/sp-scenes-v1/sp15/frenchbulldog/happy.png": {
+    "sha256": "063551101e34e2f3e9213a65512b801ab59f2db32b84e9396525577230e1fa31",
+    "width": 340,
+    "height": 341,
+    "bytes": 88623
+  },
+  "/images/sp-scenes-v1/sp15/frenchbulldog/sleep.png": {
+    "sha256": "f207970e2e1077927f6a7b17b0f76313dfef724b76efa7457ac7da6a15990798",
+    "width": 340,
+    "height": 341,
+    "bytes": 80600
+  },
+  "/images/sp-scenes-v1/sp15/frenchbulldog/wag.png": {
+    "sha256": "d9e08e537016a5f695127f0c13e3cc4e9539aee11ad37ab2d9bb97dd4f843e7c",
+    "width": 1360,
+    "height": 341,
+    "bytes": 341158
+  },
+  "/images/sp-scenes-v1/sp15/dachshund/idle.png": {
+    "sha256": "5fca5e23dc18c3e05d45ca49aaf6226e8f69b290d57aafd16169354392aab9b6",
+    "width": 333,
+    "height": 340,
+    "bytes": 80271
+  },
+  "/images/sp-scenes-v1/sp15/dachshund/side.png": {
+    "sha256": "1635a8ae35f3a65cad8c0ec3632e7b1ef7c7e93762bab094ede0f96729f6d01e",
+    "width": 333,
+    "height": 340,
+    "bytes": 70758
+  },
+  "/images/sp-scenes-v1/sp15/dachshund/walk.png": {
+    "sha256": "b2425181f237b6c8bece83be146d38824b0bc22fb7952c222a005bc8f2f13e25",
+    "width": 2664,
+    "height": 340,
+    "bytes": 542839
+  },
+  "/images/sp-scenes-v1/sp15/dachshund/happy.png": {
+    "sha256": "b6b95edd156e3e8096e9be49898c8fdd575a7612e74073deb8e89e0a77fc7d51",
+    "width": 333,
+    "height": 340,
+    "bytes": 82804
+  },
+  "/images/sp-scenes-v1/sp15/dachshund/sleep.png": {
+    "sha256": "e49f172f79078dfc212a402519a3b0bbcfa9ca6fb60242cdb62571e8a517ab29",
+    "width": 333,
+    "height": 340,
+    "bytes": 62959
+  },
+  "/images/sp-scenes-v1/sp15/dachshund/wag.png": {
+    "sha256": "a67233b6b5206452bfcc97eefa097d0f2b8979bd2cd46c2487cba419f99685ce",
+    "width": 1332,
+    "height": 340,
+    "bytes": 326124
+  },
+  "/images/sp-scenes-v1/sp15/schnauzer/idle.png": {
+    "sha256": "b753bc99caa571e73cf16ff16c347d7e40167c20969d44c195e488df1d0b758a",
+    "width": 339,
+    "height": 344,
+    "bytes": 110247
+  },
+  "/images/sp-scenes-v1/sp15/schnauzer/side.png": {
+    "sha256": "792806d648b339eb8eafa572034cb0ea1fef62e533f61f9ff3cd181ff898dd10",
+    "width": 339,
+    "height": 344,
+    "bytes": 106966
+  },
+  "/images/sp-scenes-v1/sp15/schnauzer/walk.png": {
+    "sha256": "e67b212721554c2b081eed8d4f679b70fa261bb31e2b09e4196893f61de5076b",
+    "width": 2712,
+    "height": 344,
+    "bytes": 755784
+  },
+  "/images/sp-scenes-v1/sp15/schnauzer/happy.png": {
+    "sha256": "3e74774b4d248f0de60f97041fcb191c79968c4c89dfa8e4f20802e4ec788846",
+    "width": 339,
+    "height": 344,
+    "bytes": 111059
+  },
+  "/images/sp-scenes-v1/sp15/schnauzer/sleep.png": {
+    "sha256": "7417a5f5167a42cc07d430f63fe48924dee9b95778b3a55963882a4326300940",
+    "width": 339,
+    "height": 344,
+    "bytes": 90358
+  },
+  "/images/sp-scenes-v1/sp15/schnauzer/wag.png": {
+    "sha256": "415ddbf354027e3156109dc208590bfbcb6188f63537c5544598e8a67299023c",
+    "width": 1356,
+    "height": 344,
+    "bytes": 437835
+  },
+  "/images/sp-scenes-v1/sp15/chihuahua/idle.png": {
+    "sha256": "98da92d33ef58301f90e44c734d4d839a88d95d98bf1536ce56936166d631d7f",
+    "width": 332,
+    "height": 343,
+    "bytes": 87153
+  },
+  "/images/sp-scenes-v1/sp15/chihuahua/side.png": {
+    "sha256": "eed012bc5eada4e653d7c37e4b3686996933e42ea55b67020f81f4e34bd74bc8",
+    "width": 332,
+    "height": 343,
+    "bytes": 80619
+  },
+  "/images/sp-scenes-v1/sp15/chihuahua/walk.png": {
+    "sha256": "00e7a9d1cee3cf814f1449385105cceac9c74c784797f3d03863564bf9cbf15e",
+    "width": 2656,
+    "height": 343,
+    "bytes": 619348
+  },
+  "/images/sp-scenes-v1/sp15/chihuahua/happy.png": {
+    "sha256": "82e5ed2757aeb7c3f3418d2ce9d6e444aab950c6c9e1881a0bc1ae5d61a4404f",
+    "width": 332,
+    "height": 343,
+    "bytes": 90351
+  },
+  "/images/sp-scenes-v1/sp15/chihuahua/sleep.png": {
+    "sha256": "a0ee5d0d0eec9e13938a20da2be93ab9b31233450aa2dc4dd3ea77f83c91b21e",
+    "width": 332,
+    "height": 343,
+    "bytes": 77484
+  },
+  "/images/sp-scenes-v1/sp15/chihuahua/wag.png": {
+    "sha256": "546d69a48d5dc760594144eba726ef02fc0b116f7d08d790f742b4565bb084af",
+    "width": 1328,
+    "height": 343,
+    "bytes": 350584
+  },
+  "/images/sp-scenes-v1/sp15/dalmatian/idle.png": {
+    "sha256": "82002f45ed5f43b2e0f88ffe5027ff02df7c287f4c4943ed7f745a6b2222f090",
+    "width": 326,
+    "height": 344,
+    "bytes": 88191
+  },
+  "/images/sp-scenes-v1/sp15/dalmatian/side.png": {
+    "sha256": "8e05f77ca43175a843c16adc4bdaa33aee2108c086d54aa972100d6d51f51aec",
+    "width": 326,
+    "height": 344,
+    "bytes": 80950
+  },
+  "/images/sp-scenes-v1/sp15/dalmatian/walk.png": {
+    "sha256": "a95c6d8a2794255239106edb556e4e2bd33a9c1e2ed7964b6c29c600dc61ac3b",
+    "width": 2608,
+    "height": 344,
+    "bytes": 616475
+  },
+  "/images/sp-scenes-v1/sp15/dalmatian/happy.png": {
+    "sha256": "6cf852e80e95c31dfad2e7f9b1f7f9086127cb601a24319c28d7025737a5fb81",
+    "width": 326,
+    "height": 344,
+    "bytes": 89572
+  },
+  "/images/sp-scenes-v1/sp15/dalmatian/sleep.png": {
+    "sha256": "2f0c581ce3f0689ddba185221e122c359433828fb843a01e43bf9eef79a396e7",
+    "width": 326,
+    "height": 344,
+    "bytes": 72415
+  },
+  "/images/sp-scenes-v1/sp15/dalmatian/wag.png": {
+    "sha256": "d6399059261288b02bccbf898cbdd63fe629deac153df9ca3ed4eceaeae2a075",
+    "width": 1304,
+    "height": 344,
+    "bytes": 344559
+  },
+  "/images/sp-scenes-v1/sp15/akita/idle.png": {
+    "sha256": "80ad0f9981e95ff4c98603fae4cd2147ee034d2d2650fdb5f8c57bcb7d75fe7d",
+    "width": 331,
+    "height": 343,
+    "bytes": 100421
+  },
+  "/images/sp-scenes-v1/sp15/akita/side.png": {
+    "sha256": "bbfad0688b027cb0f3e6c61dc1f14f6bbc11dc27e00fb91cca44412a4a0479f5",
+    "width": 331,
+    "height": 343,
+    "bytes": 103097
+  },
+  "/images/sp-scenes-v1/sp15/akita/walk.png": {
+    "sha256": "8206f741cc9319fe342f63546775e4fcae8005d24ce84712c18ffe7fd09f63f9",
+    "width": 2648,
+    "height": 343,
+    "bytes": 758588
+  },
+  "/images/sp-scenes-v1/sp15/akita/happy.png": {
+    "sha256": "d1489f29bf6a5a524fd22fccbaf6405484f23091dc9763a922a00a255095c88f",
+    "width": 331,
+    "height": 343,
+    "bytes": 104676
+  },
+  "/images/sp-scenes-v1/sp15/akita/sleep.png": {
+    "sha256": "ca969f40030ce2caade035b433bf8a84367cacfc6e6796f9c687d7054e9f4bf6",
+    "width": 331,
+    "height": 343,
+    "bytes": 88227
+  },
+  "/images/sp-scenes-v1/sp15/akita/wag.png": {
+    "sha256": "89abaffded76065db48cda8a15ffda3f1a9c6a74ec15bc8311bec0286cb406b5",
+    "width": 1324,
+    "height": 343,
+    "bytes": 397133
+  },
+  "/images/sp-scenes-v1/sp15/bordercollie/idle.png": {
+    "sha256": "62b90dc5c08d3a215c63e6e6457212b0a43e85aed2fdeb00853bc3c96f8eaaa1",
+    "width": 324,
+    "height": 344,
+    "bytes": 106628
+  },
+  "/images/sp-scenes-v1/sp15/bordercollie/side.png": {
+    "sha256": "8901b82c1f2635979338e8ef1abcabd54e0b259dda5081cd0e3407571ea71416",
+    "width": 324,
+    "height": 344,
+    "bytes": 99891
+  },
+  "/images/sp-scenes-v1/sp15/bordercollie/walk.png": {
+    "sha256": "5bf34e2cb5cb02b833eaffca4ee91aa5c155b594f2343eb46a3c02df6739b3fe",
+    "width": 2592,
+    "height": 344,
+    "bytes": 721159
+  },
+  "/images/sp-scenes-v1/sp15/bordercollie/happy.png": {
+    "sha256": "156b1697712bdcef4a9f54ca057a0d01c8945cdd52b05444e55012c15d483ca3",
+    "width": 324,
+    "height": 344,
+    "bytes": 108421
+  },
+  "/images/sp-scenes-v1/sp15/bordercollie/sleep.png": {
+    "sha256": "d69b0535e308526fd10b72dfc7fcf82c00436326a9ee3155951b11a1a8a11c11",
+    "width": 324,
+    "height": 344,
+    "bytes": 84137
+  },
+  "/images/sp-scenes-v1/sp15/bordercollie/wag.png": {
+    "sha256": "7cd194439089d1c0795dc9af5c7f6d794be404fa5f0971d73ae1ddcad71be149",
+    "width": 1296,
+    "height": 344,
+    "bytes": 416851
+  },
+  "/images/sp-scenes-v1/sp15/doberman/idle.png": {
+    "sha256": "966699c0189cdfc11ae3bf4c0eea80fe3662aba2c1d512f26b73f4f88c5169c5",
+    "width": 330,
+    "height": 342,
+    "bytes": 82840
+  },
+  "/images/sp-scenes-v1/sp15/doberman/side.png": {
+    "sha256": "a9dbd1f7f9e5af6c9f224b15a3345f03dfb2f6aaffde8c49178697c4862e076c",
+    "width": 330,
+    "height": 342,
+    "bytes": 76875
+  },
+  "/images/sp-scenes-v1/sp15/doberman/walk.png": {
+    "sha256": "b2a486ecc847dcfaace8baf7edbefcc11a004f120d2c62003aa9cce3436b8bf2",
+    "width": 2640,
+    "height": 342,
+    "bytes": 541546
+  },
+  "/images/sp-scenes-v1/sp15/doberman/happy.png": {
+    "sha256": "a7767d4de1fcc919cf8b783aa435581b9e7f03bb396790b9b622aef6df7f1f1d",
+    "width": 330,
+    "height": 342,
+    "bytes": 85996
+  },
+  "/images/sp-scenes-v1/sp15/doberman/sleep.png": {
+    "sha256": "553cc86e933b2c678d9550bc1ab83c54be6542040062a097d7b180a84a1259bc",
+    "width": 330,
+    "height": 342,
+    "bytes": 71496
+  },
+  "/images/sp-scenes-v1/sp15/doberman/wag.png": {
+    "sha256": "fc72a038a08666dfec2a1f8770de2622d52f8e2be07a2764cc043ba0d1eb1d82",
+    "width": 1320,
+    "height": 342,
+    "bytes": 314919
+  },
+  "/images/sp-scenes-v1/sp15/rottweiler/idle.png": {
+    "sha256": "442dd61b46ed985b51448a71c1d3429549c3ef7fdae3c7e0a8d431ba9bf2b301",
+    "width": 329,
+    "height": 345,
+    "bytes": 92699
+  },
+  "/images/sp-scenes-v1/sp15/rottweiler/side.png": {
+    "sha256": "57b564234e65207e8bf36d403f525f7e2f054abf36bc6ad14001ecf59ced647e",
+    "width": 329,
+    "height": 345,
+    "bytes": 85338
+  },
+  "/images/sp-scenes-v1/sp15/rottweiler/walk.png": {
+    "sha256": "4f7ce15f04d8a826a94355cea82c82500d4c03b5f0a56c50271deb07eee1028d",
+    "width": 2632,
+    "height": 345,
+    "bytes": 615884
+  },
+  "/images/sp-scenes-v1/sp15/rottweiler/happy.png": {
+    "sha256": "5734cc68201f45f908031d11aa0e393e39df25b65a8ab7c83398ef1e00d32d43",
+    "width": 329,
+    "height": 345,
+    "bytes": 93414
+  },
+  "/images/sp-scenes-v1/sp15/rottweiler/sleep.png": {
+    "sha256": "dc55f614c9762e04d391a7ff7154e02b4be18c851fce88f963183f52cdd066c5",
+    "width": 329,
+    "height": 345,
+    "bytes": 71399
+  },
+  "/images/sp-scenes-v1/sp15/rottweiler/wag.png": {
+    "sha256": "ade0bbef79c851aa8a4aceb15758f3ca07835a0a32f3e2ce8bbdc8d8e0dd56d0",
+    "width": 1316,
+    "height": 345,
+    "bytes": 359870
+  },
+  "/images/sp-scenes-v1/sp15/greatdane/idle.png": {
+    "sha256": "a163226b566a18336347eae391ff6f466f67a24c3f16ad260698b0b221b4d06b",
+    "width": 332,
+    "height": 343,
+    "bytes": 78411
+  },
+  "/images/sp-scenes-v1/sp15/greatdane/side.png": {
+    "sha256": "cdd66ee2f868110859660c3a31a5e7dab1494b7cef232eeb8f7ebcdb91f4d0bf",
+    "width": 332,
+    "height": 343,
+    "bytes": 71994
+  },
+  "/images/sp-scenes-v1/sp15/greatdane/walk.png": {
+    "sha256": "f834e8e3208885eafa27a7e420c32fa57dd5f5ebc188852e7a458bfd3ec12f05",
+    "width": 2656,
+    "height": 343,
+    "bytes": 572912
+  },
+  "/images/sp-scenes-v1/sp15/greatdane/happy.png": {
+    "sha256": "4bef5461f625f2b657aafdf899202c57c7fc104cc6f1a4784d5057b8551ae61d",
+    "width": 332,
+    "height": 343,
+    "bytes": 81331
+  },
+  "/images/sp-scenes-v1/sp15/greatdane/sleep.png": {
+    "sha256": "3f9a20913ad0a884e2d620d261164a9d3741da562e1bc733a48be1565c76e04a",
+    "width": 332,
+    "height": 343,
+    "bytes": 68293
+  },
+  "/images/sp-scenes-v1/sp15/greatdane/wag.png": {
+    "sha256": "6befe7e5bf34c8c25a1c61a65c337c142425f1f3394722341c0c786014d413de",
+    "width": 1328,
+    "height": 343,
+    "bytes": 317444
+  },
+  "/images/sp-scenes-v1/sp15/saintbernard/idle.png": {
+    "sha256": "9587095e54185a2c7732cf7057778fffb3df113ce58d32cae6148373390e848e",
+    "width": 324,
+    "height": 341,
+    "bytes": 104427
+  },
+  "/images/sp-scenes-v1/sp15/saintbernard/side.png": {
+    "sha256": "3ea0728f52b8d343be32929bb1830eeb44e409f617a69723b9a5c9c6c1724353",
+    "width": 324,
+    "height": 341,
+    "bytes": 104927
+  },
+  "/images/sp-scenes-v1/sp15/saintbernard/walk.png": {
+    "sha256": "107021f3d646b78ee06430765f4523110d027427e21c5d74bae1683b307afbb0",
+    "width": 2592,
+    "height": 341,
+    "bytes": 798942
+  },
+  "/images/sp-scenes-v1/sp15/saintbernard/happy.png": {
+    "sha256": "e8b55b75b1515d120833dd935ddb854c528498a0ad641cae5c104189923f1513",
+    "width": 324,
+    "height": 341,
+    "bytes": 106893
+  },
+  "/images/sp-scenes-v1/sp15/saintbernard/sleep.png": {
+    "sha256": "f8d9d936cc0c6729a943c384888cec7fdb778b7e65e7802f21699a24655b4790",
+    "width": 324,
+    "height": 341,
+    "bytes": 85379
+  },
+  "/images/sp-scenes-v1/sp15/saintbernard/wag.png": {
+    "sha256": "1cbafb97b2d0ea3a20e015b38613d50fa4801b13fa3c8bf8a99d44e60e8faaaf",
+    "width": 1296,
+    "height": 341,
+    "bytes": 422103
+  },
+  "/images/sp-scenes-v1/sp15/bassethound/idle.png": {
+    "sha256": "fa0b7c6df0c27dc1ca7da4db92627183b764bce844e370465b2d5da5be2371a7",
+    "width": 338,
+    "height": 341,
+    "bytes": 74945
+  },
+  "/images/sp-scenes-v1/sp15/bassethound/side.png": {
+    "sha256": "04a8adb171ed434f8d9962ec29737d06fea45be24a448796d2b9333c98a49eae",
+    "width": 338,
+    "height": 341,
+    "bytes": 82633
+  },
+  "/images/sp-scenes-v1/sp15/bassethound/walk.png": {
+    "sha256": "6098e576e855f63fade99eb8a6707fa149d85e7bcfd592f080899859d5e89f10",
+    "width": 2704,
+    "height": 341,
+    "bytes": 596254
+  },
+  "/images/sp-scenes-v1/sp15/bassethound/happy.png": {
+    "sha256": "88e4cee50e826692aa3c05c085704b364f16b37ec3ff33c13bc43354852c56d4",
+    "width": 338,
+    "height": 341,
+    "bytes": 77620
+  },
+  "/images/sp-scenes-v1/sp15/bassethound/sleep.png": {
+    "sha256": "222307d9da68488abbebb9cb7780a3e7cba74531b05fd80e8893941bf8c6ee3b",
+    "width": 338,
+    "height": 341,
+    "bytes": 71071
+  },
+  "/images/sp-scenes-v1/sp15/bassethound/wag.png": {
+    "sha256": "6555dd31083407031b4bfb3f1bd27bb23e759e33401f5d8115cdd106fc094bce",
+    "width": 1352,
+    "height": 341,
+    "bytes": 343426
+  },
+  "/images/sp-scenes-v1/sp15/englishbulldog/idle.png": {
+    "sha256": "0f60d4f54adce6a88046a18f919fc7985edf7d52be4d86779f3bef86eeec80f7",
+    "width": 333,
+    "height": 352,
+    "bytes": 94996
+  },
+  "/images/sp-scenes-v1/sp15/englishbulldog/side.png": {
+    "sha256": "ef2b6130e9d17ee9db7c783e032ceb7a5d03cdd4cf09630d1648d92495ef1f6c",
+    "width": 333,
+    "height": 352,
+    "bytes": 90883
+  },
+  "/images/sp-scenes-v1/sp15/englishbulldog/walk.png": {
+    "sha256": "336174adf572bd8ef9caf7124efc89f34b8c137ab9badd8044aba2c78a290909",
+    "width": 2664,
+    "height": 352,
+    "bytes": 616659
+  },
+  "/images/sp-scenes-v1/sp15/englishbulldog/happy.png": {
+    "sha256": "1440176addb51f95a1ae7e166c8cac49ede92189a04ff4cb6acc093317f767aa",
+    "width": 333,
+    "height": 352,
+    "bytes": 96686
+  },
+  "/images/sp-scenes-v1/sp15/englishbulldog/sleep.png": {
+    "sha256": "71312c4fc33a5abffdfba0f01aefa6260bfb83ea6e6bad2f41fb51187bd21d55",
+    "width": 333,
+    "height": 352,
+    "bytes": 80462
+  },
+  "/images/sp-scenes-v1/sp15/englishbulldog/wag.png": {
+    "sha256": "a05b6ae5dca42557319378ad8d00b9b4ec846194f9f052ed471876e7afbda719",
+    "width": 1332,
+    "height": 352,
+    "bytes": 391515
+  },
+  "/images/sp-scenes-v1/sp15/westie/idle.png": {
+    "sha256": "702bee4ab1adbb0fc3aae5308e4f43f91b520eece88681dfa946b97660b89f91",
+    "width": 333,
+    "height": 342,
+    "bytes": 92416
+  },
+  "/images/sp-scenes-v1/sp15/westie/side.png": {
+    "sha256": "c834e2d69a167293f610a51c07bf07709705f496f6109739ed40c0bc7d5cf8f7",
+    "width": 333,
+    "height": 342,
+    "bytes": 90055
+  },
+  "/images/sp-scenes-v1/sp15/westie/walk.png": {
+    "sha256": "2161e14dc928699960ebe2ef11325c030bf9d1baf4943e162502d6cc14fde5a5",
+    "width": 2664,
+    "height": 342,
+    "bytes": 665867
+  },
+  "/images/sp-scenes-v1/sp15/westie/happy.png": {
+    "sha256": "4e217bf12cc99d23c671b103e45819b4e9854e1696e512f75fb7372e9ea86fa1",
+    "width": 333,
+    "height": 342,
+    "bytes": 95422
+  },
+  "/images/sp-scenes-v1/sp15/westie/sleep.png": {
+    "sha256": "a03897eb008b442416738229b27da31f89ec8835d4946064e1511c0915a8c748",
+    "width": 333,
+    "height": 342,
+    "bytes": 78530
+  },
+  "/images/sp-scenes-v1/sp15/westie/wag.png": {
+    "sha256": "fc57262126e6c9fe2841001f0da2b13f7c050dd768503fe50c0fad86056e26e4",
+    "width": 1332,
+    "height": 342,
+    "bytes": 359687
+  },
+  "/images/sp-scenes-v1/sp15/bostonterrier/idle.png": {
+    "sha256": "05128d70bf322ec0ab5abf2a71096f8237205ffd79f11e4b8045f875cb25e897",
+    "width": 332,
+    "height": 341,
+    "bytes": 75388
+  },
+  "/images/sp-scenes-v1/sp15/bostonterrier/side.png": {
+    "sha256": "8f0c1d9eaf204eba4fde618cd687198baff67bac3096221759abd2eec7184207",
+    "width": 332,
+    "height": 341,
+    "bytes": 71781
+  },
+  "/images/sp-scenes-v1/sp15/bostonterrier/walk.png": {
+    "sha256": "810e10f08496a238fb08b0aaa589759987e63d72df957ff44eb657772219c70b",
+    "width": 2656,
+    "height": 341,
+    "bytes": 543808
+  },
+  "/images/sp-scenes-v1/sp15/bostonterrier/happy.png": {
+    "sha256": "3065d829a2e16a320c98229e64b2536c5fbc39e5a47257c33da05c9275022822",
+    "width": 332,
+    "height": 341,
+    "bytes": 77259
+  },
+  "/images/sp-scenes-v1/sp15/bostonterrier/sleep.png": {
+    "sha256": "39122b764c2603416bf300917d8b1aec86f62d828efa855e9a88079040ab78f3",
+    "width": 332,
+    "height": 341,
+    "bytes": 64869
+  },
+  "/images/sp-scenes-v1/sp15/bostonterrier/wag.png": {
+    "sha256": "c9b2d3f65280fa93c5d94c124345b79ac6006ea98038fd89656fd39eff844eb2",
+    "width": 1328,
+    "height": 341,
+    "bytes": 301703
+  },
+  "/images/sp-scenes-v1/sp15/yorkshireterrier/idle.png": {
+    "sha256": "d1a369d7f468e4e142dccf669e4fe4b10c4cfdc20f8f6d8b32d6dd3c218c8d98",
+    "width": 328,
+    "height": 341,
+    "bytes": 112761
+  },
+  "/images/sp-scenes-v1/sp15/yorkshireterrier/side.png": {
+    "sha256": "4a11847046e7c6b91074c6f9573e952655e62a253ba6f14d5b0adbf6d0340de6",
+    "width": 328,
+    "height": 341,
+    "bytes": 109965
+  },
+  "/images/sp-scenes-v1/sp15/yorkshireterrier/walk.png": {
+    "sha256": "7fc10e3a9383469e23a81e97c567b15f500ef0499a6169f652d5e02c46c65539",
+    "width": 2624,
+    "height": 341,
+    "bytes": 807390
+  },
+  "/images/sp-scenes-v1/sp15/yorkshireterrier/happy.png": {
+    "sha256": "e06c1ae51a318e0ac30da4cacd7cccf7470d331f12f4c3a1243e3a4ecb51b418",
+    "width": 328,
+    "height": 341,
+    "bytes": 114380
+  },
+  "/images/sp-scenes-v1/sp15/yorkshireterrier/sleep.png": {
+    "sha256": "fee5de58472b21a02d7957873b430548268abcce079fbdfa81390ced77f9edff",
+    "width": 328,
+    "height": 341,
+    "bytes": 93747
+  },
+  "/images/sp-scenes-v1/sp15/yorkshireterrier/wag.png": {
+    "sha256": "ffb2d0432db70f3180d967dd79131f7dccd8ad868475e229af58bb2f95aba8ee",
+    "width": 1312,
+    "height": 341,
+    "bytes": 431601
+  },
+  "/images/sp-scenes-v1/sp15/pekingese/idle.png": {
+    "sha256": "644fd1eabaaf61d3dfdcc81da22ce5ca81940b87a10b173dfc7855ddc9a72828",
+    "width": 322,
+    "height": 338,
+    "bytes": 100930
+  },
+  "/images/sp-scenes-v1/sp15/pekingese/side.png": {
+    "sha256": "71b2511ade6070dcdf9bd2c2bb5f28129cdef99ba45f9ebdfa3028bce28ccad7",
+    "width": 322,
+    "height": 338,
+    "bytes": 99508
+  },
+  "/images/sp-scenes-v1/sp15/pekingese/walk.png": {
+    "sha256": "ddcd5f5735561f683c280f81abd4f3d2a6ecf0c9310529c911988be2276c7dc7",
+    "width": 2576,
+    "height": 338,
+    "bytes": 757389
+  },
+  "/images/sp-scenes-v1/sp15/pekingese/happy.png": {
+    "sha256": "4a1db5cf2074d6fb764a4159ca011086ae9dc7ab7bb2e7bbb07503c1971d7456",
+    "width": 322,
+    "height": 338,
+    "bytes": 102577
+  },
+  "/images/sp-scenes-v1/sp15/pekingese/sleep.png": {
+    "sha256": "1ffa4648b3f6b46decdbc92fe1eb8ce71e72163aa747e5ae1503043aeaa0a199",
+    "width": 322,
+    "height": 338,
+    "bytes": 78876
+  },
+  "/images/sp-scenes-v1/sp15/pekingese/wag.png": {
+    "sha256": "0688c86019aefbc05ceb1edf9e9e9f20bf6e8e176529dba48aaa6645e1ad7ede",
+    "width": 1288,
+    "height": 338,
+    "bytes": 410026
+  },
+  "/images/sp-scenes-v1/sp15/chowchow/idle.png": {
+    "sha256": "b3e335d58e857ca8a332ae19837eafe09b524325475716282ac0ed6e37f8b807",
+    "width": 329,
+    "height": 339,
+    "bytes": 102749
+  },
+  "/images/sp-scenes-v1/sp15/chowchow/side.png": {
+    "sha256": "3a842410d4526921c9eea5f180861daa09906af99d3f94b4b1d9584cffb0ccf8",
+    "width": 329,
+    "height": 339,
+    "bytes": 103100
+  },
+  "/images/sp-scenes-v1/sp15/chowchow/walk.png": {
+    "sha256": "ac164c0cd5d7b2f560f2aea56a92a1985d7420c3582439839e2415aeb7c1b0f5",
+    "width": 2632,
+    "height": 339,
+    "bytes": 765923
+  },
+  "/images/sp-scenes-v1/sp15/chowchow/happy.png": {
+    "sha256": "6fd3b541b52d78bac496d99cc1d4cc2c207f5fbccca6842d5e57356114e842c6",
+    "width": 329,
+    "height": 339,
+    "bytes": 106110
+  },
+  "/images/sp-scenes-v1/sp15/chowchow/sleep.png": {
+    "sha256": "c6a470da43e4683faea07f60c1818ceccc5b0681ca88f81066280f92c900b0a9",
+    "width": 329,
+    "height": 339,
+    "bytes": 86185
+  },
+  "/images/sp-scenes-v1/sp15/chowchow/wag.png": {
+    "sha256": "be2e805ded7121247a8119fa4ef022597825f0765b4f44be07c1412d6d770a63",
+    "width": 1316,
+    "height": 339,
+    "bytes": 416350
+  }
+}

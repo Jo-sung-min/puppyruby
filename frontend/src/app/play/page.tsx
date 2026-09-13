@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
+import { getServerSeo, publicPageSeoMetadata } from "@/lib/server-seo";
 import { PuppyHome } from "@/components/puppy-home";
 
-export const metadata: Metadata = { title: "우리 집 · PuppyRuby" };
+export async function generateMetadata(): Promise<Metadata> { return publicPageSeoMetadata(await getServerSeo(), "play"); }
 export default function PlayPage() { return <PuppyHome />; }

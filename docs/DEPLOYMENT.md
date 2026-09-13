@@ -35,9 +35,19 @@ API_URL=https://api.example.com/api/v1
 PUBLIC_SITE_URL=https://app.example.com
 # 카카오 로그인을 사용할 때만 입력
 KAKAO_REST_API_KEY=실제-카카오-REST-API-키
+# 선택: 저장소의 기본 이미지 CDN 대신 검증한 다른 릴리스를 사용할 때만 입력
+# NEXT_PUBLIC_ASSET_BASE_URL=https://cdn.example.com/puppyruby/site-assets/릴리스-이름
+# 선택: 다운로드 파일의 S3·CDN 검증을 마친 릴리스 주소로 재정의할 때만 입력
+# NEXT_PUBLIC_DOWNLOAD_BASE_URL=https://cdn.example.com/puppyruby/site-downloads/릴리스-이름
 ```
 
-이 값에는 `NEXT_PUBLIC_` 접두사를 추가하지 않습니다. `API_URL`에는 Vercel에서 접속할 수 있는 AWS HTTPS 주소가 필요하며 `localhost`, `127.0.0.1`, AWS 사설 IP를 넣지 않습니다. Preview 배포를 사용할 경우 별도 테스트 API와 해당 미리보기 사이트 주소를 설정합니다. 인증 콜백 주소가 고정되어 있으므로 운영 `PUBLIC_SITE_URL`과 임의 미리보기 도메인을 섞지 않습니다.
+`API_URL`, `PUBLIC_SITE_URL`, `KAKAO_REST_API_KEY`에는 `NEXT_PUBLIC_` 접두사를 추가하지 않습니다. `API_URL`에는 Vercel에서 접속할 수 있는 AWS HTTPS 주소가 필요하며 `localhost`, `127.0.0.1`, AWS 사설 IP를 넣지 않습니다. Preview 배포를 사용할 경우 별도 테스트 API와 해당 미리보기 사이트 주소를 설정합니다. 인증 콜백 주소가 고정되어 있으므로 운영 `PUBLIC_SITE_URL`과 임의 미리보기 도메인을 섞지 않습니다.
+
+`NEXT_PUBLIC_ASSET_BASE_URL`은 브라우저에 공개되는 **사이트 이미지 CDN 주소**, `NEXT_PUBLIC_DOWNLOAD_BASE_URL`은 **다운로드 CDN 주소**입니다. 두 값은 선택 사항이며, 설정하지 않았거나 빈 문자열이면 Git에 포함된 `frontend/src/lib/generated/public-media-release.json`의 `images.baseUrl`과 `downloads.baseUrl`을 각각 사용합니다. 해당 항목에 검증한 릴리스가 등록되어 있으면 별도 환경변수 없이도 CDN으로 연결됩니다. 다운로드 릴리스는 파일의 S3 업로드와 CDN 검증을 마친 후 등록합니다.
+
+이미지 base를 `https://cdn.example.com/puppyruby/site-assets/r1`로 지정하면 `/images/pixel-garden.svg`는 그 뒤에 같은 경로를 붙인 주소에서 불러옵니다. 다운로드 base에도 `/downloads/PuppyRuby-Setup.exe`처럼 공개 경로를 붙입니다. base 자체에 `/images`나 `/downloads`를 덧붙이지 않습니다. 예전 `/images/*`, `/downloads/*`, `/favicon.svg` 요청도 설정된 CDN으로 연결됩니다. 릴리스의 필요한 파일을 먼저 업로드하고 원본 해시·CDN 응답을 검증한 다음 기본 릴리스나 환경변수를 갱신하세요.
+
+이미지·Aseprite·ZIP·EXE의 로컬 보관 폴더는 `local-assets/`이며 Git이나 Vercel 빌드에 포함하지 않습니다. 대신 공개 경로·크기·해시를 담은 `frontend/src/lib/generated/` JSON은 Git에 유지합니다. CDN 기본값과 환경변수는 빌드에 포함되므로 변경 후 **새 빌드·재배포**가 필요합니다. 자세한 경로·다운로드 설정은 [사이트 이미지 CDN 안내](IMAGE_UPLOADS.md#사이트-기본-이미지의-cdn-주소)를 참고하세요.
 
 ## 2. AWS JAR와 데이터베이스
 
@@ -59,6 +69,7 @@ PUBLIC_SITE_URL=https://app.example.com
 DB_URL="jdbc:postgresql://실제-RDS-엔드포인트:5432/puppyruby?sslmode=verify-full&sslrootcert=/etc/puppyruby/rds-ca-bundle.pem"
 DB_USERNAME=puppyruby
 DB_PASSWORD="실제-DB-비밀번호"
+DB_SCHEMA=puppyruby
 ADMIN_EMAIL=실제-관리자-이메일
 MAIL_ENABLED=false
 S3_UPLOAD_ENABLED=false
@@ -67,7 +78,11 @@ TOSS_LIVE_ENABLED=false
 
 RDS CA 번들은 AWS가 제공하는 현재 인증서로 준비하고 Java 서비스에서 읽을 수 있게 둡니다. `verify-full`은 암호화와 서버 이름·인증서를 확인합니다. RDS 엔드포인트와 인증서 경로를 실제 값으로 바꾸세요. [AWS PostgreSQL TLS 연결](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/PostgreSQL.Concepts.General.SSL.html)
 
-PostgreSQL은 JAR 교체와 분리해 유지하고 백업·복원 경로를 준비합니다. H2의 기본 `./data/puppyruby`는 작업 폴더에 따라 위치가 달라지는 로컬 개발 DB입니다. 기존 H2 데이터를 PostgreSQL로 자동 이관하지 않으므로 기존 회원을 유지하려면 별도 데이터 이관이 필요합니다. 현재 스키마 설정은 `ddl-auto: update`이며 Flyway 마이그레이션은 아직 구현되어 있지 않습니다. 운영 DB 변경 전 백업을 보관하고 버전별 마이그레이션을 별도로 관리합니다.
+`DB_SCHEMA`를 지정하면 Flyway 마이그레이션, JPA 쿼리와 관리 화면의 집계 쿼리가 같은 PostgreSQL 스키마를 사용합니다. 해당 스키마를 먼저 만들고 애플리케이션 계정에 `USAGE`, `CREATE` 권한을 줍니다. 대소문자가 있는 스키마는 생성할 때도 큰따옴표로 이름을 감싸 동일하게 만듭니다. 운영에서는 스키마를 명시하세요. 값을 생략한 애플리케이션은 DB의 기본 스키마를 사용하지만, 아래 관리 도구는 PostgreSQL에서 `DB_SCHEMA`를 요구합니다.
+
+애플리케이션 시작 시 Flyway가 DB 종류에 맞는 SQL을 적용하고, Hibernate가 엔티티와 테이블 구조를 검증합니다(`ddl-auto: validate`). 빈 스키마는 V1으로 초기화되며, 관리 중인 스키마에는 아직 적용하지 않은 버전만 실행됩니다. 이미 테이블이 있지만 Flyway 이력이 없는 DB는 자동으로 기준 버전을 등록하지 않고 시작을 중단합니다. 기존 서비스 DB를 처음 연결할 때는 백업 후 [DB 마이그레이션 안내](DATABASE_MIGRATIONS.md)의 명시적 V1 등록 절차를 먼저 따르세요.
+
+PostgreSQL은 JAR 교체와 분리해 유지하고 백업·복원 경로를 준비합니다. H2의 기본 `./data/puppyruby`는 작업 폴더에 따라 위치가 달라지는 로컬 개발 DB입니다. Flyway는 테이블의 버전 관리를 담당하며 기존 H2의 회원·강아지 데이터를 PostgreSQL로 옮기지 않습니다. 데이터를 유지하며 DB 종류를 바꾸려면 별도 이관이 필요합니다. 적용한 SQL을 고치지 말고 다음 V2, V3 파일로 변경하며, 실제 DB 변경 전에는 백업을 보관합니다.
 
 `SERVER_ADDRESS=0.0.0.0`은 ALB 등 다른 호스트에서 Java의 8080 포트로 연결할 때 사용합니다. 같은 서버의 리버스 프록시만 연결하면 `127.0.0.1`을 사용할 수 있습니다. ALB 또는 리버스 프록시의 공개 HTTPS 443이 Java HTTP 8080으로 전달되게 구성합니다. 보안 그룹은 8080을 해당 연결 주체에, DB 5432를 Java 서버에만 허용합니다. ALB 상태 확인 경로는 `/actuator/health`입니다.
 
@@ -106,7 +121,7 @@ sudo systemctl status puppyruby --no-pager
 curl --fail http://127.0.0.1:8080/actuator/health
 ```
 
-다음 JAR를 배포할 때는 DB 백업과 기존 JAR를 보관하고, 서비스를 중지한 상태에서 JAR를 교체한 뒤 시작합니다. 환경 파일만 수정한 경우에도 `sudo systemctl restart puppyruby`로 다시 읽게 합니다. Java를 직접 실행하면 `.env` 파일을 자동으로 읽지 않으므로 위 `EnvironmentFile` 또는 프로세스 환경 변수로 전달해야 합니다.
+다음 JAR를 배포할 때는 새 SQL과 기존 코드의 호환성을 확인하고 DB 백업과 기존 JAR를 보관합니다. 서비스를 중지한 상태에서 JAR를 교체한 뒤 시작하면 필요한 마이그레이션이 실행됩니다. 스키마 변경이 이전 코드와 호환되지 않으면 JAR만 되돌려서는 복구되지 않으므로 복원 절차도 함께 준비합니다. 환경 파일만 수정한 경우에도 `sudo systemctl restart puppyruby`로 다시 읽게 합니다. Java를 직접 실행하면 `.env` 파일을 자동으로 읽지 않으므로 위 `EnvironmentFile` 또는 프로세스 환경 변수로 전달해야 합니다.
 
 SMTP 비밀번호·카카오 시크릿·토스 시크릿·AWS 자격 증명은 **Java 서버에만** 둡니다. Vercel이나 `NEXT_PUBLIC_*`에 넣지 않습니다. 외부 서비스별 설정은 [회원](ACCOUNTS.md), [결제](PAYMENTS.md), [사진 업로드](IMAGE_UPLOADS.md) 안내를 참고하세요. 환경변수와 토큰을 로그에 출력하지 않습니다.
 

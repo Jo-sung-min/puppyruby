@@ -1,8 +1,38 @@
-# PuppyRuby Desktop 0.6 · Windows 픽셀 강아지
+# PuppyRuby Desktop 0.9 · Windows 픽셀 강아지
 
-0.6은 사용자 참고 에셋의 둥근 볼, 작은 점눈과 짧은 발을 반영합니다. 웹과 같은 SVG에서 7견종·10가지 반응 및 외형 조합을 내보내며, 목도리는 커진 얼굴 아래에 위치합니다. 실행 중인 이전 버전은 종료한 뒤 새 실행파일을 열어야 새 그림이 적용됩니다.
+0.9는 **1.2초 안에 왼쪽 클릭 5번**을 감지하면 강아지가 배를 보이며 뒤집어집니다.
+2.4초 동안 발라당 누워 살짝 흔들다가 다시 일어나며, 이후 원래 이동 설정으로 돌아갑니다.
+반응 중 추가 클릭은 시간을 늘리지 않습니다. 직접 드래그하거나 입력 반응을 일시정지하면 멈춥니다.
+돌봄·훈련이나 메뉴 조작은 기존대로 사용할 수 있으며, 이 반응으로 경험치를 얻거나 소비하지 않습니다.
 
-`dist/PuppyRuby.exe`를 실행하면 투명한 강아지 창이 다른 앱 위에 표시됩니다. Windows 10/11의 .NET Framework 4.x를 사용하며 설치 과정과 자동 시작 등록은 없습니다. 이전 버전이 실행 중이면 우클릭 메뉴에서 종료한 뒤 새 실행파일을 여세요. 독립 PC 모드는 서버 없이 사용할 수 있고, 웹 연결 모드는 사이트와 게임 서버가 실행 중이어야 합니다.
+0.8은 ‘픽셀아트 16 · 다섯 장면’의 30견종에 입력 반응을 추가합니다.
+정면으로 앉은 강아지의 눈동자가 마우스를 위아래·좌우로 바라보고, 타이핑하면
+이동을 잠시 쉬며 정면에서 작은 키보드를 두드립니다. 빠르게 입력할수록 앞발도
+빨라집니다. 클릭하면 폴짝 뛰고, 스크롤·드래그·쓰다듬기에도 반응합니다.
+눈동자와 앞발은 견종별 원본 이미지의 해당 부분을 사용합니다.
+입력 내용은 읽거나 저장하지 않으며, 반응에는 입력 발생 시각만 사용합니다.
+
+0.7부터 연결된 웹 강아지의 관리자 도트 설정도 읽습니다. 원본 픽셀아트 30개,
+프리미엄 12개, ‘픽셀아트 16 · 다섯 장면’의 30견종을 CDN 원본으로 표시합니다.
+새 16번 스타일은 정면 앉기·옆모습·8프레임 걷기·기쁜 반응·잠자기를 사용하며,
+아무 입력이 없을 때 정면으로 앉습니다. 원본 한 장으로 만든 스타일은 원본을 유지합니다.
+관리자에서 외형을 바꾸면 다음 상태 확인에서 받아오고, 받은 PNG는 해시를 확인해
+`%LOCALAPPDATA%\PuppyRuby\appearance-cache`에 저장하므로 오프라인에도 사용할 수 있습니다.
+지원하지 않는 스타일은 연결 창에 안내하며 마지막으로 확인한 모습을 유지합니다.
+
+이미 연결된 이전 앱은 종료한 뒤 최신 설치파일로 업데이트하면 됩니다. 기존 연결 정보와
+성장 기록을 유지하므로 연결 코드를 다시 발급할 필요가 없습니다. 사이트 기본 주소는
+실제로 접속하는 웹 주소와 같아야 하며, 이 프로젝트의 로컬 주소는 `http://127.0.0.1:3000`입니다.
+
+사용자 참고 에셋의 둥근 볼, 작은 점눈과 짧은 발을 반영합니다. 웹과 같은 SVG에서 30견종·10가지 반응 및 외형 조합을 내보내며, 견종별 얼굴과 무늬에 맞는 눈 색·액세서리를 합성합니다. 실행 중인 이전 버전은 종료한 뒤 새 실행파일을 열어야 새 그림이 적용됩니다.
+
+사이트의 **Windows용 강아지 받기**는 `PuppyRuby-Setup.exe`를 제공합니다. 다운로드한 설치파일을 열고 **설치하고 실행**을 누르면 바탕화면과 시작 메뉴에 **퍼피루비** 바로가기가 생기고 강아지가 실행됩니다. 다음부터는 바로가기를 두 번 누르면 됩니다. 다운로드 자체가 설치나 실행을 시작하지는 않습니다.
+
+Windows 10/11의 .NET Framework 4.x를 사용합니다. 현재 사용자용 `%LOCALAPPDATA%\Programs\PuppyRuby\PuppyRuby.exe`에 앱을 설치하므로 관리자 권한이 필요하지 않습니다. 바로가기는 Windows의 바탕화면·시작 메뉴 경로를 사용합니다. 다시 설치하면 바로가기를 복구하며 기존 `%LOCALAPPDATA%\PuppyRuby`의 강아지 기록과 웹 연결 정보는 유지합니다. 실행 중인 이전 버전 때문에 교체할 수 없다면 강아지 우클릭 → **종료** 후 다시 설치하세요.
+
+휴대용 `local-assets/desktop/dist/PuppyRuby.exe`도 그대로 사용할 수 있습니다. 실행하면 투명한 강아지 창이 다른 앱 위에 표시됩니다. 자동 시작은 등록하지 않습니다. 독립 PC 모드는 서버 없이 사용할 수 있고, 웹 연결 모드는 사이트와 게임 서버가 실행 중이어야 합니다.
+
+설치 프로그램은 앱 복사와 바로가기 생성을 위한 간단 설치 방식입니다. 제거하려면 강아지를 종료한 뒤 `%LOCALAPPDATA%\Programs\PuppyRuby` 폴더와 바탕화면·시작 메뉴의 퍼피루비 바로가기를 삭제하세요. `%LOCALAPPDATA%\PuppyRuby`는 강아지 기록이므로 다시 사용할 계획이라면 보관하세요.
 
 ## 마우스 따라가기와 멈추기
 
@@ -22,7 +52,7 @@
 
 1. 강아지를 키우던 사이트에서 **실행파일과 연결 → 연결 코드 만들기**를 누릅니다.
 2. 실행파일의 강아지 또는 트레이 아이콘을 우클릭하고 **웹 강아지와 연결**을 엽니다.
-3. 사이트 기본 주소와 12자리 연결 코드, 기기 이름을 입력합니다. 로컬 개발 사이트의 기본 주소는 `http://127.0.0.1:3001`입니다.
+3. 사이트 기본 주소와 12자리 연결 코드, 기기 이름을 입력합니다. 로컬 개발 사이트의 기본 주소는 `http://127.0.0.1:3000`입니다.
 4. 연결되면 **웹에서 현재 선택한 강아지**의 이름·견종·털색·눈 색·액세서리·등급·경험치를 사용합니다. 웹에서 선택이나 꾸미기를 바꾸면 상태 확인 후 반영됩니다.
 
 정상 연결 중에는 5초마다 강아지 게임 상태를 확인합니다. 배포 사이트에는 HTTPS 주소를 사용하며 HTTP는 내 PC의 루프백 주소만 허용합니다. 경로·로그인 정보·검색 문자열·앵커가 붙은 주소는 받지 않고, 다른 주소로 이동하라는 응답을 자동으로 따라가지 않습니다.
@@ -52,7 +82,7 @@
 | 강아지 드래그 | 원하는 화면 위치로 옮긴 뒤 그 자리에 멈춤 |
 | 45초 동안 입력 없음 | 낮잠, 입력 재개 시 깨어남 |
 
-강아지 또는 작업표시줄 트레이 아이콘을 **우클릭**하면 견종 7종, 크기 3단계, 입력 반응 일시정지, 마우스 통과, 말풍선, 위치 복구, 숨기기, 종료를 선택할 수 있습니다. 마우스 통과를 켠 상태에서는 트레이에서 잠금을 해제하세요. 중복 실행은 기존 강아지의 위치를 복구합니다.
+강아지 또는 작업표시줄 트레이 아이콘을 **우클릭**하면 견종 30종, 크기 3단계, 입력 반응 일시정지, 마우스 통과, 말풍선, 위치 복구, 숨기기, 종료를 선택할 수 있습니다. 마우스 통과를 켠 상태에서는 트레이에서 잠금을 해제하세요. 중복 실행은 기존 강아지의 위치를 복구합니다.
 
 ## 등급별 명령과 단축키 질문
 
@@ -79,7 +109,7 @@
 - `%LOCALAPPDATA%\PuppyRuby\desktop.link`에는 사이트 주소, 연결 키, 기기 정보, 마지막 강아지 게임 상태, 결과 확인이 필요한 요청 ID를 **Windows DPAPI CurrentUser로 암호화**해 보관합니다. 연결 키는 평문으로 기록하지 않습니다.
 - 질문 창에 직접 입력한 문자열만 명령 검색에 사용합니다. 질문·답변은 파일에 저장하거나 네트워크로 보내지 않습니다. 기존 전역 입력 후크는 그대로 이벤트 종류만 전달합니다.
 - 웹 연결 중에는 지정한 사이트의 연결·강아지 상태·명시적으로 요청한 게임 동작만 통신합니다. 실명·사진·친구·산책방·채팅은 가져오지 않으며 전역 입력은 네트워크 요청을 만들지 않습니다. 기존 `NativeInput.cs`는 변경하지 않았습니다.
-- 현재 빌드는 코드 서명 없는 로컬 개발 빌드입니다. 배포 서명·설치 프로그램·자동 업데이트는 포함하지 않습니다.
+- 현재 빌드는 코드 서명 없는 로컬 개발 빌드입니다. 현재 사용자용 간단 설치 프로그램을 제공하며, 배포 서명·자동 업데이트는 포함하지 않습니다.
 
 ## 빌드와 검증
 
@@ -89,23 +119,35 @@
 .\desktop\build.ps1
 ```
 
+전체 빌드는 강아지 실행파일 검증 후 설치파일도 만들고 웹 다운로드 폴더에 복사합니다. 강아지 실행파일을 바꾸지 않고 설치 프로그램만 다시 만들려면 `.\desktop\build-setup.ps1`을 실행하세요. `-SkipPublish`를 사용하면 웹 다운로드 파일은 갱신하지 않습니다.
+
 현재 프로젝트의 `PuppySprite`/`PixelDog`를 그대로 SVG로 렌더링하고 PNG로 내보냅니다. 연결 강아지의 털색·눈 색·액세서리는 웹과 같은 리소스로 합성합니다. Windows 기본 C# 컴파일러로 모든 스프라이트와 공통 `shared/commands.json`을 내장한 단일 실행파일을 만듭니다. 캐릭터나 명령 사전이 변경되면 다시 빌드하세요.
+
+견종 목록은 `frontend/src/lib/dog-breeds.ts`에서 `breed-catalog.json`으로 생성하며 기존 0~5번 저장 순서를 검증합니다. 합성 눈·치장 레이어는 견종과 털색별로 구분해 서로 다른 얼굴에도 정확히 맞습니다. `-SkipPublish`는 다운로드 파일을 갱신하지 않고 검증할 때, `-SkipExport`는 같은 소스에서 이미 그림을 내보낸 뒤 C#만 다시 빌드할 때 사용합니다.
 
 바탕화면용 그림은 배경의 바닥 그림자만 제외해 투명 여백에 색이 남지 않게 합니다. `walk`의 두 프레임은 앞발을 번갈아 움직입니다.
 
 출력:
 
-- `desktop/dist/PuppyRuby.exe`
-- `frontend/public/downloads/PuppyRuby.exe`
-- `frontend/public/downloads/PuppyRuby.sha256`
-- `desktop/build/self-test.txt`: 반응 상태, 공통 사전·등급 제한, 질문·잠긴 훈련의 XP 미지급, 경험치 상한·대기 시간·승급, 설정 호환·복원 검증
-- `desktop/build/self-test.png`: 실제 실행파일의 7견종·5반응 렌더 검증판
+- `local-assets/desktop/dist/PuppyRuby.exe`
+- `local-assets/site/downloads/PuppyRuby.exe`
+- `local-assets/site/downloads/PuppyRuby.sha256`
+- `local-assets/desktop/dist/PuppyRuby-Setup.exe`
+- `local-assets/site/downloads/PuppyRuby-Setup.exe`
+- `local-assets/site/downloads/PuppyRuby-Setup.sha256`
+- `local-assets/desktop/build/setup-self-test.txt`: 설치파일 자체 검사 결과
+- `local-assets/desktop/build/self-test.txt`: 반응 상태, 공통 사전·등급 제한, 질문·잠긴 훈련의 XP 미지급, 경험치 상한·대기 시간·승급, 설정 호환·복원 검증
+- `local-assets/desktop/build/self-test.png`: 실제 실행파일의 30견종·5반응 렌더 검증판
+
+설치파일 빌드는 `local-assets/desktop/dist/setup-tests/<고유 ID>` 아래에서 실제 앱과 `.lnk`를 생성·검증합니다. 최초 설치, 같은 버전 재설치와 바로가기 복구, 한글·공백 경로, 잠긴 앱·바로가기 보존, 파일 교체, 기존 기록 보존, 실제 설치 작업 스레드에서의 바로가기 생성을 포함한 53개 검사를 통과했습니다. 사용자 바탕화면과 설치 폴더에는 쓰지 않습니다. 설치창 미리보기는 각 검사 폴더의 `setup-preview.png`에 저장합니다.
+
+웹 다운로드 응답과 배포 파일의 SHA256 일치를 확인했고, 검사 폴더에 설치된 앱은 복제한 테스트 바로가기에 `--self-test` 인자를 지정해 실행하여 171개 기존 강아지 검사를 통과했습니다. 실제 사용자의 바탕화면에 설치하는 작업은 수행하지 않았습니다.
 
 추가 시작 검증(약 2초 후 자동 종료, 질문 창 포커스와 실제 질문 버튼의 답변도 확인, 사용자 설정을 쓰지 않음):
 
 ```powershell
-$reportPath = Join-Path $PWD 'desktop\build\smoke-test.txt'
-Start-Process .\desktop\dist\PuppyRuby.exe -ArgumentList @('--smoke-test', $reportPath) -WindowStyle Hidden -Wait
+$reportPath = Join-Path $PWD 'local-assets\desktop\build\smoke-test.txt'
+Start-Process .\local-assets\desktop\dist\PuppyRuby.exe -ArgumentList @('--smoke-test', $reportPath) -WindowStyle Hidden -Wait
 Get-Content $reportPath
 ```
 
@@ -113,11 +155,13 @@ Get-Content $reportPath
 
 자동 테스트는 기존 명령·반응 외에 URL 제한, DPAPI 암호화 복원, 꾸미기·등급·XP 캐시, 오프라인 경험치·예약 차단, 독립 성장 보존을 검증합니다. `desktop/verify-linked-sprites.ps1`은 실제 웹 스프라이트와 네이티브 합성의 픽셀 일치를 확인합니다.
 
+30견종 확장 검증: 171개 실행파일 자체 검사, 4,200개 웹 RGBA 비교, 90개 웹 참조 그림의 네이티브 픽셀 372,736개 비교를 통과했습니다. 모든 30개 숫자 견종 매핑과 새 견종 캐시 복원, 잘못된 견종 번호 거부를 포함합니다. 기본 그림 1,800개와 81,000개 합성 매핑은 중복 그림을 공유하며, 빌드 과정에서 픽셀 검증을 통과한 뒤 다운로드 파일을 갱신합니다.
+
 0.5 추가 검증: 165개 자체 검사를 통과했습니다. 이동 속도·즉시 정지·도착 후 떨림·화면 경계와 여러 모니터, 기존 설정, 투명 여백 클릭, 점프 반응 직후의 드래그, 드래그 후 정지, 연결된 강아지의 걷기, 강아지만 남는 화면을 포함합니다. 실제 창 검증은 아래 명령으로 실행하며 기존 사용자 설정을 읽거나 저장하지 않습니다.
 
 ```powershell
-$reportPath = Join-Path $PWD 'desktop/build/motion-test.txt'
-Start-Process desktop/dist/PuppyRuby.exe -ArgumentList @('--motion-test', $reportPath) -WindowStyle Hidden -Wait
+$reportPath = Join-Path $PWD 'local-assets/desktop/build/motion-test.txt'
+Start-Process local-assets/desktop/dist/PuppyRuby.exe -ArgumentList @('--motion-test', $reportPath) -WindowStyle Hidden -Wait
 Get-Content $reportPath
 ```
 
@@ -125,9 +169,29 @@ Get-Content $reportPath
 
 별도의 **`--sync-test <configuration.json>`** 모드는 일회용 테스트 서버와 연결 코드를 사용하며 실제 사용자 설정을 읽지 않습니다. 구성은 `origin`, `code`, 테스트용 `browserCookie`, `output`, `steps`입니다. 단계는 `expect`, `poll`, `action`, `action-error`, `retry`, `restart`, `offline-action`, `browser`, `revoke`, `disconnect`를 지원합니다. `browser` 경로는 게임 동작과 기기 해제로 제한됩니다. 경험치·등급·이름·견종·색·액세서리·연결 상태의 기대값을 검증할 수 있습니다.
 
-2026-09-12 실제 C# HTTP 검증: `desktop/build/native-sync-test.txt`의 18단계·57항목 통과. 일회용 코드 연결, 웹/실행파일 경험치 반영, 꾸미기 변경, 암호화 캐시 재시작, 오프라인 돌봄 차단, 선택 강아지 변경 거절 후 갱신, 웹에서 기기 해제 후 독립 모드 복귀를 확인했습니다.
+2026-09-12 실제 C# HTTP 검증: `local-assets/desktop/build/native-sync-test.txt`의 18단계·57항목 통과. 일회용 코드 연결, 웹/실행파일 경험치 반영, 꾸미기 변경, 암호화 캐시 재시작, 오프라인 돌봄 차단, 선택 강아지 변경 거절 후 갱신, 웹에서 기기 해제 후 독립 모드 복귀를 확인했습니다.
+
+생성 이미지·아이콘·검사 화면과 실행파일은 프로젝트 루트의 `local-assets/`에 보관하며 Git에서 제외합니다. 데스크톱 빌드 결과는 `local-assets/desktop/`, 사이트에 제공할 다운로드는 `local-assets/site/downloads/`에 저장합니다. 웹의 공개 `/images/`·`/downloads/` 경로는 CDN으로 연결하며, 기존 배포 파일을 새로 만들 때는 CDN 배포도 갱신해야 합니다.
 
 ## 구현 근거
+
+0.9의 다섯 번 클릭 검사:
+
+```powershell
+./scripts/verify-desktop-belly.ps1
+node scripts/verify-belly-reactions.cjs
+```
+
+클릭 수·시간 경계, 오른쪽 클릭 제외, 쓰다듬기와 추가 입력의 덮어쓰기 방지, 중단과 복귀, 30견종의 회전·투명 영역을 확인합니다.
+
+0.8 입력 반응 검증은 프로젝트 루트에서 다음 명령으로 실행합니다. 실제 사용자 기록을 변경하지 않고 30견종 원본 이미지로 눈동자 범위, 앞발 교대, 일시정지, 입력 우선순위와 캐시 한도를 확인합니다.
+
+```powershell
+./scripts/verify-desktop-reactions.ps1
+node scripts/verify-art16-reactions.cjs
+```
+
+견종별 원본 좌표는 `shared/art16-reaction-anchors.json`에서 관리합니다. Vercel의 frontend 단독 빌드를 위해 같은 데이터를 `frontend/src/lib/generated/art16-reaction-anchors.json`에 포함하며, 웹 검사가 두 파일의 일치를 확인합니다. `scripts/inspect-reaction-anchors.py`는 원본 PNG를 수정하지 않고 좌표 안내 이미지와 두 JSON을 갱신합니다.
 
 - [Microsoft: LowLevelKeyboardProc](https://learn.microsoft.com/en-us/windows/win32/winmsg/lowlevelkeyboardproc)
 - [Microsoft: WM_MOUSEACTIVATE](https://learn.microsoft.com/en-us/windows/win32/inputdev/wm-mouseactivate)

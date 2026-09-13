@@ -8,6 +8,8 @@ namespace PuppyRubyDesktop
     internal sealed class LinkWindow : Form
     {
         private readonly DesktopSync sync;
+        private readonly DesktopAppearanceCache appearance;
+        private readonly Label appearanceStatus = new Label();
         private readonly TextBox site = new TextBox();
         private readonly TextBox code = new TextBox();
         private readonly TextBox label = new TextBox();
@@ -19,9 +21,10 @@ namespace PuppyRubyDesktop
         private readonly Button disconnect = new Button();
         private bool working;
 
-        internal LinkWindow(DesktopSync connection)
+        internal LinkWindow(DesktopSync connection, DesktopAppearanceCache images)
         {
             sync = connection;
+            appearance = images;
             Text = "PuppyRuby · 웹 강아지와 연결";
             Font = new Font("Malgun Gothic", 10);
             BackColor = Color.FromArgb(255, 251, 241); ForeColor = Color.FromArgb(81, 64, 47);
@@ -49,7 +52,10 @@ namespace PuppyRubyDesktop
             actions.Controls.Add(pair); actions.Controls.Add(refresh); actions.Controls.Add(retry); root.Controls.Add(actions, 0, 8);
             result.Multiline = true; result.ReadOnly = true; result.ScrollBars = ScrollBars.Vertical; result.BackColor = Color.White; result.Dock = DockStyle.Fill;
             result.Text = "연결 중에는 웹의 규칙으로만 돌봄·훈련·승급해요.\r\n사이트가 꺼져 있으면 마지막 모습만 보여 주며 경험치는 오르지 않아요.\r\n연결을 해제하면 기존의 이 PC 강아지로 돌아와요. 서로의 경험치를 합치지 않아요.\r\n\r\n강아지 게임 정보만 연결해요. 사진·실명·친구·대화와 다른 앱 입력 내용은 가져오지 않아요.";
-            root.Controls.Add(result, 0, 9);
+            var resultPanel = new Panel { Dock = DockStyle.Fill };
+            appearanceStatus.Dock = DockStyle.Top; appearanceStatus.Height = 44; appearanceStatus.AutoEllipsis = true;
+            resultPanel.Controls.Add(result); resultPanel.Controls.Add(appearanceStatus);
+            root.Controls.Add(resultPanel, 0, 9);
             var footer = new FlowLayoutPanel { Dock = DockStyle.Fill, FlowDirection = FlowDirection.RightToLeft, Padding = new Padding(0, 9, 0, 0) };
             var close = new Button { Text = "닫기", AutoSize = true };
             close.Click += delegate { Close(); };
@@ -58,7 +64,8 @@ namespace PuppyRubyDesktop
             footer.Controls.Add(close); footer.Controls.Add(disconnect); root.Controls.Add(footer, 0, 10);
             AcceptButton = pair;
             sync.Changed += RefreshStatus;
-            FormClosed += delegate { sync.Changed -= RefreshStatus; code.Clear(); };
+            appearance.Changed += RefreshStatus;
+            FormClosed += delegate { sync.Changed -= RefreshStatus; appearance.Changed -= RefreshStatus; code.Clear(); };
             RefreshStatus();
         }
         private async Task Run(Func<Task<string>> action)
@@ -66,13 +73,14 @@ namespace PuppyRubyDesktop
             if (working || sync.Busy) return;
             working = true; RefreshStatus();
             try { string text = await action(); if (!IsDisposed) result.Text = text; }
-            catch (Exception error) { if (!IsDisposed) result.Text = error is TaskCanceledException ? "연결 시간이 길어지고 있어요. 사이트 주소와 실행 상태를 확인해 주세요." : error.Message; }
+            catch (Exception error) { if (!IsDisposed) result.Text = error is TaskCanceledException ? "연결 시간이 길어지고 있어요. 사이트 주소와 실행 상태를 확인해 주세요." : error is System.Net.Http.HttpRequestException ? "사이트에 연결하지 못했어요. 웹에 표시된 사이트 주소를 그대로 입력해 주세요. 현재 로컬 사이트의 기본 주소는 http://127.0.0.1:3000 이에요." : error.Message; }
             finally { working = false; if (!IsDisposed) RefreshStatus(); }
         }
         internal void RefreshStatus()
         {
             if (IsDisposed) return;
             status.Text = sync.IsLinked ? (sync.Online ? "웹 강아지와 함께하는 중" : "마지막 웹 강아지를 보여 주는 중") : "웹 강아지와 연결하기";
+            appearanceStatus.Text = sync.IsLinked ? (!String.IsNullOrWhiteSpace(sync.State == null ? null : sync.State.appearanceError) ? sync.State.appearanceError : appearance.Status) : "PC 앱 0.9 · 빠르게 다섯 번 클릭하면 발라당!";
             bool available = !working && !sync.Busy;
             pair.Enabled = available; site.Enabled = available; code.Enabled = available; label.Enabled = available;
             refresh.Enabled = available && sync.IsLinked; retry.Enabled = available && sync.IsLinked && sync.Online && sync.HasPending;

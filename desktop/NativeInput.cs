@@ -47,15 +47,22 @@ namespace PuppyRubyDesktop
         {
             if (code >= 0)
             {
-                long kind = message.ToInt64();
+                InputKind? kind = MouseInput(message.ToInt64());
                 Action<InputKind> handler = Activity;
                 if (handler != null)
                 {
-                    if (kind == 0x201 || kind == 0x204 || kind == 0x207) handler(InputKind.Click);
-                    else if (kind == 0x20A || kind == 0x20E) handler(InputKind.Scroll);
+                    if (kind.HasValue) handler(kind.Value);
                 }
             }
             return CallNextHookEx(IntPtr.Zero, code, message, data);
+        }
+
+        internal static InputKind? MouseInput(long message)
+        {
+            if (message == 0x201) return InputKind.Click;
+            if (message == 0x204 || message == 0x207) return InputKind.AuxiliaryClick;
+            if (message == 0x20A || message == 0x20E) return InputKind.Scroll;
+            return null;
         }
 
         internal void Stop()

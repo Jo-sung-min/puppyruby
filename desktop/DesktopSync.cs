@@ -23,6 +23,7 @@ namespace PuppyRubyDesktop
     {
         public SyncedPuppy puppy { get; set; } public int coins { get; set; } public int promotionXp { get; set; }
         public int obedience { get; set; } public long syncedAt { get; set; }
+        public DesktopAppearance appearance { get; set; } public string appearanceError { get; set; }
     }
     internal sealed class DesktopDevice
     {
@@ -91,7 +92,7 @@ namespace PuppyRubyDesktop
         internal bool Busy { get; private set; }
         internal bool CanAct { get { return IsLinked && Online && !Busy; } }
         internal DesktopGameState State { get { return link == null ? null : link.cachedState; } }
-        internal string Origin { get { return link == null ? "http://127.0.0.1:3001" : link.origin; } }
+        internal string Origin { get { return link == null ? "http://127.0.0.1:3000" : link.origin; } }
         internal string DeviceLabel { get { return link == null ? "" : link.deviceLabel; } }
         internal string DeviceId { get { return link == null ? "" : link.deviceId; } }
         internal bool HasPending { get { return link != null && link.pending != null; } }
@@ -103,8 +104,8 @@ namespace PuppyRubyDesktop
             storagePath = path;
             // Never follow a redirect carrying a pairing code or bearer token.
             var handler = new HttpClientHandler { AllowAutoRedirect = false, UseCookies = false, UseDefaultCredentials = false };
-            http = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(12) };
-            http.DefaultRequestHeaders.UserAgent.ParseAdd("PuppyRuby/0.6");
+            http = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(25) };
+            http.DefaultRequestHeaders.UserAgent.ParseAdd("PuppyRuby/0.9");
             ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
             Status = "이 PC에서만 키우는 강아지";
             if (load)
@@ -120,13 +121,13 @@ namespace PuppyRubyDesktop
             if (!Uri.TryCreate((value ?? "").Trim(), UriKind.Absolute, out uri) ||
                 (uri.Scheme != "https" && !(uri.Scheme == "http" && uri.IsLoopback)) ||
                 !String.IsNullOrEmpty(uri.UserInfo) || !String.IsNullOrEmpty(uri.Query) || !String.IsNullOrEmpty(uri.Fragment) || uri.AbsolutePath != "/")
-                throw new ArgumentException("사이트의 기본 주소만 입력해 주세요. HTTPS 또는 내 PC의 http://127.0.0.1:3001 주소를 사용할 수 있어요.");
+                throw new ArgumentException("사이트의 기본 주소만 입력해 주세요. HTTPS 또는 내 PC의 http://127.0.0.1:3000 주소를 사용할 수 있어요.");
             return uri.GetLeftPart(UriPartial.Authority).TrimEnd('/');
         }
         internal static void ValidateState(DesktopGameState value)
         {
             if (value == null || value.puppy == null || String.IsNullOrWhiteSpace(value.puppy.id) ||
-                String.IsNullOrWhiteSpace(value.puppy.name) || Progression.GradeIndex(value.puppy.grade) < 0 || value.puppy.breed < 0 || value.puppy.breed > 5 || value.puppy.xp < 0 || value.promotionXp <= 0)
+                String.IsNullOrWhiteSpace(value.puppy.name) || Progression.GradeIndex(value.puppy.grade) < 0 || value.puppy.breed < 0 || value.puppy.breed >= DesktopBreedCatalog.Ids.Length || value.puppy.xp < 0 || value.promotionXp <= 0)
                 throw new InvalidDataException("웹 강아지 정보를 읽지 못했어요.");
         }
         private void Announce() { Action handler = Changed; if (!disposed && handler != null) handler(); }

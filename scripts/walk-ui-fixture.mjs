@@ -20,7 +20,7 @@ let game = await api("game");
 for (let index = 0; index < 3 && game.puppies.find(puppy => puppy.id === game.selectedId).breed === 0; index++) game = await api("game/adopt", {});
 await api("game/rename", { puppyId: game.selectedId, value: "모카" });
 let photo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aXioAAAAASUVORK5CYII=";
-try { photo = `data:image/png;base64,${(await readFile(new URL("../desktop/build/assets/shiba-typing-0-0.png", import.meta.url))).toString("base64")}`; } catch { /* A generated pet avatar is optional for this test. */ }
+try { photo = `data:image/png;base64,${(await readFile(new URL("../local-assets/desktop/build/assets/shiba-typing-0-0.png", import.meta.url))).toString("base64")}`; } catch { /* A generated pet avatar is optional for this test. */ }
 let state = await api("walk/profile", { nickname: "모카아빠", age: 32, realName: "친구에게 공개된 테스트 이름", photo });
 const room = state.rooms.find(room => room.title === title);
 if (!room) throw new Error("먼저 UI에서 임시 산책방을 만들어 주세요.");

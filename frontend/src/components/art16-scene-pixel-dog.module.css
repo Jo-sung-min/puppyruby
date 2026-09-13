@@ -1,0 +1,51 @@
+.dog { overflow: visible; }
+.viewport { overflow: hidden; }
+.strip { image-rendering: pixelated; }
+.body { transform-origin: 50% 85%; }
+.playing { animation: frames var(--art16-duration) steps(var(--art16-frames), end) infinite; }
+.dog[data-dog-reaction="play"] .body { animation: hop 650ms ease-in-out infinite; }
+.dog[data-dog-reaction="love"] .body { animation: happy 850ms ease-in-out infinite; }
+.dog[data-dog-reaction="eat"] .body { animation: nibble 550ms steps(2, end) infinite; }
+.dog[data-dog-reaction="scroll"] .body { animation: roll 350ms steps(4, end) infinite; }
+.dog[data-dog-reaction="drag"] .body { animation: dangle 750ms ease-in-out infinite; transform-origin: 50% 25%; }
+.dog[data-dog-reaction="sleep"] .body { animation: breathe 2500ms ease-in-out infinite; }
+.dog[data-dog-reaction="belly"] .body { transform-origin: 50% 55%; animation: belly 2400ms ease-in-out 1 both; }
+.pawLeft, .pawRight { animation: tap var(--art16-paw-speed) steps(2, end) infinite; }
+.pawRight { animation-delay: calc(var(--art16-paw-speed) * -.5); }
+.keyLeft, .keyRight { animation: keypress var(--art16-paw-speed) steps(2, end) infinite; }
+.keyRight { animation-delay: calc(var(--art16-paw-speed) * -.5); }
+.hearts { animation: hearts 1600ms ease-out infinite; }
+.crumbs { animation: crumbs 550ms steps(2, end) infinite; }
+.sweat { animation: droplets 650ms steps(3, end) infinite; }
+.scroll { animation: scroll 450ms steps(3, end) infinite; }
+.sleepSigns { animation: sleepy 2500ms ease-in-out infinite; }
+.dog[data-paused] *, :global(.motion-paused) .dog * { animation: none !important; }
+.dog[data-paused] .gaze, :global(.motion-paused) .gaze { display: none; }
+:global(.walk-roaming-pet) > :global(.puppy-sprite):has(.dog) { animation: none; }
+/* This renderer owns its reactions; avoid a second whole-button bounce from the legacy sprite. */
+:global(.room-puppy.bouncing):has(.dog), :global(.room-puppy.resting):has(.dog) { animation: none; }
+@keyframes frames { to { transform: translateX(var(--art16-end)); } }
+@keyframes hop { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-5%); } }
+@keyframes happy { 0%, 100% { transform: rotate(-1deg); } 50% { transform: rotate(1deg) translateY(-1%); } }
+@keyframes nibble { 50% { transform: translateY(1%) rotate(1deg); } }
+@keyframes roll { 25% { transform: rotate(-3deg) translateY(-1%); } 75% { transform: rotate(3deg) translateY(-1%); } }
+@keyframes dangle { 0%,100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+@keyframes breathe { 50% { transform: scaleY(.985); } }
+@keyframes tap { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@keyframes keypress { 50% { opacity: 0; } }
+@keyframes hearts { from { opacity: .9; transform: translateY(3px); } to { opacity: 0; transform: translateY(-4px); } }
+@keyframes crumbs { 50% { transform: translateY(-2px); } }
+@keyframes droplets { 50% { transform: translateY(2px); opacity: .5; } }
+@keyframes scroll { 50% { transform: translateY(-1px); } }
+@keyframes sleepy { 50% { opacity: .5; transform: translateY(-2px); } }
+@keyframes belly {
+  0%, 100% { transform: rotate(0deg); }
+  18%, 70% { transform: rotate(180deg); }
+  30%, 54% { transform: rotate(174deg); }
+  42%, 64% { transform: rotate(186deg); }
+  78% { transform: rotate(180deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dog * { animation: none !important; }
+  .gaze { display: none; }
+}

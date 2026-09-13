@@ -2,11 +2,28 @@
 
 ## 도트 스타일 API
 
-공개 `GET /api/appearance`는 백엔드 `GET /api/v1/appearance`의 `{ defaultStyle, breedStyles, deletedStyles, revision, updatedAt }`를 반환합니다. 개인 정보는 포함하지 않으며 기본값은 `classic`, `{}`, `[]`, `0`, `null`입니다. 품종별 키가 없으면 `defaultStyle`을 상속합니다.
+공개 `GET /api/appearance`는 백엔드 `GET /api/v1/appearance`의 `{ defaultStyle, breedStyles, deletedStyles, varieties, breedVarieties, revision, updatedAt }`를 반환합니다. 개인 정보는 포함하지 않으며 기본값은 `classic`, `{}`, `[]`, `[]`, `{}`, `0`, `null`입니다. 품종별 키가 없으면 `defaultStyle`을 상속합니다.
 
-이메일을 인증한 관리자만 `GET/POST /api/admin/appearance`를 사용합니다. 백엔드 경로는 `/api/v1/admin/appearance`입니다. 저장 본문은 `{ "defaultStyle": "round", "breedStyles": { "beagle": "mochi" }, "deletedStyles": ["retro", "mini"], "expectedRevision": 0 }`이며 성공 응답은 갱신된 설정입니다. 전체 적용 시 `breedStyles`를 비웁니다. `deletedStyles`는 삭제한 스타일 ID 목록이며 복원은 해당 ID를 목록에서 제거합니다. 구버전 클라이언트가 필드를 생략하면 저장된 삭제 목록을 유지합니다. 알 수 없는 ID·중복·전체 16종 삭제·삭제된 기본/품종별 스타일 참조는 400입니다. 삭제한 스타일의 적용 전환은 클라이언트가 남은 유효 스타일로 정리해 같은 요청에서 저장합니다. 이전 버전의 저장은 409, 잘못된 스타일·품종·형식은 400, 인증/권한 오류는 401/403입니다. 쓰기는 동일 출처를 검증하고 저장·버전 증가·관리 이력을 한 트랜잭션에서 처리합니다.
+이메일을 인증한 관리자만 `GET/POST /api/admin/appearance`를 사용합니다. 백엔드 경로는 `/api/v1/admin/appearance`입니다. 저장 본문은 `{ "defaultStyle": "round", "breedStyles": { "beagle": "mochi" }, "deletedStyles": ["retro", "mini"], "varieties": [], "breedVarieties": {}, "expectedRevision": 0 }`이며 성공 응답은 갱신된 설정입니다. 전체 적용 시 `breedStyles`, `breedVarieties`를 비우고 세부 타입의 `style`을 `null`로 보냅니다. `deletedStyles`는 삭제한 스타일 ID 목록이며 복원은 해당 ID를 목록에서 제거합니다. 구버전 클라이언트가 필드를 생략하면 저장된 삭제 목록을 유지합니다. 알 수 없는 ID·중복·전체 52종 삭제·삭제된 기본/품종별/세부 타입 스타일 참조는 400입니다. 삭제한 스타일의 적용 전환은 클라이언트가 남은 유효 스타일 또는 상속으로 정리해 같은 요청에서 저장합니다. 이전 버전의 저장은 409, 잘못된 스타일·품종·형식은 400, 인증/권한 오류는 401/403입니다. 쓰기는 동일 출처를 검증하고 저장·버전 증가·관리 이력을 한 트랜잭션에서 처리합니다. Next.js 프록시의 appearance 저장 본문 한도는 64 KiB이며 초과 요청은 400입니다.
 
-스타일 ID: `classic`, `round`, `mochi`, `chibi`, `bean`, `plush`, `storybook`, `bold`, `retro`, `mini`, `sticker`, `soft`, `fluffy`, `pocket`, `cookie`, `badge`. 품종 키: `pomeranian`, `poodle`, `maltese`, `shiba`, `corgi`, `beagle`, `samoyed`. 응답은 캐시하지 않습니다.
+도트 스타일 ID: `classic`, `round`, `mochi`, `chibi`, `bean`, `plush`, `storybook`, `bold`, `retro`, `mini`, `sticker`, `soft`, `fluffy`, `pocket`, `cookie`, `badge`, `marshmallow`, `dumpling`, `pebble`, `jellybean`, `teacup`, `loaf`, `pear`, `egg`, `snowball`, `teddy`, `panda`, `cub`, `foxlet`, `longbody`, `tinyhead`, `bigpaws`, `cheeky`, `squircle`, `diamond`, `toast`, `waffle`, `pixel8`, `arcade`, `robot`, `paper`, `origami`, `patchwork`, `pompom`, `cloudlet`, `sprout`, `sleepy`, `wink`, `happy`, `hug`, `meadow`. 움직이는 2D ID는 `animated-2d`입니다. 품종 키는 `frontend/src/lib/dog-breeds.ts`와 서버 `BreedCatalog`의 30개 ID를 사용합니다. 응답은 캐시하지 않습니다.
+
+`varieties`와 `breedVarieties`는 함께 보내야 하며 둘 다 생략하면 기존 세부 타입과 선택을 유지합니다. 명시적인 `[]`·`{}`는 전체 삭제/선택 해제입니다. `varieties`의 각 항목은 다음 여덟 필드를 모두 포함합니다.
+
+```json
+{
+  "id": "91f72fe3-c94a-4c47-b663-94af5db0e891",
+  "breed": "pomeranian",
+  "name": "곰돌이형",
+  "style": null,
+  "shape": "teddy",
+  "pattern": "tuxedo",
+  "coatColor": "#E5AC64",
+  "patternColor": "#FFFFFF"
+}
+```
+
+`id`는 정규 소문자 UUID이고 전체에서 중복할 수 없습니다. `name`은 앞뒤 공백을 제거한 1–24 Unicode 문자이며 같은 견종 안에서 대소문자와 연속 공백을 정규화한 이름이 중복되면 400입니다. `style`은 사용 가능한 스타일 ID 또는 `null`(견종→전체 기본 스타일 상속)입니다. `shape`는 `original`, `teddy`, `fox`; `pattern`은 `solid`, `tuxedo`, `patches`, `freckles`, `socks`, `blaze`입니다. `coatColor`는 `#RRGGBB` 또는 `null`(강아지 고유 털색), `patternColor`는 필수 `#RRGGBB`이고 저장 시 대문자로 정규화합니다. 견종당 20개, 전체 140개까지 저장합니다. `breedVarieties` 예시는 `{ "pomeranian": "91f72fe3-c94a-4c47-b663-94af5db0e891" }`이며 ID가 존재하지 않거나 다른 견종의 타입이면 400입니다. 활성 타입은 해당 견종 전체의 표시만 바꾸고 게임의 견종 ID·소유 강아지·등급·재화에는 영향을 주지 않습니다.
 
 ## 산책방 API
 

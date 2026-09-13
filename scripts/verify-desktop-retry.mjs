@@ -18,14 +18,14 @@ assert.notEqual(target.port, "3102", "Port3102 is reserved for the owned fault p
 const origin = target.origin;
 const proxyOrigin = "http://127.0.0.1:3102";
 const project = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const executable = resolve(project, "desktop/dist/PuppyRuby.exe");
-const buildRoot = resolve(project, "desktop/build");
+const executable = resolve(project, "local-assets/desktop/dist/PuppyRuby.exe");
+const buildRoot = resolve(project, "local-assets/desktop/build");
 await access(executable);
 await mkdir(buildRoot, { recursive: true });
 const outputRoot = await mkdtemp(join(buildRoot, "retry-test-"));
 const resolvedOutput = await realpath(outputRoot);
 const resolvedBuild = await realpath(buildRoot);
-assert.ok(resolvedOutput.startsWith(resolvedBuild + sep), "Test cleanup must stay under desktop/build.");
+assert.ok(resolvedOutput.startsWith(resolvedBuild + sep), "Test cleanup must stay under local-assets/desktop/build.");
 
 let checks = 0;
 let active = null;
@@ -187,7 +187,7 @@ finally {
   await new Promise(done => proxy.close(done));
   const cleanupTarget = await realpath(outputRoot);
   assert.equal(cleanupTarget, resolvedOutput, "Temporary cleanup target must remain the owned test directory.");
-  assert.ok(cleanupTarget.startsWith(resolvedBuild + sep), "Temporary cleanup stays inside desktop/build.");
+  assert.ok(cleanupTarget.startsWith(resolvedBuild + sep), "Temporary cleanup stays inside local-assets/desktop/build.");
   await rm(cleanupTarget, { recursive: true, force: true });
 }
 if (failure) throw failure;

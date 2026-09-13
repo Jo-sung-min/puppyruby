@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { apiBase, browserIdentity, clearSession, isSameOrigin, saveGuest } from "@/lib/server-session";
+import { attachDesktopAppearance } from "@/lib/desktop-appearance";
 
 const browserMethods: Record<string, string> = { links: "GET", "pair-code": "POST", revoke: "POST" };
 const deviceMethods: Record<string, string> = { pair: "POST", state: "GET", action: "POST" };
@@ -49,7 +50,8 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path?: s
     const upstream = await fetch(`${apiBase()}/desktop/${action}`, {
       method: request.method, headers, body, cache: "no-store", redirect: "error", signal: AbortSignal.timeout(12000),
     });
-    const data = await upstream.json();
+    const raw = await upstream.json();
+    const data = upstream.ok && !browserOnly ? await attachDesktopAppearance(raw, action, request.nextUrl.origin, apiBase()) : raw;
     const response = NextResponse.json(data, { status: upstream.status, headers: noStore });
     if (upstream.ok && newPlayer) saveGuest(response, request, newPlayer);
     if (browserOnly && upstream.status === 401) clearSession(response, request);

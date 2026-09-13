@@ -25,8 +25,7 @@ namespace PuppyRubyDesktop
         private readonly Dictionary<string, LinkedListNode<Raster>> rasters = new Dictionary<string, LinkedListNode<Raster>>(StringComparer.Ordinal);
         private readonly LinkedList<Raster> rasterLru = new LinkedList<Raster>();
         private bool disposed;
-        private static readonly string[] WebBreeds = { "pomeranian", "poodle", "maltese", "shiba", "corgi", "beagle" };
-        private static readonly string[] Breeds = { "shiba", "samoyed", "poodle", "corgi", "maltese", "beagle", "pomeranian" };
+        private static readonly string[] Breeds = DesktopBreedCatalog.Ids;
         private static readonly string[] Moods = { "idle", "love", "eat", "play", "sleep", "typing", "excited", "scroll", "drag", "walk" };
         private static readonly string[] Furs = { "original", "cream", "chocolate", "rose", "silver" };
         private static readonly string[] Eyes = { "original", "blue", "green", "amber" };
@@ -50,9 +49,9 @@ namespace PuppyRubyDesktop
                 if (stream == null) throw new InvalidDataException("Missing linked puppy sprite catalog.");
                 using (StreamReader reader = new StreamReader(stream))
                 {
-                    JavaScriptSerializer serializer = new JavaScriptSerializer { MaxJsonLength = 1024 * 1024 };
+                    JavaScriptSerializer serializer = new JavaScriptSerializer { MaxJsonLength = 64 * 1024 * 1024 };
                     var manifest = serializer.DeserializeObject(reader.ReadToEnd()) as Dictionary<string, object>;
-                    if (manifest == null || Convert.ToInt32(manifest["version"]) != 1 || Convert.ToInt32(manifest["width"]) != Size || Convert.ToInt32(manifest["height"]) != Size)
+                    if (manifest == null || Convert.ToInt32(manifest["version"]) != 2 || Convert.ToInt32(manifest["width"]) != Size || Convert.ToInt32(manifest["height"]) != Size)
                         throw new InvalidDataException("Unsupported linked puppy sprite catalog.");
                     bodies = ReadMap(manifest, "bodies");
                     eyeLayers = ReadMap(manifest, "eyeLayers");
@@ -77,7 +76,7 @@ namespace PuppyRubyDesktop
 
         internal Bitmap Get(int breed, string fur, string eyes, string accessory, string mood, int look, int frame)
         {
-            return Get(breed >= 0 && breed < WebBreeds.Length ? WebBreeds[breed] : "pomeranian", mood, look, frame, fur, eyes, accessory);
+            return Get(breed >= 0 && breed < Breeds.Length ? Breeds[breed] : "pomeranian", mood, look, frame, fur, eyes, accessory);
         }
 
         internal Bitmap Get(string breed, string mood, int look, int frame, string fur, string eyes, string accessory)
@@ -97,7 +96,7 @@ namespace PuppyRubyDesktop
                 }
                 string bodyName, eyeName, accessoryName;
                 if (!bodies.TryGetValue(breed + "|" + pose + "|" + fur, out bodyName) ||
-                    !eyeLayers.TryGetValue(pose + "|" + eyes, out eyeName) || !accessoryLayers.TryGetValue(pose + "|" + accessory, out accessoryName))
+                    !eyeLayers.TryGetValue(breed + "|" + pose + "|" + fur + "|" + eyes, out eyeName) || !accessoryLayers.TryGetValue(breed + "|" + pose + "|" + fur + "|" + accessory, out accessoryName))
                     throw new InvalidDataException("Incomplete linked puppy sprite catalog.");
                 byte[] pixels = (byte[])ReadRaster(bodyName).Clone();
                 Overlay(pixels, eyeName); Overlay(pixels, accessoryName);

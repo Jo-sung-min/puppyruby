@@ -2,7 +2,7 @@
 'use strict';
 
 // Read-only component preview. This never imports the production exporter,
-// writes code assets, or changes desktop/build/assets or its sprite manifest.
+// writes code assets, or changes local-assets/desktop/build/assets or its sprite manifest.
 //   node scripts/preview-puppy-sprites.cjs          galleries + overlay diagnostic
 //   node scripts/preview-puppy-sprites.cjs --quick  galleries only for design iteration
 //   node scripts/preview-puppy-sprites.cjs --publish-preview
@@ -10,6 +10,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const Module = require('node:module');
+const { resolveFrontendDependency } = require('./frontend-loader.cjs');
 const { createRequire } = Module;
 const { createHash } = require('node:crypto');
 
@@ -18,7 +19,7 @@ const args = new Set(process.argv.slice(2));
 const supported = new Set(['--quick', '--publish-preview', '--strict', '--help']);
 for (const arg of args) if (!supported.has(arg)) throw new Error(`Unknown option: ${arg}`);
 if (args.has('--help')) {
-  console.log('Preview actual PuppySprite + PixelDog at native64,192,256px, plus a compact Korean gallery.\n--quick skips the read-only shared-overlay diagnostic.\n--strict exits with error on overlay differences.\n--publish-preview copies the compact rounded-puppies.png into frontend/public/images.');
+  console.log('Preview actual PuppySprite + PixelDog at native64,192,256px, plus a compact Korean gallery.\n--quick skips the read-only shared-overlay diagnostic.\n--strict exits with error on overlay differences.\n--publish-preview copies the compact rounded-puppies.png into local-assets/site/images.');
   process.exit(0);
 }
 const requireFrontend = createRequire(path.join(root, 'frontend/package.json'));
@@ -38,12 +39,15 @@ function loadComponent(relative, overrides = {}) {
   loaded.filename = filename;
   loaded.paths = Module._nodeModulePaths(path.dirname(filename));
   const fallback = loaded.require.bind(loaded);
-  loaded.require = name => Object.hasOwn(overrides, name) ? overrides[name] : fallback(name);
+  loaded.require = name => Object.hasOwn(overrides, name) ? overrides[name] : resolveFrontendDependency(filename, name, fallback);
   loaded._compile(compiled, filename);
   return loaded.exports;
 }
 
-const dogModule = loadComponent('src/components/pixel-dog.tsx');
+const animatedDog = loadComponent('src/components/animated-dog.tsx', {
+  './animated-dog.module.css': new Proxy({}, { get: (_, key) => String(key) }),
+});
+const dogModule = loadComponent('src/components/pixel-dog.tsx', { './animated-dog': animatedDog });
 const game = loadComponent('src/lib/game.ts');
 const { PuppySprite } = loadComponent('src/components/puppy-sprite.tsx', {
   '../lib/cosmetics': loadComponent('src/lib/cosmetics.ts'), '@/lib/game': game, './styled-pixel-dog': dogModule,
@@ -176,7 +180,7 @@ async function inspectSharedOverlays() {
 
 async function main() {
   const started = Date.now();
-  const out = path.join(root, 'desktop/build');
+  const out = path.join(root, 'local-assets/desktop/build');
   fs.mkdirSync(out, { recursive: true });
   const diagnostic = args.has('--quick') ? null : await inspectSharedOverlays();
   const width = 1720, margin = 40, cardWidth = 224, gap = 12;
@@ -237,7 +241,7 @@ async function main() {
     'Samoyed uses its desktop-only silhouette',
     diagnostic ? `Shared overlays: ${diagnostic.checked - diagnostic.mismatches}/${diagnostic.checked} comparisons match` : 'Shared overlay diagnostic skipped (--quick)',
     diagnostic ? `Non-opaque overlay pixels: ${diagnostic.nonOpaqueOverlayPixels}` : 'Run without --quick before the final export',
-    'Details: desktop/build/rounded-preview.json',
+    'Details: local-assets/desktop/build/rounded-preview.json',
     'Production exports and manifests untouched',
   ];
   lines.forEach((line, index) => text(infoLeft + 26, scaleY + 77 + index * 27, line, 13, index === 4 && diagnostic?.mismatches ? '#ba6451' : '#8b785b'));
@@ -255,7 +259,7 @@ async function main() {
   };
   fs.writeFileSync(path.join(out, 'rounded-preview.json'), JSON.stringify(manifest, null, 2));
   if (args.has('--publish-preview')) {
-    const publicPath = path.join(root, 'frontend/public/images/puppy-style-preview.png');
+    const publicPath = path.join(root, 'local-assets/site/images/puppy-style-preview.png');
     fs.mkdirSync(path.dirname(publicPath), { recursive: true });
     fs.copyFileSync(compact.output, publicPath);
     console.log(`Published reviewed preview: ${publicPath}`);

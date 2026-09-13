@@ -1,0 +1,46 @@
+.dog { display:block; width:100%; height:auto; overflow:visible; image-rendering:auto; }
+.dog * { transform-box:view-box; }
+.motion { transform-origin:100px 179px; animation:breathe 3.8s ease-in-out infinite; }
+.head { transform-origin:100px 127px; animation:headSway 5.2s ease-in-out infinite; }
+.tail { transform-origin:139px 160px; animation:tailRest 2.8s ease-in-out infinite; }
+.leftEar { transform-origin:49px 57px; animation:earLeft 4.2s ease-in-out infinite; }
+.rightEar { transform-origin:151px 57px; animation:earRight 4.2s ease-in-out infinite; animation-delay:-.25s; }
+.openEyes { transform-origin:100px 85px; animation:blink 5.1s ease-in-out infinite; }
+.closedEyes { opacity:0; animation:blinkSmile 5.1s ease-in-out infinite; }
+.leftPaw,.rightPaw,.backPaw { transform-origin:0 0; }
+.tongue { transform-origin:100px 113px; animation:tongue 3.8s ease-in-out infinite; }
+.sleepMarks text { animation:sleepMark 3s ease-in-out infinite; }
+.sleepMarks text:nth-child(2) { animation-delay:-2s; }
+.sleepMarks text:nth-child(3) { animation-delay:-1s; }
+.hearts { animation:floatHearts 2.4s ease-in-out infinite; }
+.dog[data-dog-action=blink] .openEyes,.dog[data-dog-action=blink] .closedEyes { animation-duration:2.3s; }
+.dog[data-dog-action=wag] .tail { animation:tailWag .42s ease-in-out infinite; }
+.dog[data-dog-action=wag] .motion { animation:happyBody .84s ease-in-out infinite; }
+.dog[data-dog-action=wag] .leftEar,.dog[data-dog-action=wag] .rightEar { animation-duration:.84s; }
+.dog[data-dog-action=walk] .motion { animation:walkBounce .7s ease-in-out infinite; }
+.dog[data-dog-action=walk] .head { animation:walkHead .7s ease-in-out infinite; }
+.dog[data-dog-action=walk] .tail { animation:tailWag .7s ease-in-out infinite; }
+.dog[data-dog-action=walk] .leftPaw { animation:step .7s ease-in-out infinite; }
+.dog[data-dog-action=walk] .rightPaw { animation:step .7s ease-in-out -.35s infinite; }
+.dog[data-dog-action=walk] .leftEar,.dog[data-dog-action=walk] .rightEar { animation-duration:.7s; }
+.dog[data-dog-action=sit] .tail { animation-duration:3.8s; }
+.dog[data-dog-action=sleep] .motion { animation:sleepBreathe 4s ease-in-out infinite; }
+.dog[data-dog-action=sleep] .head,.dog[data-dog-action=sleep] .leftEar,.dog[data-dog-action=sleep] .rightEar,.dog[data-dog-action=sleep] .tail { animation:none; }
+.dog[data-paused=true],.dog[data-paused=true] * { animation-play-state:paused!important; }
+@keyframes breathe { 0%,100% { transform:translateY(0) scaleY(1); } 50% { transform:translateY(1.2px) scaleY(.991); } }
+@keyframes headSway { 0%,100% { transform:rotate(-1deg); } 50% { transform:rotate(1deg) translateY(.5px); } }
+@keyframes tailRest { 0%,25%,100% { transform:rotate(-3deg); } 45%,75% { transform:rotate(5deg); } 60% { transform:rotate(-1deg); } }
+@keyframes tailWag { 0%,100% { transform:rotate(-17deg); } 50% { transform:rotate(18deg); } }
+@keyframes earLeft { 0%,100% { transform:rotate(-1deg); } 50% { transform:rotate(2.7deg); } }
+@keyframes earRight { 0%,100% { transform:rotate(1deg); } 50% { transform:rotate(-2.7deg); } }
+@keyframes blink { 0%,41%,48%,100% { transform:scaleY(1); opacity:1; } 44%,45% { transform:scaleY(.06); opacity:0; } }
+@keyframes blinkSmile { 0%,42%,48%,100% { opacity:0; } 44%,45% { opacity:1; } }
+@keyframes tongue { 0%,100% { transform:scaleY(1); } 50% { transform:scaleY(.92); } }
+@keyframes happyBody { 0%,100% { transform:translateY(0) rotate(-.7deg); } 50% { transform:translateY(-2px) rotate(.7deg); } }
+@keyframes walkBounce { 0%,50%,100% { transform:translateY(0); } 25%,75% { transform:translateY(-2.7px); } }
+@keyframes walkHead { 0%,100% { transform:rotate(-1.3deg); } 50% { transform:rotate(1.3deg); } }
+@keyframes step { 0%,100% { transform:translate(-1px,0); } 25% { transform:translate(1px,-7px) rotate(5deg); } 50% { transform:translate(1px,0); } 75% { transform:translate(-1px,1px); } }
+@keyframes sleepBreathe { 0%,100% { transform:scaleY(1); } 50% { transform:scaleY(.98); } }
+@keyframes sleepMark { 0%,100% { opacity:.25; transform:translateY(3px); } 50% { opacity:.85; transform:translateY(-3px); } }
+@keyframes floatHearts { 0%,100% { opacity:.55; transform:translateY(1px); } 50% { opacity:1; transform:translateY(-4px); } }
+@media (prefers-reduced-motion:reduce) { .dog,.dog * { animation:none!important; } .closedEyes { opacity:0; } }

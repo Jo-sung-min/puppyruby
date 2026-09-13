@@ -1,0 +1,482 @@
+[
+  {
+    "id": "sp-01",
+    "code": "SP01",
+    "name": "말랑 여우콩",
+    "description": "큰 동그란 볼과 작은 여우 귀",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-01/preview.png",
+    "body": "/images/soft-pixel-v1/sp-01/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-01/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-01/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-01/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-01/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-01.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 73,
+        "y": 86,
+        "rx": 9,
+        "ry": 10
+      },
+      {
+        "x": 115,
+        "y": 86,
+        "rx": 9,
+        "ry": 10
+      }
+    ]
+  },
+  {
+    "id": "sp-02",
+    "code": "SP02",
+    "name": "테디 찹쌀",
+    "description": "곰돌이 같은 귀와 포동한 몸",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-02/preview.png",
+    "body": "/images/soft-pixel-v1/sp-02/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-02/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-02/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-02/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-02/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-02.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 68,
+        "y": 80,
+        "rx": 9,
+        "ry": 10
+      },
+      {
+        "x": 104,
+        "y": 80,
+        "rx": 9,
+        "ry": 10
+      }
+    ]
+  },
+  {
+    "id": "sp-03",
+    "code": "SP03",
+    "name": "별빛 솜콩",
+    "description": "작고 반짝이는 눈꽃빛 친구",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-03/preview.png",
+    "body": "/images/soft-pixel-v1/sp-03/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-03/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-03/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-03/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-03/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-03.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 58,
+        "y": 90,
+        "rx": 9,
+        "ry": 10
+      },
+      {
+        "x": 101,
+        "y": 90,
+        "rx": 9,
+        "ry": 10
+      }
+    ]
+  },
+  {
+    "id": "sp-04",
+    "code": "SP04",
+    "name": "납작 푸딩",
+    "description": "낮고 통통한 푸딩 실루엣",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-04/preview.png",
+    "body": "/images/soft-pixel-v1/sp-04/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-04/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-04/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-04/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-04/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-04.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 59,
+        "y": 90,
+        "rx": 9,
+        "ry": 10
+      },
+      {
+        "x": 100,
+        "y": 90,
+        "rx": 9,
+        "ry": 10
+      }
+    ]
+  },
+  {
+    "id": "sp-05",
+    "code": "SP05",
+    "name": "쪼꼬미 콩알",
+    "description": "머리와 몸이 이어지는 동글 콩",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-05/preview.png",
+    "body": "/images/soft-pixel-v1/sp-05/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-05/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-05/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-05/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-05/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-05.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 75,
+        "y": 83,
+        "rx": 9,
+        "ry": 9
+      },
+      {
+        "x": 109,
+        "y": 83,
+        "rx": 9,
+        "ry": 9
+      }
+    ]
+  },
+  {
+    "id": "sp-06",
+    "code": "SP06",
+    "name": "볼빵 구름",
+    "description": "볼살이 몽실몽실한 꼬마",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-06/preview.png",
+    "body": "/images/soft-pixel-v1/sp-06/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-06/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-06/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-06/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-06/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-06.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 75,
+        "y": 88,
+        "rx": 9,
+        "ry": 9
+      },
+      {
+        "x": 113,
+        "y": 88,
+        "rx": 9,
+        "ry": 9
+      }
+    ]
+  },
+  {
+    "id": "sp-07",
+    "code": "SP07",
+    "name": "비스킷 단추",
+    "description": "짧은 처진 귀와 작은 단추 코",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-07/preview.png",
+    "body": "/images/soft-pixel-v1/sp-07/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-07/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-07/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-07/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-07/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-07.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 73,
+        "y": 81,
+        "rx": 9,
+        "ry": 10
+      },
+      {
+        "x": 114,
+        "y": 81,
+        "rx": 9,
+        "ry": 10
+      }
+    ]
+  },
+  {
+    "id": "sp-08",
+    "code": "SP08",
+    "name": "우유 몽실",
+    "description": "하얀 털과 포근한 둥근 윤곽",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-08/preview.png",
+    "body": "/images/soft-pixel-v1/sp-08/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-08/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-08/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-08/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-08/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-08.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 72,
+        "y": 91,
+        "rx": 9,
+        "ry": 10
+      },
+      {
+        "x": 114,
+        "y": 91,
+        "rx": 9,
+        "ry": 10
+      }
+    ]
+  },
+  {
+    "id": "sp-09",
+    "code": "SP09",
+    "name": "아기 여우발",
+    "description": "조금 긴 다리와 둥근 아기 얼굴",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-09/preview.png",
+    "body": "/images/soft-pixel-v1/sp-09/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-09/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-09/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-09/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-09/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-09.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 82,
+        "y": 78,
+        "rx": 9,
+        "ry": 9
+      },
+      {
+        "x": 120,
+        "y": 85,
+        "rx": 9,
+        "ry": 9
+      }
+    ]
+  },
+  {
+    "id": "sp-10",
+    "code": "SP10",
+    "name": "말랑 네모",
+    "description": "둥근 사각 볼과 도톰한 앞발",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-10/preview.png",
+    "body": "/images/soft-pixel-v1/sp-10/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-10/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-10/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-10/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-10/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-10.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 72,
+        "y": 85,
+        "rx": 9,
+        "ry": 9
+      },
+      {
+        "x": 113,
+        "y": 85,
+        "rx": 9,
+        "ry": 9
+      }
+    ]
+  },
+  {
+    "id": "sp-11",
+    "code": "SP11",
+    "name": "복숭아 볼떡",
+    "description": "분홍 볼과 동그란 물방울 귀",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-11/preview.png",
+    "body": "/images/soft-pixel-v1/sp-11/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-11/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-11/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-11/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-11/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-11.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 73,
+        "y": 90,
+        "rx": 9,
+        "ry": 10
+      },
+      {
+        "x": 115,
+        "y": 90,
+        "rx": 9,
+        "ry": 10
+      }
+    ]
+  },
+  {
+    "id": "sp-12",
+    "code": "SP12",
+    "name": "꼬리 초승달",
+    "description": "정면 얼굴과 살짝 돌아선 몸",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-12/preview.png",
+    "body": "/images/soft-pixel-v1/sp-12/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-12/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-12/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-12/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-12/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-12.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 61,
+        "y": 85,
+        "rx": 9,
+        "ry": 10
+      },
+      {
+        "x": 104,
+        "y": 85,
+        "rx": 9,
+        "ry": 10
+      }
+    ]
+  },
+  {
+    "id": "sp-13",
+    "code": "SP13",
+    "name": "왕발 머핀",
+    "description": "작은 몸 아래 커다란 동글 발",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-13/preview.png",
+    "body": "/images/soft-pixel-v1/sp-13/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-13/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-13/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-13/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-13/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-13.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 74,
+        "y": 80,
+        "rx": 10,
+        "ry": 10
+      },
+      {
+        "x": 113,
+        "y": 80,
+        "rx": 10,
+        "ry": 10
+      }
+    ]
+  },
+  {
+    "id": "sp-14",
+    "code": "SP14",
+    "name": "순둥 밤톨",
+    "description": "짧은 주둥이와 포근한 밤톨 머리",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-14/preview.png",
+    "body": "/images/soft-pixel-v1/sp-14/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-14/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-14/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-14/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-14/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-14.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 75,
+        "y": 81,
+        "rx": 9,
+        "ry": 9
+      },
+      {
+        "x": 113,
+        "y": 81,
+        "rx": 9,
+        "ry": 9
+      }
+    ]
+  },
+  {
+    "id": "sp-15",
+    "code": "SP15",
+    "name": "포켓 방울",
+    "description": "손안에 들어올 듯한 통통한 방울",
+    "width": 192,
+    "height": 192,
+    "png": "/images/soft-pixel-v1/sp-15/preview.png",
+    "body": "/images/soft-pixel-v1/sp-15/body.png",
+    "eyes": {
+      "dot": "/images/soft-pixel-v1/sp-15/eyes-dot.png",
+      "bean": "/images/soft-pixel-v1/sp-15/eyes-bean.png",
+      "sparkle": "/images/soft-pixel-v1/sp-15/eyes-sparkle.png",
+      "sleep": "/images/soft-pixel-v1/sp-15/eyes-sleep.png"
+    },
+    "defaultEyes": "bean",
+    "aseprite": "/downloads/soft-pixel-v1/sp-15.aseprite",
+    "eyeAnchors": [
+      {
+        "x": 72,
+        "y": 99,
+        "rx": 9,
+        "ry": 10
+      },
+      {
+        "x": 116,
+        "y": 99,
+        "rx": 9,
+        "ry": 10
+      }
+    ]
+  }
+]

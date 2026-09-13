@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 @SpringBootTest(properties = {
     "spring.datasource.url=jdbc:h2:mem:media-test;DB_CLOSE_DELAY=-1", "spring.jpa.hibernate.ddl-auto=create-drop",
     "S3_UPLOAD_ENABLED=true", "S3_BUCKET=puppyruby-test", "AWS_REGION=ap-northeast-2",
-    "S3_KEY_PREFIX=puppyruby", "CDN_BASE_URL=https://images.puppyruby.test", "MAIL_ENABLED=false"
+    "S3_KEY_PREFIX=puppyruby", "CDN_BASE_URL=https://images.puppyruby.test", "CDN_ORIGIN_PATH=/puppyruby", "MAIL_ENABLED=false"
 })
 class MediaServiceTest {
     @Autowired MediaService media;
@@ -32,6 +32,7 @@ class MediaServiceTest {
     @Autowired JdbcTemplate jdbc;
     @Autowired AuthService auth;
     @Autowired MediaController controller;
+    @Autowired SeoMediaController seoController;
     @MockitoBean MediaObjectStore storage;
 
     @BeforeEach void setup() {
@@ -90,7 +91,7 @@ class MediaServiceTest {
         bad(() -> media.ownedReference(owner, "media:" + signed.uploadId()));
         assertNull(media.resolve("media:" + signed.uploadId()));
         var result = media.complete(owner, new MediaService.Complete(signed.uploadId()));
-        assertEquals("media:" + signed.uploadId(), result.photo()); assertTrue(result.url().startsWith("https://images.puppyruby.test/puppyruby/walk-profiles/"));
+        assertEquals("media:" + signed.uploadId(), result.photo()); assertTrue(result.url().startsWith("https://images.puppyruby.test/walk-profiles/"));
         assertEquals(result.photo(), media.ownedReference(owner, result.photo())); assertEquals(result.url(), media.resolve(result.photo()));
         var entity = uploads.findById(signed.uploadId()).orElseThrow(); entity.expiresAt = 1; uploads.saveAndFlush(entity);
         assertEquals(result, media.complete(owner, new MediaService.Complete(signed.uploadId())));
@@ -184,5 +185,86 @@ class MediaServiceTest {
         String owner = owner(); byte[] bytes = png(1, 1);
         for (int count = 0; count < 10; count++) presign(owner, bytes);
         assertEquals(429, assertThrows(ResponseStatusException.class, () -> presign(owner, bytes)).getStatusCode().value());
+    }
+
+    @Test void seoRequiresVerifiedActiveAdministratorForEveryEndpoint() throws Exception {
+        byte[] bytes = png(2, 2);
+        var input = new MediaService.Input("image/png", (long) bytes.length, hash(bytes));
+        for (String state : List.of("guest", "member", "unverified-admin", "suspended-admin")) {
+            String token = null;
+            if (!state.equals("guest")) {
+                var account = auth.register(owner(), new AuthService.Register("seo-" + owner() + "@puppyruby.test", "Puppy-Media-Test-2026!", "공유 관리자"));
+                token = account.token();
+                if (!state.equals("member")) jdbc.update("update accounts set role = 'ADMIN', email_verified = ?, status = ? where id = ?",
+                    state.equals("suspended-admin"), state.equals("suspended-admin") ? "SUSPENDED" : "ACTIVE", account.user().id());
+            }
+            String session = token;
+            int status = state.equals("guest") ? 401 : 403;
+            assertEquals(status, assertThrows(ResponseStatusException.class, () -> seoController.config(session)).getStatusCode().value());
+            assertEquals(status, assertThrows(ResponseStatusException.class, () -> seoController.presign(session, input)).getStatusCode().value());
+            assertEquals(status, assertThrows(ResponseStatusException.class, () -> seoController.complete(session, new MediaService.Complete(owner()))).getStatusCode().value());
+        }
+        verify(storage, never()).presign(any(), anyInt()); verify(storage, never()).read(any(), anyInt());
+    }
+
+    @Test void seoShareUsesSeparatePurposeAndPathAndReturnsOnlyPublicUrl() throws Exception {
+        var account = auth.register(owner(), new AuthService.Register("seo-" + owner() + "@puppyruby.test", "Puppy-Media-Test-2026!", "공유 관리자"));
+        jdbc.update("update accounts set role = 'ADMIN', email_verified = true where id = ?", account.user().id());
+        String owner = auth.requireAdmin(account.token()).playerId;
+        assertTrue(seoController.config(account.token()).enabled());
+        byte[] bytes = png(1200, 630);
+        var signed = seoController.presign(account.token(), new MediaService.Input("image/png", (long) bytes.length, hash(bytes)));
+        var entity = uploads.findById(signed.uploadId()).orElseThrow();
+        assertEquals("seo", entity.purpose); assertEquals(owner, entity.ownerPlayerId);
+        assertTrue(entity.objectKey.matches("puppyruby/seo-shares/[0-9a-f-]{36}\\.png"));
+        assertFalse(entity.objectKey.contains(owner));
+        bad(() -> media.complete(owner, new MediaService.Complete(signed.uploadId())));
+        bad(() -> media.completeSeo(owner(), new MediaService.Complete(signed.uploadId())));
+        verify(storage, never()).read(any(), anyInt());
+        stored(bytes);
+        var completed = seoController.complete(account.token(), new MediaService.Complete(signed.uploadId()));
+        assertTrue(completed.url().startsWith("https://images.puppyruby.test/seo-shares/"));
+        assertEquals(Set.of("url"), mapper.readTree(mapper.writeValueAsString(completed)).propertyNames().stream().collect(java.util.stream.Collectors.toSet()));
+        bad(() -> media.ownedReference(owner, "media:" + signed.uploadId()));
+        bad(() -> profile(owner, "media:" + signed.uploadId()));
+        assertNull(media.resolve("media:" + signed.uploadId()));
+        bad(() -> media.complete(owner, new MediaService.Complete(signed.uploadId())));
+        entity = uploads.findById(signed.uploadId()).orElseThrow(); entity.expiresAt = 1; uploads.saveAndFlush(entity);
+        assertEquals(completed, seoController.complete(account.token(), new MediaService.Complete(signed.uploadId())));
+        verify(storage, times(1)).read(any(), anyInt());
+    }
+
+    @Test void seoCannotPromotePrivateProfileUploadsIncludingLegacyNullPurpose() throws Exception {
+        String owner = owner(); byte[] bytes = png(2, 2); var signed = presign(owner, bytes);
+        var entity = uploads.findById(signed.uploadId()).orElseThrow(); entity.purpose = null; uploads.saveAndFlush(entity);
+        bad(() -> media.completeSeo(owner, new MediaService.Complete(signed.uploadId())));
+        verify(storage, never()).read(any(), anyInt());
+        stored(bytes); var completed = media.complete(owner, new MediaService.Complete(signed.uploadId()));
+        assertEquals(completed.photo(), media.ownedReference(owner, completed.photo()));
+        assertEquals(completed.url(), media.resolve(completed.photo()));
+        bad(() -> media.completeSeo(owner, new MediaService.Complete(signed.uploadId())));
+    }
+
+    @Test void seoDimensionLimitDoesNotRelaxProfileValidation() throws Exception {
+        for (int[] size : List.of(new int[] {2048, 1}, new int[] {1, 2048}, new int[] {2049, 1}, new int[] {1, 2049})) {
+            byte[] bytes = png(size[0], size[1]); String owner = owner();
+            var signed = media.presignSeo(owner, new MediaService.Input("image/png", (long) bytes.length, hash(bytes))); stored(bytes);
+            if (size[0] <= 2048 && size[1] <= 2048) assertNotNull(media.completeSeo(owner, new MediaService.Complete(signed.uploadId())));
+            else {
+                bad(() -> media.completeSeo(owner, new MediaService.Complete(signed.uploadId())));
+                assertNull(uploads.findById(signed.uploadId()).orElseThrow().completedAt);
+            }
+        }
+        assertFalse(MediaService.validImage(png(1200, 630), "image/png"));
+    }
+
+    @Test void seoStillRequiresExactBytesChecksumAndAnUnexpiredUpload() throws Exception {
+        byte[] bytes = png(1200, 630); String owner = owner();
+        var signed = media.presignSeo(owner, new MediaService.Input("image/png", (long) bytes.length, hash(bytes)));
+        stored(png(1201, 630)); bad(() -> media.completeSeo(owner, new MediaService.Complete(signed.uploadId())));
+        assertNull(uploads.findById(signed.uploadId()).orElseThrow().completedAt);
+        var entity = uploads.findById(signed.uploadId()).orElseThrow(); entity.expiresAt = 1; uploads.saveAndFlush(entity);
+        stored(bytes); bad(() -> media.completeSeo(owner, new MediaService.Complete(signed.uploadId())));
+        assertNull(uploads.findById(signed.uploadId()).orElseThrow().completedAt);
     }
 }

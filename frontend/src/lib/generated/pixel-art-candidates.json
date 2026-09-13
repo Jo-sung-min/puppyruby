@@ -1,0 +1,272 @@
+[
+  {
+    "id": "art-01",
+    "name": "클래식 RPG",
+    "breed": "pomeranian",
+    "direction": "층층이 겹친 세이블 털과 정교한 짙은 윤곽, 은은한 보랏빛 그림자를 갖춘 정통 온라인 RPG 펫.",
+    "png": "/images/pixel-art-v1/art-01.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "id": "art-02",
+    "name": "동글 곰돌이컷",
+    "breed": "pomeranian",
+    "direction": "동그란 얼굴과 짧게 다듬은 털, 작은 삼각 귀와 통통한 발로 완성한 곰돌이형 포메.",
+    "png": "/images/pixel-art-v1/art-02.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "id": "art-03",
+    "name": "아기 여우컷",
+    "breed": "pomeranian",
+    "direction": "뾰족한 귀와 살짝 긴 주둥이, 날렵한 볼 털과 복슬한 꼬리가 대비되는 여우형 포메.",
+    "png": "/images/pixel-art-v1/art-03.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-04",
+    "name": "몽실 구름털",
+    "breed": "pomeranian",
+    "direction": "둥근 털 덩어리가 얼굴과 몸을 감싸고 작은 발이 살짝 보이는 풍성한 구름형 실루엣.",
+    "png": "/images/pixel-art-v1/art-04.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-05",
+    "name": "동화책 붓결",
+    "breed": "pomeranian",
+    "direction": "길고 부드러운 털 방향과 포근한 눈매를 촘촘한 픽셀 붓결로 표현한 동화풍 원화.",
+    "png": "/images/pixel-art-v1/art-05.png",
+    "width": 1024,
+    "height": 1024
+  },
+  {
+    "id": "art-06",
+    "name": "보석 털조각",
+    "breed": "pomeranian",
+    "direction": "털을 작은 면으로 나누고 선명한 명암을 쌓아 또렷한 입체감과 반짝이는 눈을 강조.",
+    "png": "/images/pixel-art-v1/art-06.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-07",
+    "name": "순둥 긴볼털",
+    "breed": "pomeranian",
+    "direction": "길게 내려오는 볼 털과 살짝 작은 눈, 둥근 이마로 순하고 차분한 인상을 구현.",
+    "png": "/images/pixel-art-v1/art-07.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-08",
+    "name": "왕머리 꼬마",
+    "breed": "pomeranian",
+    "direction": "커다란 머리와 아주 짧은 몸, 작은 발을 조합하고 얼굴 표정은 섬세하게 살린 SD형.",
+    "png": "/images/pixel-art-v1/art-08.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-09",
+    "name": "리얼 미니어처",
+    "breed": "pomeranian",
+    "direction": "실제 포메의 몸 비율과 풍성한 이중모를 유지하면서 게임 펫처럼 사랑스럽게 다듬은 형태.",
+    "png": "/images/pixel-art-v1/art-09.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-10",
+    "name": "단추눈 인형",
+    "breed": "pomeranian",
+    "direction": "간결한 동그란 눈과 작은 코를 중심으로, 촘촘한 털 명암으로 고급 인형 같은 질감 표현.",
+    "png": "/images/pixel-art-v1/art-10.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-11",
+    "name": "반짝 초롱눈",
+    "breed": "pomeranian",
+    "direction": "크고 촉촉한 눈과 도톰한 볼 털, 작게 웃는 입으로 표정의 존재감을 높인 캐릭터형.",
+    "png": "/images/pixel-art-v1/art-11.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-12",
+    "name": "나른한 반달눈",
+    "breed": "pomeranian",
+    "direction": "편안한 반쯤 감긴 눈과 둥근 볼, 얌전한 입 모양을 풍부한 털 디테일과 결합.",
+    "png": "/images/pixel-art-v1/art-12.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-13",
+    "name": "방긋 장난꾸러기",
+    "breed": "pomeranian",
+    "direction": "올라간 입꼬리와 환한 눈매, 살짝 흐트러진 이마 털로 생기 있는 장난꾸러기 인상.",
+    "png": "/images/pixel-art-v1/art-13.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-14",
+    "name": "실키 장모",
+    "breed": "pomeranian",
+    "direction": "가는 장모가 목과 꼬리를 따라 부드럽게 흐르며 정갈한 얼굴과 우아한 실루엣 형성.",
+    "png": "/images/pixel-art-v1/art-14.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-15",
+    "name": "꼬마 사자갈기",
+    "breed": "pomeranian",
+    "direction": "얼굴 주변의 커다란 방사형 목털과 단정한 몸통이 대비되는 풍성한 갈기형 포메.",
+    "png": "/images/pixel-art-v1/art-15.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-16",
+    "name": "폭신 벨벳컷",
+    "breed": "pomeranian",
+    "direction": "매끈하게 다듬은 짧은 털과 통통한 몸, 조밀한 작은 픽셀 명암으로 벨벳 같은 부드러움.",
+    "png": "/images/pixel-art-v1/art-16.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-17",
+    "name": "또렷 카툰도트",
+    "breed": "pomeranian",
+    "direction": "굵고 읽기 쉬운 윤곽 안에 섬세한 털과 입체 명암을 넣어 작게 봐도 표정이 선명한 스타일.",
+    "png": "/images/pixel-art-v1/art-17.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-18",
+    "name": "섬세한 털끝선",
+    "breed": "pomeranian",
+    "direction": "가는 털끝과 짙은 중심 윤곽을 정교하게 나누어 풍성함과 가벼움을 함께 표현.",
+    "png": "/images/pixel-art-v1/art-18.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-19",
+    "name": "비스킷 보브컷",
+    "breed": "pomeranian",
+    "direction": "둥근 사각형에 가까운 볼 털과 단정한 앞가슴, 도톰한 발이 어우러지는 보브컷 형태.",
+    "png": "/images/pixel-art-v1/art-19.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-20",
+    "name": "촘촘 이중모",
+    "breed": "pomeranian",
+    "direction": "짧고 폭신한 속털 위로 가는 긴 털을 층층이 얹어 포메 특유의 이중모를 강조.",
+    "png": "/images/pixel-art-v1/art-20.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-21",
+    "name": "하트 볼 실루엣",
+    "breed": "pomeranian",
+    "direction": "좌우로 풍성한 볼과 아래로 모이는 목털이 자연스러운 하트형 얼굴 외곽을 만드는 스타일.",
+    "png": "/images/pixel-art-v1/art-21.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-22",
+    "name": "쫑긋 큰귀",
+    "breed": "pomeranian",
+    "direction": "선명하게 솟은 귀와 넓은 이마, 작은 코가 시선을 끄는 호기심 많은 아기 포메.",
+    "png": "/images/pixel-art-v1/art-22.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-23",
+    "name": "작은귀 솜뭉치",
+    "breed": "pomeranian",
+    "direction": "풍성한 이마 털 사이로 작은 삼각 귀만 보이고, 동그란 얼굴과 짧은 다리가 돋보이는 형태.",
+    "png": "/images/pixel-art-v1/art-23.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-24",
+    "name": "꽃잎 볼털",
+    "breed": "pomeranian",
+    "direction": "볼과 목 주변의 털을 부드러운 꽃잎 같은 큰 덩어리로 정리하고 각 덩어리의 입체감을 강조.",
+    "png": "/images/pixel-art-v1/art-24.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-25",
+    "name": "통통 왕발",
+    "breed": "pomeranian",
+    "direction": "도톰한 앞발과 짧은 다리, 작게 웃는 얼굴을 조합해 발끝까지 사랑스러운 어린 포메 비율.",
+    "png": "/images/pixel-art-v1/art-25.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-26",
+    "name": "산뜻한 어린포메",
+    "breed": "pomeranian",
+    "direction": "살짝 길어진 다리와 가벼운 몸통, 복슬한 머리와 꼬리의 대비로 활기찬 성장기 포메 표현.",
+    "png": "/images/pixel-art-v1/art-26.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-27",
+    "name": "낮은 콩알몸",
+    "breed": "pomeranian",
+    "direction": "낮고 동그란 몸통 위에 폭신한 머리가 얹히고 작은 발이 또렷하게 보이는 아담한 실루엣.",
+    "png": "/images/pixel-art-v1/art-27.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-28",
+    "name": "풍성한 깃털꼬리",
+    "breed": "pomeranian",
+    "direction": "크게 말린 부채형 꼬리와 정갈한 얼굴, 얇게 갈라진 털 끝으로 포메의 꼬리 매력 강조.",
+    "png": "/images/pixel-art-v1/art-28.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-29",
+    "name": "숄처럼 풍성한 목털",
+    "breed": "pomeranian",
+    "direction": "앞가슴에서 어깨까지 넓게 펼쳐진 긴 털과 작은 얼굴이 어우러지는 당당하고 포근한 형태.",
+    "png": "/images/pixel-art-v1/art-29.png",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "art-30",
+    "name": "수공예 정밀도트",
+    "breed": "pomeranian",
+    "direction": "작은 털 덩어리와 섬세한 반사광을 차곡차곡 쌓아 장인이 한 픽셀씩 다듬은 듯한 고밀도 스타일.",
+    "png": "/images/pixel-art-v1/art-30.png",
+    "width": 1254,
+    "height": 1254
+  }
+]

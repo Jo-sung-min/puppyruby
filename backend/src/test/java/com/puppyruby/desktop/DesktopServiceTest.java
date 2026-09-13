@@ -64,6 +64,17 @@ class DesktopServiceTest {
         status(401, () -> desktop.state(player)); status(401, () -> desktop.state(null));
     }
 
+    @Test void pairedDeviceKeepsEveryExpandedBreedIndexAndCurrentSelection() {
+        String player = owner(); var connection = connect(player);
+        for (int breed = 6; breed < 30; breed++) {
+            var award = game.awardPuppy(player, breed, com.puppyruby.game.Grade.R);
+            var synced = desktop.state(connection.token());
+            assertEquals(breed, synced.puppy().breed()); assertEquals(award.newPuppyId(), synced.puppy().id());
+            assertEquals(1000, synced.coins());
+        }
+        assertEquals(25, game.state(player).puppies().size()); assertEquals(0, game.state(player).puppies().getFirst().breed);
+    }
+
     @Test void codeIsSingleUseExpiresAndRegenerationInvalidatesPreviousCode() {
         String player = owner();
         var old = desktop.pairCode(player); var replacement = desktop.pairCode(player);

@@ -63,7 +63,7 @@ class GameServiceTest {
         assertEquals(100, game.state(id).puppies().getFirst().hunger);
     }
     @Test void everyBreedCanGrowToHighestGrade() {
-        for (int breed = 0; breed < 6; breed++) {
+        for (int breed = 0; breed < GameService.BREEDS.size(); breed++) {
             String id = player(); Player p = repository.findById(id).orElseThrow();
             Puppy dog = p.puppies.getFirst(); dog.breed = breed; dog.grade = Grade.N; dog.xp = 300; repository.save(p);
             for (Grade expected : List.of(Grade.R, Grade.SR, Grade.SSR)) {
@@ -123,6 +123,22 @@ class GameServiceTest {
                 }
             }
         }
+    }
+    @Test void expandedBreedCatalogPreservesOldNumericMeaningAndAwardsAllThirtyBreeds() {
+        assertEquals(30, BreedCatalog.ALL.size()); assertEquals(30, new HashSet<>(BreedCatalog.IDS).size());
+        assertEquals(List.of("pomeranian", "poodle", "maltese", "shiba", "corgi", "beagle"), BreedCatalog.IDS.subList(0, 6));
+        assertEquals(List.of("포메라니안", "토이 푸들", "말티즈", "시바 이누", "웰시 코기", "비글"), GameService.BREEDS.subList(0, 6));
+        assertEquals("samoyed", BreedCatalog.IDS.get(6)); assertEquals("dalmatian", BreedCatalog.IDS.get(16)); assertEquals("chowchow", BreedCatalog.IDS.get(29));
+        String id = player(); String starter = game.state(id).selectedId();
+        for (int breed = 0; breed < 30; breed++) {
+            var awarded = game.awardPuppy(id, breed, Grade.R); var puppy = awarded.state().puppies().getLast();
+            assertEquals(breed, puppy.breed); assertEquals(BreedCatalog.ALL.get(breed).puppyName(), puppy.name);
+            assertEquals(puppy.id, awarded.newPuppyId()); assertEquals(Grade.R, puppy.grade); assertEquals(1000, awarded.state().coins());
+        }
+        var saved = game.state(id); assertEquals(31, saved.puppies().size()); assertEquals(starter, saved.puppies().getFirst().id);
+        assertEquals(0, saved.puppies().getFirst().breed); assertEquals("루비", saved.puppies().getFirst().name);
+        for (int invalid : List.of(-1, 30, Integer.MAX_VALUE)) assertThrows(ResponseStatusException.class, () -> game.awardPuppy(id, invalid, Grade.N));
+        assertThrows(ResponseStatusException.class, () -> game.awardPuppy(id, 29, null)); assertEquals(31, game.state(id).puppies().size());
     }
     @Test void shortcutLookupIsOwnedGradeGatedAndNeverFarmsRewards() {
         String id = player(), dogId = puppyAtGrade(id, Grade.N), foreign = game.state(player()).selectedId();

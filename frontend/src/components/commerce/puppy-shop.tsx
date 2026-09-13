@@ -209,6 +209,7 @@ function MemberShop({ userId, kind, catalog, catalogReady, children, onGameChang
   const pendingRef = useRef<PendingDraw | null>(null);
   const gameChanged = useRef(onGameChanged);
   const ordersNode = useRef<HTMLDetailsElement>(null);
+  const inventoryNode = useRef<HTMLElement>(null);
   useEffect(() => { gameChanged.current = onGameChanged; }, [onGameChanged]);
 
   const refreshWallet = useCallback(async (preserveError = false) => {
@@ -265,6 +266,17 @@ function MemberShop({ userId, kind, catalog, catalogReady, children, onGameChang
     window.addEventListener("hashchange", revealOrders);
     return () => window.removeEventListener("hashchange", revealOrders);
   }, []);
+
+  const inventoryReady = !!wallet && !!game;
+  useEffect(() => {
+    if (!inventoryReady) return;
+    function revealInventory() {
+      if (window.location.hash === "#inventory") inventoryNode.current?.scrollIntoView({ block: "start" });
+    }
+    revealInventory();
+    window.addEventListener("hashchange", revealInventory);
+    return () => window.removeEventListener("hashchange", revealInventory);
+  }, [inventoryReady]);
 
   function updatePending(value: PendingDraw | null) {
     pendingRef.current = value; storePending(userId, value);
@@ -374,7 +386,7 @@ function MemberShop({ userId, kind, catalog, catalogReady, children, onGameChang
         <div><span className="commerce-eyebrow">뽑기 결과 · {commerceKindName(reward.kind)}</span><h2>{reward.label}</h2><p>{reward.grade} · {reward.kind === "dog" ? "새 강아지를 선택했어요. 함께 만나러 가요." : reward.duplicate ? "이미 가진 아이템이에요. 보유 수량이 1개 늘었어요." : "보관함에 새 아이템을 추가했어요."}</p>{reward.kind === "dog" && <Link href="/play" className="account-text-link">강아지 만나러 가기</Link>}</div>
       </section>}
       {children}
-      {wallet && game && <section className="commerce-card" aria-labelledby="commerce-inventory-heading">
+      {wallet && game && <section id="inventory" ref={inventoryNode} className="commerce-card" aria-labelledby="commerce-inventory-heading">
         <div className="commerce-section-heading"><div><h2 id="commerce-inventory-heading">내 보관함</h2><p>꾸밀 강아지를 고른 뒤 아우라와 치장품을 착용해요.</p></div><Package size={22} aria-hidden="true" /></div>
         <label className="commerce-field commerce-puppy-select"><span>꾸밀 강아지</span><select value={puppyId} disabled={busy || loading || !!pending} onChange={event => setPuppyId(event.target.value)} aria-label="꾸밀 강아지">
           {!game.puppies.length && <option value="">함께하는 강아지가 없어요</option>}

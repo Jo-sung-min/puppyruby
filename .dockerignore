@@ -8,3 +8,4 @@
 backend/data
 desktop/dist
 .playwright-mcp
+local-assets

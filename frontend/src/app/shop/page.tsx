@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { getServerSeo, publicPageSeoMetadata } from "@/lib/server-seo";
 import { AccountShell } from "@/components/account/account-shell";
 import { PuppyShop } from "@/components/commerce/puppy-shop";
 
-export const metadata: Metadata = { title: "상점 · PuppyRuby", description: "강아지 친구와 아우라, 치장품을 만나고 보관함에서 꾸며요." };
+export async function generateMetadata(): Promise<Metadata> { return publicPageSeoMetadata(await getServerSeo(), "shop"); }
 
 export default function ShopPage() {
   return <AccountShell wide><PuppyShop /></AccountShell>;

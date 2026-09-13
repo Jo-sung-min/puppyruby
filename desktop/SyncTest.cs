@@ -42,12 +42,27 @@ namespace PuppyRubyDesktop
                 bool failed = false; try { DesktopSync.ValidateOrigin(address); } catch (ArgumentException) { failed = true; }
                 Check(failed, "sync rejects unsafe or non-origin URL " + address, report);
             }
+            Check(DesktopBreedCatalog.Ids.Length == 30 && DesktopBreedCatalog.Ids[0] == "pomeranian" && DesktopBreedCatalog.Ids[5] == "beagle" && DesktopBreedCatalog.Ids[29] == "chowchow", "30-breed catalog preserves original saved indices", report);
+            var breedState = new DesktopGameState { puppy = new SyncedPuppy { id = "breed-test", name = "품종 검증", grade = "N", xp = 0 }, promotionXp = 100 };
+            for (int index = 0; index < DesktopBreedCatalog.Ids.Length; index++)
+            {
+                breedState.puppy.breed = index;
+                DesktopSync.ValidateState(breedState);
+            }
+            Check(true, "sync accepts every registered breed index", report);
+            foreach (int index in new[] { -1, DesktopBreedCatalog.Ids.Length, Int32.MaxValue })
+            {
+                breedState.puppy.breed = index;
+                bool failed = false; try { DesktopSync.ValidateState(breedState); } catch (InvalidDataException) { failed = true; }
+                Check(failed, "sync rejects unregistered breed index " + index, report);
+            }
             string cache = Path.Combine(Path.GetDirectoryName(output), "test-desktop.link");
-            var record = new DesktopLinkRecord { origin = "http://127.0.0.1:3001", token = "unit-test-token-not-a-real-credential", deviceId = "unit-device", deviceLabel = "검증용 기기", cachedState = new DesktopGameState { puppy = new SyncedPuppy { id = "unit-puppy", name = "쿠키", breed = 4, grade = "SR", xp = 72, fur = "rose", eyes = "green", accessory = "crown" }, promotionXp = 100, obedience = 90, coins = 12 } };
+            var record = new DesktopLinkRecord { origin = "http://127.0.0.1:3001", token = "unit-test-token-not-a-real-credential", deviceId = "unit-device", deviceLabel = "검증용 기기", cachedState = new DesktopGameState { puppy = new SyncedPuppy { id = "unit-puppy", name = "쿠키", breed = 29, grade = "SR", xp = 72, fur = "rose", eyes = "green", accessory = "crown" }, promotionXp = 100, obedience = 90, coins = 12 } };
             LinkStorage.Save(cache, record);
             Check(!Encoding.UTF8.GetString(File.ReadAllBytes(cache)).Contains(record.token), "DPAPI cache never stores bearer token in plaintext", report);
             DesktopLinkRecord restored = LinkStorage.Load(cache);
             Check(restored.token == record.token && restored.deviceLabel == record.deviceLabel, "DPAPI CurrentUser credential round-trip", report);
+            Check(restored.cachedState.puppy.breed == 29, "new breed cache survives encrypted save and restart", report);
             Check(restored.cachedState.puppy.name == "쿠키" && restored.cachedState.puppy.grade == "SR" && restored.cachedState.puppy.xp == 72 && restored.cachedState.puppy.fur == "rose" && restored.cachedState.puppy.eyes == "green" && restored.cachedState.puppy.accessory == "crown", "linked appearance grade and XP cache round-trip", report);
             Progression standalone = new Progression(); standalone.RewardActivity(DateTime.UtcNow);
             using (var client = new DesktopSync(cache, true))

@@ -1,46 +1,27 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { createRequire } = require('node:module');
-const Module = require('node:module');
 const assert = require('node:assert/strict');
 const { createHash } = require('node:crypto');
 const root = path.resolve(__dirname, '..');
 const requireFrontend = createRequire(path.join(root, 'frontend/package.json'));
-const swc = requireFrontend('next/dist/build/swc');
+const { loadFrontend } = require('../scripts/frontend-loader.cjs');
 const React = requireFrontend('react');
 const { renderToStaticMarkup } = requireFrontend('react-dom/server');
 const sharp = requireFrontend('sharp');
-const sourcePath = path.join(root, 'frontend/src/components/pixel-dog.tsx');
-const compiled = swc.transformSync(fs.readFileSync(sourcePath, 'utf8'), {
-  filename: sourcePath,
-  jsc: { parser: { syntax: 'typescript', tsx: true }, transform: { react: { runtime: 'automatic' } }, target: 'es2020' },
-  module: { type: 'commonjs' },
-}).code;
-const component = new Module(sourcePath, module);
-component.filename = sourcePath;
-component.paths = Module._nodeModulePaths(path.dirname(sourcePath));
-component._compile(compiled, sourcePath);
-const { PixelDog } = component.exports;
-function loadFrontend(relativePath, overrides = {}) {
-  const filename = path.join(root, 'frontend', relativePath);
-  const code = swc.transformSync(fs.readFileSync(filename, 'utf8'), {
-    filename, jsc: { parser: { syntax: 'typescript', tsx: filename.endsWith('.tsx') }, transform: { react: { runtime: 'automatic' } }, target: 'es2020' },
-    module: { type: 'commonjs' },
-  }).code;
-  const loaded = new Module(filename, module);
-  loaded.filename = filename; loaded.paths = Module._nodeModulePaths(path.dirname(filename));
-  const fallback = loaded.require.bind(loaded);
-  loaded.require = name => overrides[name] || fallback(name);
-  loaded._compile(code, filename);
-  return loaded.exports;
-}
+const component = loadFrontend('src/components/pixel-dog.tsx');
+const { PixelDog } = component;
+const { dogBreeds } = loadFrontend('src/lib/dog-breeds.ts');
 const game = loadFrontend('src/lib/game.ts');
 // Native exports use the pure default renderer. Runtime web settings are not embedded here.
-const { PuppySprite } = loadFrontend('src/components/puppy-sprite.tsx', { '../lib/cosmetics': loadFrontend('src/lib/cosmetics.ts'), '@/lib/game': game, './styled-pixel-dog': component.exports });
-const out = path.join(__dirname, 'build/assets');
+const { PuppySprite } = loadFrontend('src/components/puppy-sprite.tsx', { './styled-pixel-dog': component });
+const out = path.join(root, 'local-assets/desktop/build/assets');
 fs.mkdirSync(out, { recursive: true });
 
-const webBreeds = ['pomeranian', 'poodle', 'maltese', 'shiba', 'corgi', 'beagle'];
+const webBreeds = dogBreeds.map(breed => breed.id);
+assert.deepEqual(webBreeds.slice(0, 6), ['pomeranian', 'poodle', 'maltese', 'shiba', 'corgi', 'beagle'], 'Persisted breed indices must not change');
+assert.equal(new Set(webBreeds).size, webBreeds.length);
+fs.writeFileSync(path.join(out, 'breed-catalog.json'), JSON.stringify({ version: 1, ids: webBreeds, names: dogBreeds.map(breed => breed.name) }));
 function appearance(breed, fur, eyes, accessory) {
   // Let the real web wrapper resolve its coat colors and eye palette; its UI swatch colors differ.
   const element = PuppySprite({ puppy: { breed: Math.max(0, webBreeds.indexOf(breed)), fur, eyes, accessory }, decorative: true });
@@ -76,7 +57,7 @@ function compose(body, ...overlays) {
 
 async function exportLinked(breeds, moods) {
   const furs = game.furOptions.map(item => item.id), eyes = game.eyeOptions.map(item => item.id), accessories = game.accessories.map(item => item.id);
-  const manifest = { version: 1, width: 64, height: 64, breeds, webBreeds, moods, furs, eyes, accessories, bodies: {}, eyeLayers: {}, accessoryLayers: {} };
+  const manifest = { version: 2, width: 64, height: 64, breeds, webBreeds, moods, furs, eyes, accessories, bodies: {}, eyeLayers: {}, accessoryLayers: {} };
   const resources = new Map();
   async function resource(data) {
     const name = `linked-${createHash('sha256').update(data).digest('hex')}.png`;
@@ -86,24 +67,30 @@ async function exportLinked(breeds, moods) {
     }
     return name;
   }
-  for (const mood of moods) for (const look of [-1, 0, 1]) for (const frame of [0, 1]) {
-    const prefix = `${mood}|${look + 1}|${frame}`;
-    const standard = await rawSprite('shiba', mood, look, frame, 'original');
-    for (const eye of eyes) manifest.eyeLayers[`${prefix}|${eye}`] = eye === 'original' ? null
-      : await resource(difference(standard, await rawSprite('shiba', mood, look, frame, 'original', eye)));
-    for (const accessory of accessories) manifest.accessoryLayers[`${prefix}|${accessory}`] = accessory === 'none' ? null
-      : await resource(difference(standard, await rawSprite('shiba', mood, look, frame, 'original', 'original', accessory)));
-    for (const breed of breeds) for (const fur of furs) {
-      manifest.bodies[`${breed}|${prefix}|${fur}`] = await resource(await rawSprite(breed, mood, look, frame, fur));
+  for (const breed of breeds) {
+    for (const mood of moods) for (const look of [-1, 0, 1]) for (const frame of [0, 1]) for (const fur of furs) {
+      const prefix = `${breed}|${mood}|${look + 1}|${frame}|${fur}`;
+      const standard = await rawSprite(breed, mood, look, frame, fur);
+      manifest.bodies[prefix] = await resource(standard);
+      // New breeds have different face geometry and coat marks. Keep their overlays separate;
+      // content addressing still deduplicates identical images across poses and palettes.
+      for (const eye of eyes) manifest.eyeLayers[`${prefix}|${eye}`] = eye === 'original' ? null
+        : await resource(difference(standard, await rawSprite(breed, mood, look, frame, fur, eye)));
+      for (const accessory of accessories) manifest.accessoryLayers[`${prefix}|${accessory}`] = accessory === 'none' ? null
+        : await resource(difference(standard, await rawSprite(breed, mood, look, frame, fur, 'original', accessory)));
     }
+    console.log(`Exported linked appearance layers: ${breed}`);
   }
   assert.equal(Object.keys(manifest.bodies).length, breeds.length * moods.length * 6 * furs.length);
-  const verifyDir = path.join(__dirname, 'build/linked-verification'); fs.mkdirSync(verifyDir, { recursive: true });
+  assert.equal(Object.keys(manifest.eyeLayers).length, Object.keys(manifest.bodies).length * eyes.length);
+  assert.equal(Object.keys(manifest.accessoryLayers).length, Object.keys(manifest.bodies).length * accessories.length);
+  const verifyDir = path.join(root, 'local-assets/desktop/build/linked-verification'); fs.mkdirSync(verifyDir, { recursive: true });
   const examples = [];
   let verified = 0;
   async function verify(breed, mood, look, frame, fur, eye, accessory, save = false) {
     const prefix = `${mood}|${look + 1}|${frame}`;
-    const actual = compose(resources.get(manifest.bodies[`${breed}|${prefix}|${fur}`]), resources.get(manifest.eyeLayers[`${prefix}|${eye}`]), resources.get(manifest.accessoryLayers[`${prefix}|${accessory}`]));
+    const key = `${breed}|${prefix}|${fur}`;
+    const actual = compose(resources.get(manifest.bodies[key]), resources.get(manifest.eyeLayers[`${key}|${eye}`]), resources.get(manifest.accessoryLayers[`${key}|${accessory}`]));
     const expected = await rawSprite(breed, mood, look, frame, fur, eye, accessory);
     assert.ok(actual.equals(expected), `Linked pixels differ: ${breed}/${prefix}/${fur}/${eye}/${accessory}`);
     verified++;
@@ -118,7 +105,7 @@ async function exportLinked(breeds, moods) {
     const pick = index * 7 + moodIndex * 3 + look + 1 + frame;
     await verify(breed, mood, look, frame, furs[pick % furs.length], eyes[pick % eyes.length], accessories[(pick + 1) % accessories.length], look === 0 && frame === 0 && ['idle', 'typing', 'sleep'].includes(mood));
   }
-  for (const fur of furs) for (const eye of eyes) for (const accessory of accessories) await verify('pomeranian', 'excited', -1, 1, fur, eye, accessory);
+  for (const breed of breeds) for (const fur of furs) for (const eye of eyes) for (const accessory of accessories) await verify(breed, 'excited', -1, 1, fur, eye, accessory);
   fs.writeFileSync(path.join(out, 'linked-sprites.json'), JSON.stringify(manifest));
   fs.writeFileSync(path.join(verifyDir, 'samples.json'), JSON.stringify(examples));
   // Remove only obsolete files produced by this content-addressed exporter, preserving legacy assets.
@@ -131,12 +118,12 @@ async function exportLinked(breeds, moods) {
     const label = `<svg width="224" height="48"><style>text{font:12px sans-serif;fill:#433024}</style><text x="8" y="15">${sample.breed} / ${sample.mood}</text><text x="8" y="34">${sample.fur} / ${sample.eyes} / ${sample.accessory}</text></svg>`;
     tiles.push({ input: Buffer.from(label), left, top: top + 192 });
   }
-  await sharp({ create: { width, height, channels: 4, background: '#fff9ed' } }).composite(tiles).png().toFile(path.join(__dirname, 'build/linked-contact-sheet.png'));
+  await sharp({ create: { width, height, channels: 4, background: '#fff9ed' } }).composite(tiles).png().toFile(path.join(root, 'local-assets/desktop/build/linked-contact-sheet.png'));
   console.log(`Linked sprites: ${Object.keys(manifest.bodies).length} body mappings + ${Object.keys(manifest.eyeLayers).length + Object.keys(manifest.accessoryLayers).length} overlay mappings in ${resources.size} deduplicated PNGs; ${verified} exact RGBA comparisons passed.`);
 }
 
 (async () => {
-  const breeds = ['shiba', 'samoyed', 'poodle', 'corgi', 'maltese', 'beagle', 'pomeranian'];
+  const breeds = webBreeds;
   const moods = ['idle', 'love', 'eat', 'play', 'sleep', 'typing', 'excited', 'scroll', 'drag', 'walk'];
   const entries = [];
   for (const breed of breeds) for (const mood of moods) for (const look of [-1, 0, 1]) for (const frame of [0, 1]) {

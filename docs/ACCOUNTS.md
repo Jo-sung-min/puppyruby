@@ -21,7 +21,7 @@ Java 21과 Node.js가 필요합니다. 아래 명령은 서버를 `backend` 작�
 .\backend\start-server.ps1
 ```
 
-이 스크립트는 무시되는 `backend/.env.local`을 읽습니다. 처음 설치하는 환경에서는 `backend/.env.example`을 복사한 뒤 값을 입력하세요. 기본 로컬 서버는 `PORT=8080`, 웹은 3000입니다. 기존 로컬 설정의 포트도 확인하고 이미 실행 중인 같은 서버가 있다면 종료한 뒤 시작합니다. 화면 서버는 별도 터미널의 `frontend`에서 `npm run dev`로 실행합니다.
+이 스크립트는 무시되는 `backend/.env`를 먼저 읽고 `backend/.env.local`의 같은 항목으로 덮어씁니다. 처음 설치하는 환경에서는 `backend/.env.example`을 참고해 값을 입력하세요. 기본 로컬 서버는 `PORT=8080`, 웹은 3000입니다. 기존 로컬 설정의 포트도 확인하고 이미 실행 중인 같은 서버가 있다면 종료한 뒤 시작합니다. 화면 서버는 별도 터미널의 `frontend`에서 `npm run dev`로 실행합니다.
 
 Spring Boot를 `java -jar` 또는 `bootRun`으로 직접 시작하면 `.env.local`은 자동으로 읽지 않습니다. 이 경우 동일한 환경 변수를 해당 프로세스에 전달해야 합니다. 설정 파일은 코드처럼 실행하지 않고 허용된 이름과 문자열 값만 읽습니다.
 

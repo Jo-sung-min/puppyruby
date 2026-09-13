@@ -12,6 +12,7 @@ import java.util.*;
 
 @Service
 public class MediaService {
+    private static final String PROFILE = "walk-profile", SEO = "seo";
     private final MediaSettings settings;
     private final MediaUploadRepository uploads;
     private final MediaObjectStore storage;
@@ -25,11 +26,21 @@ public class MediaService {
     public record Presigned(String uploadId, String uploadUrl, String method, Map<String, String> headers, long expiresAt) {}
     public record Complete(String uploadId) {}
     public record Completed(String photo, String url) {}
+    public record SeoCompleted(String url) {}
 
     public Config config() { return new Config(settings.enabled, settings.maxBytes, MediaSettings.TYPES); }
 
     @Transactional
     public Presigned presign(String ownerPlayerId, Input input) {
+        return presignUpload(ownerPlayerId, input, PROFILE);
+    }
+
+    @Transactional
+    public Presigned presignSeo(String ownerPlayerId, Input input) {
+        return presignUpload(ownerPlayerId, input, SEO);
+    }
+
+    private Presigned presignUpload(String ownerPlayerId, Input input, String purpose) {
         requireEnabled(); limiter.take("presign", ownerPlayerId, 10);
         if (input == null || !MediaSettings.TYPES.contains(Objects.toString(input.contentType(), ""))
             || input.size() == null || input.size() <= 0 || input.size() > settings.maxBytes)
@@ -38,7 +49,8 @@ public class MediaService {
         long now = System.currentTimeMillis();
         var upload = new MediaUpload(); upload.id = UUID.randomUUID().toString(); upload.ownerPlayerId = ownerPlayerId;
         upload.bucket = settings.bucket;
-        upload.objectKey = settings.prefix + "/walk-profiles/" + UUID.randomUUID() + (input.contentType().equals("image/png") ? ".png" : ".jpg");
+        upload.purpose = purpose;
+        upload.objectKey = settings.prefix + (SEO.equals(purpose) ? "/seo-shares/" : "/walk-profiles/") + UUID.randomUUID() + (input.contentType().equals("image/png") ? ".png" : ".jpg");
         upload.contentType = input.contentType(); upload.sha256 = input.sha256(); upload.size = input.size();
         upload.createdAt = now; upload.expiresAt = now + settings.ttlSeconds * 1000L;
         var signed = storage.presign(upload, settings.ttlSeconds);
@@ -48,21 +60,31 @@ public class MediaService {
 
     @Transactional
     public Completed complete(String ownerPlayerId, Complete input) {
+        return completed(completeUpload(ownerPlayerId, input, PROFILE));
+    }
+
+    @Transactional
+    public SeoCompleted completeSeo(String ownerPlayerId, Complete input) {
+        return new SeoCompleted(settings.imageUrl(completeUpload(ownerPlayerId, input, SEO).objectKey));
+    }
+
+    private MediaUpload completeUpload(String ownerPlayerId, Complete input, String purpose) {
         limiter.take("complete", ownerPlayerId, 20);
         String id = canonicalId(input == null ? null : input.uploadId());
-        MediaUpload upload = uploads.findLocked(id).filter(value -> value.ownerPlayerId.equals(ownerPlayerId))
+        MediaUpload upload = uploads.findLocked(id).filter(value -> value.ownerPlayerId.equals(ownerPlayerId) && hasPurpose(value, purpose))
             .orElseThrow(() -> bad("내가 올린 사진을 다시 선택해 주세요."));
-        if (upload.completedAt != null) return completed(upload);
+        if (upload.completedAt != null) return upload;
         requireEnabled();
         if (upload.expiresAt <= System.currentTimeMillis()) throw bad("사진 등록 시간이 만료되었어요. 파일을 다시 선택해 주세요.");
         MediaObjectStore.StoredImage object = storage.read(upload, settings.maxBytes);
         if (object.bytes() == null || object.bytes().length != upload.size || object.contentLength() != upload.size
             || object.bytes().length > settings.maxBytes || !upload.contentType.equals(object.contentType())
             || !MessageDigest.isEqual(Base64.getDecoder().decode(upload.sha256), digest(object.bytes()))
-            || !validImage(object.bytes(), upload.contentType))
-            throw bad("사진을 확인할 수 없어요. 가로·세로 1,024px 이하의 JPG·PNG 사진을 다시 올려 주세요.");
+            || !validImage(object.bytes(), upload.contentType, SEO.equals(purpose) ? 2048 : 1024))
+            throw bad(SEO.equals(purpose) ? "공유 이미지를 확인할 수 없어요. 가로·세로 2,048px 이하의 JPG·PNG 이미지를 다시 올려 주세요."
+                : "사진을 확인할 수 없어요. 가로·세로 1,024px 이하의 JPG·PNG 사진을 다시 올려 주세요.");
         upload.completedAt = System.currentTimeMillis(); uploads.save(upload);
-        return completed(upload);
+        return upload;
     }
 
     /** Only application-issued, completed references can become a profile photo. */
@@ -70,7 +92,7 @@ public class MediaService {
     public String ownedReference(String ownerPlayerId, String reference) {
         if (reference == null || !reference.startsWith("media:")) throw bad("등록한 사진을 다시 선택해 주세요.");
         String id = canonicalId(reference.substring(6));
-        uploads.findById(id).filter(value -> value.ownerPlayerId.equals(ownerPlayerId) && value.completedAt != null)
+        uploads.findById(id).filter(value -> value.ownerPlayerId.equals(ownerPlayerId) && value.completedAt != null && hasPurpose(value, PROFILE))
             .orElseThrow(() -> bad("내가 등록을 완료한 사진만 사용할 수 있어요."));
         return "media:" + id;
     }
@@ -80,11 +102,14 @@ public class MediaService {
     public String resolve(String reference) {
         if (reference == null || !reference.startsWith("media:")) return reference;
         String id = reference.substring(6);
-        return uploads.findById(id).filter(value -> value.completedAt != null)
+        return uploads.findById(id).filter(value -> value.completedAt != null && hasPurpose(value, PROFILE))
             .map(value -> settings.imageUrl(value.objectKey)).orElse(null);
     }
 
     private Completed completed(MediaUpload upload) { return new Completed("media:" + upload.id, settings.imageUrl(upload.objectKey)); }
+    private static boolean hasPurpose(MediaUpload upload, String purpose) {
+        return purpose.equals(upload.purpose) || PROFILE.equals(purpose) && upload.purpose == null;
+    }
     private void requireEnabled() {
         if (!settings.enabled) throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "사진 업로드를 준비 중이에요. 잠시 후 다시 이용해 주세요.");
     }
@@ -102,6 +127,9 @@ public class MediaService {
         catch (NoSuchAlgorithmException impossible) { throw new IllegalStateException(impossible); }
     }
     static boolean validImage(byte[] bytes, String contentType) {
+        return validImage(bytes, contentType, 1024);
+    }
+    private static boolean validImage(byte[] bytes, String contentType, int maxDimension) {
         boolean png = bytes.length >= 8 && Arrays.equals(Arrays.copyOf(bytes, 8), new byte[] {(byte)137, 80, 78, 71, 13, 10, 26, 10});
         boolean jpeg = bytes.length >= 3 && (bytes[0] & 255) == 255 && (bytes[1] & 255) == 216 && (bytes[2] & 255) == 255;
         if (!(contentType.equals("image/png") && png || contentType.equals("image/jpeg") && jpeg)) return false;
@@ -111,7 +139,7 @@ public class MediaService {
             var reader = readers.next();
             try {
                 reader.setInput(stream);
-                if (reader.getWidth(0) < 1 || reader.getHeight(0) < 1 || reader.getWidth(0) > 1024 || reader.getHeight(0) > 1024) return false;
+                if (reader.getWidth(0) < 1 || reader.getHeight(0) < 1 || reader.getWidth(0) > maxDimension || reader.getHeight(0) > maxDimension) return false;
                 return reader.read(0) != null;
             } finally { reader.dispose(); }
         } catch (Exception invalid) { return false; }

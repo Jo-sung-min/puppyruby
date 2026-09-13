@@ -12,7 +12,8 @@ import java.io.IOException;
 class MediaResponseFilter extends OncePerRequestFilter {
     @Override protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
         throws ServletException, IOException {
-        if (request.getRequestURI().startsWith(request.getContextPath() + "/api/v1/media/")) {
+        if (request.getRequestURI().startsWith(request.getContextPath() + "/api/v1/media/")
+            || request.getRequestURI().startsWith(request.getContextPath() + "/api/v1/admin/seo-media/")) {
             response.setHeader("Cache-Control", "private, no-store");
             response.setHeader("Pragma", "no-cache");
         }

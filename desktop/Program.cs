@@ -15,7 +15,7 @@ using Microsoft.Win32;
 [assembly: AssemblyTitle("PuppyRuby")]
 [assembly: AssemblyDescription("A little pixel puppy for your Windows desktop")]
 [assembly: AssemblyProduct("PuppyRuby")]
-[assembly: AssemblyVersion("0.6.0.0")]
+[assembly: AssemblyVersion("0.9.0.0")]
 
 namespace PuppyRubyDesktop
 {
@@ -29,6 +29,8 @@ namespace PuppyRubyDesktop
             Application.SetCompatibleTextRenderingDefault(false);
             if (args.Length == 2 && args[0] == "--self-test") return SelfTest.Run(args[1]);
             if (args.Length == 2 && args[0] == "--sync-test") return SyncTest.Run(args[1]);
+            if (args.Length == 3 && args[0] == "--appearance-render-test") return DesktopAppearanceFramesTest.RealFiles(args[1], args[2]);
+            if (args.Length == 3 && args[0] == "--verify-linked-appearance") return DesktopAppearanceDiagnostic.Run(args[1], args[2]);
             bool motionSmoke = args.Length == 2 && args[0] == "--motion-test";
             bool smoke = motionSmoke || (args.Length == 2 && args[0] == "--smoke-test");
             bool first;
@@ -119,17 +121,19 @@ namespace PuppyRubyDesktop
 
     internal sealed class PetWindow : Form
     {
-        private static readonly string[] BreedIds = { "shiba", "samoyed", "poodle", "corgi", "maltese", "beagle", "pomeranian" };
-        private static readonly string[] BreedNames = { "시바견", "사모예드", "토이 푸들", "웰시 코기", "말티즈", "비글", "포메라니안" };
+        private static readonly string[] BreedIds = DesktopBreedCatalog.Ids;
+        private static readonly string[] BreedNames = DesktopBreedCatalog.Names;
         private readonly PetState state = new PetState();
         private readonly Progression progress = new Progression();
         private readonly CommandCatalog catalog = CommandCatalog.Load();
         private readonly NativeInput input = new NativeInput();
         private readonly SpriteLibrary sprites = new SpriteLibrary();
         private readonly LinkedSpriteLibrary linkedSprites = new LinkedSpriteLibrary();
+        private readonly DesktopAppearanceReactions legacyReactions = new DesktopAppearanceReactions();
         private readonly PetMotion motion = new PetMotion();
         private readonly PetBubble bubble = new PetBubble();
         private readonly DesktopSync sync;
+        private readonly DesktopAppearanceCache appearanceCache;
         private readonly Stopwatch clock = Stopwatch.StartNew();
         private readonly System.Windows.Forms.Timer animation = new System.Windows.Forms.Timer { Interval = 40 };
         private readonly System.Windows.Forms.Timer syncTimer = new System.Windows.Forms.Timer { Interval = 5000 };
@@ -145,6 +149,8 @@ namespace PuppyRubyDesktop
         private ToolStripMenuItem linkedStatus;
         private ToolStripMenuItem disconnectMenu;
         private ToolStripMenuItem careMenu;
+        private ToolStripMenuItem restMenu;
+        private ToolStripMenuItem appearanceStatus;
         private ToolStripMenuItem followItem;
         private ToolStripMenuItem stayItem;
         private AskWindow questions;
@@ -156,6 +162,14 @@ namespace PuppyRubyDesktop
         private Rectangle paintedTarget;
         private Bitmap paintedSource;
         private bool[] paintedMask;
+        private int paintedWidth, paintedHeight;
+        private DesktopAppearanceFrame renderingFrame;
+        private double restingUntil;
+        private double feedingUntil;
+        private double sceneStarted;
+        private string activeScene;
+        private string activeReaction;
+        private int sceneDirection = -1;
         private Point previousCursor;
         private Point pressCursor;
         private Point pressWindow;
@@ -166,6 +180,7 @@ namespace PuppyRubyDesktop
         private int scale = 3;
         private string breed = "shiba";
         private int look;
+        private int lookY;
         private double lastPet;
         internal bool StartupFailed;
         internal bool HooksActive { get { return input.Active; } }
@@ -243,6 +258,7 @@ namespace PuppyRubyDesktop
         {
             transient = isTransient;
             sync = new DesktopSync(transient ? null : Path.Combine(Path.GetDirectoryName(settingsPath), "desktop.link"), !transient);
+            appearanceCache = new DesktopAppearanceCache(transient ? null : Path.Combine(Path.GetDirectoryName(settingsPath), "appearance-cache"));
             Text = "PuppyRuby · 내 화면의 작은 강아지";
             FormBorderStyle = FormBorderStyle.None;
             ShowInTaskbar = false;
@@ -260,7 +276,8 @@ namespace PuppyRubyDesktop
             RefreshScreens();
             previousCursor = Cursor.Position;
             BuildMenu();
-            sync.Changed += UpdateProgress;
+            sync.Changed += OnSyncChanged;
+            appearanceCache.Changed += OnAppearanceChanged;
             tray.Icon = Icon;
             tray.Text = "PuppyRuby · 우클릭으로 설정 / 종료";
             tray.ContextMenuStrip = menu;
@@ -279,6 +296,7 @@ namespace PuppyRubyDesktop
                     animation.Start();
                 }
                 statusTimer.Start(); syncTimer.Start();
+                await RefreshAppearance();
                 if (sync.IsLinked) await sync.PollAsync();
             };
             UpdateProgress();
@@ -298,13 +316,26 @@ namespace PuppyRubyDesktop
             base.WndProc(ref message);
         }
 
-        private void OnInput(InputKind kind) { state.Input(kind, Now); }
+        private void OnInput(InputKind kind)
+        {
+            double now = Now;
+            bool wasBelly = state.Mood(now) == "belly";
+            if (state.Enabled && kind != InputKind.Move) { restingUntil = 0; feedingUntil = 0; }
+            state.Input(kind, now);
+            if (!wasBelly && state.Mood(now) == "belly")
+            {
+                motion.SetPosition(Location);
+                Speak("발라당! 배도 쓰다듬어 줘 ♡", PetState.BellyDurationSeconds);
+            }
+        }
         private void Animate()
         {
             double now = Now;
             Point cursor = Cursor.Position;
             bool interacting = pressed || dragging || menu.Visible || (questions != null && !questions.IsDisposed && questions.Visible && questions.WindowState != FormWindowState.Minimized) || (linkWindow != null && !linkWindow.IsDisposed && linkWindow.Visible && linkWindow.WindowState != FormWindowState.Minimized);
-            bool following = followMouse && state.Enabled && Visible && !interacting && state.Training(now) == null;
+            string inputMood = state.Mood(now);
+            bool activeInputReaction = inputMood == "typing" || inputMood == "excited" || inputMood == "play" || inputMood == "scroll" || inputMood == "love" || inputMood == "drag" || inputMood == "belly";
+            bool following = followMouse && state.Enabled && Visible && !interacting && !activeInputReaction && state.Training(now) == null && now >= restingUntil && now >= feedingUntil;
             Point next = motion.Step(cursor, Size, workingAreas, now - lastAnimation, following);
             lastAnimation = now;
             if (following && Location != next) Location = next;
@@ -323,8 +354,10 @@ namespace PuppyRubyDesktop
                 }
                 int delta = cursor.X - (Left + Width / 2);
                 look = delta < -45 ? -1 : delta > 45 ? 1 : 0;
+                int verticalDelta = cursor.Y - (Top + 24 + (Height - 48) * 46 / 100);
+                lookY = verticalDelta < -35 ? -1 : verticalDelta > 35 ? 1 : 0;
             }
-            else look = 0;
+            else { look = 0; lookY = 0; }
             previousCursor = cursor;
             if (bubble.Visible)
             {
@@ -336,6 +369,7 @@ namespace PuppyRubyDesktop
 
         internal static void DrawPet(Graphics graphics, Bitmap sprite, Rectangle target)
         {
+            if (sprite == null) return;
             graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
             graphics.PixelOffsetMode = PixelOffsetMode.Half;
             graphics.DrawImage(sprite, target, 0, 0, sprite.Width, sprite.Height, GraphicsUnit.Pixel);
@@ -345,6 +379,55 @@ namespace PuppyRubyDesktop
         {
             string mood = state.Mood(Now);
             string training = state.Training(Now);
+            renderingFrame = null;
+            DesktopAppearanceFrames appearance = CurrentAppearance;
+            if (appearance != null)
+            {
+                if (mood != "belly" && Now < feedingUntil && training == null && state.Enabled) mood = "eat";
+                string scene = DesktopAppearanceFrames.SelectScene(mood, training, motion.IsMoving, Now < restingUntil, state.Enabled);
+                string reaction = training ?? mood;
+                if (activeScene != scene || activeReaction != reaction) { activeScene = scene; activeReaction = reaction; sceneStarted = Now; }
+                if (scene == "walk" && motion.DirectionX != 0) sceneDirection = motion.DirectionX;
+                if (scene == "side" && look != 0) sceneDirection = look;
+                bool flip = (scene == "walk" || scene == "side") && sceneDirection > 0;
+                double reactionElapsed = mood == "belly" ? Now - state.BellyStartedAt : Now - sceneStarted;
+                renderingFrame = appearance.React(scene, mood, training, reactionElapsed, state.Enabled, flip, look, lookY);
+                Size display = DesktopAppearanceFrames.DisplaySize(appearance.Width, appearance.Height, scale);
+                target = new Rectangle(8, 24, display.Width, display.Height);
+                double elapsed = Now - sceneStarted;
+                if (state.Enabled || training != null)
+                {
+                    if (training == "puppy-turn")
+                    {
+                        int narrow = Math.Max(8, (int)(target.Width * Math.Abs(Math.Cos(elapsed * 5))));
+                        target.X += (target.Width - narrow) / 2; target.Width = narrow;
+                    }
+                    else if (training == "puppy-paw") { target.X += (int)(Math.Sin(elapsed * 9) * 2); target.Y -= 2; }
+                    else if (training == null && scene != "sleep")
+                    {
+                        if (mood == "play") target.Y -= (int)(Math.Abs(Math.Sin(elapsed * 12)) * 19);
+                        else if (mood == "scroll") { target.X += (int)(Math.Sin(elapsed * 13) * 3); target.Y += (int)(Math.Sin(elapsed * 16) * 4); }
+                        else if (mood == "drag") { target.X += (int)(Math.Sin(elapsed * 12) * 4); target.Y -= 12; }
+                        else if (mood == "excited") target.Y -= (int)(elapsed * 13) % 2 == 0 ? 3 : 0;
+                    }
+                }
+                return renderingFrame.Image;
+            }
+            if (ExpectsAppearance)
+            {
+                target = new Rectangle(8, 24, Math.Max(1, Width - 16), Math.Max(1, Height - 48));
+                return null;
+            }
+            if (mood == "belly")
+            {
+                // The legacy exporter has no belly sprite. Reuse the actual
+                // current puppy's front-idle image, including linked colors.
+                SyncedPuppy linked = sync.State == null ? null : sync.State.puppy;
+                Bitmap front = linked == null ? sprites.Get(breed, "idle", 0, 0) : linkedSprites.Get(linked.breed, linked.fur, linked.eyes, linked.accessory, "idle", 0, 0);
+                renderingFrame = legacyReactions.GetBellyFrame(front, Now - state.BellyStartedAt);
+                target = new Rectangle(8, 24, 64 * scale, 64 * scale);
+                return renderingFrame.Image;
+            }
             if (motion.IsMoving && (mood == "idle" || mood == "sleep")) mood = "walk";
             int frame = state.Enabled || training != null ? (int)(Now * (mood == "excited" ? 13 : mood == "walk" ? 10 : 7)) % 2 : 0;
             int bob = state.Enabled ? (int)(Math.Sin(Now * 3) * 1.5) : 0;
@@ -376,10 +459,10 @@ namespace PuppyRubyDesktop
 
         private bool HitRenderedPet(Point point)
         {
-            if (paintedMask == null || !paintedTarget.Contains(point)) return false;
-            int x = (point.X - paintedTarget.X) * 64 / paintedTarget.Width;
-            int y = (point.Y - paintedTarget.Y) * 64 / paintedTarget.Height;
-            return paintedMask[y * 64 + x];
+            if (paintedMask == null || paintedWidth < 1 || paintedHeight < 1 || !paintedTarget.Contains(point)) return false;
+            int x = (point.X - paintedTarget.X) * paintedWidth / paintedTarget.Width;
+            int y = (point.Y - paintedTarget.Y) * paintedHeight / paintedTarget.Height;
+            return paintedMask[y * paintedWidth + x];
         }
 
         protected override void OnPaint(PaintEventArgs e)
@@ -388,10 +471,20 @@ namespace PuppyRubyDesktop
             Rectangle target; Bitmap sprite = RenderSprite(out target);
             DrawPet(e.Graphics, sprite, target);
             paintedTarget = target;
-            if (paintedSource != sprite)
+            if (sprite == null)
             {
-                paintedMask = new bool[64 * 64];
-                for (int y = 0; y < 64; y++) for (int x = 0; x < 64; x++) paintedMask[y * 64 + x] = sprite.GetPixel(x, y).A > 0;
+                paintedMask = null; paintedSource = null; paintedWidth = paintedHeight = 0;
+            }
+            else if (renderingFrame != null)
+            {
+                paintedMask = renderingFrame.Opaque;
+                paintedSource = sprite; paintedWidth = sprite.Width; paintedHeight = sprite.Height;
+            }
+            else if (paintedSource != sprite)
+            {
+                paintedWidth = sprite.Width; paintedHeight = sprite.Height;
+                paintedMask = new bool[paintedWidth * paintedHeight];
+                for (int y = 0; y < paintedHeight; y++) for (int x = 0; x < paintedWidth; x++) paintedMask[y * paintedWidth + x] = sprite.GetPixel(x, y).A > 0;
                 paintedSource = sprite;
             }
             base.OnPaint(e);
@@ -406,7 +499,8 @@ namespace PuppyRubyDesktop
                 if (!HitRenderedPet(e.Location)) return;
                 pressed = true; dragging = false; pressCursor = Cursor.Position;
                 pressWindow = Location; Capture = true;
-                motion.SetPosition(Location); bubble.Hide();
+                motion.SetPosition(Location);
+                if (state.Mood(Now) != "belly") bubble.Hide();
             }
             base.OnMouseDown(e);
         }
@@ -435,7 +529,7 @@ namespace PuppyRubyDesktop
                 state.Input(moved ? InputKind.Drop : InputKind.Pet, Now);
                 pressed = false; dragging = false; Capture = false;
                 if (moved) SetFollow(false);
-                else Speak("좋아 멍!", 2.0);
+                else if (state.Mood(Now) != "belly") Speak("좋아 멍!", 2.0);
                 KeepOnScreen(); SaveSettings();
             }
             base.OnMouseUp(e);
@@ -463,8 +557,10 @@ namespace PuppyRubyDesktop
             menu.Items.Add(gradeItem);
             menu.Items.Add("강아지에게 물어보기 / 배운 명령", null, delegate { OpenQuestions(); });
             careMenu = new ToolStripMenuItem("간식 주기 · 경험치 +10", null, async delegate { try { await GiveCare(); } catch (Exception error) { Speak(error.Message); } }); menu.Items.Add(careMenu);
+            restMenu = new ToolStripMenuItem("쉬게 하기", null, async delegate { try { await Rest(); } catch (Exception error) { Speak(error.Message); } }); menu.Items.Add(restMenu);
             menu.Items.Add("웹 강아지와 연결", null, delegate { OpenLink(); });
             linkedStatus = new ToolStripMenuItem("연결 상태", null, delegate { OpenLink(); }); menu.Items.Add(linkedStatus);
+            appearanceStatus = new ToolStripMenuItem("강아지 모습", null, delegate { OpenLink(); }); menu.Items.Add(appearanceStatus);
             disconnectMenu = new ToolStripMenuItem("연결 해제", null, delegate { sync.Disconnect("이 PC의 강아지로 돌아왔어요. 기존 경험치는 그대로예요."); }); menu.Items.Add(disconnectMenu);
             menu.Items.Add(new ToolStripSeparator());
             ToolStripMenuItem breeds = new ToolStripMenuItem("강아지 고르기");
@@ -496,7 +592,7 @@ namespace PuppyRubyDesktop
             menu.Items.Add(sizes);
             pauseItem = new ToolStripMenuItem("입력 반응 일시정지") { CheckOnClick = true };
             pauseItem.Click += delegate {
-                motion.SetPosition(Location); bubble.Hide();
+                motion.SetPosition(Location); bubble.Hide(); restingUntil = 0; feedingUntil = 0; activeScene = null; activeReaction = null; look = 0; lookY = 0;
                 if (pauseItem.Checked) { input.Stop(); state.SetEnabled(false, Now); }
                 else
                 {
@@ -523,7 +619,7 @@ namespace PuppyRubyDesktop
             menu.Items.Add(hide);
             menu.Items.Add(new ToolStripSeparator());
             menu.Items.Add("사용 방법 / 입력 안내", null, delegate {
-                MessageBox.Show("마우스 따라가기: 커서 옆으로 걸어와요\n여기에 멈추기: 현재 위치에 머물러요\n드래그로 옮기면 그 자리에 멈춰요\n평소에는 강아지만 보이고 대답은 잠깐 나타나요\n마우스 이동: 눈으로 따라봐요\n클릭: 폴짝 뛰어요\n키보드: 앞발로 타이핑해요\n빠른 타이핑: 신나게 바빠져요\n스크롤: 데굴데굴 반응해요\n강아지 위 마우스: 쓰다듬어요\n드래그: 원하는 위치로 옮겨요\n45초 동안 입력 없음: 잠들어요\n\n우클릭 → ‘강아지에게 물어보기’에서 엑셀·한글 단축키와 훈련을 요청해요. 훈련 성공·간식은 10초마다 +10 XP, 100 XP로 승급해요. 질문·전역 입력은 XP를 올리지 않아요. 웹 강아지와 연결하면 사이트에서 선택한 강아지와 경험치를 공유해요. 웹 연결 중 훈련은 5초마다, 간식은 30초마다 할 수 있어요. 오프라인에서는 연결된 강아지의 경험치를 바꾸지 않아요. 연결하지 않은 PC 강아지는 따로 자라요.\n\n다른 앱의 문자·키 이름·입력 내용은 읽거나 저장하지 않아요. 질문 창에 직접 쓴 글자만 답변에 사용하며 저장하지 않아요. 웹 연결을 켠 동안 지정한 사이트로 강아지 게임 정보만 요청해요. 사진·실명·친구·채팅은 가져오지 않아요. 자동 시작은 없어요. ‘입력 반응 일시정지’는 입력 감지도 중지해요.", "PuppyRuby 사용 방법", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("마우스 따라가기: 커서 옆으로 걸어와요\n여기에 멈추기: 현재 위치에 머물러요\n드래그로 옮기면 그 자리에 멈춰요\n평소에는 강아지만 보이고 대답은 잠깐 나타나요\n마우스 이동: 눈으로 따라봐요\n클릭: 폴짝 뛰어요\n키보드: 앞발로 타이핑해요\n빠른 타이핑: 신나게 바빠져요\n스크롤: 데굴데굴 반응해요\n강아지 위 마우스: 쓰다듬어요\n드래그: 원하는 위치로 옮겨요\n웹 도트: 입력이 없으면 정면으로 앉아요\n쉬게 하기: 준비된 잠자기 장면으로 쉬어요\n기본 PC 강아지: 45초 동안 입력이 없으면 잠들어요\n\n우클릭 → ‘강아지에게 물어보기’에서 엑셀·한글 단축키와 훈련을 요청해요. 훈련 성공·간식은 10초마다 +10 XP, 100 XP로 승급해요. 질문·전역 입력은 XP를 올리지 않아요. 웹 강아지와 연결하면 사이트에서 선택한 강아지와 경험치를 공유해요. 웹 연결 중 훈련은 5초마다, 간식은 30초마다 할 수 있어요. 오프라인에서는 연결된 강아지의 경험치를 바꾸지 않아요. 연결하지 않은 PC 강아지는 따로 자라요.\n\n다른 앱의 문자·키 이름·입력 내용은 읽거나 저장하지 않아요. 질문 창에 직접 쓴 글자만 답변에 사용하며 저장하지 않아요. 웹 연결을 켠 동안 지정한 사이트로 강아지 게임 정보만 요청해요. 사진·실명·친구·채팅은 가져오지 않아요. 자동 시작은 없어요. ‘입력 반응 일시정지’는 입력 감지도 중지해요.", "PuppyRuby 사용 방법", MessageBoxButtons.OK, MessageBoxIcon.Information);
             });
             menu.Items.Add("종료", null, delegate { Close(); });
         }
@@ -544,6 +640,7 @@ namespace PuppyRubyDesktop
         private void SetFollow(bool enabled)
         {
             followMouse = enabled; motion.SetPosition(Location);
+            if (!enabled && CurrentAppearance != null) { state.SetEnabled(state.Enabled, Now); restingUntil = 0; feedingUntil = 0; activeScene = null; activeReaction = null; Invalidate(); }
             if (followItem != null) followItem.Checked = enabled;
             if (stayItem != null) stayItem.Checked = !enabled;
             SaveSettings();
@@ -560,7 +657,7 @@ namespace PuppyRubyDesktop
 
         private void OpenLink()
         {
-            if (linkWindow == null || linkWindow.IsDisposed) { linkWindow = new LinkWindow(sync); linkWindow.Icon = Icon; linkWindow.Show(); }
+            if (linkWindow == null || linkWindow.IsDisposed) { linkWindow = new LinkWindow(sync, appearanceCache); linkWindow.Icon = Icon; linkWindow.Show(); }
             else { linkWindow.WindowState = FormWindowState.Normal; linkWindow.Show(); linkWindow.Activate(); }
         }
 
@@ -601,12 +698,28 @@ namespace PuppyRubyDesktop
             if (sync.IsLinked)
             {
                 DesktopActionResponse response = await sync.ActAsync("feed", sync.State.puppy.id, null);
-                state.Input(InputKind.Pet, Now); Speak(response.message); return response.message;
+                if (response.success) { state.Input(InputKind.Pet, Now); feedingUntil = Now + 2.2; }
+                Speak(response.message); return response.message;
             }
             state.Input(InputKind.Pet, Now);
+            feedingUntil = Now + 2.2;
             string message = "간식 잘 먹었어 멍!\r\n" + progress.RewardActivity(DateTime.UtcNow);
             Speak("간식 고마워 멍!"); SaveSettings(); UpdateProgress();
             return message;
+        }
+
+        private async Task Rest()
+        {
+            if (sync.IsLinked)
+            {
+                DesktopActionResponse response = await sync.ActAsync("rest", sync.State.puppy.id, null);
+                if (!response.success) { Speak(response.message); return; }
+                Speak(response.message);
+            }
+            else Speak("잠깐 쉬고 올게 멍!");
+            restingUntil = Now + 5;
+            motion.SetPosition(Location);
+            Invalidate();
         }
 
         private async Task<string> Promote()
@@ -631,11 +744,64 @@ namespace PuppyRubyDesktop
             linkedStatus.Text = sync.IsLinked ? (sync.Online ? "연결 상태 · 웹과 함께 키우는 중" : "연결 상태 · 오프라인, 돌봄은 잠시 멈춤") : "연결 상태 · 이 PC의 강아지";
             disconnectMenu.Enabled = sync.IsLinked;
             careMenu.Text = current.CareLabel; careMenu.Enabled = current.CanChange && current.CareReady;
+            restMenu.Enabled = current.CanChange;
+            appearanceStatus.Visible = sync.IsLinked;
+            appearanceStatus.Text = "강아지 모습 · " + AppearanceStatus;
             if (questions != null && !questions.IsDisposed) questions.RefreshProgress();
             Invalidate();
         }
 
-        private void ApplySize() { Size = new Size(scale * 64 + 16, scale * 64 + 48); motion.SetPosition(Location); }
+        private bool ExpectsAppearance
+        {
+            get { return sync.IsLinked && sync.State != null && (sync.State.appearance != null || !String.IsNullOrEmpty(sync.State.appearanceError)); }
+        }
+
+        private DesktopAppearanceFrames CurrentAppearance
+        {
+            get
+            {
+                DesktopAppearanceFrames current = appearanceCache.Current;
+                if (!sync.IsLinked || sync.State == null || current == null) return null;
+                return sync.State.puppy.breed >= 0 && sync.State.puppy.breed < BreedIds.Length && current.BreedId == BreedIds[sync.State.puppy.breed] ? current : null;
+            }
+        }
+
+        private string AppearanceStatus
+        {
+            get { return sync.State != null && !String.IsNullOrEmpty(sync.State.appearanceError) ? sync.State.appearanceError : appearanceCache.Status; }
+        }
+
+        private async void OnSyncChanged()
+        {
+            if (IsDisposed || Disposing) return;
+            UpdateProgress();
+            await RefreshAppearance();
+        }
+
+        private Task RefreshAppearance()
+        {
+            if (sync.IsLinked && sync.State != null && !String.IsNullOrEmpty(sync.State.appearanceError)) return Task.FromResult(0);
+            return appearanceCache.UpdateAsync(sync.State == null ? null : sync.State.appearance, sync.Origin);
+        }
+
+        private void OnAppearanceChanged()
+        {
+            if (IsDisposed || Disposing) return;
+            paintedSource = null; paintedMask = null; paintedWidth = paintedHeight = 0; renderingFrame = null;
+            activeScene = null; activeReaction = null;
+            Size previous = Size;
+            ApplySize();
+            if (Size != previous) KeepOnScreen();
+            UpdateProgress();
+        }
+
+        private void ApplySize()
+        {
+            DesktopAppearanceFrames current = CurrentAppearance;
+            Size display = current == null ? new Size(scale * 64, scale * 64) : DesktopAppearanceFrames.DisplaySize(current.Width, current.Height, scale);
+            Size next = new Size(display.Width + 16, display.Height + 48);
+            if (Size != next) { Size = next; motion.SetPosition(Location); }
+        }
         private void PutAtCorner()
         {
             Rectangle area = Screen.FromPoint(Cursor.Position).WorkingArea;
@@ -701,13 +867,13 @@ namespace PuppyRubyDesktop
             if (questions != null && !questions.IsDisposed) questions.Close();
             if (linkWindow != null && !linkWindow.IsDisposed) linkWindow.Close();
             bubble.Close();
-            sync.Changed -= UpdateProgress; sync.Dispose();
+            sync.Changed -= OnSyncChanged; appearanceCache.Changed -= OnAppearanceChanged; sync.Dispose(); appearanceCache.Dispose();
             SystemEvents.DisplaySettingsChanged -= OnDisplayChanged;
             base.OnFormClosed(e);
         }
         protected override void Dispose(bool disposing)
         {
-            if (disposing) { animation.Dispose(); syncTimer.Dispose(); statusTimer.Dispose(); sync.Dispose(); input.Dispose(); tray.Dispose(); menu.Dispose(); sprites.Dispose(); linkedSprites.Dispose(); bubble.Dispose(); }
+            if (disposing) { animation.Dispose(); syncTimer.Dispose(); statusTimer.Dispose(); sync.Dispose(); appearanceCache.Dispose(); input.Dispose(); tray.Dispose(); menu.Dispose(); legacyReactions.Dispose(); sprites.Dispose(); linkedSprites.Dispose(); bubble.Dispose(); }
             base.Dispose(disposing);
         }
     }
@@ -807,6 +973,7 @@ namespace PuppyRubyDesktop
                 Check(restored.IsMax && restored.Xp == 0, "saved max grade cannot accumulate XP", report);
                 SyncTest.Units(report, output);
                 PetMotionTest.Run(delegate(bool condition, string label) { Check(condition, label, report); });
+                DesktopAppearanceFramesTest.Units(delegate(bool condition, string label) { Check(condition, label, report); });
                 Check(PetWindow.ReadFollowSetting(new[] { "shiba", "3", "50", "60", "true" }), "legacy pet settings start with cursor following", report);
                 Check(!PetWindow.ReadFollowSetting(new[] { "grade=SR", "xp=62", "followMouse=false" }), "explicit stop preference survives settings read", report);
                 Check(PetWindow.ReadFollowSetting(new[] { "followMouse=true" }), "follow preference survives settings read", report);
@@ -828,11 +995,11 @@ namespace PuppyRubyDesktop
                 }
                 using (SpriteLibrary library = new SpriteLibrary())
                 {
-                    using (Bitmap sheet = new Bitmap(7 * 192, 5 * 192))
+                    using (Bitmap sheet = new Bitmap(DesktopBreedCatalog.Ids.Length * 192, 5 * 192))
                     using (Graphics g = Graphics.FromImage(sheet))
                     {
                         g.Clear(Color.FromArgb(246, 241, 229));
-                        string[] breeds = { "shiba", "samoyed", "poodle", "corgi", "maltese", "beagle", "pomeranian" };
+                        string[] breeds = DesktopBreedCatalog.Ids;
                         string[] moods = { "idle", "typing", "excited", "scroll", "love" };
                         for (int b = 0; b < breeds.Length; b++) for (int m = 0; m < moods.Length; m++)
                             PetWindow.DrawPet(g, library.Get(breeds[b], moods[m], 0, m % 2), new Rectangle(b * 192, m * 192, 192, 192));

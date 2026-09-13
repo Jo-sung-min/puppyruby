@@ -34,6 +34,7 @@
 .puppy-site .pixel-button.coral{color:var(--ui-on-accent);background:var(--ui-accent)}
 .puppy-site .demo-link{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ui-text);min-height:40px}
 .puppy-site .hero-notes{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:18px;color:var(--ui-muted);font-size:12px}
+.puppy-site .windows-install-guide{margin:12px 0 0;color:var(--ui-muted);font-size:12px;line-height:1.8;word-break:keep-all}
 .puppy-site .hero-notes>span{display:flex;align-items:center;gap:5px}
 .puppy-site .hero-notes svg{color:var(--ui-text);flex-shrink:0}
 .puppy-site .hello-note{display:flex;align-items:center;gap:12px;margin-top:32px}
@@ -51,7 +52,7 @@
 .puppy-site .window-bar button{margin-left:auto;display:flex;align-items:center;justify-content:center;padding:8px;min-width:34px;min-height:34px;border-radius:4px}
 .puppy-site .window-bar button:hover{background:var(--ui-hover);color:var(--ui-text)}
 /* The garden is an illustration, so its grass and sky retain their natural palette. */
-.puppy-site .pixel-garden{position:relative;aspect-ratio:320/220;background:#eaf0df url('/images/pixel-garden.svg') center/100% 100%;isolation:isolate;overflow:hidden}
+.puppy-site .pixel-garden{position:relative;aspect-ratio:320/220;background-color:#eaf0df;background-position:center;background-size:100% 100%;isolation:isolate;overflow:hidden}
 .puppy-site .pixel-garden:after{content:"";position:absolute;inset:0;background:linear-gradient(#060c1f,#152e29);opacity:0;pointer-events:none;z-index:0;transition:opacity .35s}
 .puppy-site .pixel-garden.night:after,html[data-theme="dark"] .puppy-site .pixel-garden:after{opacity:.82}
 .puppy-site .garden-night-sky{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;transition:opacity .35s}

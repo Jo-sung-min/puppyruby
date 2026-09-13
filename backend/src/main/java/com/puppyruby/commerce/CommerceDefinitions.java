@@ -1,6 +1,7 @@
 package com.puppyruby.commerce;
 
 import com.puppyruby.game.GameService;
+import com.puppyruby.game.BreedCatalog;
 import com.puppyruby.game.Grade;
 import java.util.*;
 
@@ -23,7 +24,9 @@ public final class CommerceDefinitions {
     private static List<Entry> entries() {
         List<Entry> result = new ArrayList<>();
         for (int breed = 0; breed < GameService.BREEDS.size(); breed++) for (Grade grade : Grade.values())
-            result.add(new Entry("dog-" + breed + "-" + grade, "dog", GameService.BREEDS.get(breed) + " " + grade, grade.name(), breed, null, grade.probability));
+            // New breeds are available for administrators to enable without changing any existing paid odds.
+            result.add(new Entry("dog-" + breed + "-" + grade, "dog", GameService.BREEDS.get(breed) + " " + grade, grade.name(), breed, null,
+                breed < BreedCatalog.LEGACY_DRAW_BREED_COUNT ? grade.probability : 0));
         String[] auraNames = { "포근한 눈꽃", "복숭아 빛", "민트 산들바람", "푸른 바다", "라일락 향기", "황금빛", "무지개", "반짝이는 별빛" };
         int[] auraWeights = { 40, 25, 15, 10, 5, 3, 1, 1 };
         for (int index = 0; index < AURAS.size(); index++) result.add(new Entry("aura-" + AURAS.get(index), "aura", auraNames[index], index < 4 ? "R" : index < 7 ? "SR" : "SSR", null, AURAS.get(index), auraWeights[index]));

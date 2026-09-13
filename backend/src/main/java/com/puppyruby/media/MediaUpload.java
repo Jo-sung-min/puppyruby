@@ -11,6 +11,8 @@ class MediaUpload {
     @Column(nullable = false, unique = true, length = 256) String objectKey;
     @Column(nullable = false, length = 32) String contentType;
     @Column(nullable = false, length = 44) String sha256;
+    // Null rows predate purpose separation and remain walk-profile uploads.
+    @Column(length = 24) String purpose;
     long size;
     long createdAt;
     long expiresAt;

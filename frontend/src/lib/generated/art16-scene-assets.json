@@ -1,0 +1,992 @@
+[
+  {
+    "breed": "pomeranian",
+    "width": 369,
+    "height": 384,
+    "aseprite": "/downloads/art16-scenes-v1/pomeranian.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/pomeranian/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/pomeranian/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/pomeranian/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/pomeranian/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/pomeranian/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "poodle",
+    "width": 369,
+    "height": 386,
+    "aseprite": "/downloads/art16-scenes-v1/poodle.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/poodle/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/poodle/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/poodle/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/poodle/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/poodle/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "maltese",
+    "width": 368,
+    "height": 391,
+    "aseprite": "/downloads/art16-scenes-v1/maltese.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/maltese/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/maltese/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/maltese/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/maltese/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/maltese/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "shiba",
+    "width": 371,
+    "height": 389,
+    "aseprite": "/downloads/art16-scenes-v1/shiba.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/shiba/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/shiba/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/shiba/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/shiba/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/shiba/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "corgi",
+    "width": 375,
+    "height": 381,
+    "aseprite": "/downloads/art16-scenes-v1/corgi.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/corgi/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/corgi/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/corgi/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/corgi/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/corgi/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "beagle",
+    "width": 374,
+    "height": 384,
+    "aseprite": "/downloads/art16-scenes-v1/beagle.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/beagle/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/beagle/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/beagle/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/beagle/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/beagle/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "samoyed",
+    "width": 365,
+    "height": 392,
+    "aseprite": "/downloads/art16-scenes-v1/samoyed.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/samoyed/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/samoyed/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/samoyed/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/samoyed/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/samoyed/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "bichon",
+    "width": 366,
+    "height": 392,
+    "aseprite": "/downloads/art16-scenes-v1/bichon.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bichon/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bichon/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bichon/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bichon/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/bichon/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "golden",
+    "width": 412,
+    "height": 387,
+    "aseprite": "/downloads/art16-scenes-v1/golden.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/golden/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/golden/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/golden/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/golden/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/golden/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "labrador",
+    "width": 420,
+    "height": 392,
+    "aseprite": "/downloads/art16-scenes-v1/labrador.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/labrador/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/labrador/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/labrador/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/labrador/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/labrador/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "husky",
+    "width": 384,
+    "height": 388,
+    "aseprite": "/downloads/art16-scenes-v1/husky.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/husky/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/husky/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/husky/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/husky/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/husky/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "shihtzu",
+    "width": 375,
+    "height": 380,
+    "aseprite": "/downloads/art16-scenes-v1/shihtzu.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/shihtzu/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/shihtzu/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/shihtzu/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/shihtzu/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/shihtzu/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "frenchbulldog",
+    "width": 407,
+    "height": 387,
+    "aseprite": "/downloads/art16-scenes-v1/frenchbulldog.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/frenchbulldog/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/frenchbulldog/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/frenchbulldog/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/frenchbulldog/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/frenchbulldog/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "dachshund",
+    "width": 396,
+    "height": 387,
+    "aseprite": "/downloads/art16-scenes-v1/dachshund.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/dachshund/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/dachshund/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/dachshund/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/dachshund/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/dachshund/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "schnauzer",
+    "width": 406,
+    "height": 389,
+    "aseprite": "/downloads/art16-scenes-v1/schnauzer.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/schnauzer/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/schnauzer/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/schnauzer/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/schnauzer/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/schnauzer/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "chihuahua",
+    "width": 390,
+    "height": 383,
+    "aseprite": "/downloads/art16-scenes-v1/chihuahua.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/chihuahua/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/chihuahua/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/chihuahua/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/chihuahua/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/chihuahua/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "dalmatian",
+    "width": 387,
+    "height": 389,
+    "aseprite": "/downloads/art16-scenes-v1/dalmatian.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/dalmatian/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/dalmatian/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/dalmatian/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/dalmatian/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/dalmatian/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "akita",
+    "width": 374,
+    "height": 384,
+    "aseprite": "/downloads/art16-scenes-v1/akita.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/akita/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/akita/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/akita/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/akita/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/akita/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "bordercollie",
+    "width": 392,
+    "height": 389,
+    "aseprite": "/downloads/art16-scenes-v1/bordercollie.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bordercollie/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bordercollie/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bordercollie/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bordercollie/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/bordercollie/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "doberman",
+    "width": 402,
+    "height": 389,
+    "aseprite": "/downloads/art16-scenes-v1/doberman.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/doberman/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/doberman/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/doberman/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/doberman/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/doberman/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "rottweiler",
+    "width": 386,
+    "height": 383,
+    "aseprite": "/downloads/art16-scenes-v1/rottweiler.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/rottweiler/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/rottweiler/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/rottweiler/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/rottweiler/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/rottweiler/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "greatdane",
+    "width": 421,
+    "height": 387,
+    "aseprite": "/downloads/art16-scenes-v1/greatdane.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/greatdane/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/greatdane/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/greatdane/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/greatdane/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/greatdane/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "saintbernard",
+    "width": 376,
+    "height": 384,
+    "aseprite": "/downloads/art16-scenes-v1/saintbernard.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/saintbernard/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/saintbernard/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/saintbernard/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/saintbernard/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/saintbernard/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "bassethound",
+    "width": 386,
+    "height": 386,
+    "aseprite": "/downloads/art16-scenes-v1/bassethound.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bassethound/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bassethound/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bassethound/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bassethound/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/bassethound/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "englishbulldog",
+    "width": 405,
+    "height": 387,
+    "aseprite": "/downloads/art16-scenes-v1/englishbulldog.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/englishbulldog/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/englishbulldog/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/englishbulldog/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/englishbulldog/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/englishbulldog/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "westie",
+    "width": 383,
+    "height": 392,
+    "aseprite": "/downloads/art16-scenes-v1/westie.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/westie/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/westie/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/westie/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/westie/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/westie/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "bostonterrier",
+    "width": 388,
+    "height": 379,
+    "aseprite": "/downloads/art16-scenes-v1/bostonterrier.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bostonterrier/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bostonterrier/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bostonterrier/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/bostonterrier/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/bostonterrier/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "yorkshireterrier",
+    "width": 394,
+    "height": 390,
+    "aseprite": "/downloads/art16-scenes-v1/yorkshireterrier.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/yorkshireterrier/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/yorkshireterrier/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/yorkshireterrier/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/yorkshireterrier/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/yorkshireterrier/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "pekingese",
+    "width": 371,
+    "height": 388,
+    "aseprite": "/downloads/art16-scenes-v1/pekingese.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/pekingese/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/pekingese/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/pekingese/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/pekingese/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/pekingese/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "chowchow",
+    "width": 380,
+    "height": 385,
+    "aseprite": "/downloads/art16-scenes-v1/chowchow.aseprite",
+    "scenes": {
+      "happy": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/chowchow/happy.png"
+      },
+      "idle": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/chowchow/idle.png"
+      },
+      "side": {
+        "frameMs": 600,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/chowchow/side.png"
+      },
+      "sleep": {
+        "frameMs": 1000,
+        "frames": 1,
+        "png": "/images/art16-scenes-v1/chowchow/sleep.png"
+      },
+      "walk": {
+        "frameMs": 125,
+        "frames": 8,
+        "png": "/images/art16-scenes-v1/chowchow/walk.png"
+      }
+    }
+  }
+]

@@ -12,3 +12,27 @@ backend/data/
 .sites-runtime/
 output/
 desktop/dist/
+
+# Original artwork, editable masters, downloads and generated previews live here.
+/local-assets/
+# Prevent legacy tools from adding copied media back into Git.
+/frontend/public/images/
+/frontend/public/downloads/
+/frontend/public/favicon.svg
+/docs/previews/
+/.playwright-mcp/
+# Application media is published to S3; source JSON and Gradle's wrapper stay tracked.
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.ico
+*.svg
+*.bmp
+*.avif
+*.tiff
+*.aseprite
+*.ase
+*.zip
+*.exe

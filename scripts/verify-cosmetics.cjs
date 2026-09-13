@@ -3,6 +3,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const Module = require('node:module');
+const { resolveFrontendDependency } = require('./frontend-loader.cjs');
 const root = path.resolve(__dirname, '..');
 const frontend = Module.createRequire(path.join(root, 'frontend/package.json'));
 const swc = frontend('next/dist/build/swc');
@@ -13,15 +14,25 @@ function load(relative, overrides = {}) {
   const filename = path.join(root, 'frontend', relative);
   const code = swc.transformSync(fs.readFileSync(filename, 'utf8'), { filename, jsc: { parser: { syntax: 'typescript', tsx: filename.endsWith('.tsx') }, transform: { react: { runtime: 'automatic' } }, target: 'es2020' }, module: { type: 'commonjs' } }).code;
   const loaded = new Module(filename, module); loaded.filename = filename; loaded.paths = Module._nodeModulePaths(path.dirname(filename));
-  const fallback = loaded.require.bind(loaded); loaded.require = name => Object.hasOwn(overrides, name) ? overrides[name] : fallback(name);
+  const fallback = loaded.require.bind(loaded); loaded.require = name => Object.hasOwn(overrides, name) ? overrides[name] : resolveFrontendDependency(filename, name, fallback);
   loaded._compile(code, filename); return loaded.exports;
 }
-const { PixelDog } = load('src/components/pixel-dog.tsx');
+const animatedDog = load('src/components/animated-dog.tsx', {
+  './animated-dog.module.css': new Proxy({}, { get: (_, key) => String(key) }),
+});
+const { PixelDog } = load('src/components/pixel-dog.tsx', { './animated-dog': animatedDog });
 const { dogStyles, styleBreedIds } = load('src/lib/dog-styles.ts');
+const { premiumDogAsset } = load('src/lib/premium-dog-styles.ts');
+const { originalArtDogAsset } = load('src/lib/original-art-dog-styles.ts');
 const cosmetics = load('src/lib/cosmetics.ts');
 const game = load('src/lib/game.ts');
 const { PuppySprite } = load('src/components/puppy-sprite.tsx', { '../lib/cosmetics': cosmetics, '@/lib/game': game, './styled-pixel-dog': { PixelDog } });
-const svg = props => renderToStaticMarkup(React.createElement(PixelDog, { decorative: true, groundShadow: false, ...props })).replace('<svg ', '<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" ');
+const svg = props => {
+  let markup = renderToStaticMarkup(React.createElement(PixelDog, { decorative: true, groundShadow: false, ...props }));
+  const master = premiumDogAsset(props.styleId) || originalArtDogAsset(props.styleId);
+  if (master) markup = markup.replace(/href="[^"]+"/, `href="data:image/png;base64,${fs.readFileSync(path.join(root, 'local-assets/site', master.png)).toString('base64')}"`);
+  return markup.replace('<svg ', `<svg ${markup.includes('xmlns=') ? '' : 'xmlns="http://www.w3.org/2000/svg" '}width="128" height="128" `);
+};
 async function pixels(props) { return sharp(Buffer.from(svg(props))).ensureAlpha().raw().toBuffer(); }
 (async () => {
   let checks = 0;
@@ -53,7 +64,7 @@ async function pixels(props) { return sharp(Buffer.from(svg(props))).ensureAlpha
     }
   }
   gallery += '</svg>';
-  const out = path.join(root, 'desktop/build/cosmetic-preview.png'); fs.mkdirSync(path.dirname(out), { recursive: true });
+  const out = path.join(root, 'local-assets/desktop/build/cosmetic-preview.png'); fs.mkdirSync(path.dirname(out), { recursive: true });
   await sharp(Buffer.from(gallery)).png().toFile(out);
-  console.log(`PASS ${checks} cosmetics checks: 16 styles × 7 breeds × 7 accessories, aura mapping. Preview: ${out}`);
+  console.log(`PASS ${checks} cosmetics checks: ${dogStyles.length} styles × ${styleBreedIds.length} breeds × ${cosmetics.paidAccessories.length} accessories, aura mapping. Preview: ${out}`);
 })().catch(error => { console.error(error); process.exitCode = 1; });

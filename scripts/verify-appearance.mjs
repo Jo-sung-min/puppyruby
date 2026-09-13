@@ -21,7 +21,10 @@ assert.match(fixture.readToken, /^[A-Za-z0-9_-]{43}$/);
 const password = "Puppy-Style-Test-2026!";
 const adminEmail = "admin@puppyruby.test";
 const memberEmail = `styles-${randomUUID().slice(0, 8)}@puppyruby.test`;
-const styles = ["classic", "round", "mochi", "chibi", "bean", "plush", "storybook", "bold", "retro", "mini", "sticker", "soft", "fluffy", "pocket", "cookie", "badge"];
+const styles = ["classic", "round", "mochi", "chibi", "bean", "plush", "storybook", "bold", "retro", "mini", "sticker", "soft", "fluffy", "pocket", "cookie", "badge",
+  "marshmallow", "dumpling", "pebble", "jellybean", "teacup", "loaf", "pear", "egg", "snowball", "teddy", "panda", "cub", "foxlet", "longbody", "tinyhead", "bigpaws",
+  "cheeky", "squircle", "diamond", "toast", "waffle", "pixel8", "arcade", "robot", "paper", "origami", "patchwork", "pompom", "cloudlet", "sprout", "sleepy", "wink", "happy", "hug", "meadow", "animated-2d"];
+const breeds = ["pomeranian", "poodle", "maltese", "shiba", "corgi", "beagle", "samoyed"];
 let checks = 0;
 function check(condition, label) { assert.ok(condition, label); checks++; }
 function equal(actual, expected, label) { assert.deepEqual(actual, expected, label); checks++; }
@@ -48,9 +51,11 @@ function person() {
 }
 const admin = person(), member = person(), guest = person();
 const initial = await guest.call("/api/appearance");
-equal(Object.keys(initial).sort(), ["breedStyles", "defaultStyle", "deletedStyles", "revision", "updatedAt"], "Public configuration contains no private identities");
+equal(Object.keys(initial).sort(), ["breedStyles", "breedVarieties", "defaultStyle", "deletedStyles", "revision", "updatedAt", "varieties"], "Public configuration contains no private identities");
 check(styles.includes(initial.defaultStyle), "Public default belongs to the finite catalog");
-equal(initial.deletedStyles, [], "A fresh isolated server starts with all 16 styles available");
+equal(initial.deletedStyles, [], "A fresh isolated server starts with every catalog style available");
+equal(initial.varieties, [], "A fresh isolated server does not create unrequested breed varieties");
+equal(initial.breedVarieties, {}, "Breeds start without an active custom variety");
 await guest.call("/api/admin/appearance", undefined, 401);
 await guest.call("/api/admin/appearance", { defaultStyle: "badge", breedStyles: {}, expectedRevision: initial.revision }, 401,
   { "X-Session-Token": "x".repeat(43), "X-Player-Id": randomUUID() });
@@ -146,7 +151,7 @@ try {
   equal(await admin.call("/api/game"), ownedBefore, "Deleting styles preserves the administrator's game data too");
 
   current = await save("mini", {}, styles.filter(style => style !== "mini").reverse());
-  equal(current.deletedStyles, styles.filter(style => style !== "mini"), "Deleting 15 styles is allowed when one usable style remains");
+  equal(current.deletedStyles, styles.filter(style => style !== "mini"), "Deleting all other styles is allowed when one usable style remains");
   equal(current.defaultStyle, "mini", "The single remaining style stays selected");
   equal(current.breedStyles, {}, "Single-style configuration contains no deleted override references");
   equal(await guest.call("/api/appearance"), current, "The single remaining style is visible in public configuration");
@@ -173,6 +178,81 @@ for (const style of styles) {
   equal(await guest.call("/api/appearance"), current, "Public readers receive the saved configuration");
 }
 current = await save("classic");
+
+const variety = (breed, name, extra = {}) => ({
+  id: randomUUID(), breed, name, style: null, shape: "original", pattern: "solid", coatColor: null, patternColor: "#FFFFFF", ...extra,
+});
+const typeBody = (varieties, breedVarieties, extra = {}) => ({
+  defaultStyle: current.defaultStyle, breedStyles: current.breedStyles, deletedStyles: current.deletedStyles,
+  expectedRevision: current.revision, varieties, breedVarieties, ...extra,
+});
+try {
+  const teddy = variety("pomeranian", "  곰돌이형  ", { style: "teddy", shape: "teddy", pattern: "tuxedo", coatColor: "#ab09cf", patternColor: "#aAbBcC" });
+  const fox = variety("pomeranian", "여우형", { shape: "fox", pattern: "blaze" });
+  const socks = variety("corgi", "양말 무늬", { style: "animated-2d", pattern: "socks", coatColor: "#E5AC64" });
+  const active = { pomeranian: teddy.id, corgi: socks.id };
+  current = await admin.call("/api/admin/appearance", typeBody([teddy, fox, socks], active));
+  equal(current.varieties.length, 3, "Multiple subtypes are saved alongside the catalog");
+  equal(current.breedVarieties, active, "Each breed retains its selected subtype UUID");
+  equal(current.varieties[0], { ...teddy, name: "곰돌이형", coatColor: "#AB09CF", patternColor: "#AABBCC" }, "Subtype names and colors are normalized without losing shape or pattern");
+  equal(current.varieties[1], fox, "A null subtype style remains an explicit inheritance choice");
+  equal(await member.call("/api/appearance"), current, "Other accounts receive the saved active subtypes");
+  equal(await person().call("/api/appearance"), current, "A new anonymous reader receives persisted subtype appearance");
+  const persisted = current;
+  current = await save("round", { pomeranian: "fluffy" });
+  equal(current.varieties, persisted.varieties, "A legacy save omitting subtype fields preserves all stored types");
+  equal(current.breedVarieties, active, "A legacy save preserves each breed's active type");
+  equal(await admin.call("/api/admin/appearance"), current, "Subtype values persist after a separate administrator read");
+  await admin.call("/api/admin/appearance", typeBody([], {}, { expectedRevision: persisted.revision }), 409);
+  await member.call("/api/admin/appearance", typeBody([], {}), 403);
+  const wrongBreed = { ...active, poodle: teddy.id };
+  const duplicate = { ...fox, name: " 곰돌이형 " };
+  for (const body of [
+    typeBody(current.varieties, wrongBreed),
+    typeBody(current.varieties, { pomeranian: randomUUID() }),
+    typeBody([current.varieties[0], duplicate], {}),
+    typeBody([current.varieties[0], { ...fox, id: teddy.id }], {}),
+    typeBody([{ ...fox, shape: "bear" }], {}),
+    typeBody([{ ...fox, pattern: "striped" }], {}),
+    typeBody([{ ...fox, patternColor: "red" }], {}),
+    typeBody([{ ...fox, name: "가".repeat(25) }], {}),
+    typeBody([{ ...fox, id: "1-1-1-1-1" }], {}),
+    { defaultStyle: "round", breedStyles: {}, expectedRevision: current.revision, varieties: [] },
+    { defaultStyle: "round", breedStyles: {}, expectedRevision: current.revision, breedVarieties: {} },
+    typeBody(null, {}),
+  ]) await admin.call("/api/admin/appearance", body, 400);
+  equal(await guest.call("/api/appearance"), current, "Rejected type definitions and cross-breed selections do not alter the revision");
+  await admin.call("/api/admin/appearance", {
+    defaultStyle: current.defaultStyle, breedStyles: current.breedStyles, deletedStyles: ["teddy"], expectedRevision: current.revision,
+  }, 400);
+  await admin.call("/api/admin/appearance", typeBody(current.varieties, active, { deletedStyles: ["teddy"] }), 400);
+  const inheriting = current.varieties.map(value => value.id === teddy.id ? { ...value, style: null } : value);
+  current = await admin.call("/api/admin/appearance", typeBody(inheriting, active, { deletedStyles: ["teddy"] }));
+  equal(current.varieties[0].style, null, "Clearing a subtype's direct style permits inherited style after deletion");
+  equal(current.breedVarieties, active, "Deleting a style does not delete the active subtype itself");
+  equal(current.deletedStyles, ["teddy"], "Deleted subtype styles stay excluded in public state");
+
+  const many = breeds.flatMap(breed => Array.from({ length: 20 }, (_, index) => variety(breed, `사진 친구 ${index + 1}`, {
+    shape: index % 2 ? "fox" : "teddy", pattern: ["solid", "tuxedo", "patches", "freckles", "socks", "blaze"][index % 6],
+  })));
+  const manyActive = Object.fromEntries(breeds.map(breed => [breed, many.find(value => value.breed === breed).id]));
+  const largeBody = typeBody(many, manyActive, { defaultStyle: "classic", breedStyles: {}, deletedStyles: [] });
+  const largeBytes = Buffer.byteLength(JSON.stringify(largeBody));
+  check(largeBytes > 4096 && largeBytes < 65536, "The 140-type fixture exceeds the old 4 KiB body limit and fits the new 64 KiB limit");
+  current = await admin.call("/api/admin/appearance", largeBody);
+  equal(current.varieties, many, "All 140 subtype definitions survive a request larger than 4 KiB");
+  equal(current.breedVarieties, manyActive, "All seven selected subtype bindings survive the large request");
+  equal(await person().call("/api/appearance"), current, "A new page receives the complete large subtype configuration");
+  await admin.call("/api/admin/appearance", typeBody([...many, variety("pomeranian", "추가")], manyActive), 400);
+  await admin.call("/api/admin/appearance", typeBody([...many.slice(0, 20), variety("pomeranian", "추가")], {}), 400);
+  await admin.call("/api/admin/appearance", { ...typeBody([], {}), extra: "x".repeat(65536) }, 400);
+  equal(await guest.call("/api/appearance"), current, "Type count and request size rejections leave the persisted configuration unchanged");
+} finally {
+  current = await admin.call("/api/admin/appearance");
+  current = await admin.call("/api/admin/appearance", typeBody([], {}, { defaultStyle: "classic", breedStyles: {}, deletedStyles: [] }));
+}
+equal(current.varieties, [], "The disposable UI fixture ends with no custom types");
+equal(current.breedVarieties, {}, "Clearing types also explicitly clears active bindings");
 const ownedAfter = await admin.call("/api/game");
 equal(ownedAfter.puppies, ownedBefore.puppies, "Style settings preserve individual puppy names, breeds, stats, and wardrobe");
 equal(ownedAfter.coins, ownedBefore.coins, "Style changes do not spend hearts");

@@ -1,5 +1,34 @@
 # S3 사진 업로드와 CDN 연결
 
+## 사이트 기본 이미지의 CDN 주소
+
+정원 배경, 사이트 아이콘과 관리자 픽셀아트 원화는 프런트엔드의 `NEXT_PUBLIC_ASSET_BASE_URL`로 CDN에 연결합니다. Vercel 환경변수 또는 로컬 `frontend/.env.local`에 공개 이미지 릴리스 주소를 등록합니다.
+
+```dotenv
+NEXT_PUBLIC_ASSET_BASE_URL=https://cdn.puppyruby.com/site-assets/릴리스-이름
+NEXT_PUBLIC_DOWNLOAD_BASE_URL=https://cdn.puppyruby.com/site-downloads/릴리스-이름
+```
+
+버킷에는 해당 릴리스 접두 경로 아래에 `local-assets/site`와 같은 상대 경로로 업로드합니다. 공개 다운로드는 별도 릴리스로 관리합니다.
+
+| 프로젝트 경로 | CDN에서 읽는 상대 경로 |
+|---|---|
+| `local-assets/site/images/pixel-garden.svg` | `images/pixel-garden.svg` |
+| `local-assets/site/images/pixel-art-v1/art-01.png` | `images/pixel-art-v1/art-01.png` |
+| `local-assets/site/favicon.svg` | `favicon.svg` |
+
+`NEXT_PUBLIC_ASSET_BASE_URL`에는 HTTPS 주소를 사용하고 쿼리, 서명 토큰, 아이디·비밀번호, `images/` 또는 파일 이름을 넣지 않습니다. 로컬 테스트에만 `http://localhost:포트`, `http://127.0.0.1:포트`, `http://[::1]:포트`를 사용할 수 있습니다. 잘못된 값은 개발 서버 시작이나 빌드를 중단하며 입력한 값 자체는 오류에 표시하지 않습니다.
+
+값을 비우면 `frontend/src/lib/generated/public-media-release.json`에 기록된 CDN 릴리스를 사용합니다. 공개 환경변수는 빌드에 포함되므로 수정 후 개발 서버를 재시작하고, 운영에서는 새로 빌드·배포합니다. 원본은 Git에서 제외된 `local-assets/site`에 보관합니다. 시안 manifest에는 논리 경로를 유지하며 표시할 때 `assetUrl`이 CDN 주소로 바꿉니다. 자세한 절차는 [사이트 미디어 배포](SITE_ASSETS.md)를 참고하세요.
+
+관리자의 개별 PNG 다운로드도 CDN 주소를 사용합니다. CDN 도메인이 사이트와 다르면 브라우저가 링크의 `download` 속성을 무시할 수 있으므로 `images/pixel-art-v1/art-*.png` 객체에 `Content-Disposition: attachment; filename="art-01.png"` 형식의 실제 파일 이름을 지정하고 CDN이 이 헤더를 전달하게 설정합니다. 이미지 태그는 같은 파일을 그대로 표시할 수 있습니다. 일반 배경·아이콘은 `inline`으로 제공합니다. ZIP·EXE·JAR 다운로드는 `/downloads/`의 기존 사이트 주소를 유지합니다.
+
+회원 사진과 관리자가 입력하거나 업로드한 SEO 공유 이미지는 저장된 외부 주소를 유지합니다. 아래의 Java 서버 `CDN_BASE_URL`은 회원 업로드용이고, 위 프런트엔드의 릴리스 주소와 별도로 관리합니다. AWS 키·비밀 키를 `NEXT_PUBLIC_*`에 넣지 않습니다.
+
+코드와 주소 변환은 저장소 루트에서 `node scripts/verify-asset-urls.cjs`로 확인할 수 있습니다. 실제 CDN의 모든 이미지가 HTTP 200으로 응답하고 `Content-Type`과 다운로드 헤더가 맞는지도 배포 전에 확인하세요.
+
+## 회원 사진 업로드
+
 산책 프로필에서 사진을 선택하면 브라우저가 사진을 줄이고, 서버에서 받은 짧은 유효기간의 업로드 URL로 S3에 직접 전송합니다. 업로드 완료를 서버가 확인한 뒤 CDN 주소로 미리보기를 표시합니다. **프로필 저장**을 눌러야 내 프로필에 반영됩니다. 이미지 파일 자체가 Vercel 요청 본문을 통과하지 않습니다.
 
 새 사진 등록은 로그인한 회원에게만 열립니다. 기존에 저장한 사진은 계속 표시하며 사진을 바꾸지 않고 이름·나이만 수정할 수도 있습니다. 기본 제공 강아지 도트와 사이트 배경 파일은 기존 프로젝트 에셋을 사용합니다.
@@ -13,7 +42,7 @@ API_URL=https://실제-Java-서버-주소/api/v1
 PUBLIC_SITE_URL=https://실제-사이트-주소
 ```
 
-**AWS의 Java 백엔드 서비스**에는 다음을 등록합니다. JAR·systemd와 Vercel 설정은 [배포 안내](DEPLOYMENT.md)를 참고하세요. 로컬에서는 `backend/.env.local`에 추가하고 `backend/start-server.ps1`로 시작합니다. 예시 파일 전체를 기존 `.env.local` 위에 덮어쓰지 말고 필요한 항목만 추가하세요.
+**AWS의 Java 백엔드 서비스**에는 다음을 등록합니다. JAR·systemd와 Vercel 설정은 [배포 안내](DEPLOYMENT.md)를 참고하세요. 로컬에서는 `backend/.env`에 공통값을 두고 필요하면 `backend/.env.local`로 덮어쓴 뒤 `backend/start-server.ps1`로 시작합니다.
 
 ```dotenv
 S3_UPLOAD_ENABLED=true
@@ -21,6 +50,8 @@ S3_BUCKET=실제-버킷-이름
 AWS_REGION=ap-northeast-2
 S3_KEY_PREFIX=puppyruby
 CDN_BASE_URL=https://실제-CDN-도메인
+# CDN 원본이 이미 /puppyruby 폴더를 기준으로 연결된 경우에만 지정
+CDN_ORIGIN_PATH=puppyruby
 S3_PRESIGN_TTL_SECONDS=300
 S3_MAX_UPLOAD_BYTES=1048576
 AWS_ACCESS_KEY_ID=서버에서만-사용할-액세스-키
@@ -33,8 +64,9 @@ AWS_SESSION_TOKEN=
 | `S3_UPLOAD_ENABLED` | 설정을 마친 뒤 `true`. 기본값 `false`에서는 새 사진 업로드만 비활성화됩니다. |
 | `S3_BUCKET` | 버킷 이름만 입력합니다. `s3://`나 폴더 경로를 붙이지 않습니다. |
 | `AWS_REGION` | 버킷이 실제로 생성된 리전입니다. 서울 리전 기본값은 `ap-northeast-2`입니다. |
-| `S3_KEY_PREFIX` | 업로드 파일의 접두 경로. 기본값 `puppyruby`; 그 아래 `walk-profiles/`에 임의 이름으로 저장합니다. |
-| `CDN_BASE_URL` | HTTPS CDN 기본 주소. 버킷의 객체 키가 이 주소 뒤에 붙습니다. |
+| `S3_KEY_PREFIX` | 업로드 파일의 접두 경로. 기본값 `puppyruby`; 산책 사진은 `walk-profiles/`, 관리자 공유 이미지는 `seo-shares/`에 저장합니다. |
+| `CDN_BASE_URL` | HTTPS CDN 기본 주소. `CDN_ORIGIN_PATH`를 제거한 객체 경로가 이 주소 뒤에 붙습니다. |
+| `CDN_ORIGIN_PATH` | CDN에 설정된 원본 폴더. 예: `puppyruby` 또는 `/puppyruby`. 원본이 버킷 루트이면 비워 둡니다. S3 저장 키는 바뀌지 않습니다. |
 | `S3_PRESIGN_TTL_SECONDS` | 업로드 URL 유효기간(초). 기본값 `300`입니다. |
 | `S3_MAX_UPLOAD_BYTES` | 변환 후 업로드 파일의 최대 크기. 기본값 1MiB, 최대 5MiB입니다. |
 | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | 서버의 AWS 인증 정보. IAM 역할을 쓰는 경우 비워 둡니다. |
@@ -74,7 +106,10 @@ S3 버킷의 CORS 설정에 실제 사이트 출처를 허용해야 브라우저
     {
       "Effect": "Allow",
       "Action": ["s3:PutObject", "s3:GetObject"],
-      "Resource": "arn:aws:s3:::실제-버킷-이름/puppyruby/walk-profiles/*"
+      "Resource": [
+        "arn:aws:s3:::실제-버킷-이름/puppyruby/walk-profiles/*",
+        "arn:aws:s3:::실제-버킷-이름/puppyruby/seo-shares/*"
+      ]
     }
   ]
 }
@@ -82,7 +117,11 @@ S3 버킷의 CORS 설정에 실제 사이트 출처를 허용해야 브라우저
 
 버킷은 비공개로 유지하고 CloudFront를 사용한다면 해당 배포의 OAC로 읽기를 허용합니다. 업로드에 공개 ACL을 사용하지 않습니다. 이미 연결한 CDN이 새 객체 경로를 읽을 수 있는지 확인하세요. [CloudFront의 S3 원본 접근 설정](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-s3.html)
 
-예를 들어 객체 키가 `puppyruby/walk-profiles/…/….jpg`이면 CDN 요청도 `https://CDN-주소/puppyruby/walk-profiles/…/….jpg`입니다. CDN 원본 경로와 `CDN_BASE_URL`에 같은 폴더를 중복해서 넣지 않습니다. 매 업로드에 새로운 객체 키를 사용하므로 사진을 바꿀 때 기존 파일을 덮어쓰지 않습니다. 프리사인드 URL은 업로드에만 쓰며 프로필에는 만료되는 URL 대신 완료된 이미지 참조를 보관합니다. [S3 프리사인드 업로드](https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html)
+예를 들어 객체 키가 `puppyruby/walk-profiles/…/….jpg`이고 CDN 원본이 버킷 루트이면 `CDN_ORIGIN_PATH`를 비우고 `https://CDN-주소/puppyruby/walk-profiles/…/….jpg`로 읽습니다. CDN 원본이 이미 `/puppyruby`를 가리킨다면 `CDN_ORIGIN_PATH=puppyruby`로 설정하여 `https://CDN-주소/walk-profiles/…/….jpg`로 읽습니다. `CDN_BASE_URL`에 원본 폴더를 다시 넣지 않습니다. 프런트엔드 정적 이미지 릴리스 주소도 이 경우 `https://CDN-주소/site-assets/릴리스-이름`처럼 원본 폴더를 중복하지 않습니다.
+
+원본 폴더는 정확히 일치하는 경로 접두사와 `/`를 한 번만 제거합니다. 원본 밖의 저장 키나 경로 탈출 문법은 이미지 주소로 노출하지 않습니다. 업로드를 켰을 때 `S3_KEY_PREFIX`는 원본 폴더와 같거나 그 안의 하위 폴더여야 합니다. 업로드를 꺼도 유효한 CDN 설정과 원본 안의 기존 사진은 계속 표시합니다. 이 설정은 URL 생성만 바꾸고 DB의 기존 저장 키와 S3 객체, 프리사인드 업로드 위치를 변경하지 않습니다. 서버를 재시작하여 반영합니다.
+
+매 업로드에 새로운 객체 키를 사용하므로 사진을 바꿀 때 기존 파일을 덮어쓰지 않습니다. 프리사인드 URL은 업로드에만 쓰며 프로필에는 만료되는 URL 대신 완료된 이미지 참조를 보관합니다. [S3 프리사인드 업로드](https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html)
 
 사이트 API는 본인과 수락된 친구에게만 사진 주소를 전달합니다. 현재 CDN 주소는 공개 읽기 주소이므로 주소를 이미 전달받은 사람이 복사한 링크까지 회수하지는 않습니다. 링크 접근 자체에도 친구 인증이 필요한 운영 정책이라면 별도의 CDN 서명 URL·쿠키 또는 인증 이미지 프록시가 필요합니다.
 
@@ -107,7 +146,7 @@ S3 버킷의 CORS 설정에 실제 사이트 출처를 허용해야 브라우저
 
 ## 개발 검증
 
-프런트엔드 `npm run build`가 통과했습니다. 백엔드 전체 125개 테스트가 통과했고, 마지막 응답 크기 제한 보완 후 미디어 테스트 17개를 다시 통과했습니다. 실제 AWS SDK로 만든 서명의 파일 종류·크기·체크섬 결합을 오프라인에서 검증했습니다. 브라우저 업로드 처리와 Next.js 프록시도 AWS에 연결하지 않고 검증합니다.
+프런트엔드 `npm run build`가 통과했습니다. 백엔드 전체 157개 테스트와 미디어 관련 22개 검증이 통과했습니다. 실제 AWS SDK로 만든 서명의 파일 종류·크기·체크섬 결합을 오프라인에서 검증했습니다. 브라우저 업로드 처리와 Next.js 프록시도 AWS에 연결하지 않고 검증합니다.
 
 ```powershell
 node scripts/verify-image-upload.cjs
