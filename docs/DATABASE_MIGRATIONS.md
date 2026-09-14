@@ -36,7 +36,7 @@ spring:
 
 관리 도구도 `DB_SCHEMA` 없이 실행할 수 있습니다. 읽기 전용 JDBC 연결에서 실제 기본 스키마를 조회·검증한 뒤 이후 관리 연결, Flyway, Hibernate 검증을 그 스키마 하나에 고정합니다. 연결 URL이나 계정의 `search_path`가 지정한 기본값을 따르며 `public`을 임의로 선택하지 않습니다. 선택 가능한 기본 스키마가 없으면 `DEFAULT_SCHEMA_UNRESOLVED`로 중단합니다. 환경변수에서 `DB_SCHEMA`를 제거했더라도 이미 실행 중인 서버의 설정은 바뀌지 않으므로, 대상 확인 후 새 설정으로 서버를 다시 시작해야 합니다.
 
-Windows의 `backend/start-server.ps1`과 `gradlew bootRun`은 `.env`를 읽은 다음 `.env.local` 값으로 덮어씁니다. 직접 `java -jar`로 실행하면 dotenv 파일을 자동으로 읽지 않으므로 서비스 환경변수로 전달해야 합니다. 운영 구성은 [배포 안내](DEPLOYMENT.md)를 참고하세요.
+Java main이 `.env` 다음 `.env.local`을 읽어 `start-server.ps1`, `gradlew bootRun`, IDE, 직접 JAR 실행에 공통 적용합니다. 저장소 루트에서 실행하면 `backend` 안을 읽습니다. 실행 인자와 서비스 환경변수는 환경파일보다 우선하며, 주소는 `jdbc:postgresql://호스트:포트/DB이름` 형식이어야 합니다. PostgreSQL 주소에서 `jdbc:`가 빠졌거나 값이 누락되면 연결 전에 중단합니다. 운영 구성은 [배포 안내](DEPLOYMENT.md)를 참고하세요.
 
 공유 호스팅 DB의 연결 한도를 넘지 않도록 서버 연결 풀은 기본 최대 5개·최소 대기 1개입니다. `DB_POOL_MAX_SIZE`, `DB_POOL_MIN_IDLE`로 조절할 수 있습니다. 서버 인스턴스 전체의 연결 수에 마이그레이션·관리 명령이 사용할 여유도 남겨 두세요. 관리 도구의 `CONNECTION_LIMIT`은 이 한도를 초과했다는 뜻입니다.
 

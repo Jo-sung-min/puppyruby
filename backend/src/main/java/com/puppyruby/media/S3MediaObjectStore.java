@@ -1,9 +1,12 @@
 package com.puppyruby.media;
 
 import jakarta.annotation.PreDestroy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
+import software.amazon.awssdk.auth.credentials.*;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.S3Configuration;
@@ -17,18 +20,38 @@ import java.util.*;
 @Component
 class S3MediaObjectStore implements MediaObjectStore {
     private final MediaSettings settings;
+    private final AwsCredentialsProvider credentials;
     private S3Client client;
     private S3Presigner presigner;
 
-    S3MediaObjectStore(MediaSettings settings) { this.settings = settings; }
+    @Autowired
+    S3MediaObjectStore(MediaSettings settings,
+                       @Value("${AWS_ACCESS_KEY_ID:}") String accessKeyId,
+                       @Value("${AWS_SECRET_ACCESS_KEY:}") String secretAccessKey,
+                       @Value("${AWS_SESSION_TOKEN:}") String sessionToken) {
+        this.settings = settings;
+        this.credentials = credentialsProvider(accessKeyId, secretAccessKey, sessionToken);
+    }
+
+    S3MediaObjectStore(MediaSettings settings) { this(settings, "", "", ""); }
+
+    static AwsCredentialsProvider credentialsProvider(String accessKeyId, String secretAccessKey, String sessionToken) {
+        // Spring also resolves credentials loaded from local dotenv files. Without a complete pair,
+        // retain the SDK chain for process credentials, profiles and IAM roles.
+        if (accessKeyId == null || accessKeyId.isBlank() || secretAccessKey == null || secretAccessKey.isBlank())
+            return DefaultCredentialsProvider.builder().build();
+        if (sessionToken != null && !sessionToken.isBlank())
+            return StaticCredentialsProvider.create(AwsSessionCredentials.create(accessKeyId, secretAccessKey, sessionToken));
+        return StaticCredentialsProvider.create(AwsBasicCredentials.create(accessKeyId, secretAccessKey));
+    }
 
     // Lazily initialize so an installation with uploads disabled needs no AWS credentials or network.
     private synchronized void initialize() {
         if (presigner != null) return;
         var region = Region.of(settings.region);
-        client = S3Client.builder().region(region).overrideConfiguration(configuration -> configuration
+        client = S3Client.builder().region(region).credentialsProvider(credentials).overrideConfiguration(configuration -> configuration
             .apiCallTimeout(Duration.ofSeconds(20)).apiCallAttemptTimeout(Duration.ofSeconds(10))).build();
-        presigner = S3Presigner.builder().region(region)
+        presigner = S3Presigner.builder().region(region).credentialsProvider(credentials)
             .serviceConfiguration(S3Configuration.builder().checksumValidationEnabled(false).build()).build();
     }
 
@@ -77,5 +100,6 @@ class S3MediaObjectStore implements MediaObjectStore {
     @PreDestroy synchronized void close() {
         if (presigner != null) presigner.close();
         if (client != null) client.close();
+        if (credentials instanceof DefaultCredentialsProvider provider) provider.close();
     }
 }

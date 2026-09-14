@@ -39,55 +39,8 @@ tasks.named('test') {
     environment 'MAIL_ENABLED', 'false'
 }
 
-def supportedBootRunSettings = [
-    'PORT', 'SERVER_ADDRESS', 'PUBLIC_SITE_URL', 'ADMIN_EMAIL',
-    'DB_URL', 'DB_USERNAME', 'DB_PASSWORD', 'DB_SCHEMA', 'DB_POOL_MAX_SIZE', 'DB_POOL_MIN_IDLE', 'FLYWAY_ENABLED',
-    'KAKAO_REST_API_KEY', 'KAKAO_CLIENT_SECRET',
-    'MAIL_ENABLED', 'MAIL_HOST', 'MAIL_PORT', 'MAIL_USERNAME', 'MAIL_PASSWORD', 'MAIL_FROM', 'MAIL_STARTTLS',
-    'TOSS_CLIENT_KEY', 'TOSS_SECRET_KEY', 'TOSS_LIVE_ENABLED',
-    'S3_UPLOAD_ENABLED', 'S3_BUCKET', 'AWS_REGION', 'S3_KEY_PREFIX', 'CDN_BASE_URL', 'CDN_ORIGIN_PATH',
-    'S3_PRESIGN_TTL_SECONDS', 'S3_MAX_UPLOAD_BYTES', 'AWS_ACCESS_KEY_ID', 'AWS_SECRET_ACCESS_KEY', 'AWS_SESSION_TOKEN'
-] as Set
-
-def readBootRunEnvironment = {
-    def settings = [:]
-    ['.env', '.env.local'].each { configName ->
-        def configFile = file(configName)
-        if (!configFile.isFile()) return
-        configFile.eachLine('UTF-8') { rawLine, lineNumber ->
-            def line = rawLine.trim()
-            if (!line || line.startsWith('#')) return
-            def separator = line.indexOf('=')
-            if (separator < 1) throw new GradleException("${configName}:${lineNumber}: invalid backend environment entry")
-            def name = line.substring(0, separator).trim()
-            if (!(name ==~ /[A-Za-z_][A-Za-z0-9_]*/)) {
-                throw new GradleException("${configName}:${lineNumber}: invalid backend environment variable name")
-            }
-            if (!(name in supportedBootRunSettings)) {
-                throw new GradleException("${configName}:${lineNumber}: unsupported backend setting ${name}")
-            }
-            def value = line.substring(separator + 1).trim()
-            if (value.length() >= 2 && ((value.startsWith('"') && value.endsWith('"')) ||
-                (value.startsWith("'") && value.endsWith("'")))) {
-                value = value.substring(1, value.length() - 1)
-            }
-            settings[name] = value
-        }
-    }
-    settings
-}
-
-tasks.named('bootRun') {
-    doFirst {
-        def localSettings = readBootRunEnvironment()
-        environment localSettings
-        def databaseUrl = localSettings.containsKey('DB_URL') ? localSettings.DB_URL : System.getenv('DB_URL')
-        def databaseUsername = localSettings.containsKey('DB_USERNAME') ? localSettings.DB_USERNAME : System.getenv('DB_USERNAME')
-        if (!databaseUrl?.trim() || !databaseUsername?.trim()) {
-            throw new GradleException('DB_URL and DB_USERNAME are required. Create backend/.env from .env.example or provide them to this process.')
-        }
-    }
-}
+// The Java entry point loads local configuration for Gradle, IDE and direct JAR starts alike.
+tasks.named('bootRun') { workingDir = projectDir }
 
 sourceSets {
     dbTools {

@@ -121,7 +121,7 @@ sudo systemctl status puppyruby --no-pager
 curl --fail http://127.0.0.1:8080/actuator/health
 ```
 
-다음 JAR를 배포할 때는 새 SQL과 기존 코드의 호환성을 확인하고 DB 백업과 기존 JAR를 보관합니다. 서비스를 중지한 상태에서 JAR를 교체한 뒤 시작하면 필요한 마이그레이션이 실행됩니다. 스키마 변경이 이전 코드와 호환되지 않으면 JAR만 되돌려서는 복구되지 않으므로 복원 절차도 함께 준비합니다. 환경 파일만 수정한 경우에도 `sudo systemctl restart puppyruby`로 다시 읽게 합니다. Java를 직접 실행하면 `.env` 파일을 자동으로 읽지 않으므로 위 `EnvironmentFile` 또는 프로세스 환경 변수로 전달해야 합니다.
+다음 JAR를 배포할 때는 새 SQL과 기존 코드의 호환성을 확인하고 DB 백업과 기존 JAR를 보관합니다. 서비스를 중지한 상태에서 JAR를 교체한 뒤 시작하면 필요한 마이그레이션이 실행됩니다. 스키마 변경이 이전 코드와 호환되지 않으면 JAR만 되돌려서는 복구되지 않으므로 복원 절차도 함께 준비합니다. 환경 파일만 수정한 경우에도 `sudo systemctl restart puppyruby`로 다시 읽게 합니다. Java main은 실행 작업 폴더의 `.env`와 `.env.local`을 읽으며, 위 `EnvironmentFile`로 전달한 서비스 환경변수가 로컬 파일보다 우선합니다.
 
 SMTP 비밀번호·카카오 시크릿·토스 시크릿·AWS 자격 증명은 **Java 서버에만** 둡니다. Vercel이나 `NEXT_PUBLIC_*`에 넣지 않습니다. 외부 서비스별 설정은 [회원](ACCOUNTS.md), [결제](PAYMENTS.md), [사진 업로드](IMAGE_UPLOADS.md) 안내를 참고하세요. 환경변수와 토큰을 로그에 출력하지 않습니다.
 

@@ -136,7 +136,8 @@ npm run dev
 - 상태 확인: http://127.0.0.1:8080/actuator/health
 - 서버는 `backend/.env`의 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`로 지정한 PostgreSQL을 사용합니다. `DB_SCHEMA`는 전용 DB라면 비우거나 생략합니다.
 - `frontend/.env.example`을 `.env.local`로 복사하면 API 주소를 바꿀 수 있습니다.
-- `gradlew bootRun`과 Windows의 `backend/start-server.ps1`은 `backend/.env` 다음 `.env.local`을 읽습니다. 직접 JAR를 실행하거나 AWS에서 운영할 때는 서비스 환경 변수로 전달하세요. DB 설정이 없으면 다른 내장 DB로 대신 연결하지 않고 즉시 중단합니다.
+- Java 시작 코드가 `.env` 다음 `.env.local`을 읽으므로 `gradlew bootRun`, IDE 실행 버튼, `start-server.ps1`, 직접 JAR 실행에 같은 설정이 적용됩니다. 작업 폴더는 프로젝트 루트 또는 `backend`로 지정합니다. 프로젝트 루트에서는 `backend` 안의 환경파일을 읽습니다. 별도로 배포한 JAR는 실행 작업 폴더의 환경파일을 읽습니다.
+- 설정 우선순위는 실행 인자 → 시스템/서비스 환경변수 → `.env.local` → `.env`입니다. AWS에서는 서비스 환경변수로 연결값을 전달하세요. DB 주소나 사용자명이 없거나 주소가 `jdbc:postgresql:` 형식이 아니면 연결 전에 설정 안내와 함께 중단합니다. `.env`는 Git에서 제외되므로 다른 PC에서는 직접 준비해야 합니다.
 
 ## 구현된 흐름
 
