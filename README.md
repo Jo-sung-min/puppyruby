@@ -122,6 +122,7 @@ Node.js 24와 Java 21이 필요합니다. 각각 별도 터미널에서 실행�
 ```powershell
 # 터미널 1: 서버 (처음 실행 시 Gradle 의존성을 내려받습니다)
 cd backend
+# 최초 한 번 .env.example을 .env로 복사하고 PostgreSQL 접속값을 입력합니다.
 .\gradlew.bat bootRun
 
 # 터미널 2: 화면
@@ -133,9 +134,9 @@ npm run dev
 - 화면: **http://127.0.0.1:3000**
 - API: http://127.0.0.1:8080/api/v1/game
 - 상태 확인: http://127.0.0.1:8080/actuator/health
-- 기본 H2 파일 DB는 `backend/data/`에 저장됩니다. 서버를 껐다 켜도 데이터가 남습니다.
+- 서버는 `backend/.env`의 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`로 지정한 PostgreSQL을 사용합니다. `DB_SCHEMA`는 전용 DB라면 비우거나 생략합니다.
 - `frontend/.env.example`을 `.env.local`로 복사하면 API 주소를 바꿀 수 있습니다.
-- `backend/.env.example`은 환경 변수 안내용입니다. Spring Boot가 `.env`를 자동으로 읽지는 않습니다. Windows에서는 `backend/start-server.ps1`이 `.env`와 `.env.local`을 순서대로 읽으며, AWS에서는 서비스 환경 변수로 전달하세요.
+- `gradlew bootRun`과 Windows의 `backend/start-server.ps1`은 `backend/.env` 다음 `.env.local`을 읽습니다. 직접 JAR를 실행하거나 AWS에서 운영할 때는 서비스 환경 변수로 전달하세요. DB 설정이 없으면 예전 H2 파일로 대신 연결하지 않고 즉시 중단합니다.
 
 ## 구현된 흐름
 

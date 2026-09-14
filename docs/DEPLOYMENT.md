@@ -78,11 +78,11 @@ TOSS_LIVE_ENABLED=false
 
 RDS CA 번들은 AWS가 제공하는 현재 인증서로 준비하고 Java 서비스에서 읽을 수 있게 둡니다. `verify-full`은 암호화와 서버 이름·인증서를 확인합니다. RDS 엔드포인트와 인증서 경로를 실제 값으로 바꾸세요. [AWS PostgreSQL TLS 연결](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/PostgreSQL.Concepts.General.SSL.html)
 
-`DB_SCHEMA`를 지정하면 Flyway 마이그레이션, JPA 쿼리와 관리 화면의 집계 쿼리가 같은 PostgreSQL 스키마를 사용합니다. 해당 스키마를 먼저 만들고 애플리케이션 계정에 `USAGE`, `CREATE` 권한을 줍니다. 대소문자가 있는 스키마는 생성할 때도 큰따옴표로 이름을 감싸 동일하게 만듭니다. 운영에서는 스키마를 명시하세요. 값을 생략한 애플리케이션은 DB의 기본 스키마를 사용하지만, 아래 관리 도구는 PostgreSQL에서 `DB_SCHEMA`를 요구합니다.
+`DB_SCHEMA`를 지정하면 Flyway 마이그레이션, JPA 쿼리와 관리 화면의 집계 쿼리가 같은 PostgreSQL 스키마를 사용합니다. 해당 스키마를 먼저 만들고 애플리케이션 계정에 `USAGE`, `CREATE` 권한을 줍니다. 퍼피루비 전용 DB라면 `DB_SCHEMA`를 비우거나 생략해 기본 스키마(일반적으로 `public`)를 사용할 수 있으며 관리 도구도 실제 기본 스키마를 확인해 같은 곳을 검사합니다.
 
 애플리케이션 시작 시 Flyway가 DB 종류에 맞는 SQL을 적용하고, Hibernate가 엔티티와 테이블 구조를 검증합니다(`ddl-auto: validate`). 빈 스키마는 V1으로 초기화되며, 관리 중인 스키마에는 아직 적용하지 않은 버전만 실행됩니다. 이미 테이블이 있지만 Flyway 이력이 없는 DB는 자동으로 기준 버전을 등록하지 않고 시작을 중단합니다. 기존 서비스 DB를 처음 연결할 때는 백업 후 [DB 마이그레이션 안내](DATABASE_MIGRATIONS.md)의 명시적 V1 등록 절차를 먼저 따르세요.
 
-PostgreSQL은 JAR 교체와 분리해 유지하고 백업·복원 경로를 준비합니다. H2의 기본 `./data/puppyruby`는 작업 폴더에 따라 위치가 달라지는 로컬 개발 DB입니다. Flyway는 테이블의 버전 관리를 담당하며 기존 H2의 회원·강아지 데이터를 PostgreSQL로 옮기지 않습니다. 데이터를 유지하며 DB 종류를 바꾸려면 별도 이관이 필요합니다. 적용한 SQL을 고치지 말고 다음 V2, V3 파일로 변경하며, 실제 DB 변경 전에는 백업을 보관합니다.
+PostgreSQL은 JAR 교체와 분리해 유지하고 백업·복원 경로를 준비합니다. 서버는 `DB_URL`이 없을 때 로컬 H2로 대체 연결하지 않습니다. Flyway가 적용한 SQL을 고치지 말고 다음 V2, V3 파일로 변경하며, 실제 DB 변경 전에는 백업을 보관합니다.
 
 `SERVER_ADDRESS=0.0.0.0`은 ALB 등 다른 호스트에서 Java의 8080 포트로 연결할 때 사용합니다. 같은 서버의 리버스 프록시만 연결하면 `127.0.0.1`을 사용할 수 있습니다. ALB 또는 리버스 프록시의 공개 HTTPS 443이 Java HTTP 8080으로 전달되게 구성합니다. 보안 그룹은 8080을 해당 연결 주체에, DB 5432를 Java 서버에만 허용합니다. ALB 상태 확인 경로는 `/actuator/health`입니다.
 

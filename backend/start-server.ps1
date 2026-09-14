@@ -31,6 +31,9 @@ if ($Port -ne 0) {
     if ($Port -lt 1 -or $Port -gt 65535) { throw 'Port must be between 1 and 65535.' }
     $env:PORT = [string]$Port
 }
+if ([string]::IsNullOrWhiteSpace($env:DB_URL)) {
+    throw 'DB_URL is required. Create backend/.env from .env.example and enter the PostgreSQL connection settings.'
+}
 $serverJava = if ($env:JAVA_HOME) { Join-Path $env:JAVA_HOME 'bin/java.exe' } else { (Get-Command java -ErrorAction Stop).Source }
 if (-not (Test-Path -LiteralPath $serverJava)) { throw 'Install Java 21 and configure JAVA_HOME first.' }
 $serverJar = Get-ChildItem -LiteralPath (Join-Path $serverDirectory 'build/libs') -File |

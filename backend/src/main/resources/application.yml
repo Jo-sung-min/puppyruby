@@ -5,7 +5,10 @@ spring:
   application:
     name: puppyruby-api
   datasource:
-    url: ${DB_URL:jdbc:h2:file:./data/puppyruby;DB_CLOSE_ON_EXIT=FALSE}
+    # The service database must always be selected explicitly. Falling back to a
+    # leftover local H2 file can make Flyway inspect the wrong PUBLIC schema.
+    url: ${DB_URL}
+    embedded-database-connection: none
     username: ${DB_USERNAME:sa}
     password: ${DB_PASSWORD:}
     hikari:

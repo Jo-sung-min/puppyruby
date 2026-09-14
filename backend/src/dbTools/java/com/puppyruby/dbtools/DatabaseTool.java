@@ -60,7 +60,9 @@ public final class DatabaseTool {
         if (args.length != 3 || !Set.of("Info", "Validate", "Baseline").contains(args[0])) throw new Refused("INVALID_ACTION");
         String action = args[0];
         if (action.equals("Baseline") ? !args[2].equals("1") : !args[2].isEmpty()) throw new Refused("BASELINE_REQUIRES_VERSION_1");
-        String url = System.getenv().getOrDefault("DB_URL", "jdbc:h2:file:./data/puppyruby;IFEXISTS=TRUE;DB_CLOSE_ON_EXIT=FALSE");
+        String url = System.getenv("DB_URL");
+        if (url == null || url.isBlank()) throw new Refused("DB_URL_REQUIRED");
+        url = url.trim();
         String vendor = url.startsWith("jdbc:postgresql:") ? "postgresql" : url.startsWith("jdbc:h2:") ? "h2" : "";
         if (vendor.isEmpty()) throw new Refused("UNSUPPORTED_DATABASE");
         if (vendor.equals("h2")) {

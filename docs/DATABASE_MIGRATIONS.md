@@ -30,13 +30,13 @@ spring:
 
 일반 개발·운영에서는 Flyway를 켠 상태로 사용합니다. `FLYWAY_ENABLED=false`나 `ddl-auto=update`로 검증 오류를 우회하지 않습니다. `baseline-on-migrate=false`는 잘못 지정한 기존 DB를 자동으로 마이그레이션 대상으로 등록하는 일을 막습니다. `clean`은 테이블을 지우는 명령이므로 이 프로젝트에서는 비활성화되어 있습니다. [Flyway 자동 baseline 설정](https://documentation.red-gate.com/flyway/reference/configuration/flyway-namespace/flyway-baseline-on-migrate-setting)
 
-`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`는 서버 환경변수로 전달합니다. 퍼피루비 전용 PostgreSQL DB라면 `DB_SCHEMA`는 비우거나 생략해도 됩니다. 이때 연결의 기본 스키마를 사용하며, 일반적인 PostgreSQL은 `public`, 로컬 H2는 `PUBLIC`입니다. PostgreSQL 데이터베이스 안에는 항상 스키마가 있으므로 별도 전용 스키마를 추가할 필요가 없다는 의미입니다. 호스팅 서비스의 프로젝트 이름과 실제 DB 이름은 다를 수 있으니 서비스가 제공한 연결 주소를 그대로 사용하세요.
+`DB_URL`, `DB_USERNAME`, `DB_PASSWORD`는 서버 환경변수로 전달하며 `DB_URL`은 필수입니다. 퍼피루비 전용 PostgreSQL DB라면 `DB_SCHEMA`는 비우거나 생략해도 됩니다. 이때 연결의 기본 스키마(일반적으로 `public`)를 사용합니다. PostgreSQL 데이터베이스 안에는 항상 스키마가 있으므로 별도 전용 스키마를 추가할 필요가 없다는 의미입니다. 호스팅 서비스의 프로젝트 이름과 실제 DB 이름은 다를 수 있으니 서비스가 제공한 연결 주소를 그대로 사용하세요.
 
 한 DB를 여러 서비스가 공유하거나 특정 스키마에 격리하려면 `DB_SCHEMA`를 명시합니다. 같은 스키마가 JDBC 연결, Flyway 이력, JPA와 관리 화면의 직접 SQL에 적용됩니다. 지정한 스키마는 미리 만들고 애플리케이션 계정에 `USAGE`, `CREATE` 권한을 줍니다. 스키마 이름은 영문자 또는 밑줄로 시작하는 영문·숫자·밑줄 최대 63자이며, `Tenant_One`처럼 대소문자를 구분하는 이름은 생성 시에도 `"Tenant_One"`으로 인용합니다. 환경변수 값에는 큰따옴표 자체를 포함하지 않습니다.
 
 관리 도구도 `DB_SCHEMA` 없이 실행할 수 있습니다. 읽기 전용 JDBC 연결에서 실제 기본 스키마를 조회·검증한 뒤 이후 관리 연결, Flyway, Hibernate 검증을 그 스키마 하나에 고정합니다. 연결 URL이나 계정의 `search_path`가 지정한 기본값을 따르며 `public`을 임의로 선택하지 않습니다. 선택 가능한 기본 스키마가 없으면 `DEFAULT_SCHEMA_UNRESOLVED`로 중단합니다. 환경변수에서 `DB_SCHEMA`를 제거했더라도 이미 실행 중인 서버의 설정은 바뀌지 않으므로, 대상 확인 후 새 설정으로 서버를 다시 시작해야 합니다.
 
-Windows의 `backend/start-server.ps1`은 `.env`를 읽은 다음 `.env.local` 값으로 덮어씁니다. 직접 `java -jar`로 실행하면 dotenv 파일을 자동으로 읽지 않으므로 서비스 환경변수로 전달해야 합니다. 운영 구성은 [배포 안내](DEPLOYMENT.md)를 참고하세요.
+Windows의 `backend/start-server.ps1`과 `gradlew bootRun`은 `.env`를 읽은 다음 `.env.local` 값으로 덮어씁니다. 직접 `java -jar`로 실행하면 dotenv 파일을 자동으로 읽지 않으므로 서비스 환경변수로 전달해야 합니다. 운영 구성은 [배포 안내](DEPLOYMENT.md)를 참고하세요.
 
 공유 호스팅 DB의 연결 한도를 넘지 않도록 서버 연결 풀은 기본 최대 5개·최소 대기 1개입니다. `DB_POOL_MAX_SIZE`, `DB_POOL_MIN_IDLE`로 조절할 수 있습니다. 서버 인스턴스 전체의 연결 수에 마이그레이션·관리 명령이 사용할 여유도 남겨 두세요. 관리 도구의 `CONNECTION_LIMIT`은 이 한도를 초과했다는 뜻입니다.
 
@@ -78,7 +78,7 @@ cd backend
 
 자동 사전 검사는 테이블 집합과 Hibernate의 컬럼 존재·자료형 검증을 수행합니다. 문자열 길이, NULL 허용, 기본키·외래키·고유 제약·CHECK·인덱스까지 완전히 비교하는 기능은 아니므로 최초 등록 전에는 기존 DDL과 V1 SQL을 별도로 대조해야 합니다.
 
-관리 명령은 저장소와 Java 21, Gradle 의존성 캐시가 필요합니다. 새 환경에서는 먼저 `gradlew.bat classes dbToolsClasses`로 의존성을 준비합니다. 환경변수를 직접 설정한 Linux에서는 `./gradlew database -PdbAction=Info` 또는 `-PdbAction=Validate`를 사용할 수 있고, 검토한 기존 DB의 최초 등록은 `-PdbAction=Baseline -PbaselineVersion=1`입니다. Gradle 명령 자체는 dotenv 파일을 읽지 않습니다.
+관리 명령은 저장소와 Java 21, Gradle 의존성 캐시가 필요합니다. 새 환경에서는 먼저 `gradlew.bat classes dbToolsClasses`로 의존성을 준비합니다. 환경변수를 직접 설정한 Linux에서는 `./gradlew database -PdbAction=Info` 또는 `-PdbAction=Validate`를 사용할 수 있고, 검토한 기존 DB의 최초 등록은 `-PdbAction=Baseline -PbaselineVersion=1`입니다. `gradlew database`를 직접 실행할 때는 dotenv 파일을 읽지 않으므로 `database.ps1`을 사용하거나 환경변수를 직접 전달합니다.
 
 최초 등록 전의 `Validate`는 `HISTORY_NOT_REGISTERED`로 중단됩니다. 이 상태는 기존 테이블이 손상되었다는 뜻이 아니라 아직 Flyway 관리 이력이 없다는 뜻입니다. 기존 구조의 사전 검사는 명시적 `Baseline` 안에서 수행하고, 등록 후 `Validate`로 이력과 구조를 함께 확인합니다.
 
