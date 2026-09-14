@@ -41,7 +41,7 @@ Java 시작 코드가 Git에서 제외된 `backend/.env`를 먼저 읽고 `backe
 
 ### Vercel·AWS 운영 설정
 
-Vercel에는 `API_URL=https://실제-백엔드-도메인/api/v1`, `PUBLIC_SITE_URL=https://실제-사이트-도메인`과 카카오 REST API 키를 등록합니다. AWS Java 서버에는 같은 `PUBLIC_SITE_URL`과 위 표의 백엔드 설정을 등록합니다. 로컬 `.env.local` 파일은 Vercel이나 AWS에 자동으로 전달되지 않습니다.
+Vercel에는 `API_URL=https://실제-백엔드-도메인`, `PUBLIC_SITE_URL=https://실제-사이트-도메인`과 카카오 REST API 키를 등록합니다. `API_URL`은 AWS Elastic Beanstalk의 공개 HTTPS origin이며 Next.js 프록시가 `/api/v1`을 자동으로 붙입니다. AWS Java 서버에는 같은 `PUBLIC_SITE_URL`과 위 표의 백엔드 설정을 등록합니다. 로컬 `.env.local` 파일은 Vercel이나 AWS에 자동으로 전달되지 않습니다.
 
 `PUBLIC_SITE_URL`은 인증 메일 링크와 카카오 콜백 주소에 사용합니다. 브라우저에서 여는 정확한 사이트 origin을 양쪽에 입력하며 API 주소, `/play` 같은 경로, 끝의 슬래시는 넣지 않습니다. 로컬 기본값은 `http://127.0.0.1:3000`입니다.
 

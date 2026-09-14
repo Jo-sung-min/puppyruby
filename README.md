@@ -4,7 +4,7 @@
 
 운영 구성은 **Vercel의 Next.js 프런트엔드 + AWS의 Java 21 백엔드 + 영구 PostgreSQL**입니다. Docker 없이 배포합니다. Vercel은 Root Directory를 `frontend`, Framework Preset을 `Next.js`, Build Command를 `npm run build`로 지정하고 Output Directory는 프레임워크 기본값을 사용합니다. `.next/standalone`을 출력 디렉터리로 지정하지 않습니다.
 
-로컬 개발은 화면 **3000**, Java API **8080** 포트를 사용합니다. 운영 사이트는 `https://실제-사이트-도메인`으로 접속하며 주소에 `:3000`을 붙이지 않습니다. Vercel의 `API_URL`에는 `https://실제-백엔드-도메인/api/v1`, 양쪽의 `PUBLIC_SITE_URL`에는 실제 사이트 HTTPS 주소를 입력합니다. AWS JAR 실행·DB 설정·빌드 오류 복구는 [배포 안내](docs/DEPLOYMENT.md)를 참고하세요.
+로컬 개발은 화면 **3000**, Java API **8080** 포트를 사용합니다. 운영 사이트는 `https://실제-사이트-도메인`으로 접속하며 주소에 `:3000`을 붙이지 않습니다. Vercel의 `API_URL`에는 AWS Elastic Beanstalk의 공개 HTTPS origin인 `https://실제-백엔드-도메인`을 입력합니다. Next.js 프록시가 `/api/v1`을 자동으로 붙입니다. 양쪽의 `PUBLIC_SITE_URL`에는 실제 사이트 HTTPS 주소를 입력합니다. AWS JAR 실행·DB 설정·빌드 오류 복구는 [배포 안내](docs/DEPLOYMENT.md)를 참고하세요.
 
 ## 검색 노출 관리
 
@@ -155,7 +155,7 @@ npm run dev
 
 AWS에서는 빌드한 `backend/build/libs/puppyruby-api-0.2.0.jar`를 Java 21로 실행합니다. `PORT=8080`과 영구 PostgreSQL의 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`를 서버 환경에 지정합니다. ALB가 다른 호스트에서 연결하는 구성은 `SERVER_ADDRESS=0.0.0.0`을 사용하고 보안 그룹에서 연결 경로를 제한합니다. HTTPS는 ALB 또는 리버스 프록시에서 처리합니다.
 
-DB 구조는 Flyway로 관리합니다. 서버 시작 시 DB 종류별 SQL 마이그레이션을 적용한 후 Hibernate가 구조를 검증합니다. 기존 테이블에 Flyway 이력이 없다면 자동 변경을 중단하므로 백업 후 명시적 초기 등록이 필요합니다. 운영에서는 `DB_SCHEMA`도 지정하고 [DB 마이그레이션 안내](docs/DATABASE_MIGRATIONS.md)의 초기 연결·버전 추가·복구 절차를 확인하세요.
+DB 구조는 Flyway로 관리합니다. 서버 시작 시 DB 종류별 SQL 마이그레이션을 적용한 후 Hibernate가 구조를 검증합니다. 기존 테이블에 Flyway 이력이 없다면 자동 변경을 중단하므로 백업 후 명시적 초기 등록이 필요합니다. 퍼피루비 전용 DB는 `DB_SCHEMA`를 생략하고 기본 스키마를 사용합니다. 한 DB를 여러 서비스가 공유할 때만 별도 스키마를 지정하며, 자세한 절차는 [DB 마이그레이션 안내](docs/DATABASE_MIGRATIONS.md)를 확인하세요.
 
 [배포 안내](docs/DEPLOYMENT.md)에 Vercel 설정표, AWS systemd 예시와 재배포 절차가 있습니다. 저장소의 Docker 파일은 기존 로컬 구성 자료이며 이 운영 배포에는 필요하지 않습니다. 실제 AWS·Vercel 배포 및 운영 PostgreSQL 연결은 별도로 확인해야 합니다.
 

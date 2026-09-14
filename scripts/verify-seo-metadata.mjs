@@ -121,7 +121,7 @@ try {
   equal(builders.publicPageSeoMetadata({ ...settings, siteUrl: "" }, "home", "").alternates, undefined, "missing public origin omits canonical");
   await freePort(); await listen(fake, 0);
   child = spawn(process.execPath, [nextBin, "start", "--hostname", "127.0.0.1", "--port", "3121"], { cwd: frontend, windowsHide: true,
-    env: { ...process.env, API_URL: `http://127.0.0.1:${fake.address().port}/api/v1`, PUBLIC_SITE_URL: "https://deployment.example.test", NEXT_TELEMETRY_DISABLED: "1" }, stdio: ["ignore", "pipe", "pipe"] });
+    env: { ...process.env, API_URL: `http://127.0.0.1:${fake.address().port}`, PUBLIC_SITE_URL: "https://deployment.example.test", NEXT_TELEMETRY_DISABLED: "1" }, stdio: ["ignore", "pipe", "pipe"] });
   child.on("error", error => { childError = error; });
   for (const stream of [child.stdout, child.stderr]) stream.on("data", data => { childOutput = (childOutput + data.toString()).slice(-8000); });
   let ready = false;

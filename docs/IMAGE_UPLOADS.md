@@ -2,7 +2,7 @@
 
 ## 사이트 기본 이미지의 CDN 주소
 
-정원 배경, 사이트 아이콘과 관리자 픽셀아트 원화는 프런트엔드의 `NEXT_PUBLIC_ASSET_BASE_URL`로 CDN에 연결합니다. Vercel 환경변수 또는 로컬 `frontend/.env.local`에 공개 이미지 릴리스 주소를 등록합니다.
+정원 배경, 사이트 아이콘과 관리자 픽셀아트 원화는 저장소에 기록된 검증 완료 CDN 릴리스를 기본으로 사용합니다. 다른 릴리스를 시험할 때만 Vercel 환경변수 또는 로컬 `frontend/.env.local`에 공개 주소를 재정의합니다.
 
 ```dotenv
 NEXT_PUBLIC_ASSET_BASE_URL=https://cdn.puppyruby.com/site-assets/릴리스-이름
@@ -38,25 +38,22 @@ NEXT_PUBLIC_DOWNLOAD_BASE_URL=https://cdn.puppyruby.com/site-downloads/릴리스
 **Vercel의 Next.js 프로젝트**에는 다음을 등록합니다.
 
 ```dotenv
-API_URL=https://실제-Java-서버-주소/api/v1
-PUBLIC_SITE_URL=https://실제-사이트-주소
+API_URL=https://api.example.com
+PUBLIC_SITE_URL=https://www.example.com
 ```
+
+`API_URL`에는 AWS Elastic Beanstalk의 공개 HTTPS origin만 입력합니다. Next.js 프록시가 회원 사진 API를 포함한 백엔드 요청에 `/api/v1`을 자동으로 붙입니다.
 
 **AWS의 Java 백엔드 서비스**에는 다음을 등록합니다. JAR·systemd와 Vercel 설정은 [배포 안내](DEPLOYMENT.md)를 참고하세요. 로컬에서는 `backend/.env`에 공통값을 두고 필요하면 `backend/.env.local`로 덮어쓴 뒤 `backend/start-server.ps1`로 시작합니다.
 
 ```dotenv
 S3_UPLOAD_ENABLED=true
-S3_BUCKET=실제-버킷-이름
+S3_BUCKET=example-puppyruby-assets
 AWS_REGION=ap-northeast-2
 S3_KEY_PREFIX=puppyruby
-CDN_BASE_URL=https://실제-CDN-도메인
+CDN_BASE_URL=https://cdn.example.com
 # CDN 원본이 이미 /puppyruby 폴더를 기준으로 연결된 경우에만 지정
-CDN_ORIGIN_PATH=puppyruby
-S3_PRESIGN_TTL_SECONDS=300
-S3_MAX_UPLOAD_BYTES=1048576
-AWS_ACCESS_KEY_ID=서버에서만-사용할-액세스-키
-AWS_SECRET_ACCESS_KEY=서버에서만-사용할-비밀-키
-AWS_SESSION_TOKEN=
+# CDN_ORIGIN_PATH=puppyruby
 ```
 
 | 변수 | 설명 |
@@ -72,7 +69,7 @@ AWS_SESSION_TOKEN=
 | `AWS_ACCESS_KEY_ID`, `AWS_SECRET_ACCESS_KEY` | 서버의 AWS 인증 정보. IAM 역할을 쓰는 경우 비워 둡니다. |
 | `AWS_SESSION_TOKEN` | 임시 자격증명을 사용하는 경우 함께 지정합니다. |
 
-AWS 인증은 [AWS SDK 기본 자격증명 체인](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/credentials-chain.html)을 사용합니다. AWS 키를 `NEXT_PUBLIC_*`, 소스 코드, 브라우저 설정에 넣지 않습니다. 환경변수 변경 후 백엔드를 다시 시작하고 Vercel 환경변수를 바꾼 경우 프런트엔드도 다시 배포합니다.
+AWS 인증은 [AWS SDK 기본 자격증명 체인](https://docs.aws.amazon.com/sdk-for-java/latest/developer-guide/credentials-chain.html)을 사용합니다. Elastic Beanstalk/EC2 인스턴스 프로필에 S3 권한을 부여하면 액세스 키 환경변수는 필요하지 않습니다. AWS 키를 `NEXT_PUBLIC_*`, 소스 코드, 브라우저 설정에 넣지 않습니다. 환경변수 변경 후 백엔드를 다시 시작하고 Vercel 환경변수를 바꾼 경우 프런트엔드도 다시 배포합니다.
 
 ## 2. S3 CORS
 

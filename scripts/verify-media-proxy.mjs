@@ -198,7 +198,7 @@ try {
   await requireFreePort(3101);
   await listen(fake, 0);
   const apiOrigin = `http://127.0.0.1:${fake.address().port}`;
-  const childEnv = { ...process.env, API_URL: apiOrigin + "/api/v1", PORT: "3101", HOSTNAME: "127.0.0.1",
+  const childEnv = { ...process.env, API_URL: apiOrigin, PORT: "3101", HOSTNAME: "127.0.0.1",
     NODE_ENV: "production", PUBLIC_SITE_URL: origin, NEXT_TELEMETRY_DISABLED: "1" };
   for (const key of Object.keys(childEnv)) if (/^(AWS_|TOSS_|MAIL_|KAKAO_)/.test(key)) delete childEnv[key];
   child = spawn(process.execPath, [serverFile, "start", "--port", "3101", "--hostname", "127.0.0.1"],

@@ -61,7 +61,7 @@
 ## 우리 집 API
 
 브라우저는 `/api/game`의 Next.js 프록시만 호출합니다. 프록시가 HttpOnly 방문 쿠키를 읽고 Spring Boot의 `X-Player-Id`로 전달합니다. 클라이언트 본문의 플레이어 ID는 사용하지 않습니다.
-백엔드 로컬 기본 주소는 `http://127.0.0.1:8080/api/v1`입니다. Vercel의 프록시 `API_URL`에는 `https://실제-백엔드-도메인/api/v1`을 지정합니다. [배포 안내](DEPLOYMENT.md)를 참고하세요.
+백엔드 로컬 API 기본 주소는 `http://127.0.0.1:8080/api/v1`입니다. Vercel의 프록시 `API_URL`에는 AWS Elastic Beanstalk의 공개 HTTPS origin인 `https://실제-백엔드-도메인`을 지정합니다. 프록시가 `/api/v1`을 자동으로 붙입니다. [배포 안내](DEPLOYMENT.md)를 참고하세요.
 
 | 메서드 | 브라우저 경로 | 본문 | 동작 |
 |---|---|---|---|

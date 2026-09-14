@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { normalizeBackendApiBase } from "./server-api-url";
 export { isSameOrigin } from "./request-origin";
 
 export const SESSION_COOKIE = "puppyruby-session";
@@ -9,7 +10,7 @@ export const privateHeaders = { "Cache-Control": "private, no-store, max-age=0",
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 export function apiBase() {
-  return (process.env.API_URL || "http://127.0.0.1:8080/api/v1").replace(/\/$/, "");
+  return normalizeBackendApiBase(process.env.API_URL);
 }
 
 export async function browserIdentity() {
