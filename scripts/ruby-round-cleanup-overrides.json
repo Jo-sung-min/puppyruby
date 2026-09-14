@@ -1,0 +1,23 @@
+{
+  "frenchbulldog": {
+    "sourceSha256": "10C26F4FA6E7869A99FF068D586B62CF0C2BA9BA906A542AD7CD178211D1193C",
+    "regions": [
+      {
+        "frame": 17,
+        "left": 54,
+        "top": 1246,
+        "right": 61,
+        "bottom": 1252,
+        "reason": "Reviewed cyan bleed on the white muzzle beside the sleeping eye; source atlas coordinates"
+      },
+      {
+        "frame": 8,
+        "left": 877,
+        "top": 416,
+        "right": 878,
+        "bottom": 418,
+        "reason": "Reviewed four cyan fringe pixels beside the side-pose eye; source atlas coordinates"
+      }
+    ]
+  }
+}

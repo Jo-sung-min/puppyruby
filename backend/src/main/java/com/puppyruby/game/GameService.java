@@ -100,7 +100,7 @@ public class GameService {
                 }
                 case "customize" -> {
                     if (!List.of("original", "cream", "chocolate", "rose", "silver").contains(Objects.toString(input.fur(), "")) ||
-                        !List.of("original", "blue", "green", "amber").contains(Objects.toString(input.eyes(), "")) ||
+                        !validEyes(input.eyes()) ||
                         !(List.of("none", "ribbon", "scarf", "crown").contains(Objects.toString(input.accessory(), ""))
                             || (input.accessory() != null && input.accessory().equals(dog.accessory))))
                         throw bad("사용할 수 없는 꾸미기 아이템이에요.");
@@ -118,6 +118,11 @@ public class GameService {
         }
         repository.save(p);
         return new Result(view(p), message, success, newId);
+    }
+
+    static boolean validEyes(String eyes) {
+        return eyes != null && (List.of("original", "blue", "green", "amber").contains(eyes)
+            || eyes.matches("ruby-eye-(0[1-9]|[12][0-9]|30)"));
     }
 
     /** Only a server-side, already charged commerce draw calls this helper. */

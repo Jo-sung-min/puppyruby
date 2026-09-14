@@ -133,7 +133,7 @@ class AppearanceServiceTest {
             assertEquals(revision, result.revision());
         }
         assertEquals(AppearanceService.STYLES.size(), revision); assertEquals(AppearanceService.STYLES.size(), auditCount());
-        assertEquals(113, new HashSet<>(AppearanceService.STYLES).size()); assertTrue(AppearanceService.STYLES.contains("meadow"));
+        assertEquals(114, new HashSet<>(AppearanceService.STYLES).size()); assertTrue(AppearanceService.STYLES.contains("meadow"));
         assertEquals("animated-2d", AppearanceService.STYLES.getLast());
     }
 
@@ -450,7 +450,7 @@ class AppearanceServiceTest {
 
     @Test void thirtyOriginalArtStylesCanBeAssignedAndRemovedWithoutRestoringCuratedStyles() throws Exception {
         var art = java.util.stream.IntStream.rangeClosed(1, 30).mapToObj(i -> "art-%02d".formatted(i)).toList();
-        assertEquals(113, AppearanceService.STYLES.size());
+        assertEquals(114, AppearanceService.STYLES.size());
         assertTrue(AppearanceService.STYLES.containsAll(art));
         var deleted = List.of("round", "mochi", "chibi", "retro", "premium-milkbean");
         var original = admin.save(operator.token, input("classic", Map.of("maltese", "soft"), 0, deleted));

@@ -1,0 +1,7988 @@
+[
+  {
+    "breed": "pomeranian",
+    "width": 297,
+    "height": 302,
+    "aseprite": "/downloads/ruby-round-v1/pomeranian.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/pomeranian/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 145
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 145
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 140
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 140
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 133
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 141
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 141
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pomeranian/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/pomeranian/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 145
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 145
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 145
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 145
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 145
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 145
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 145
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 145
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pomeranian/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/pomeranian/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 141
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 141
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 141
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 141
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pomeranian/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/pomeranian/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 229
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 229
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 39,
+              "y": 228
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 41,
+              "y": 229
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pomeranian/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/pomeranian/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 138
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 138
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 138
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 140
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pomeranian/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "poodle",
+    "width": 294,
+    "height": 302,
+    "aseprite": "/downloads/ruby-round-v1/poodle.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/poodle/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 133
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 133
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 133
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/poodle/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/poodle/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 151,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 127
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/poodle/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/poodle/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 130
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/poodle/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/poodle/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 226
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/poodle/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/poodle/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 130
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/poodle/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "maltese",
+    "width": 293,
+    "height": 303,
+    "aseprite": "/downloads/ruby-round-v1/maltese.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/maltese/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 135
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 135
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 133
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 138
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 138
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/maltese/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/maltese/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 140
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 140
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 140
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 140
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 140
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 140
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 140
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 140
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/maltese/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/maltese/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 138
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 140
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 139
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 138
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/maltese/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/maltese/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 221
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 222
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 221
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 222
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/maltese/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/maltese/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 137
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 138
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 137
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 138
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/maltese/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "shiba",
+    "width": 296,
+    "height": 302,
+    "aseprite": "/downloads/ruby-round-v1/shiba.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/shiba/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 130
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shiba/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/shiba/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 102,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 102,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 127
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shiba/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/shiba/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 132
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shiba/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/shiba/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 222
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 221
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 220
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 221
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shiba/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/shiba/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 132
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shiba/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "corgi",
+    "width": 298,
+    "height": 296,
+    "aseprite": "/downloads/ruby-round-v1/corgi.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/corgi/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 120
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 119
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/corgi/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/corgi/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 127
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/corgi/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/corgi/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 126
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/corgi/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/corgi/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 214
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 59,
+              "y": 214
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 214
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 214
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/corgi/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/corgi/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 135
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 138
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/corgi/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "beagle",
+    "width": 292,
+    "height": 303,
+    "aseprite": "/downloads/ruby-round-v1/beagle.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/beagle/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 104
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 108
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 108
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 108
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 108
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 108
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 108
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/beagle/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/beagle/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 114
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 114
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 114
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 114
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 114
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 114
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 114
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 114
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/beagle/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/beagle/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 123
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/beagle/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/beagle/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 73,
+              "y": 211
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 73,
+              "y": 211
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 73,
+              "y": 211
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 75,
+              "y": 211
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/beagle/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/beagle/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 124
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 126
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/beagle/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "samoyed",
+    "width": 297,
+    "height": 301,
+    "aseprite": "/downloads/ruby-round-v1/samoyed.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/samoyed/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 123
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 123
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 129
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 129
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/samoyed/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/samoyed/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 126
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/samoyed/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/samoyed/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 120
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 122
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 122
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/samoyed/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/samoyed/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 221
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 40,
+              "y": 222
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 38,
+              "y": 222
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 41,
+              "y": 222
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/samoyed/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/samoyed/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 124
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 124
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 126
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/samoyed/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "bichon",
+    "width": 294,
+    "height": 303,
+    "aseprite": "/downloads/ruby-round-v1/bichon.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bichon/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 134
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 124
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 124
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 135
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 135
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bichon/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bichon/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 136
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 136
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 136
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 136
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 136
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 136
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 136
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 136
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bichon/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bichon/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 138
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 41,
+              "y": 138
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 139
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 138
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bichon/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bichon/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 229
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 229
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 228
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 228
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bichon/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/bichon/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 135
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 137
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 136
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 136
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bichon/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "golden",
+    "width": 305,
+    "height": 303,
+    "aseprite": "/downloads/ruby-round-v1/golden.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/golden/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 111,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 104
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 112,
+              "y": 105
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 105
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 113,
+              "y": 105
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 105
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 114,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 162,
+              "y": 104
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/golden/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/golden/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 111,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 104
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 113,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 104
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 112,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 104
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 113,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 104
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/golden/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/golden/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 115
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 115
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 115
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 115
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/golden/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/golden/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 69,
+              "y": 197
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 68,
+              "y": 197
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 69,
+              "y": 198
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 69,
+              "y": 197
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/golden/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/golden/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 119
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 116
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 116
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 120
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/golden/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "labrador",
+    "width": 299,
+    "height": 302,
+    "aseprite": "/downloads/ruby-round-v1/labrador.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/labrador/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 99
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 99
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 102
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 102
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 101
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 101
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 97
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 97
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/labrador/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/labrador/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 103
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 103
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 103
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 103
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 103
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 103
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 102
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 102
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/labrador/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/labrador/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 118
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 119
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 41,
+              "y": 119
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 118
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/labrador/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/labrador/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 207
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 77,
+              "y": 211
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 206
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 78,
+              "y": 210
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 41,
+              "y": 206
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 78,
+              "y": 210
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 39,
+              "y": 208
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 74,
+              "y": 211
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/labrador/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/labrador/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 41,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 123
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/labrador/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "husky",
+    "width": 299,
+    "height": 302,
+    "aseprite": "/downloads/ruby-round-v1/husky.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/husky/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 131
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 133
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 129
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 134
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 134
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/husky/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/husky/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 130
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/husky/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/husky/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 133
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/husky/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/husky/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 35,
+              "y": 216
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 72,
+              "y": 220
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 37,
+              "y": 216
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 73,
+              "y": 219
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 34,
+              "y": 216
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 70,
+              "y": 219
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 36,
+              "y": 217
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 73,
+              "y": 219
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/husky/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/husky/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 138
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 138
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 137
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 138
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/husky/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "shihtzu",
+    "width": 295,
+    "height": 300,
+    "aseprite": "/downloads/ruby-round-v1/shihtzu.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/shihtzu/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 129
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 129
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 126
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shihtzu/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/shihtzu/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 133
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 133
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 132
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shihtzu/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/shihtzu/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 31,
+              "y": 142
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 58,
+              "y": 144
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 31,
+              "y": 141
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 58,
+              "y": 144
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 32,
+              "y": 142
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 59,
+              "y": 144
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 29,
+              "y": 141
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 57,
+              "y": 144
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shihtzu/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/shihtzu/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 40,
+              "y": 218
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 77,
+              "y": 218
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 41,
+              "y": 217
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 78,
+              "y": 217
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 40,
+              "y": 218
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 76,
+              "y": 218
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 39,
+              "y": 218
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 75,
+              "y": 218
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shihtzu/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/shihtzu/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 36,
+              "y": 146
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 63,
+              "y": 148
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 35,
+              "y": 145
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 62,
+              "y": 147
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 36,
+              "y": 142
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 63,
+              "y": 144
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 35,
+              "y": 146
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 63,
+              "y": 148
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/shihtzu/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "frenchbulldog",
+    "width": 293,
+    "height": 303,
+    "aseprite": "/downloads/ruby-round-v1/frenchbulldog.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/frenchbulldog/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 91,
+              "y": 123
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 153,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 93,
+              "y": 122
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 155,
+              "y": 122
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 93,
+              "y": 121
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 155,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 94,
+              "y": 122
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 156,
+              "y": 122
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/frenchbulldog/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/frenchbulldog/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 91,
+              "y": 125
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 153,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 91,
+              "y": 125
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 153,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 92,
+              "y": 125
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 154,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 90,
+              "y": 125
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 152,
+              "y": 125
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/frenchbulldog/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/frenchbulldog/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 146
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 146
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 147
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 146
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/frenchbulldog/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/frenchbulldog/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 59,
+              "y": 231
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 60,
+              "y": 231
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 60,
+              "y": 231
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 59,
+              "y": 230
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/frenchbulldog/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/frenchbulldog/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 148
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 148
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 148
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 149
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/frenchbulldog/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "dachshund",
+    "width": 292,
+    "height": 301,
+    "aseprite": "/downloads/ruby-round-v1/dachshund.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/dachshund/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 116
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 116
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 116
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 116
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 151,
+              "y": 121
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dachshund/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/dachshund/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 151,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 151,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 151,
+              "y": 132
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dachshund/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/dachshund/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 141
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 142
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 143
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 142
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dachshund/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/dachshund/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 62,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 61,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 61,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 63,
+              "y": 225
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dachshund/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/dachshund/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 150
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 150
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 149
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 151
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dachshund/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "schnauzer",
+    "width": 297,
+    "height": 305,
+    "aseprite": "/downloads/ruby-round-v1/schnauzer.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/schnauzer/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 112,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 151,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 114,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 111,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 150,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 113,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 127
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/schnauzer/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/schnauzer/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 112,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 151,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 113,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 112,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 151,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 113,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 152,
+              "y": 121
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/schnauzer/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/schnauzer/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 127
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/schnauzer/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/schnauzer/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 217
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 218
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 217
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 216
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/schnauzer/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/schnauzer/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 130
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/schnauzer/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "chihuahua",
+    "width": 294,
+    "height": 300,
+    "aseprite": "/downloads/ruby-round-v1/chihuahua.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/chihuahua/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 101,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 101,
+              "y": 137
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 137
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 102,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 132
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chihuahua/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/chihuahua/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 101,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 101,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 101,
+              "y": 132
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 132
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chihuahua/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/chihuahua/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 60,
+              "y": 149
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 149
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 149
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 149
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chihuahua/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/chihuahua/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 231
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 231
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 228
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 231
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chihuahua/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/chihuahua/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 150
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 150
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 150
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 150
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chihuahua/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "dalmatian",
+    "width": 296,
+    "height": 304,
+    "aseprite": "/downloads/ruby-round-v1/dalmatian.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/dalmatian/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 104
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 108
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 108
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 108
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 108
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 108
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 108
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dalmatian/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/dalmatian/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 118
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 118
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 118
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 118
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 118
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 118
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 118
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 118
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dalmatian/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/dalmatian/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 127
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dalmatian/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/dalmatian/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 44,
+              "y": 229
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 76,
+              "y": 221
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 41,
+              "y": 228
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 74,
+              "y": 221
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 41,
+              "y": 229
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 73,
+              "y": 221
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 42,
+              "y": 227
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 73,
+              "y": 219
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dalmatian/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/dalmatian/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 128
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/dalmatian/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "akita",
+    "width": 295,
+    "height": 299,
+    "aseprite": "/downloads/ruby-round-v1/akita.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/akita/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 120
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 123
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 124
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 124
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/akita/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/akita/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 120
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 120
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 121
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 120
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/akita/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/akita/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 128
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/akita/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/akita/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 39,
+              "y": 223
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 39,
+              "y": 224
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 38,
+              "y": 224
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 39,
+              "y": 224
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/akita/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/akita/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 125
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/akita/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "bordercollie",
+    "width": 295,
+    "height": 303,
+    "aseprite": "/downloads/ruby-round-v1/bordercollie.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bordercollie/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 131
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 133
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 133
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bordercollie/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bordercollie/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 129
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 129
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bordercollie/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bordercollie/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 129
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bordercollie/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bordercollie/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 40,
+              "y": 223
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 66,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 218
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 218
+            }
+          ],
+          [
+            {
+              "height": 16,
+              "width": 16,
+              "x": 42,
+              "y": 221
+            },
+            {
+              "height": 16,
+              "width": 16,
+              "x": 66,
+              "y": 226
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bordercollie/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/bordercollie/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 135
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 135
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bordercollie/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "doberman",
+    "width": 295,
+    "height": 306,
+    "aseprite": "/downloads/ruby-round-v1/doberman.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/doberman/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 119
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 119
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 126
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/doberman/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/doberman/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 120
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 120
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 120
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 120
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/doberman/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/doberman/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 60,
+              "y": 131
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/doberman/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/doberman/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 225
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 226
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/doberman/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/doberman/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 135
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 135
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 135
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 135
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/doberman/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "rottweiler",
+    "width": 295,
+    "height": 303,
+    "aseprite": "/downloads/ruby-round-v1/rottweiler.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/rottweiler/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 111
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 111
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 115
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 115
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 102,
+              "y": 109
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 109
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 108
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 108
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/rottweiler/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/rottweiler/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 114
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 114
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 115
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 115
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 102,
+              "y": 115
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 115
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 113
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 113
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/rottweiler/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/rottweiler/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 122
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 122
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/rottweiler/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/rottweiler/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 212
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 210
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 208
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 212
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/rottweiler/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/rottweiler/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 50,
+              "y": 121
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 123
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/rottweiler/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "greatdane",
+    "width": 304,
+    "height": 305,
+    "aseprite": "/downloads/ruby-round-v1/greatdane.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/greatdane/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 114,
+              "y": 78
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 78
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 115,
+              "y": 80
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 80
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 114,
+              "y": 79
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 79
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 114,
+              "y": 77
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 77
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/greatdane/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/greatdane/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 114,
+              "y": 80
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 80
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 114,
+              "y": 80
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 80
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 114,
+              "y": 80
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 80
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 114,
+              "y": 80
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 80
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/greatdane/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/greatdane/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 78
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 78
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 78
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 78
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/greatdane/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/greatdane/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 207
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 208
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 208
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 208
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/greatdane/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/greatdane/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 97
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 97
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 97
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 97
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/greatdane/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "saintbernard",
+    "width": 299,
+    "height": 302,
+    "aseprite": "/downloads/ruby-round-v1/saintbernard.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/saintbernard/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 106
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 106
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 111
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 111
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 111
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 111
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 107
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 107
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/saintbernard/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/saintbernard/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 112
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 112
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 113
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 113
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 113
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 113
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 109,
+              "y": 113
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 113
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/saintbernard/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/saintbernard/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 127
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/saintbernard/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/saintbernard/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 207
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 208
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 208
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 207
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/saintbernard/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/saintbernard/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 124
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 124
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 124
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 125
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/saintbernard/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "bassethound",
+    "width": 294,
+    "height": 301,
+    "aseprite": "/downloads/ruby-round-v1/bassethound.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bassethound/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 98
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 98
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 104
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 104
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 104
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 98
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 98
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bassethound/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bassethound/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 105
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 153,
+              "y": 105
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 105
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 105
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 105
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 105
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 105
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 105
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bassethound/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bassethound/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 59,
+              "y": 127
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bassethound/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bassethound/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 64,
+              "y": 210
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 63,
+              "y": 210
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 63,
+              "y": 210
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 64,
+              "y": 211
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bassethound/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/bassethound/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 128
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bassethound/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "englishbulldog",
+    "width": 294,
+    "height": 302,
+    "aseprite": "/downloads/ruby-round-v1/englishbulldog.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/englishbulldog/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 90,
+              "y": 105
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 155,
+              "y": 105
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 90,
+              "y": 109
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 155,
+              "y": 109
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 90,
+              "y": 105
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 155,
+              "y": 105
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 91,
+              "y": 110
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 156,
+              "y": 110
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/englishbulldog/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/englishbulldog/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 91,
+              "y": 110
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 156,
+              "y": 110
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 90,
+              "y": 110
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 155,
+              "y": 110
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 90,
+              "y": 110
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 155,
+              "y": 110
+            }
+          ],
+          [
+            {
+              "height": 48,
+              "width": 48,
+              "x": 90,
+              "y": 110
+            },
+            {
+              "height": 48,
+              "width": 48,
+              "x": 155,
+              "y": 110
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/englishbulldog/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/englishbulldog/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 59,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 59,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 128
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/englishbulldog/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/englishbulldog/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 69,
+              "y": 209
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 69,
+              "y": 209
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 70,
+              "y": 208
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 69,
+              "y": 208
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/englishbulldog/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/englishbulldog/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 130
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/englishbulldog/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "westie",
+    "width": 292,
+    "height": 301,
+    "aseprite": "/downloads/ruby-round-v1/westie.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/westie/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 124
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 102,
+              "y": 124
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 123
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/westie/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/westie/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 129
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 102,
+              "y": 129
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 128
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/westie/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/westie/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 48,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 134
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/westie/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/westie/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 51,
+              "y": 222
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 221
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 222
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 52,
+              "y": 221
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/westie/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/westie/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 135
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 49,
+              "y": 132
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 47,
+              "y": 135
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/westie/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "bostonterrier",
+    "width": 298,
+    "height": 301,
+    "aseprite": "/downloads/ruby-round-v1/bostonterrier.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bostonterrier/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 162,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 133
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 129
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 163,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 125
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bostonterrier/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bostonterrier/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 162,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 162,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 125
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 103,
+              "y": 125
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 125
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bostonterrier/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bostonterrier/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 64,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 63,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 62,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 63,
+              "y": 134
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bostonterrier/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/bostonterrier/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 63,
+              "y": 222
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 61,
+              "y": 226
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 62,
+              "y": 222
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 61,
+              "y": 222
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bostonterrier/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/bostonterrier/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 60,
+              "y": 133
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 61,
+              "y": 135
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 59,
+              "y": 134
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 131
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/bostonterrier/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "yorkshireterrier",
+    "width": 294,
+    "height": 301,
+    "aseprite": "/downloads/ruby-round-v1/yorkshireterrier.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/yorkshireterrier/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 139
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 139
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 104,
+              "y": 139
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 154,
+              "y": 139
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 139
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 139
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 138
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 138
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/yorkshireterrier/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/yorkshireterrier/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 141
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 157,
+              "y": 141
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 141
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 155,
+              "y": 141
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 141
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 141
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 140
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 156,
+              "y": 140
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/yorkshireterrier/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/yorkshireterrier/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 144
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 144
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 144
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 143
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/yorkshireterrier/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/yorkshireterrier/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 230
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 229
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 57,
+              "y": 229
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 58,
+              "y": 229
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/yorkshireterrier/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/yorkshireterrier/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 143
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 143
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 143
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 56,
+              "y": 143
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/yorkshireterrier/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "pekingese",
+    "width": 297,
+    "height": 299,
+    "aseprite": "/downloads/ruby-round-v1/pekingese.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/pekingese/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 126
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 122
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 123
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 128
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pekingese/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/pekingese/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 158,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 130
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 159,
+              "y": 131
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pekingese/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/pekingese/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 41,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 130
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pekingese/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/pekingese/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 55,
+              "y": 214
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 53,
+              "y": 213
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 214
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 54,
+              "y": 213
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pekingese/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/pekingese/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 42,
+              "y": 129
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 43,
+              "y": 126
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 128
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/pekingese/walk.png"
+      }
+    }
+  },
+  {
+    "breed": "chowchow",
+    "width": 300,
+    "height": 303,
+    "aseprite": "/downloads/ruby-round-v1/chowchow.aseprite",
+    "scenes": {
+      "happy": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/chowchow/happy-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 162,
+              "y": 127
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 105,
+              "y": 120
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 160,
+              "y": 120
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 127
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 127
+            }
+          ]
+        ],
+        "frameMs": 180,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chowchow/happy.png"
+      },
+      "idle": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/chowchow/idle-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 108,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 163,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 107,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 162,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 106,
+              "y": 128
+            },
+            {
+              "height": 32,
+              "width": 32,
+              "x": 161,
+              "y": 128
+            }
+          ]
+        ],
+        "frameMs": 320,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chowchow/idle.png"
+      },
+      "side": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/chowchow/side-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 46,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 131
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 40,
+              "y": 131
+            }
+          ]
+        ],
+        "frameMs": 240,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chowchow/side.png"
+      },
+      "sleep": {
+        "desktopFrames": 1,
+        "desktopPng": "/images/ruby-round-v1/chowchow/sleep-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 40,
+              "y": 219
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 39,
+              "y": 219
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 39,
+              "y": 219
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 39,
+              "y": 219
+            }
+          ]
+        ],
+        "frameMs": 650,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chowchow/sleep.png"
+      },
+      "walk": {
+        "desktopFrames": 4,
+        "desktopPng": "/images/ruby-round-v1/chowchow/walk-desktop.png",
+        "eyes": [
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 45,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 130
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 128
+            }
+          ],
+          [
+            {
+              "height": 32,
+              "width": 32,
+              "x": 44,
+              "y": 131
+            }
+          ]
+        ],
+        "frameMs": 140,
+        "frames": 4,
+        "png": "/images/ruby-round-v1/chowchow/walk.png"
+      }
+    }
+  }
+]

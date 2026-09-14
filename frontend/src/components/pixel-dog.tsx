@@ -15,6 +15,8 @@ import { Art16ScenePixelDog } from "./art16-scene-pixel-dog";
 import { isSpSceneStyleId, type SpSceneStyleId } from "../lib/sp-scene-styles";
 import type { DogSceneId } from "../lib/native-dog-scenes";
 import { SpScenePixelDog } from "./sp-scene-pixel-dog";
+import { RubyRoundPixelDog } from "./ruby-round-pixel-dog";
+import { rubyRoundStyleId } from "../lib/ruby-round-scene-styles";
 import bellyStyles from "./puppy-belly-reaction.module.css";
 
 export type { PixelBreed } from "../lib/dog-breeds";
@@ -41,10 +43,11 @@ function luminance(value:string) {
   return /^#[0-9a-f]{6}$/i.test(value) ? parseInt(value.slice(1,3),16)*.299+parseInt(value.slice(3,5),16)*.587+parseInt(value.slice(5,7),16)*.114 : 255;
 }
 
-export function PixelDog({ breed = "shiba", mood = "idle", fur, eyes = "#3e332c", accessory = "none", look = 0, lookY = 0, frame = 0, className = "", decorative = false, groundShadow = true, styleId = "classic", variant, scene, paused }: {
-  breed?: PixelBreed; mood?: PixelMood; fur?: string; eyes?: string; accessory?: string; look?: number; lookY?: number; frame?: number; className?: string; decorative?: boolean; groundShadow?: boolean; styleId?: DogStyleId; variant?: DogVariantLook; scene?: DogSceneId; paused?: boolean;
+export function PixelDog({ breed = "shiba", mood = "idle", fur, eyes = "#3e332c", eyeStyle, accessory = "none", look = 0, lookY = 0, frame = 0, className = "", decorative = false, groundShadow = true, styleId = "classic", variant, scene, paused }: {
+  breed?: PixelBreed; mood?: PixelMood; fur?: string; eyes?: string; eyeStyle?: string; accessory?: string; look?: number; lookY?: number; frame?: number; className?: string; decorative?: boolean; groundShadow?: boolean; styleId?: DogStyleId; variant?: DogVariantLook; scene?: DogSceneId; paused?: boolean;
 }) {
   breed = dogBreeds.find(item => item.id === breed)?.id ?? "pomeranian";
+  if (styleId === rubyRoundStyleId) return <RubyRoundPixelDog {...{breed,mood,eyeStyle,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} scene={scene === "wag" ? "happy" : scene} />;
   if (styleId === art16SceneStyleId) return <Art16ScenePixelDog {...{breed,mood,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} scene={scene === "wag" ? "idle" : scene} />;
   if (isSpSceneStyleId(styleId)) return <SpScenePixelDog {...{styleId,breed,mood,scene,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} />;
   if (mood === "belly") return <PixelDog {...{breed,fur,eyes,accessory,frame,decorative,styleId,variant,scene,paused}} mood="idle" look={0} lookY={0} groundShadow={false} className={`${className}${paused ? "" : ` ${bellyStyles.belly}`}`} />;
@@ -199,7 +202,7 @@ function AngelWings({ id }: { id: string }) {
 
 // Every style changes geometry at the native 64px grid. These renderers stay
 // independent of browser state so web previews and desktop exports match.
-type StyledId = Exclude<DogStyleId, "animated-2d" | "meadow" | CuteDogStyleId | PremiumDogStyleId | OriginalArtDogStyleId | typeof art16SceneStyleId | SpSceneStyleId>;
+type StyledId = Exclude<DogStyleId, "animated-2d" | "meadow" | CuteDogStyleId | PremiumDogStyleId | OriginalArtDogStyleId | typeof art16SceneStyleId | SpSceneStyleId | typeof rubyRoundStyleId>;
 type Shape = {
   head: [number, number, number, number]; body: [number, number, number, number];
   feet: [number, number, number, number]; faceY: number; eyeGap: number;

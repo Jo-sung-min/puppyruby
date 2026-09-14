@@ -4,6 +4,7 @@ import { premiumDogStyles } from "./premium-dog-styles";
 import { originalArtDogStyles } from "./original-art-dog-styles";
 import { art16SceneStyles } from "./art16-scene-styles";
 import { spSceneStyles } from "./sp-scene-styles";
+import { rubyRoundStyles } from "./ruby-round-scene-styles";
 
 const pixelStyleCatalog = [
   { id: "classic", name: "클래식 도트", description: "따뜻한 털빛과 작은 발의 원래 강아지" },
@@ -59,7 +60,7 @@ const pixelStyleCatalog = [
   { id: "meadow", name: "산책 도트", description: "네 발로 선 자세와 진한 윤곽, 층층이 포근한 털" },
 ] as const;
 
-export const pixelDogStyles = [...pixelStyleCatalog.map(style => ({ ...style, kind: "pixel" as const })), ...cuteDogStyles, ...premiumDogStyles, ...originalArtDogStyles, ...art16SceneStyles, ...spSceneStyles];
+export const pixelDogStyles = [...pixelStyleCatalog.map(style => ({ ...style, kind: "pixel" as const })), ...cuteDogStyles, ...premiumDogStyles, ...originalArtDogStyles, ...art16SceneStyles, ...spSceneStyles, ...rubyRoundStyles];
 export const dogStyles = [...pixelDogStyles,
   { id: "animated-2d", name: "살아있는 2D", description: "부드러운 곡선과 자연스럽게 움직이는 강아지", kind: "animated" },
 ] as const;

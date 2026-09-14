@@ -3310,5 +3310,905 @@
     "width": 1316,
     "height": 339,
     "bytes": 416350
+  },
+  "/images/ruby-round-v1/pomeranian/idle-desktop.png": {
+    "sha256": "51f215ee04c506cd6259ddc296d0af5f01a2ae6a8f0e237302b08ebf27ef8c42",
+    "width": 297,
+    "height": 302,
+    "bytes": 56081
+  },
+  "/images/ruby-round-v1/pomeranian/side-desktop.png": {
+    "sha256": "7b53c0e0886ccbbbf974389991535d0e084023580867eeb91823ac2199725037",
+    "width": 297,
+    "height": 302,
+    "bytes": 58649
+  },
+  "/images/ruby-round-v1/pomeranian/walk-desktop.png": {
+    "sha256": "f659549c9a19338450fba1488a52aab4049d12a4e73197f98e3b2b03bcd04285",
+    "width": 1188,
+    "height": 302,
+    "bytes": 241086
+  },
+  "/images/ruby-round-v1/pomeranian/happy-desktop.png": {
+    "sha256": "d145227ae57632454b918e3027f2935d8697659146a0a207bc9d16a37c89fd33",
+    "width": 297,
+    "height": 302,
+    "bytes": 56654
+  },
+  "/images/ruby-round-v1/pomeranian/sleep-desktop.png": {
+    "sha256": "8d99a898360fe34b2d609fa406adba802174afaad5e751e21e708baa4ebe6832",
+    "width": 297,
+    "height": 302,
+    "bytes": 53139
+  },
+  "/images/ruby-round-v1/poodle/idle-desktop.png": {
+    "sha256": "2b2cfe27602d329ab98c593959ba4b8a92265d795190becb52a76bf457035e65",
+    "width": 294,
+    "height": 302,
+    "bytes": 63530
+  },
+  "/images/ruby-round-v1/poodle/side-desktop.png": {
+    "sha256": "ae6aef0a84d862d9e96c1fab957ff10da293d7ec3736d1f1316fb209f5fab63e",
+    "width": 294,
+    "height": 302,
+    "bytes": 60480
+  },
+  "/images/ruby-round-v1/poodle/walk-desktop.png": {
+    "sha256": "6e6bd2d5b85ed168a683c90c523de2c136c3319d95cd20a399b016339383084c",
+    "width": 1176,
+    "height": 302,
+    "bytes": 254008
+  },
+  "/images/ruby-round-v1/poodle/happy-desktop.png": {
+    "sha256": "0dd31609ff0623f2239784aedd5d3ae7633bd0a041e988ce815e9c3231634d7d",
+    "width": 294,
+    "height": 302,
+    "bytes": 63073
+  },
+  "/images/ruby-round-v1/poodle/sleep-desktop.png": {
+    "sha256": "ead316088b6a13890d1d27a92b45029c540b85830f6dd28798bcbebea76eb422",
+    "width": 294,
+    "height": 302,
+    "bytes": 50951
+  },
+  "/images/ruby-round-v1/maltese/idle-desktop.png": {
+    "sha256": "98e09ad15d78578e6bf5b1cf0df67f2e4d3a079300b3b43cc0ecb15c30eeebfb",
+    "width": 293,
+    "height": 303,
+    "bytes": 57755
+  },
+  "/images/ruby-round-v1/maltese/side-desktop.png": {
+    "sha256": "600e77c76ea31b75768d9d2a7bb001604a3f42d0bc06aa5e367cdd495f1a5d90",
+    "width": 293,
+    "height": 303,
+    "bytes": 60482
+  },
+  "/images/ruby-round-v1/maltese/walk-desktop.png": {
+    "sha256": "88788c48974c6f06b28594344af0772aa999f0161998c403d74cadcefec06560",
+    "width": 1172,
+    "height": 303,
+    "bytes": 240614
+  },
+  "/images/ruby-round-v1/maltese/happy-desktop.png": {
+    "sha256": "12f847c26c1c41d4b0f8f67453c4a55dae1edeba48180b10fe9a63f83f1e3dde",
+    "width": 293,
+    "height": 303,
+    "bytes": 59810
+  },
+  "/images/ruby-round-v1/maltese/sleep-desktop.png": {
+    "sha256": "b9bddcab42ab32056ba0447969a76672fd3a4c16020ec53d07d6a6d3e3b680bf",
+    "width": 293,
+    "height": 303,
+    "bytes": 50870
+  },
+  "/images/ruby-round-v1/shiba/idle-desktop.png": {
+    "sha256": "e87c9a4f07c0af87e8d63ce185c7babf03e2f53b09f4f08664cd1307e6f179ed",
+    "width": 296,
+    "height": 302,
+    "bytes": 57835
+  },
+  "/images/ruby-round-v1/shiba/side-desktop.png": {
+    "sha256": "5f800160f8abae47c12b7f8c4dea69b6c300cb4f3278c98190db6767912905b7",
+    "width": 296,
+    "height": 302,
+    "bytes": 63247
+  },
+  "/images/ruby-round-v1/shiba/walk-desktop.png": {
+    "sha256": "12c0f3679a92f3d96c8596baa538c07eae02cd0b7de2a990a3d600e086af266f",
+    "width": 1184,
+    "height": 302,
+    "bytes": 259362
+  },
+  "/images/ruby-round-v1/shiba/happy-desktop.png": {
+    "sha256": "048a9368b0263af6ae911e2c3f16905e9cd835691c81383772ccee232481095e",
+    "width": 296,
+    "height": 302,
+    "bytes": 57920
+  },
+  "/images/ruby-round-v1/shiba/sleep-desktop.png": {
+    "sha256": "4ea4a63cd85e476fc1d370428578c90cf2ade4675ec3439156c3a20c47ce15b9",
+    "width": 296,
+    "height": 302,
+    "bytes": 52328
+  },
+  "/images/ruby-round-v1/corgi/idle-desktop.png": {
+    "sha256": "92dc7066f244d104d060877a004d51a2b9d79b9529a191ca84da797810545386",
+    "width": 298,
+    "height": 296,
+    "bytes": 61350
+  },
+  "/images/ruby-round-v1/corgi/side-desktop.png": {
+    "sha256": "eb8f26e86997cace47edb4c2f4ba07bef6cfc65ef83cd2ebd0e97b6a8658dda6",
+    "width": 298,
+    "height": 296,
+    "bytes": 58214
+  },
+  "/images/ruby-round-v1/corgi/walk-desktop.png": {
+    "sha256": "d36834a22f5e263c57ce198d2d0bcb98505e0717b44d707a462d009da559c8c0",
+    "width": 1192,
+    "height": 296,
+    "bytes": 230973
+  },
+  "/images/ruby-round-v1/corgi/happy-desktop.png": {
+    "sha256": "0ac7f50c99c6983793ea29d9f6bbeb22d6ffa81cead988c4115bfff5f5255ad7",
+    "width": 298,
+    "height": 296,
+    "bytes": 62406
+  },
+  "/images/ruby-round-v1/corgi/sleep-desktop.png": {
+    "sha256": "c2d7f9158e93d5fa874efedfa2a2d8b73c4c959f000ad9f0e1fd85db7f6532d5",
+    "width": 298,
+    "height": 296,
+    "bytes": 51394
+  },
+  "/images/ruby-round-v1/beagle/idle-desktop.png": {
+    "sha256": "e122c67e10a07052a3c98c4017952ce3c16f06ec10a29d28a26bb2a5d92c6b55",
+    "width": 292,
+    "height": 303,
+    "bytes": 60856
+  },
+  "/images/ruby-round-v1/beagle/side-desktop.png": {
+    "sha256": "e0511d86a65ae37fa2126e472081249cd98b920612629225ee05600b82249daa",
+    "width": 292,
+    "height": 303,
+    "bytes": 60821
+  },
+  "/images/ruby-round-v1/beagle/walk-desktop.png": {
+    "sha256": "c845a7d17e0c9a3ef8f191aefb72f9c4b59e3839f46bba387a8e3c04921dbebc",
+    "width": 1168,
+    "height": 303,
+    "bytes": 251106
+  },
+  "/images/ruby-round-v1/beagle/happy-desktop.png": {
+    "sha256": "62ee3ce55e8f394c01c8fe6294920460d67d87acaf3511736c36071300d04364",
+    "width": 292,
+    "height": 303,
+    "bytes": 62801
+  },
+  "/images/ruby-round-v1/beagle/sleep-desktop.png": {
+    "sha256": "f3421bd57539917c10535214c7774b0c8d469115fcc630b93630c2366556e89c",
+    "width": 292,
+    "height": 303,
+    "bytes": 53713
+  },
+  "/images/ruby-round-v1/samoyed/idle-desktop.png": {
+    "sha256": "04041d4bf6903c4192008fa4ba1c650a3d37dca0ee9826267f00dac68254f4e4",
+    "width": 297,
+    "height": 301,
+    "bytes": 57851
+  },
+  "/images/ruby-round-v1/samoyed/side-desktop.png": {
+    "sha256": "dcf1de4fc7a157d01981d49bee5ba49e92e0c87ffef0a5c77ce9c437b6a20166",
+    "width": 297,
+    "height": 301,
+    "bytes": 62627
+  },
+  "/images/ruby-round-v1/samoyed/walk-desktop.png": {
+    "sha256": "6991a0c61f7d706a58878b14ef395c17d4d56ca790551645b37df2afb44e94bb",
+    "width": 1188,
+    "height": 301,
+    "bytes": 252925
+  },
+  "/images/ruby-round-v1/samoyed/happy-desktop.png": {
+    "sha256": "f2f7c5b6d7236b694f199ae3ca981b3755de2cf1d5ba6c0586eb9288c22a2380",
+    "width": 297,
+    "height": 301,
+    "bytes": 58076
+  },
+  "/images/ruby-round-v1/samoyed/sleep-desktop.png": {
+    "sha256": "dce0d2f346ba13e6d012b3a39a973ec8e1e61ac610fd69bf4b657f8bbe86f259",
+    "width": 297,
+    "height": 301,
+    "bytes": 53438
+  },
+  "/images/ruby-round-v1/bichon/idle-desktop.png": {
+    "sha256": "edc6d8bafb330bf1401f3c93219d1d09cb3ac107117ec05860a8b14348533040",
+    "width": 294,
+    "height": 303,
+    "bytes": 58450
+  },
+  "/images/ruby-round-v1/bichon/side-desktop.png": {
+    "sha256": "e4ff8505174159c7432a4af039895d03e8a5bf9f831b18f1b71404308b590371",
+    "width": 294,
+    "height": 303,
+    "bytes": 58662
+  },
+  "/images/ruby-round-v1/bichon/walk-desktop.png": {
+    "sha256": "315bc58a6ce79f1ea8efd9a1cf65a3c3b4ec918e4c24ca94f1db2331c30a4732",
+    "width": 1176,
+    "height": 303,
+    "bytes": 241362
+  },
+  "/images/ruby-round-v1/bichon/happy-desktop.png": {
+    "sha256": "f61719a3949eab0a61949b152c873385c312ca60f7aa6462e111ed5504f87654",
+    "width": 294,
+    "height": 303,
+    "bytes": 57957
+  },
+  "/images/ruby-round-v1/bichon/sleep-desktop.png": {
+    "sha256": "b9ddbeba67720f497aeef06f942f9c00c6fe9ad468aa0c8953658a8b31f6fd53",
+    "width": 294,
+    "height": 303,
+    "bytes": 45656
+  },
+  "/images/ruby-round-v1/golden/idle-desktop.png": {
+    "sha256": "68a8c699e3465e8856b1fa1063c59d9d187e9f0dc24007cd3d9568413de55f15",
+    "width": 305,
+    "height": 303,
+    "bytes": 65315
+  },
+  "/images/ruby-round-v1/golden/side-desktop.png": {
+    "sha256": "01d60215630d09848fb1b045fe3c5f37101656fefc8e36f72e6a9801aac57bd2",
+    "width": 305,
+    "height": 303,
+    "bytes": 63684
+  },
+  "/images/ruby-round-v1/golden/walk-desktop.png": {
+    "sha256": "da48ddf9291cc86f66f3cb3e292f2584be67b9f6d37dc32c5e5008847256ef1e",
+    "width": 1220,
+    "height": 303,
+    "bytes": 259396
+  },
+  "/images/ruby-round-v1/golden/happy-desktop.png": {
+    "sha256": "dadaabe35dbfe971d7310d61678933549f564fe443d5dfbaaa422bca5b34773b",
+    "width": 305,
+    "height": 303,
+    "bytes": 64209
+  },
+  "/images/ruby-round-v1/golden/sleep-desktop.png": {
+    "sha256": "f0efc4b0c1f59a6d0e97c3e526c69cddfcde2fe43d54f14f39706540de8f7474",
+    "width": 305,
+    "height": 303,
+    "bytes": 55415
+  },
+  "/images/ruby-round-v1/labrador/idle-desktop.png": {
+    "sha256": "372a8e9205caad6bc10fdf7c3095078c58b2faecf3dba38fa8e47b30b4686f30",
+    "width": 299,
+    "height": 302,
+    "bytes": 58513
+  },
+  "/images/ruby-round-v1/labrador/side-desktop.png": {
+    "sha256": "dae9f7125d778f8fe8270f689115be2f55a03b8803d416136ab1df5019396e07",
+    "width": 299,
+    "height": 302,
+    "bytes": 55462
+  },
+  "/images/ruby-round-v1/labrador/walk-desktop.png": {
+    "sha256": "9aeb21c56057d1e3a3210379d42ad2b2d5651c90bc112e0667e385911ebb9b57",
+    "width": 1196,
+    "height": 302,
+    "bytes": 214196
+  },
+  "/images/ruby-round-v1/labrador/happy-desktop.png": {
+    "sha256": "9e9c4cecedf7981ed6de06af2804cae7dd5cf3337ce3db01cc88af4e8e31e472",
+    "width": 299,
+    "height": 302,
+    "bytes": 59454
+  },
+  "/images/ruby-round-v1/labrador/sleep-desktop.png": {
+    "sha256": "df8d091be9298305de3d88cd64eb3580b6dd42e33830330ebc8171fdb7f5ee61",
+    "width": 299,
+    "height": 302,
+    "bytes": 50550
+  },
+  "/images/ruby-round-v1/husky/idle-desktop.png": {
+    "sha256": "5666efd48a4eed3b3791e4e46669caa90161c20e987c861db49d73ff14fb3943",
+    "width": 299,
+    "height": 302,
+    "bytes": 63568
+  },
+  "/images/ruby-round-v1/husky/side-desktop.png": {
+    "sha256": "f6ee7b8a79922cabde043d6637e0f406b15dd6edb73802af17fbce4a5bac3410",
+    "width": 299,
+    "height": 302,
+    "bytes": 70357
+  },
+  "/images/ruby-round-v1/husky/walk-desktop.png": {
+    "sha256": "c992bd6b5092e049de31c658dbc7722e6e2909f47d660cdce897e9022fcd030d",
+    "width": 1196,
+    "height": 302,
+    "bytes": 268352
+  },
+  "/images/ruby-round-v1/husky/happy-desktop.png": {
+    "sha256": "e2b6ea3d5646f5f486f0e469a1bd809bb152b9da22de1972f7f32a1139c38eb4",
+    "width": 299,
+    "height": 302,
+    "bytes": 63450
+  },
+  "/images/ruby-round-v1/husky/sleep-desktop.png": {
+    "sha256": "5df869b60ae2be9c21037498a9853a5ed18cd6ba630e1f729d1e6dfda7605a0b",
+    "width": 299,
+    "height": 302,
+    "bytes": 59018
+  },
+  "/images/ruby-round-v1/shihtzu/idle-desktop.png": {
+    "sha256": "59e47f5826bbbe6219e5580c0ae3fcc33d051ef3d4b563e73a2c45e6f2efd70f",
+    "width": 295,
+    "height": 300,
+    "bytes": 69612
+  },
+  "/images/ruby-round-v1/shihtzu/side-desktop.png": {
+    "sha256": "8e7cd142d1c191d56a76b98365de7a1053890fba050081f183131d66f73562e4",
+    "width": 295,
+    "height": 300,
+    "bytes": 76520
+  },
+  "/images/ruby-round-v1/shihtzu/walk-desktop.png": {
+    "sha256": "46d019b08dcdad40f06597a565ffc9b19e279e9ef7131ea6ac87c98fc2a5cc1d",
+    "width": 1180,
+    "height": 300,
+    "bytes": 296058
+  },
+  "/images/ruby-round-v1/shihtzu/happy-desktop.png": {
+    "sha256": "cfd02281c9ac2e39ef49c16df74aeacad53a91d9438f4f801bd3ed71437ddea8",
+    "width": 295,
+    "height": 300,
+    "bytes": 70926
+  },
+  "/images/ruby-round-v1/shihtzu/sleep-desktop.png": {
+    "sha256": "11b8a096c3eb9520afe85bca0b5e85af7fa6709b6de8b031803311c83967ebb8",
+    "width": 295,
+    "height": 300,
+    "bytes": 62758
+  },
+  "/images/ruby-round-v1/frenchbulldog/idle-desktop.png": {
+    "sha256": "73fb565fc73bb60c8232b1578db2fdf079ad7f5379fd2fb20b10fb6401b2cfa7",
+    "width": 293,
+    "height": 303,
+    "bytes": 60873
+  },
+  "/images/ruby-round-v1/frenchbulldog/side-desktop.png": {
+    "sha256": "52634f8cca6cce20fa686ec4621d6369c0182c8c641238f30d07a895ba1fd44a",
+    "width": 293,
+    "height": 303,
+    "bytes": 57329
+  },
+  "/images/ruby-round-v1/frenchbulldog/walk-desktop.png": {
+    "sha256": "8c6d7c64327b188ce81306a4bb7e70357215c891e6a2668e5b346db93418c533",
+    "width": 1172,
+    "height": 303,
+    "bytes": 222864
+  },
+  "/images/ruby-round-v1/frenchbulldog/happy-desktop.png": {
+    "sha256": "2dd4021792276d5809dcde7ffca3b48f361accd1e9422082aa23f146e5f1dcb3",
+    "width": 293,
+    "height": 303,
+    "bytes": 60160
+  },
+  "/images/ruby-round-v1/frenchbulldog/sleep-desktop.png": {
+    "sha256": "cebe2dc2cf345aecf26f58d5a355939fe5e10fdc930687ecc4f9017e12cc8a6e",
+    "width": 293,
+    "height": 303,
+    "bytes": 48221
+  },
+  "/images/ruby-round-v1/dachshund/idle-desktop.png": {
+    "sha256": "e8e2471b2f0d0a94c60484696b8a1c5409137532509cac46ef91ccbcf4fc54c7",
+    "width": 292,
+    "height": 301,
+    "bytes": 52751
+  },
+  "/images/ruby-round-v1/dachshund/side-desktop.png": {
+    "sha256": "9dd89ba8fd9f57c4e26f005787c88035bf9b2db97cbe723cfb67afe250c2a931",
+    "width": 292,
+    "height": 301,
+    "bytes": 46227
+  },
+  "/images/ruby-round-v1/dachshund/walk-desktop.png": {
+    "sha256": "ff21928bae4588011df9887005025e22e4ae5949191c1afd25a268daedb2b85d",
+    "width": 1168,
+    "height": 301,
+    "bytes": 186014
+  },
+  "/images/ruby-round-v1/dachshund/happy-desktop.png": {
+    "sha256": "e4852928f6402803c766f6bfcf68df33f6e9b83440bfa0e69806d93e8e23ecbc",
+    "width": 292,
+    "height": 301,
+    "bytes": 55661
+  },
+  "/images/ruby-round-v1/dachshund/sleep-desktop.png": {
+    "sha256": "22d95ceaf4b05bbf02d3f430eb934f93da5354904a640cd5d71a64970df15d7a",
+    "width": 292,
+    "height": 301,
+    "bytes": 36247
+  },
+  "/images/ruby-round-v1/schnauzer/idle-desktop.png": {
+    "sha256": "099ce857e29968028ab158e7a8544f140e349dfefa0fdad415522b0a5026acc3",
+    "width": 297,
+    "height": 305,
+    "bytes": 67620
+  },
+  "/images/ruby-round-v1/schnauzer/side-desktop.png": {
+    "sha256": "3c86df8982113b4b6b2516fffd28e9549b6366ff9a49ff8be2a95520d7484db7",
+    "width": 297,
+    "height": 305,
+    "bytes": 62996
+  },
+  "/images/ruby-round-v1/schnauzer/walk-desktop.png": {
+    "sha256": "1fa73d8bf89408fd5c9db562ecb45ce6cc329abf33b00a1970becf818d98cdf3",
+    "width": 1188,
+    "height": 305,
+    "bytes": 254786
+  },
+  "/images/ruby-round-v1/schnauzer/happy-desktop.png": {
+    "sha256": "89afe852c49e0fb6f6f621a21db61c51c5b64830cc618bf7d6ead43cf9b70178",
+    "width": 297,
+    "height": 305,
+    "bytes": 67910
+  },
+  "/images/ruby-round-v1/schnauzer/sleep-desktop.png": {
+    "sha256": "479880d017882b6ba89f4f2a509e3097041687665bbf4dc3f4da0db6a37ad329",
+    "width": 297,
+    "height": 305,
+    "bytes": 48707
+  },
+  "/images/ruby-round-v1/chihuahua/idle-desktop.png": {
+    "sha256": "eac97e11e11f2d0df775de3113c06a941c2fd2b446440bbfea401b7befa7070e",
+    "width": 294,
+    "height": 300,
+    "bytes": 53693
+  },
+  "/images/ruby-round-v1/chihuahua/side-desktop.png": {
+    "sha256": "9ee6e94a793f5d39656c2decc6c78279662fe2e747dd7ea2fd71b5ff81ba9b1c",
+    "width": 294,
+    "height": 300,
+    "bytes": 51622
+  },
+  "/images/ruby-round-v1/chihuahua/walk-desktop.png": {
+    "sha256": "30946200cfdb88c561c476133a3a199ccd69bccf128f49b07e46368492e22fb5",
+    "width": 1176,
+    "height": 300,
+    "bytes": 209175
+  },
+  "/images/ruby-round-v1/chihuahua/happy-desktop.png": {
+    "sha256": "b64aac466e6a031161169e228a6adcfa160b31d102a499f42c503c686fd60a1d",
+    "width": 294,
+    "height": 300,
+    "bytes": 52663
+  },
+  "/images/ruby-round-v1/chihuahua/sleep-desktop.png": {
+    "sha256": "db53b25ae15f7a90eb73a94579f4f0a950c52279bd6687c894da5d5154df6b8d",
+    "width": 294,
+    "height": 300,
+    "bytes": 45667
+  },
+  "/images/ruby-round-v1/dalmatian/idle-desktop.png": {
+    "sha256": "766f6d2cc7ea8e651f6414fa847a461c0b8b245e965f389c27d2c789d44e573a",
+    "width": 296,
+    "height": 304,
+    "bytes": 64005
+  },
+  "/images/ruby-round-v1/dalmatian/side-desktop.png": {
+    "sha256": "76e4a6a30f3e09dac0c398683b8256f0c77d2e878bd4b0529d72171c603350b1",
+    "width": 296,
+    "height": 304,
+    "bytes": 59018
+  },
+  "/images/ruby-round-v1/dalmatian/walk-desktop.png": {
+    "sha256": "f3e20e35be4949d28f5c84ffcce95a9b31bbf4f9a47056db5121d75a11790c94",
+    "width": 1184,
+    "height": 304,
+    "bytes": 236890
+  },
+  "/images/ruby-round-v1/dalmatian/happy-desktop.png": {
+    "sha256": "ab50b307f3e14d2d066674881d114f7c98e26fb1637efb3a3e046126591dc635",
+    "width": 296,
+    "height": 304,
+    "bytes": 66782
+  },
+  "/images/ruby-round-v1/dalmatian/sleep-desktop.png": {
+    "sha256": "32c562df983eddc5d2327bc620d3b890c495e0761c0c0532b5a6645e7bf4c7a2",
+    "width": 296,
+    "height": 304,
+    "bytes": 53704
+  },
+  "/images/ruby-round-v1/akita/idle-desktop.png": {
+    "sha256": "f53030516d89360c6db55ab427670e49fd1b9ab5b34bb8e2c53885c1c41c47aa",
+    "width": 295,
+    "height": 299,
+    "bytes": 63184
+  },
+  "/images/ruby-round-v1/akita/side-desktop.png": {
+    "sha256": "969d1531d06ab5b6950877fabadf920ef2e152fa3d49b00b53c8026f865ba715",
+    "width": 295,
+    "height": 299,
+    "bytes": 74083
+  },
+  "/images/ruby-round-v1/akita/walk-desktop.png": {
+    "sha256": "6948798e0e70605344ad1955d17bb3ab522fe844c79b142f4cb94115e6bc605d",
+    "width": 1180,
+    "height": 299,
+    "bytes": 304745
+  },
+  "/images/ruby-round-v1/akita/happy-desktop.png": {
+    "sha256": "ef51f713b2c43d990129683991ac20cff9784ef378e21a7b34fd5284c8d8f27d",
+    "width": 295,
+    "height": 299,
+    "bytes": 63257
+  },
+  "/images/ruby-round-v1/akita/sleep-desktop.png": {
+    "sha256": "63e6ad037d65113c132306c34502678a2181f49b433a5f4ab4138ba818b21ad9",
+    "width": 295,
+    "height": 299,
+    "bytes": 58477
+  },
+  "/images/ruby-round-v1/bordercollie/idle-desktop.png": {
+    "sha256": "29430a3fd09df1c7c32d7c8164cc1e4ad47b5be7aa2bf744a8fa35056b9ed1c0",
+    "width": 295,
+    "height": 303,
+    "bytes": 62138
+  },
+  "/images/ruby-round-v1/bordercollie/side-desktop.png": {
+    "sha256": "6e84842a92609e6b1d7e74752f5307222d952a435e5aacb14e0f2f823cdcf536",
+    "width": 295,
+    "height": 303,
+    "bytes": 67179
+  },
+  "/images/ruby-round-v1/bordercollie/walk-desktop.png": {
+    "sha256": "fa26aa682ad18c329d52f35493ff02534a7bf777a8a17cc23285fa3f96ed5bdb",
+    "width": 1180,
+    "height": 303,
+    "bytes": 271061
+  },
+  "/images/ruby-round-v1/bordercollie/happy-desktop.png": {
+    "sha256": "f7cf9205f58d6c63e7e0914960aee3c0584f3a59154e5edd5547b0fc3ab625f2",
+    "width": 295,
+    "height": 303,
+    "bytes": 63390
+  },
+  "/images/ruby-round-v1/bordercollie/sleep-desktop.png": {
+    "sha256": "9a25020a27c14dcc0a6f45a657e6c24f463a47a0912e2bfab75e5c6886603e72",
+    "width": 295,
+    "height": 303,
+    "bytes": 57401
+  },
+  "/images/ruby-round-v1/doberman/idle-desktop.png": {
+    "sha256": "2543801f0590c4c352f14e4d8f66d9530b73d3e3957599377aa540151612d487",
+    "width": 295,
+    "height": 306,
+    "bytes": 55745
+  },
+  "/images/ruby-round-v1/doberman/side-desktop.png": {
+    "sha256": "c6b19645e5fbaf4b1067ad271371fe635985dc49715f2184e057ecaa9049b8d3",
+    "width": 295,
+    "height": 306,
+    "bytes": 49426
+  },
+  "/images/ruby-round-v1/doberman/walk-desktop.png": {
+    "sha256": "eedef1b3aabd2571406fb245049a1eae06e32e133e0824283d18c06b83320689",
+    "width": 1180,
+    "height": 306,
+    "bytes": 193419
+  },
+  "/images/ruby-round-v1/doberman/happy-desktop.png": {
+    "sha256": "8f4b5f5b19530a357ddffaae373fadfa47fe0181a1e9d8cb7e6a490bfac52cea",
+    "width": 295,
+    "height": 306,
+    "bytes": 55463
+  },
+  "/images/ruby-round-v1/doberman/sleep-desktop.png": {
+    "sha256": "741c97f89a6656719803feacf3f7e07b5dff6940569648fc8da7bc0ba9e2a90f",
+    "width": 295,
+    "height": 306,
+    "bytes": 42766
+  },
+  "/images/ruby-round-v1/rottweiler/idle-desktop.png": {
+    "sha256": "6b67850b0bda9bb405a90dd6c23a23f69eb7344f1c9e2356866756aaa3c6ad30",
+    "width": 295,
+    "height": 303,
+    "bytes": 63462
+  },
+  "/images/ruby-round-v1/rottweiler/side-desktop.png": {
+    "sha256": "868436d10a9b6165953549e996b7549ecb3fe8a2659d51db343a9c88be8915e7",
+    "width": 295,
+    "height": 303,
+    "bytes": 56920
+  },
+  "/images/ruby-round-v1/rottweiler/walk-desktop.png": {
+    "sha256": "26dc3a94eaf499cc746b0ae4be51ba75bbf4bf75fcc603d393f791ba608ee51d",
+    "width": 1180,
+    "height": 303,
+    "bytes": 227485
+  },
+  "/images/ruby-round-v1/rottweiler/happy-desktop.png": {
+    "sha256": "e9fec09bde962753bd2ae68cac31d7fd2e1c8826e57d54d3d8c061f48a15a975",
+    "width": 295,
+    "height": 303,
+    "bytes": 63775
+  },
+  "/images/ruby-round-v1/rottweiler/sleep-desktop.png": {
+    "sha256": "0cd5a228c7e792eb040f4bb404efc5826150d09fc859c16bf4826b6b39a2d8bb",
+    "width": 295,
+    "height": 303,
+    "bytes": 50562
+  },
+  "/images/ruby-round-v1/greatdane/idle-desktop.png": {
+    "sha256": "771841c7cec804acf67bfb4d5274819953010d9250d2af2bfe2a338f48befcb9",
+    "width": 304,
+    "height": 305,
+    "bytes": 58218
+  },
+  "/images/ruby-round-v1/greatdane/side-desktop.png": {
+    "sha256": "f353db154edf6a846e0db50b1a84252c9d0234063988ac7b95ca73702abb6710",
+    "width": 304,
+    "height": 305,
+    "bytes": 55068
+  },
+  "/images/ruby-round-v1/greatdane/walk-desktop.png": {
+    "sha256": "ae951a5357e7b5cd04eb79a43ae01951923259ad1e5d4f82a7c3367618618aed",
+    "width": 1216,
+    "height": 305,
+    "bytes": 217755
+  },
+  "/images/ruby-round-v1/greatdane/happy-desktop.png": {
+    "sha256": "71b5e996e4ecd6dd628d679bd1413ff7049a7f8e020ccc1fcca56262ef2f10b5",
+    "width": 304,
+    "height": 305,
+    "bytes": 58121
+  },
+  "/images/ruby-round-v1/greatdane/sleep-desktop.png": {
+    "sha256": "c5c37a2f7e54047535352458c328cda1e6a137c168b1e73d017d1996010ac0c7",
+    "width": 304,
+    "height": 305,
+    "bytes": 48805
+  },
+  "/images/ruby-round-v1/saintbernard/idle-desktop.png": {
+    "sha256": "1e8b3eb6a1e8c1c59acc7fa9988ef7b4b19d5d5db69c02b9847a7f69236dd3d6",
+    "width": 299,
+    "height": 302,
+    "bytes": 71336
+  },
+  "/images/ruby-round-v1/saintbernard/side-desktop.png": {
+    "sha256": "30db0b87ad34f449a494260353fca9cc5dec250a5af5b40338610a95e6ba089d",
+    "width": 299,
+    "height": 302,
+    "bytes": 75837
+  },
+  "/images/ruby-round-v1/saintbernard/walk-desktop.png": {
+    "sha256": "236c2ed026bf7b510de0f0c530fad7e56136e837a2a68c68ee91cc42fd0fa349",
+    "width": 1196,
+    "height": 302,
+    "bytes": 300114
+  },
+  "/images/ruby-round-v1/saintbernard/happy-desktop.png": {
+    "sha256": "ab175219885ab637242b243f087d824729070767bd8072d1e8e7e5df85443f3f",
+    "width": 299,
+    "height": 302,
+    "bytes": 71311
+  },
+  "/images/ruby-round-v1/saintbernard/sleep-desktop.png": {
+    "sha256": "93de00426ce69c6c6e16e82ed2e11a3376fe58f991573a44f552c0e5d98da797",
+    "width": 299,
+    "height": 302,
+    "bytes": 60160
+  },
+  "/images/ruby-round-v1/bassethound/idle-desktop.png": {
+    "sha256": "a8de63b192cf351c40c080bec02643770d469cc0e40b91e8de18876e10302e86",
+    "width": 294,
+    "height": 301,
+    "bytes": 64992
+  },
+  "/images/ruby-round-v1/bassethound/side-desktop.png": {
+    "sha256": "200d1f3e3f7634b9d50d4ef4d85c73b6c353f528e7ffc541f1e4ba9436ac4509",
+    "width": 294,
+    "height": 301,
+    "bytes": 64509
+  },
+  "/images/ruby-round-v1/bassethound/walk-desktop.png": {
+    "sha256": "e4f7920c5037659f7fa75df33755f7c6ea7efa6ddc1867fbece840b02799a1bb",
+    "width": 1176,
+    "height": 301,
+    "bytes": 252527
+  },
+  "/images/ruby-round-v1/bassethound/happy-desktop.png": {
+    "sha256": "9fe68f7cf19369e6b6f2469e8d314ded20a43548d09b7ac18b104410ba9ffd4a",
+    "width": 294,
+    "height": 301,
+    "bytes": 65488
+  },
+  "/images/ruby-round-v1/bassethound/sleep-desktop.png": {
+    "sha256": "81ff83ae7b104389b5d610f76bfee17a14b2c39dd8a0d6bc58bb1f8d907b6f81",
+    "width": 294,
+    "height": 301,
+    "bytes": 53763
+  },
+  "/images/ruby-round-v1/englishbulldog/idle-desktop.png": {
+    "sha256": "f86cb8b4a129bbdd3d5fe4e8874e04807a46105f6c8d10e573c54fc5f5a67dae",
+    "width": 294,
+    "height": 302,
+    "bytes": 70194
+  },
+  "/images/ruby-round-v1/englishbulldog/side-desktop.png": {
+    "sha256": "c7bd0de4f4cb61ca45893c55ae23ec692bab2aac69c6de5b6dbd814551a57c24",
+    "width": 294,
+    "height": 302,
+    "bytes": 71961
+  },
+  "/images/ruby-round-v1/englishbulldog/walk-desktop.png": {
+    "sha256": "20b8fce18c68eb0ab4aea8948e99f7570a9a92da7d9b8d9195879253fcb1a1a8",
+    "width": 1176,
+    "height": 302,
+    "bytes": 281645
+  },
+  "/images/ruby-round-v1/englishbulldog/happy-desktop.png": {
+    "sha256": "0ffac3b10cbd040767f4766939b1b02eb4cdd75de4ac060e2cbd6b458be94f89",
+    "width": 294,
+    "height": 302,
+    "bytes": 71444
+  },
+  "/images/ruby-round-v1/englishbulldog/sleep-desktop.png": {
+    "sha256": "8fbcf3c0b7b706fe62a4991ed6421ed26cf3012a355d06998d8e2281ac505392",
+    "width": 294,
+    "height": 302,
+    "bytes": 59765
+  },
+  "/images/ruby-round-v1/westie/idle-desktop.png": {
+    "sha256": "e68b8d0bce02f5a8d399cf35bb6b6b8242cbf82af2eb9b81436c0549b37b1edb",
+    "width": 292,
+    "height": 301,
+    "bytes": 66827
+  },
+  "/images/ruby-round-v1/westie/side-desktop.png": {
+    "sha256": "8e7bcdac73899d75b7a7f4d5fb0f23f9d1732d8306d9ce685f0b6bb14cd2506e",
+    "width": 292,
+    "height": 301,
+    "bytes": 64144
+  },
+  "/images/ruby-round-v1/westie/walk-desktop.png": {
+    "sha256": "261a4acfe65ff14f0f1b90b510b4017a0528b9268dab3cf5e16f516a030c3269",
+    "width": 1168,
+    "height": 301,
+    "bytes": 253508
+  },
+  "/images/ruby-round-v1/westie/happy-desktop.png": {
+    "sha256": "bce43928a93432517d46cfc3dde8ba26ad5d17df72d254daefee4c97e1f26144",
+    "width": 292,
+    "height": 301,
+    "bytes": 66644
+  },
+  "/images/ruby-round-v1/westie/sleep-desktop.png": {
+    "sha256": "8014ec9c90c635b08d1cbcc5e2807dbd9d9d743cbbc20d70ee99950028f2cf7a",
+    "width": 292,
+    "height": 301,
+    "bytes": 54831
+  },
+  "/images/ruby-round-v1/bostonterrier/idle-desktop.png": {
+    "sha256": "c563d48bd01d1706a5c7630a66e17c6906b1f45baecefb78d3cf0954a019a2bd",
+    "width": 298,
+    "height": 301,
+    "bytes": 52891
+  },
+  "/images/ruby-round-v1/bostonterrier/side-desktop.png": {
+    "sha256": "4286b245056ef3a9303016d7c36ca5f4ed9b23ecda919a6b6e2698312dfd8e9f",
+    "width": 298,
+    "height": 301,
+    "bytes": 52215
+  },
+  "/images/ruby-round-v1/bostonterrier/walk-desktop.png": {
+    "sha256": "1618068f471edcfe50742c471ab1fb236805b9e5970770d3c37ea9e74887415e",
+    "width": 1192,
+    "height": 301,
+    "bytes": 211279
+  },
+  "/images/ruby-round-v1/bostonterrier/happy-desktop.png": {
+    "sha256": "5f72023de6a500db9807a88af220170fae486a63ef21f86e55bd6a9e7cb0e1a5",
+    "width": 298,
+    "height": 301,
+    "bytes": 53137
+  },
+  "/images/ruby-round-v1/bostonterrier/sleep-desktop.png": {
+    "sha256": "4e48c516dcabac8ee196d8cd966706ea92d3d5d6d3c5fd178aae16c8bbf1d34f",
+    "width": 298,
+    "height": 301,
+    "bytes": 43424
+  },
+  "/images/ruby-round-v1/yorkshireterrier/idle-desktop.png": {
+    "sha256": "258711b80f3012f552ea6370eb351129fc05f513bfe0604665f9aafcc8f3d70c",
+    "width": 294,
+    "height": 301,
+    "bytes": 80432
+  },
+  "/images/ruby-round-v1/yorkshireterrier/side-desktop.png": {
+    "sha256": "60b62526adda5ec3229107fb80b12f74f50e9610ccdc1a1d2c4df09b863fd7d5",
+    "width": 294,
+    "height": 301,
+    "bytes": 73576
+  },
+  "/images/ruby-round-v1/yorkshireterrier/walk-desktop.png": {
+    "sha256": "ede0814598e3df99613deefce7b2c7f19dd37d3fd8c05fc6d79640f149ff4c55",
+    "width": 1176,
+    "height": 301,
+    "bytes": 298603
+  },
+  "/images/ruby-round-v1/yorkshireterrier/happy-desktop.png": {
+    "sha256": "4b7604615a87cb0d00b72e1d8600eab15db1ab053a88e8dc7a6c3fa469251e11",
+    "width": 294,
+    "height": 301,
+    "bytes": 81585
+  },
+  "/images/ruby-round-v1/yorkshireterrier/sleep-desktop.png": {
+    "sha256": "483b7b56144ddb11f6c59b16b478dd5045d107dd07f883ada63628a67418b930",
+    "width": 294,
+    "height": 301,
+    "bytes": 61996
+  },
+  "/images/ruby-round-v1/pekingese/idle-desktop.png": {
+    "sha256": "03850d72a6a68a92e8abc428a724858280a0241a78326b44a02180eac4c13db2",
+    "width": 297,
+    "height": 299,
+    "bytes": 66099
+  },
+  "/images/ruby-round-v1/pekingese/side-desktop.png": {
+    "sha256": "d558e9e0a90cd6de04b4b3989fb4b87e2340fede6a6484cae2cbbd502aa9b405",
+    "width": 297,
+    "height": 299,
+    "bytes": 70121
+  },
+  "/images/ruby-round-v1/pekingese/walk-desktop.png": {
+    "sha256": "37f632e4d6b7a2d78fbe4214e99ee959e8f600646c7f17a1d0a110c92c49531e",
+    "width": 1188,
+    "height": 299,
+    "bytes": 281003
+  },
+  "/images/ruby-round-v1/pekingese/happy-desktop.png": {
+    "sha256": "65ac3ecef19a88e186fc433f8e951b4d93abca2fcc129b5eea36ac265d1606b0",
+    "width": 297,
+    "height": 299,
+    "bytes": 66886
+  },
+  "/images/ruby-round-v1/pekingese/sleep-desktop.png": {
+    "sha256": "18683d8992a916475a07008a98ac4cf77af8638f1b30975308341474c8281f68",
+    "width": 297,
+    "height": 299,
+    "bytes": 55992
+  },
+  "/images/ruby-round-v1/chowchow/idle-desktop.png": {
+    "sha256": "bdc2ef80678006dfbe6706f679f226054eb75ded482b7cce07a6a5852c91cc88",
+    "width": 300,
+    "height": 303,
+    "bytes": 77866
+  },
+  "/images/ruby-round-v1/chowchow/side-desktop.png": {
+    "sha256": "372ce6ab18656e0d951c10a6153138f03b71f5a418c7a79f182f7f0194bdd5db",
+    "width": 300,
+    "height": 303,
+    "bytes": 79486
+  },
+  "/images/ruby-round-v1/chowchow/walk-desktop.png": {
+    "sha256": "937802850c93a129bc1bca5942b400a23585b739d788f3137734f2b2daacb004",
+    "width": 1200,
+    "height": 303,
+    "bytes": 314289
+  },
+  "/images/ruby-round-v1/chowchow/happy-desktop.png": {
+    "sha256": "d0dab5c9b48d883c3100a520265a5d615a84d2351e1172918e7683ab3ac84c38",
+    "width": 300,
+    "height": 303,
+    "bytes": 78073
+  },
+  "/images/ruby-round-v1/chowchow/sleep-desktop.png": {
+    "sha256": "35da054d6d269dca5f4306fd9738b2c09985ef206e2aafd419aa3fb84f0f3fa7",
+    "width": 300,
+    "height": 303,
+    "bytes": 70455
   }
 }

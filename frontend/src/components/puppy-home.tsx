@@ -16,6 +16,11 @@ import { DesktopLink } from "./desktop-link";
 import { AccountMenu } from "./account-menu";
 import { ThemeToggle, useTheme } from "./theme-provider";
 import Link from "next/link";
+import { RubyEyePicker } from "./ruby-eye-picker";
+import { useDogAppearance } from "./dog-appearance-provider";
+import { resolveDogStyle } from "../lib/dog-styles";
+import { dogBreedAt } from "../lib/dog-breeds";
+import { rubyRoundStyleId } from "../lib/ruby-round-scene-styles";
 
 type View = "home" | "walk" | "adopt" | "closet" | "collection";
 type Dialog = "guide" | "rename" | "adopted" | null;
@@ -171,6 +176,8 @@ export function PuppyHome() {
 }
 
 function Closet({ puppy, puppies, busy, onSelect, onSave }: { puppy: Puppy; puppies: Puppy[]; busy: boolean; onSelect: (id: string) => unknown; onSave: (draft: Record<string, unknown>) => Promise<unknown> }) {
+  const appearance = useDogAppearance();
+  const roundEyes = resolveDogStyle(appearance, dogBreedAt(puppy.breed).id) === rubyRoundStyleId;
   const [draft, setDraft] = useState({ fur: puppy.fur, eyes: puppy.eyes, accessory: puppy.accessory });
   const changed = draft.fur !== puppy.fur || draft.eyes !== puppy.eyes || draft.accessory !== puppy.accessory;
   const equippedPaidAccessory = paidAccessories.find(item => item.id === puppy.accessory);
@@ -196,9 +203,9 @@ function Closet({ puppy, puppies, busy, onSelect, onSave }: { puppy: Puppy; pupp
       </fieldset>
       <fieldset disabled={busy}>
         <legend>02 <b>반짝이는 눈동자</b></legend>
-        <div className="swatches eyes">{eyeOptions.map(o => <button type="button" key={o.id} aria-label={o.label} aria-pressed={draft.eyes === o.id} className={draft.eyes === o.id ? "chosen" : ""} onClick={() => setDraft({ ...draft, eyes: o.id })}>
+        {roundEyes ? <RubyEyePicker value={draft.eyes} onChange={eyes => setDraft({ ...draft, eyes })} disabled={busy} /> : <div className="swatches eyes">{eyeOptions.map(o => <button type="button" key={o.id} aria-label={o.label} aria-pressed={draft.eyes === o.id} className={draft.eyes === o.id ? "chosen" : ""} onClick={() => setDraft({ ...draft, eyes: o.id })}>
           <span style={{ background: o.color }}><i />{draft.eyes === o.id && <Check size={18} />}</span><small>{o.label}</small>
-        </button>)}</div>
+        </button>)}</div>}
       </fieldset>
       <fieldset disabled={busy}>
         <legend>03 <b>귀여움을 더하는 액세서리</b></legend>

@@ -21,7 +21,7 @@ public class AppearanceService {
         "premium-teddycub", "premium-peachcheek", "premium-buttonpaw", "premium-rounddrop", "premium-cottonball", "premium-caramel",
         "art-01", "art-02", "art-03", "art-04", "art-05", "art-06", "art-07", "art-08", "art-09", "art-10",
         "art-11", "art-12", "art-13", "art-14", "art-15", "art-16", "art-17", "art-18", "art-19", "art-20",
-        "art-21", "art-22", "art-23", "art-24", "art-25", "art-26", "art-27", "art-28", "art-29", "art-30", "art-16-scenes", "sp08-scenes", "sp15-scenes", "animated-2d");
+        "art-21", "art-22", "art-23", "art-24", "art-25", "art-26", "art-27", "art-28", "art-29", "art-30", "art-16-scenes", "sp08-scenes", "sp15-scenes", "ruby-round-scenes", "animated-2d");
     public static final List<String> BREEDS = BreedCatalog.IDS;
     public static final List<String> SHAPES = List.of("original", "teddy", "fox");
     public static final List<String> PATTERNS = List.of("solid", "tuxedo", "patches", "freckles", "socks", "blaze");

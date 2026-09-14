@@ -1,4 +1,5 @@
 import publicMediaRelease from "./generated/public-media-release.json";
+import rubyRoundMediaRelease from "./generated/ruby-round-media-release.json";
 
 /** Public, build-time configuration only. Never put credentials or signed URLs here. */
 export function publicAssetBaseUrl(value = process.env.NEXT_PUBLIC_ASSET_BASE_URL): string {
@@ -8,6 +9,11 @@ export function publicAssetBaseUrl(value = process.env.NEXT_PUBLIC_ASSET_BASE_UR
 /** Downloads retain their public /downloads URLs and redirect directly to CDN. */
 export function publicDownloadBaseUrl(value = process.env.NEXT_PUBLIC_DOWNLOAD_BASE_URL): string {
   return validatedBase(value?.trim() || publicMediaRelease.downloads.baseUrl, "NEXT_PUBLIC_DOWNLOAD_BASE_URL");
+}
+
+/** The independently published pack includes both PNGs and editable Aseprite masters. */
+export function publicRubyRoundBaseUrl(value = process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL): string {
+  return validatedBase(value?.trim() || rubyRoundMediaRelease.baseUrl, "NEXT_PUBLIC_RUBY_ROUND_BASE_URL");
 }
 
 function validatedBase(value: string, variable: string): string {
@@ -28,13 +34,14 @@ function validatedBase(value: string, variable: string): string {
   }
 }
 
-/** Map our public images only; user photos, API URLs and binary downloads remain untouched. */
+/** Map project media only; photos, APIs and unrelated downloads retain their URLs. */
 export function assetUrl(path: string): string {
-  if (!(path.startsWith("/images/") || path === "/favicon.svg")) return path;
+  const rubyRound = path.startsWith("/images/ruby-round-v1/") || path.startsWith("/downloads/ruby-round-v1/");
+  if (!(path.startsWith("/images/") || path === "/favicon.svg" || rubyRound)) return path;
   try {
     const decoded = decodeURIComponent(path);
     if (/[\s\\"'<>`?#]/u.test(decoded) || decoded.split("/").some(part => part === "." || part === "..")) return path;
   } catch { return path; }
-  const base = publicAssetBaseUrl();
+  const base = rubyRound ? publicRubyRoundBaseUrl() : publicAssetBaseUrl();
   return base ? `${base}${path}` : path;
 }

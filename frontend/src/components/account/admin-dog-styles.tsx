@@ -14,6 +14,8 @@ import { assetUrl } from "@/lib/asset-url";
 import { isOriginalArtDogStyleId, originalArtDogAsset } from "@/lib/original-art-dog-styles";
 import { art16SceneStyleId } from "@/lib/art16-scene-styles";
 import { isSpSceneStyleId } from "@/lib/sp-scene-styles";
+import { rubyRoundStyleId } from "@/lib/ruby-round-scene-styles";
+import { RubyEyePicker } from "../ruby-eye-picker";
 import { isNativeSceneStyle, nativeDogSceneAsset, nativeDogSceneId, nativeDogScenes, type DogSceneId } from "@/lib/native-dog-scenes";
 import { publishAppearance } from "@/components/dog-appearance-provider";
 import { AccountError, accountErrorMessage, adminFetch, isAccountAccessError } from "@/lib/account";
@@ -74,6 +76,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
   const [action, setAction] = useState<AnimatedDogAction>("idle");
   const [scene, setScene] = useState<DogSceneId>("idle");
   const [paused, setPaused] = useState(false);
+  const [roundEye, setRoundEye] = useState("ruby-eye-01");
   const [selectedStyle, setSelectedStyle] = useState<DogStyleId>(defaultAppearance.defaultStyle);
   const [selectedCandidateId, setSelectedCandidateId] = useState<string | null>(null);
   const [candidateChoice, setCandidateChoice] = useState<SoftPixelChoice | null>(null);
@@ -148,9 +151,10 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
   const selectedVariety = draft?.varieties?.find(item => item.id === selectedVarietyId && item.breed === selectedBreed);
   const pixelStyles = availableStyles.filter(style => style.kind === "pixel");
   const galleryEntries = [
+    ...availableStyles.filter(style => style.id === rubyRoundStyleId).map(style => ({ kind: "style" as const, style })),
     ...availableStyles.filter(style => isSpSceneStyleId(style.id)).map(style => ({ kind: "style" as const, style })),
     ...softPixelCandidates.map(candidate => ({ kind: "candidate" as const, candidate })),
-    ...availableStyles.filter(style => !isSpSceneStyleId(style.id)).map(style => ({ kind: "style" as const, style })),
+    ...availableStyles.filter(style => !isSpSceneStyleId(style.id) && style.id !== rubyRoundStyleId).map(style => ({ kind: "style" as const, style })),
   ];
   const selectedCandidate = softPixelCandidates.find(candidate => candidate.id === selectedCandidateId);
   const pageCount = Math.max(1, Math.ceil(galleryEntries.length / PAGE_SIZE));
@@ -419,7 +423,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
             <div className="admin-dog-all-styles" role="group" aria-label="도트 스타일 모음">
               <button type="button" aria-pressed="true" disabled={busy} onClick={() => setPage(1)}>전체 {galleryEntries.length}개</button>
             </div>
-            {softPixelCandidates.length > 0 && <p className="admin-soft-pixel-gallery-note">새 강아지 스타일 시안 {softPixelCandidates.length}개를 비교해요. 눈동자를 바꿔 보고, 30견종 제작에 사용할 시안 하나를 골라 주세요.</p>}
+            {softPixelCandidates.length > 0 && <p className="admin-soft-pixel-gallery-note">새 시안과 완성된 견종별 애니메이션을 한곳에서 비교해요. 크게 보기에서 눈과 동작을 확인하세요.</p>}
             <div className="admin-dog-style-grid">
               {visibleEntries.map(entry => {
                 if (entry.kind === "candidate") {
@@ -453,9 +457,10 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
                     {isPremiumDogStyleId(style.id) && <span className="admin-cute-source">{premiumDogStyles.find(item => item.id === style.id)?.code} · 원본 색상 유지</span>}
                     {isOriginalArtDogStyleId(style.id) && <span className="admin-cute-source">시안 {style.id.replace("art-", "")} · 원본 색상 유지</span>}
                     {style.id === art16SceneStyleId && <span className="admin-cute-source">16번 스타일 · {styleBreeds.length}견종 · 5장면</span>}
+                    {style.id === rubyRoundStyleId && <span className="admin-cute-source">30견종 · 5동작 · 공통 눈 30종</span>}
                     {isSpSceneStyleId(style.id) && <span className="admin-cute-source">{style.id.slice(0, 4).toUpperCase()} · {styleBreeds.length}견종 · 6장면</span>}
                     {style.id === "animated-2d" && <span className="admin-cute-source">움직이는 2D</span>}
-                    <span className="admin-dog-card-art"><PixelDog breed={selectedBreed} styleId={style.id} mood={mood} variant={selectedVariety} decorative /></span>
+                    <span className="admin-dog-card-art"><PixelDog breed={selectedBreed} styleId={style.id} mood={mood} eyeStyle={roundEye} variant={selectedVariety} decorative /></span>
                     <strong>{style.name}</strong>
                     <span className="admin-dog-style-description">{style.description}</span>
                     {resolveDogStyle(saved, selectedBreed) === style.id && <span className="admin-dog-current-label">현재 적용</span>}
@@ -482,7 +487,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
             <span className="admin-dog-eyebrow">선택한 스타일</span>
             <div className="admin-dog-selected-art">{selectedStyle === "animated-2d"
               ? <AnimatedDog breed={selectedBreed} variant={selectedVariety} action={action} paused={paused} decorative />
-              : <PixelDog breed={selectedBreed} styleId={selectedStyle} mood={mood} scene={isNativeSceneStyle(selectedStyle) ? activeScene : undefined} paused={paused} variant={selectedVariety} decorative />}</div>
+              : <PixelDog breed={selectedBreed} styleId={selectedStyle} mood={mood} eyeStyle={roundEye} scene={isNativeSceneStyle(selectedStyle) ? activeScene : undefined} paused={paused} variant={selectedVariety} decorative />}</div>
             <div className="admin-dog-selected-copy">
               <h3 id={`${id}-selected-heading`}>{chosenStyle.name}</h3>
               <p>{chosenStyle.description}</p>
@@ -494,8 +499,9 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
             {isNativeSceneStyle(selectedStyle) && <div className="admin-dog-scene-controls">
               <div role="group" aria-label="강아지 장면">{sceneOptions.map(item => <button type="button" key={item.id} aria-pressed={activeScene === item.id} disabled={busy} onClick={() => setScene(item.id)}>{item.name}</button>)}</div>
               <p>{sceneOptions.find(item => item.id === activeScene)?.description}</p>
-              {(activeScene === "walk" || activeScene === "wag") && <button type="button" disabled={busy} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={14} /> : <Pause size={14} />}{paused ? "동작 재생" : "동작 정지"}</button>}
+              {(selectedSheet?.frames ?? 1) > 1 && <button type="button" disabled={busy} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={14} /> : <Pause size={14} />}{paused ? "동작 재생" : "동작 정지"}</button>}
             </div>}
+            {selectedStyle === rubyRoundStyleId && <section aria-label="루비 도트 눈 미리보기"><h4>공통 눈 · 30가지</h4><RubyEyePicker value={roundEye} onChange={setRoundEye} disabled={busy} /><p className="admin-dog-delete-note">모든 견종에 맞춰 바뀌어요. 실제 강아지의 눈은 옷장에서 선택하고 저장해 주세요.</p><div className="admin-cute-downloads"><a href={assetUrl("/downloads/ruby-round-v1/ruby-round-eyes.aseprite")} download>공통 눈 Aseprite</a></div></section>}
             {selectedStyle === "animated-2d" && <div className="admin-dog-scene-controls">
               <div role="group" aria-label="2D 강아지 동작">{animationActions.map(item => <button type="button" key={item.id} aria-pressed={action === item.id} disabled={busy} onClick={() => setAction(item.id)}>{item.name}</button>)}</div>
               <button type="button" disabled={busy} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={14} /> : <Pause size={14} />}{paused ? "동작 재생" : "동작 정지"}</button>
@@ -504,7 +510,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
             {selectedCuteAssets && <div className="admin-cute-downloads"><a href={assetUrl(selectedCuteAssets.png)} download>원본 PNG</a><a href={selectedCuteAssets.aseprite} download>Aseprite</a></div>}
             {selectedPremium && <div className="admin-cute-downloads"><a href={assetUrl(selectedPremium.png)} download>원본 PNG</a><a href={selectedPremium.aseprite} download>Aseprite</a></div>}
             {selectedOriginalArt && <div className="admin-cute-downloads"><a href={assetUrl(selectedOriginalArt.png)} download>강아지 PNG</a><a href={selectedOriginalArt.aseprite} download>Aseprite</a></div>}
-            {selectedScenes && selectedSheet && <div className="admin-cute-downloads"><a href={assetUrl(selectedSheet.png)} download>{selectedSheet.frames > 1 ? "동작 프레임 PNG" : "장면 PNG"}</a><a href={selectedScenes.aseprite} download>Aseprite</a></div>}
+            {selectedScenes && selectedSheet && <div className="admin-cute-downloads"><a href={assetUrl(selectedSheet.png)} download>{selectedStyle === rubyRoundStyleId ? "몸통 프레임 PNG" : selectedSheet.frames > 1 ? "동작 프레임 PNG" : "장면 PNG"}</a><a href={assetUrl(selectedScenes.aseprite)} download>Aseprite</a></div>}
             <div className="admin-dog-apply-actions">
               <button type="button" className="account-button" disabled={busy} onClick={applyAll}>
                 <CheckCheck size={16} aria-hidden="true" /> 전체 견종에 적용
@@ -604,7 +610,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
           </button>
         </div>
       </div>
-      <AdminDogStylePreview key={expandedStyle ?? "closed"} selected={expandedStyle} available={availableStyles.map(style => style.id)} breed={selectedBreed} variant={selectedVariety} mood={mood} busy={busy} onClose={() => setExpandedStyle(null)} onSelect={style => {
+      <AdminDogStylePreview key={expandedStyle ?? "closed"} selected={expandedStyle} available={availableStyles.map(style => style.id)} breed={selectedBreed} variant={selectedVariety} mood={mood} eyeStyle={roundEye} busy={busy} onClose={() => setExpandedStyle(null)} onSelect={style => {
         setSelectedCandidateId(null);
         setSelectedStyle(style);
         setPage(Math.floor((softPixelCandidates.length + availableStyles.findIndex(item => item.id === style)) / PAGE_SIZE) + 1);

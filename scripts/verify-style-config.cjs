@@ -39,10 +39,11 @@ const { isPremiumDogStyleId, premiumDogStyles, premiumDogAsset } = load('src/lib
 const { isOriginalArtDogStyleId, originalArtDogStyles, originalArtDogAsset } = load('src/lib/original-art-dog-styles.ts');
 const { art16SceneStyleId, art16SceneStyles, art16SceneAsset, art16ScenesReady } = load('src/lib/art16-scene-styles.ts');
 const { spSceneStyles, isSpSceneStyleId, spScenesReady, spSceneFamily, spSceneAsset } = load('src/lib/sp-scene-styles.ts');
+const { rubyRoundStyles, rubyRoundStyleId, rubyRoundReady, rubyRoundAsset } = load('src/lib/ruby-round-scene-styles.ts');
 const { parseAppearance } = load('src/lib/dog-appearance.ts', { './dog-styles': styles });
 const { dogStyles, pixelDogStyles, styleBreedIds, styleBreeds, defaultAppearance, resolveDogStyle, isDogStyleId, activeDogStyles, isStyleAvailable } = styles;
 const ids = dogStyles.map(style => style.id);
-const editablePixelStyles = pixelDogStyles.filter(style => !isPremiumDogStyleId(style.id) && !isOriginalArtDogStyleId(style.id) && style.id !== art16SceneStyleId && !isSpSceneStyleId(style.id));
+const editablePixelStyles = pixelDogStyles.filter(style => !isPremiumDogStyleId(style.id) && !isOriginalArtDogStyleId(style.id) && style.id !== art16SceneStyleId && !isSpSceneStyleId(style.id) && style.id !== rubyRoundStyleId);
 const backend = fs.readFileSync(path.join(root, 'backend/src/main/java/com/puppyruby/appearance/AppearanceService.java'), 'utf8');
 function javaList(name) {
   if (name === "BREEDS") return [...fs.readFileSync(path.join(root, "backend/src/main/java/com/puppyruby/game/BreedCatalog.java"), "utf8").matchAll(/new Breed\("([^"\\]+)"/g)].map(match => match[1]);
@@ -54,8 +55,8 @@ const blank = () => ({ defaultStyle: 'classic', breedStyles: {}, deletedStyles: 
 const reject = (name, value) => check(name, () => assert.throws(() => parseAppearance(value), Error));
 
 check('pixel collections and one animated style match backend order', () => {
-  assert.equal(ids.length, 68 + premiumDogStyles.length + originalArtDogStyles.length + art16SceneStyles.length + spSceneStyles.length); assert.equal(new Set(ids).size, ids.length);
-  assert.deepEqual(ids, javaList('STYLES').filter(id => (art16ScenesReady || id !== art16SceneStyleId) && (!isSpSceneStyleId(id) || spScenesReady(spSceneFamily(id)))));
+  assert.equal(ids.length, 68 + premiumDogStyles.length + originalArtDogStyles.length + art16SceneStyles.length + spSceneStyles.length + rubyRoundStyles.length); assert.equal(new Set(ids).size, ids.length);
+  assert.deepEqual(ids, javaList('STYLES').filter(id => (art16ScenesReady || id !== art16SceneStyleId) && (!isSpSceneStyleId(id) || spScenesReady(spSceneFamily(id))) && (rubyRoundReady || id !== rubyRoundStyleId)));
   assert.equal(pixelDogStyles.length, ids.length - 1); assert.ok(pixelDogStyles.every(style => style.kind === 'pixel'));
   assert.deepEqual(dogStyles.filter(style => style.kind === 'animated').map(style => style.id), ['animated-2d']);
 });
@@ -368,10 +369,23 @@ async function verifyArt() {
     }
     check(`each breed offers ${editablePixelStyles.length} distinct editable pixel results: ${breed}`, () => { assert.equal(geometries.size,editablePixelStyles.length); assert.equal(rasterHashes.size,editablePixelStyles.length); });
   }
-  for(const styleId of ids.filter(id => !isPremiumDogStyleId(id) && !isOriginalArtDogStyleId(id) && id !== art16SceneStyleId && !isSpSceneStyleId(id))) check(`explicit coat and eyes retain priority ${styleId}`, () => {
+  for(const styleId of ids.filter(id => !isPremiumDogStyleId(id) && !isOriginalArtDogStyleId(id) && id !== art16SceneStyleId && !isSpSceneStyleId(id) && id !== rubyRoundStyleId)) check(`explicit coat and eyes retain priority ${styleId}`, () => {
     const markup=svg({styleId,fur:'#123456',eyes:'#654321',variant:{shape:'original',pattern:'solid',coatColor:'#abcdef',patternColor:'#ffffff'}});
     const otherEyes=svg({styleId,fur:'#123456',eyes:'#112233',variant:{shape:'original',pattern:'solid',coatColor:'#abcdef',patternColor:'#ffffff'}});
     assert.ok(markup.includes('#123456')); assert.notEqual(markup,otherEyes); assert.ok(!markup.includes('#abcdef'));
+  });
+  if (rubyRoundReady) for (const breed of styleBreedIds) check(`native Ruby body and interchangeable eyes retain priority ${breed}`, () => {
+    const props = { breed, styleId: rubyRoundStyleId, groundShadow: false, eyeStyle: 'ruby-eye-01' };
+    const source = svg(props);
+    const changed = svg({ ...props, fur: '#123456', eyes: '#654321', variant: { shape: 'fox', pattern: 'patches', coatColor: '#abcdef', patternColor: '#ffffff' } });
+    const otherEyes = svg({ ...props, eyeStyle: 'ruby-eye-06' });
+    assert.equal(changed, source, 'Native artwork must preserve its original fur and silhouette');
+    assert.ok(source.includes(rubyRoundAsset(breed).scenes.idle.png));
+    assert.match(source, /data-eye-style="ruby-eye-01"/);
+    assert.match(otherEyes, /data-eye-style="ruby-eye-06"/);
+    assert.ok(source.includes('/eyes/eye-01.png'));
+    assert.ok(otherEyes.includes('/eyes/eye-06.png'));
+    assert.notEqual(source, otherEyes, 'The selected common eye layer must actually change');
   });
   for (const style of [...premiumDogStyles, ...originalArtDogStyles]) check(`original art retains priority ${style.id}`, () => {
     const source = svg({ styleId: style.id, groundShadow: false });

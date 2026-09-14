@@ -89,6 +89,24 @@ class GameServiceTest {
         assertThrows(ResponseStatusException.class, () -> game.act(id, "customize", new GameService.Action(dogId, null, "hacked", "blue", "ribbon")));
         assertEquals("rose", game.state(id).puppies().getFirst().fur);
     }
+    @Test void sharedPixelEyesPersistForEveryBreedAndRejectUnregisteredEyes() {
+        String id = player(), dogId = game.state(id).selectedId();
+        for (int number = 1; number <= 30; number++) {
+            String eyes = "ruby-eye-%02d".formatted(number);
+            Player player = repository.findById(id).orElseThrow();
+            player.puppies.getFirst().breed = number - 1;
+            repository.save(player);
+            game.act(id, "customize", new GameService.Action(dogId, null, "original", eyes, "none"));
+            assertEquals(eyes, game.state(id).puppies().getFirst().eyes);
+        }
+        for (String invalid : List.of("ruby-eye-00", "ruby-eye-31", "ruby-eye-1", "ruby-eye-030", "https://example.com/eye.png")) {
+            assertThrows(ResponseStatusException.class, () -> game.act(id, "customize", new GameService.Action(dogId, null, "rose", invalid, "ribbon")));
+            Puppy unchanged = game.state(id).puppies().getFirst();
+            assertEquals("ruby-eye-30", unchanged.eyes);
+            assertEquals("original", unchanged.fur);
+            assertEquals("none", unchanged.accessory);
+        }
+    }
     @Test void trainingRespectsEnergyAndCooldownAndAwardsExperienceOnEitherOutcome() {
         String id = player(), dogId = game.state(id).selectedId();
         assertThrows(ResponseStatusException.class, () -> game.act(id, "train", action(dogId)));

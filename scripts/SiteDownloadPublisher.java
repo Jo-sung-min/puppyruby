@@ -3,6 +3,7 @@ import java.net.*;
 import java.nio.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.time.*;
 import java.util.*;
@@ -24,6 +25,23 @@ public final class SiteDownloadPublisher {
     private static String phase = "plan", currentPath = "";
     record Asset(Path source, String path, String contentType, String disposition, long size, String sha256, String checksum) {}
     record Digest(long bytes, String hex, String base64) {}
+
+    /** Only this independently published subtree is excluded; other unknown files still fail validation. */
+    static List<Path> collectSources(Path publicRoot) throws IOException {
+        Path downloads = publicRoot.resolve("downloads"), independent = downloads.resolve("ruby-round-v1");
+        var sources = new ArrayList<Path>();
+        Files.walkFileTree(downloads, new SimpleFileVisitor<>() {
+            @Override public FileVisitResult preVisitDirectory(Path directory, BasicFileAttributes attributes) {
+                if (directory.equals(independent)) return FileVisitResult.SKIP_SUBTREE;
+                sources.add(directory); return FileVisitResult.CONTINUE;
+            }
+            @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
+                if (!file.equals(independent)) sources.add(file);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+        return sources;
+    }
 
     public static void main(String[] args) {
         System.setErr(new PrintStream(OutputStream.nullOutputStream()));
@@ -114,8 +132,8 @@ public final class SiteDownloadPublisher {
         Path root = publicRoot.toRealPath(), downloads = root.resolve("downloads");
         checkedPath(root, downloads);
         var assets = new ArrayList<Asset>();
-        try (var files = Files.walk(downloads)) {
-            for (Path source : files.toList()) {
+        {
+            for (Path source : collectSources(root)) {
                 checkedPath(root, source);
                 if (Files.isDirectory(source)) continue;
                 if (!Files.isRegularFile(source)) throw new Refused("NON_REGULAR_DOWNLOAD");

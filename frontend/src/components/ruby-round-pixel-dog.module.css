@@ -1,0 +1,11 @@
+.dog { image-rendering: pixelated; }
+.blink { transform-box: fill-box; transform-origin: center; animation: blink 5s steps(1, end) infinite; }
+@keyframes blink { 0%, 92%, 96%, 100% { transform: scaleY(1); } 94% { transform: scaleY(.12); } }
+.picker { display: grid; grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); gap: 8px; max-height: 360px; overflow-y: auto; padding: 3px; }
+.choice { min-height: 74px; padding: 8px 4px; border: 1px solid var(--border, #c5c6ca); border-radius: 10px; background: transparent; color: inherit; cursor: pointer; display: grid; justify-items: center; align-content: center; gap: 6px; }
+.choice[aria-pressed="true"] { outline: 2px solid currentColor; outline-offset: -2px; background: color-mix(in srgb, currentColor 7%, transparent); }
+.choice:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.choice:disabled { opacity: .5; cursor: default; }
+.choice svg { width: 48px; height: 24px; image-rendering: pixelated; background: #f6f3ed; border-radius: 4px; }
+.choice span { font-size: 11px; line-height: 1.4; }
+@media (prefers-reduced-motion: reduce) { .blink { animation: none; } }

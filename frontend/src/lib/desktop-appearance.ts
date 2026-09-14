@@ -8,6 +8,7 @@ import { art16SceneAsset, art16SceneStyleId, art16Scenes, type Art16SceneId } fr
 import { isSpSceneStyleId, spSceneAsset } from "./sp-scene-styles";
 import { originalArtDogAsset } from "./original-art-dog-styles";
 import { premiumDogAsset } from "./premium-dog-styles";
+import { rubyRoundAsset, rubyRoundStyleId } from "./ruby-round-scene-styles";
 import type { DesktopAppearance, DesktopAppearanceScene } from "./desktop";
 
 type JsonRecord = Record<string, unknown>;
@@ -33,7 +34,18 @@ export function desktopAppearance(config: AppearanceConfig, breed: number, origi
   const styleName = dogStyles.find(style => style.id === styleId)?.name ?? styleId;
   let width: number, height: number;
   const scenes = {} as Record<Art16SceneId, DesktopAppearanceScene>;
-  if (styleId === art16SceneStyleId || isSpSceneStyleId(styleId)) {
+  if (styleId === rubyRoundStyleId) {
+    const asset = rubyRoundAsset(breedId);
+    if (!asset) throw new Error(unavailable);
+    ({ width, height } = asset);
+    // Installed v1 clients accept multiple frames only for walking. Send the
+    // matching breed with composited default eyes, never the eyeless web layer.
+    for (const { id } of art16Scenes) {
+      const sheet = asset.scenes[id];
+      if (!sheet.desktopPng || !sheet.desktopFrames) throw new Error(unavailable);
+      scenes[id] = sceneDescriptor(sheet.desktopPng, width, height, sheet.desktopFrames, sheet.frameMs, origin);
+    }
+  } else if (styleId === art16SceneStyleId || isSpSceneStyleId(styleId)) {
     const asset = isSpSceneStyleId(styleId) ? spSceneAsset(styleId, breedId) : art16SceneAsset(breedId);
     if (!asset) throw new Error(unavailable);
     ({ width, height } = asset);

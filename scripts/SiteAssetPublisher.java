@@ -2,6 +2,7 @@ import java.io.*;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.time.Duration;
 import java.time.Instant;
@@ -45,6 +46,24 @@ public final class SiteAssetPublisher {
     private static String phase = "plan", currentPath = "";
     private record Asset(Path source, String path, String contentType, String disposition, long size, String sha256, String checksum) {}
 
+    /** Ruby Round has its own fixed-scope publisher and release; legacy hashes exclude only that subtree. */
+    static List<Path> collectSources(Path publicRoot) throws IOException {
+        Path images = publicRoot.resolve("images"), independent = images.resolve("ruby-round-v1");
+        var sources = new ArrayList<Path>();
+        Files.walkFileTree(images, new SimpleFileVisitor<>() {
+            @Override public FileVisitResult preVisitDirectory(Path directory, BasicFileAttributes attributes) {
+                return directory.equals(independent) ? FileVisitResult.SKIP_SUBTREE : FileVisitResult.CONTINUE;
+            }
+            @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
+                String name = file.getFileName().toString().toLowerCase(Locale.ROOT);
+                if (Files.isRegularFile(file) && (name.endsWith(".png") || name.endsWith(".svg"))) sources.add(file);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+        sources.add(publicRoot.resolve("favicon.svg"));
+        return sources;
+    }
+
     public static void main(String[] args) {
         System.setErr(new PrintStream(OutputStream.nullOutputStream()));
         try { run(args); }
@@ -62,14 +81,7 @@ public final class SiteAssetPublisher {
         if (!publicRoot.equals(project.resolve("local-assets/site")) || !publicRoot.startsWith(project)) throw new Refused("SOURCE_ROOT_OUTSIDE_PROJECT");
         Path images = publicRoot.resolve("images").toRealPath();
         if (!images.startsWith(publicRoot)) throw new Refused("IMAGE_ROOT_OUTSIDE_PUBLIC");
-        var sources = new ArrayList<Path>();
-        try (var files = Files.walk(images)) {
-            for (Path file : files.filter(Files::isRegularFile).toList()) {
-                String name = file.getFileName().toString().toLowerCase(Locale.ROOT);
-                if (name.endsWith(".png") || name.endsWith(".svg")) sources.add(file);
-            }
-        }
-        sources.add(publicRoot.resolve("favicon.svg"));
+        var sources = collectSources(publicRoot);
         var assets = new ArrayList<Asset>();
         for (Path source : sources) {
             Path real = source.toRealPath();

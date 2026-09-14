@@ -9,13 +9,16 @@ import { dogStyles, styleBreeds, type DogStyleId, type DogVariantLook } from "@/
 import { originalArtDogAsset } from "@/lib/original-art-dog-styles";
 import { premiumDogAsset } from "@/lib/premium-dog-styles";
 import { PixelDog, type PixelBreed, type PixelMood } from "../pixel-dog";
+import { rubyRoundStyleId } from "@/lib/ruby-round-scene-styles";
+import { RubyEyePicker } from "../ruby-eye-picker";
 
-export function AdminDogStylePreview({ selected, available, breed, variant, mood, busy, onClose, onSelect }: {
+export function AdminDogStylePreview({ selected, available, breed, variant, mood, eyeStyle = "ruby-eye-01", busy, onClose, onSelect }: {
   selected: DogStyleId | null;
   available: DogStyleId[];
   breed: PixelBreed;
   variant?: DogVariantLook;
   mood: PixelMood;
+  eyeStyle?: string;
   busy: boolean;
   onClose: () => void;
   onSelect: (id: DogStyleId) => void;
@@ -27,6 +30,7 @@ export function AdminDogStylePreview({ selected, available, breed, variant, mood
   const [size, setSize] = useState<256 | 384 | "original">(384);
   const [scene, setScene] = useState<DogSceneId>("idle");
   const [paused, setPaused] = useState(false);
+  const [roundEye, setRoundEye] = useState(eyeStyle);
   const choices = dogStyles.filter(style => available.includes(style.id)).sort((first, second) => available.indexOf(first.id) - available.indexOf(second.id));
   const style = choices.find(item => item.id === previewId);
   const asset = premiumDogAsset(previewId) ?? originalArtDogAsset(previewId);
@@ -83,13 +87,14 @@ export function AdminDogStylePreview({ selected, available, breed, variant, mood
       </div>
       {isNativeSceneStyle(style.id) && <div className="admin-dog-scene-controls admin-style-preview-scenes">
         <div role="group" aria-label="확대 미리보기 장면">{sceneOptions.map(item => <button type="button" key={item.id} aria-pressed={activeScene === item.id} onClick={() => setScene(item.id)}>{item.name}</button>)}</div>
-        {(activeScene === "walk" || activeScene === "wag") && <button type="button" aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}{paused ? "동작 재생" : "동작 정지"}</button>}
+        {(selectedSheet?.frames ?? 1) > 1 && <button type="button" aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={14} aria-hidden="true" /> : <Pause size={14} aria-hidden="true" />}{paused ? "동작 재생" : "동작 정지"}</button>}
       </div>}
       <div className="admin-premium-image-scroll" tabIndex={originalSize ? 0 : undefined} aria-label="강아지 확대 이미지" data-original-size={originalSize}>
         {asset ? <Image className="admin-premium-source-image" src={assetUrl(asset.png)} width={asset.width} height={asset.height} alt={style.name} unoptimized draggable={false} loading="eager"
           style={{ width: displayWidth, height: displayWidth * asset.height / asset.width }} />
-          : <div className="admin-style-preview-art" style={{ width: displayWidth, aspectRatio: sceneAsset ? `${sceneAsset.width} / ${sceneAsset.height}` : undefined }}><PixelDog breed={breed} styleId={style.id} variant={variant} mood={mood} scene={isNativeSceneStyle(style.id) ? activeScene : undefined} paused={paused} /></div>}
+          : <div className="admin-style-preview-art" style={{ width: displayWidth, aspectRatio: sceneAsset ? `${sceneAsset.width} / ${sceneAsset.height}` : undefined }}><PixelDog breed={breed} styleId={style.id} variant={variant} mood={mood} eyeStyle={roundEye} scene={isNativeSceneStyle(style.id) ? activeScene : undefined} paused={paused} /></div>}
       </div>
+      {style.id === rubyRoundStyleId && <RubyEyePicker value={roundEye} onChange={setRoundEye} disabled={busy} />}
       <p id={`${id}-description`}>{isNativeSceneStyle(style.id) ? sceneOptions.find(item => item.id === activeScene)?.description : style.description}</p>
       {nativeAsset && <p className="admin-premium-native-size">{sceneAsset ? "한 장면 원본" : "원본"} {nativeAsset.width} × {nativeAsset.height}px · 원래의 털색과 표정을 유지해요.{originalSize && " 큰 이미지는 가로·세로로 스크롤할 수 있어요."}</p>}
       <footer>
@@ -100,7 +105,8 @@ export function AdminDogStylePreview({ selected, available, breed, variant, mood
         </div>
         <div className="admin-premium-dialog-actions">
           {asset && <><a href={assetUrl(asset.png)} download>원본 PNG</a><a href={asset.aseprite} download>Aseprite</a></>}
-          {sceneAsset && selectedSheet && <><a href={assetUrl(selectedSheet.png)} download>{selectedSheet.frames > 1 ? "동작 프레임 PNG" : "장면 PNG"}</a><a href={sceneAsset.aseprite} download>Aseprite</a></>}
+          {sceneAsset && selectedSheet && <><a href={assetUrl(selectedSheet.png)} download>{style.id === rubyRoundStyleId ? "몸통 프레임 PNG" : selectedSheet.frames > 1 ? "동작 프레임 PNG" : "장면 PNG"}</a><a href={assetUrl(sceneAsset.aseprite)} download>Aseprite</a></>}
+          {style.id === rubyRoundStyleId && <a href={assetUrl("/downloads/ruby-round-v1/ruby-round-eyes.aseprite")} download>공통 눈 Aseprite</a>}
           <button type="button" className="account-button" disabled={busy} onClick={() => { onSelect(style.id); onClose(); }}>이 스타일 선택</button>
         </div>
         <small>전체 또는 견종에 적용하고 변경사항을 저장하면 사이트에 반영돼요.</small>
