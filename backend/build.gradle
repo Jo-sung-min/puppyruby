@@ -18,8 +18,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation platform('software.amazon.awssdk:bom:2.54.15')
     implementation 'software.amazon.awssdk:s3'
-    runtimeOnly 'com.h2database:h2:2.3.232'
     runtimeOnly 'org.postgresql:postgresql:42.7.12'
+    testRuntimeOnly 'com.h2database:h2:2.3.232'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 tasks.named('test') {
@@ -27,10 +27,13 @@ tasks.named('test') {
     setEnvironment(getEnvironment().findAll { key, value -> !(key in [
         'SPRING_DATASOURCE_URL', 'SPRING_DATASOURCE_USERNAME', 'SPRING_DATASOURCE_PASSWORD',
         'SPRING_FLYWAY_URL', 'SPRING_FLYWAY_USER', 'SPRING_FLYWAY_PASSWORD',
-        'SPRING_CONFIG_LOCATION', 'SPRING_CONFIG_ADDITIONAL_LOCATION', 'SPRING_CONFIG_IMPORT'
+        'SPRING_CONFIG_LOCATION', 'SPRING_CONFIG_ADDITIONAL_LOCATION', 'SPRING_CONFIG_IMPORT',
+        'DB_URL', 'DB_USERNAME', 'DB_PASSWORD'
     ]) })
     // Service tests manage disposable H2 schemas themselves. Migration tests opt in explicitly.
     environment 'SPRING_FLYWAY_ENABLED', 'false'
+    environment 'DB_USERNAME', 'sa'
+    environment 'DB_PASSWORD', ''
     environment 'DB_SCHEMA', ''
     environment 'S3_UPLOAD_ENABLED', 'false'
     environment 'MAIL_ENABLED', 'false'
@@ -79,8 +82,9 @@ tasks.named('bootRun') {
         def localSettings = readBootRunEnvironment()
         environment localSettings
         def databaseUrl = localSettings.containsKey('DB_URL') ? localSettings.DB_URL : System.getenv('DB_URL')
-        if (!databaseUrl?.trim()) {
-            throw new GradleException('DB_URL is required. Create backend/.env from .env.example or provide DB_URL to this process.')
+        def databaseUsername = localSettings.containsKey('DB_USERNAME') ? localSettings.DB_USERNAME : System.getenv('DB_USERNAME')
+        if (!databaseUrl?.trim() || !databaseUsername?.trim()) {
+            throw new GradleException('DB_URL and DB_USERNAME are required. Create backend/.env from .env.example or provide them to this process.')
         }
     }
 }

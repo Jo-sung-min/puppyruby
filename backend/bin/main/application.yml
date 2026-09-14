@@ -5,11 +5,10 @@ spring:
   application:
     name: puppyruby-api
   datasource:
-    # The service database must always be selected explicitly. Falling back to a
-    # leftover local H2 file can make Flyway inspect the wrong PUBLIC schema.
+    # The deployed service supports an explicitly configured PostgreSQL database.
     url: ${DB_URL}
     embedded-database-connection: none
-    username: ${DB_USERNAME:sa}
+    username: ${DB_USERNAME}
     password: ${DB_PASSWORD:}
     hikari:
       maximum-pool-size: ${DB_POOL_MAX_SIZE:5}

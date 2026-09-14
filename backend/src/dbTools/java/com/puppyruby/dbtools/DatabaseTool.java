@@ -63,18 +63,12 @@ public final class DatabaseTool {
         String url = System.getenv("DB_URL");
         if (url == null || url.isBlank()) throw new Refused("DB_URL_REQUIRED");
         url = url.trim();
-        String vendor = url.startsWith("jdbc:postgresql:") ? "postgresql" : url.startsWith("jdbc:h2:") ? "h2" : "";
-        if (vendor.isEmpty()) throw new Refused("UNSUPPORTED_DATABASE");
-        if (vendor.equals("h2")) {
-            // Opening an H2 file must not create a database or run URL-embedded SQL during Info.
-            String upper = url.toUpperCase(Locale.ROOT);
-            if (upper.contains(";INIT=") || upper.contains(";IFEXISTS=FALSE")) throw new Refused("UNSAFE_H2_URL");
-            if (!upper.contains(";IFEXISTS=TRUE")) url += ";IFEXISTS=TRUE";
-        }
+        if (!url.startsWith("jdbc:postgresql:")) throw new Refused("UNSUPPORTED_DATABASE");
+        String vendor = "postgresql";
         String schema = System.getenv().getOrDefault("DB_SCHEMA", "").trim();
         boolean configuredSchema = !schema.isEmpty();
         if (configuredSchema) validateSchemaIdentifier(schema);
-        String username = System.getenv().getOrDefault("DB_USERNAME", vendor.equals("h2") ? "sa" : "");
+        String username = System.getenv().getOrDefault("DB_USERNAME", "");
         String password = System.getenv().getOrDefault("DB_PASSWORD", "");
         DriverManager.setLoginTimeout(10);
         if (!configuredSchema) {
@@ -154,7 +148,7 @@ public final class DatabaseTool {
     private static void validateEntities(DataSource source, String schema, String vendor, Path classes, boolean baseline) throws Exception {
         Map<String, Object> settings = new HashMap<>();
         settings.put("hibernate.connection.datasource", source);
-        settings.put("hibernate.dialect", vendor.equals("h2") ? "org.hibernate.dialect.H2Dialect" : "org.hibernate.dialect.PostgreSQLDialect");
+        settings.put("hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
         settings.put("hibernate.boot.allow_jdbc_metadata_access", false);
         settings.put("hibernate.hbm2ddl.auto", "none");
         settings.put("hibernate.default_schema", '"' + schema + '"');

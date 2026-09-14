@@ -101,7 +101,7 @@ PuppyRuby/
 │  ├─ src/main/java/com/puppyruby/
 │  │  ├─ game/                 도메인, JPA 저장소, 게임 서비스, REST 컨트롤러
 │  │  └─ config/               API 예외 응답
-│  ├─ src/main/resources/      H2 / PostgreSQL 연결 설정
+│  ├─ src/main/resources/      PostgreSQL / Flyway 연결 설정
 │  └─ src/test/                게임 규칙, 중복 요청·동시성 검증
 ├─ local-assets/               이미지·다운로드·제작 원본 통합 보관 (Git 제외)
 │  ├─ site/images/             사이트 이미지와 문서 미리보기
@@ -136,7 +136,7 @@ npm run dev
 - 상태 확인: http://127.0.0.1:8080/actuator/health
 - 서버는 `backend/.env`의 `DB_URL`, `DB_USERNAME`, `DB_PASSWORD`로 지정한 PostgreSQL을 사용합니다. `DB_SCHEMA`는 전용 DB라면 비우거나 생략합니다.
 - `frontend/.env.example`을 `.env.local`로 복사하면 API 주소를 바꿀 수 있습니다.
-- `gradlew bootRun`과 Windows의 `backend/start-server.ps1`은 `backend/.env` 다음 `.env.local`을 읽습니다. 직접 JAR를 실행하거나 AWS에서 운영할 때는 서비스 환경 변수로 전달하세요. DB 설정이 없으면 예전 H2 파일로 대신 연결하지 않고 즉시 중단합니다.
+- `gradlew bootRun`과 Windows의 `backend/start-server.ps1`은 `backend/.env` 다음 `.env.local`을 읽습니다. 직접 JAR를 실행하거나 AWS에서 운영할 때는 서비스 환경 변수로 전달하세요. DB 설정이 없으면 다른 내장 DB로 대신 연결하지 않고 즉시 중단합니다.
 
 ## 구현된 흐름
 

@@ -1,6 +1,6 @@
 # 데이터베이스 마이그레이션
 
-퍼피루비는 Flyway로 테이블 구조의 버전을 관리합니다. Java 서버가 시작되면 해당 DB용 SQL을 적용한 뒤 Hibernate가 현재 엔티티와 테이블 구조를 검증합니다. SQL 적용이나 구조 검증에 실패하면 서버 시작도 중단됩니다. 개발용 H2와 운영용 PostgreSQL 모두 같은 흐름을 사용합니다. [Spring Boot DB 초기화 안내](https://docs.spring.io/spring-boot/how-to/data-initialization.html)
+퍼피루비 서버는 PostgreSQL을 사용하고 Flyway로 테이블 구조의 버전을 관리합니다. Java 서버가 시작되면 PostgreSQL용 SQL을 적용한 뒤 Hibernate가 현재 엔티티와 테이블 구조를 검증합니다. SQL 적용이나 구조 검증에 실패하면 서버 시작도 중단됩니다. [Spring Boot DB 초기화 안내](https://docs.spring.io/spring-boot/how-to/data-initialization.html)
 
 ## 일반 실행과 설정
 
@@ -50,7 +50,7 @@ Supabase는 노출된 스키마에서 RLS와 테이블 권한을 함께 관리�
 
 기존 회원·강아지가 있는 DB에 V1 생성 SQL을 다시 실행하지 않습니다. 먼저 해당 DB를 백업하고 복원 가능 여부를 확인한 다음 기존 구조가 V1과 일치하는지 검사해 **이력만 V1로 등록**합니다. 기존 H2를 PostgreSQL로 바꾸는 경우 데이터 복사는 별도 작업입니다.
 
-1. 쓰기 작업을 중단하고 DB 전체 백업과 현재 애플리케이션 버전을 보관합니다. H2 파일 백업은 해당 DB를 사용하는 프로세스를 중지한 상태에서 진행합니다.
+1. 쓰기 작업을 중단하고 PostgreSQL DB 전체 백업과 현재 애플리케이션 버전을 보관합니다.
 2. 접속 대상과 계정, `DB_SCHEMA` 또는 연결의 기본 스키마를 확인합니다. 기본 스키마를 사용할 때도 그 안의 기존 테이블이 이 서비스 소유인지 확인합니다.
 3. 저장소의 `backend`에서 관리 도구로 등록 상태를 확인합니다.
 
@@ -88,12 +88,13 @@ V1로 baseline한 뒤 V2 이상이 대기 중이면 `Info`에 대기 개수가 �
 
 ## 다음 버전의 SQL 추가
 
-초기 SQL은 다음 두 경로에 있으며 한번 적용된 파일은 수정하지 않습니다.
+배포 서버가 사용하는 초기 SQL은 다음 PostgreSQL 경로에 있으며 한번 적용된 파일은 수정하지 않습니다.
 
-- `backend/src/main/resources/db/migration/h2/V1__initial_schema.sql`
 - `backend/src/main/resources/db/migration/postgresql/V1__initial_schema.sql`
 
-다음 변경은 두 DB에 맞는 새 파일로 추가합니다. 예를 들어 `V3__add_profile_index.sql`처럼 `V숫자__설명.sql` 형식을 사용하고, 같은 버전을 다른 변경에 재사용하지 않습니다. H2와 PostgreSQL의 타입·인덱스 문법이 다를 수 있으므로 각 파일을 따로 확인합니다. 필요 없는 데이터 삭제나 테이블 재생성 대신 기존 행을 유지하는 변경을 설계합니다.
+격리된 Flyway 테스트의 초기 fixture는 `backend/src/test/resources/db/migration/h2/V1__initial_schema.sql`에만 있으며 배포 JAR에 포함되지 않습니다.
+
+다음 운영 변경은 PostgreSQL 경로에 새 파일로 추가합니다. 예를 들어 `V3__add_profile_index.sql`처럼 `V숫자__설명.sql` 형식을 사용하고, 같은 버전을 다른 변경에 재사용하지 않습니다. 필요 없는 데이터 삭제나 테이블 재생성 대신 기존 행을 유지하는 변경을 설계합니다.
 
 1. 새 SQL과 대응하는 Java 코드, 데이터 변환 순서를 함께 작성합니다.
 2. 빈 DB에서 V1부터 새 버전까지 모두 적용되는지 확인합니다.
@@ -124,7 +125,7 @@ cd backend
 .\gradlew.bat test --tests com.puppyruby.config.FlywayMigrationIntegrationTest --tests com.puppyruby.config.DatabaseSchemaConfigurationTest
 ```
 
-새 검증은 초기 30개 테이블 생성과 구조 검증, 두 번째 시작 시 강아지 데이터 보존, 대소문자 구분 스키마, 미관리 기존 DB 거부, 적용한 SQL의 변경 거부, V2 적용 및 반복 실행 방지를 확인합니다. 기존 서비스 테스트는 각자의 임시 H2 구조를 직접 준비하므로 테스트 기본 설정에서 Flyway를 끄고, 마이그레이션 검증에서만 명시적으로 켭니다. 배포 전에는 전체 `test bootJar`도 실행합니다.
+새 검증은 초기 30개 테이블 생성과 구조 검증, 두 번째 시작 시 강아지 데이터 보존, 대소문자 구분 스키마, 미관리 기존 DB 거부, 적용한 SQL의 변경 거부, V2 적용 및 반복 실행 방지를 확인합니다. 서비스 테스트의 격리된 메모리 DB와 테스트용 마이그레이션은 테스트 클래스패스에만 있으며 배포 JAR에는 포함되지 않습니다. 배포 전에는 전체 `test bootJar`도 실행합니다.
 
 관리 도구의 PostgreSQL 회귀 검증은 `scripts/verify-database-tool.ps1`에 있습니다. 운영과 분리된 로컬 PostgreSQL(`127.0.0.1:15439`, DB `postgres`, 사용자 `flyway_check`)을 먼저 준비하고 `PUPPY_TEST_ISOLATED=1`로 실행합니다. 도구는 접속 대상을 확인하고 새 `dbtool_check` 스키마에서만 등록·거부 동작을 검사한 뒤 정리합니다. 기본 `public`의 읽기 전용 조회, 스키마 미지정 상태에서 JDBC 기본 스키마 사용, 잘못된 기본 스키마 거부도 확인합니다. 이미 같은 스키마가 있으면 덮어쓰지 않고 중단하며 운영 환경파일은 읽지 않습니다.
 

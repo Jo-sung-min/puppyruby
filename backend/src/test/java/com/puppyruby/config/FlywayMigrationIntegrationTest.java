@@ -175,7 +175,7 @@ class FlywayMigrationIntegrationTest {
     private Path copyInitialMigration() throws Exception {
         Path migration = fixtures.resolve("V1__initial_schema.sql");
         try (var source = getClass().getResourceAsStream("/db/migration/h2/V1__initial_schema.sql")) {
-            assertNotNull(source, "The real initial migration must be packaged as a main resource.");
+            assertNotNull(source, "The isolated migration fixture must be available on the test classpath.");
             Files.copy(source, migration);
         }
         return migration;
