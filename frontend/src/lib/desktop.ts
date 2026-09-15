@@ -1,8 +1,16 @@
 import type { Puppy } from "./game";
 import type { Art16SceneId } from "./art16-scene-styles";
 
-export type DesktopAppearanceScene = { url: string; sha256: string; frames: number; frameMs: number };
-export type DesktopAppearance = { version: 1; key: string; styleId: string; styleName: string; breedId: string; width: number; height: number; scenes: Record<Art16SceneId, DesktopAppearanceScene> };
+export type DesktopEyeAnchor = { x: number; y: number; width: number; height: number };
+export type DesktopAppearanceScene = {
+  url: string; sha256: string; frames: number; frameMs: number;
+  bodyUrl?: string; bodySha256?: string; bodyFrames?: number;
+  eyeUrl?: string; eyeSha256?: string; eyeStyle?: string; eyeAnchors?: DesktopEyeAnchor[][];
+};
+export type DesktopAppearance = {
+  version: 1; key: string; renderKey?: string; styleId: string; styleName: string; breedId: string;
+  width: number; height: number; scenes: Record<Art16SceneId, DesktopAppearanceScene>;
+};
 
 export type DesktopDevice = { id: string; label: string; createdAt: number; lastSeen: number };
 export type DesktopLinks = { devices: DesktopDevice[] };

@@ -4210,5 +4210,1085 @@
     "width": 300,
     "height": 303,
     "bytes": 70455
+  },
+  "/images/ruby-round-v1/pomeranian/idle.png": {
+    "sha256": "8c9b03d5d1e8e3a9e9f6281d2268796f42358eaa45fcacccd0141df9093160a2",
+    "width": 1188,
+    "height": 302,
+    "bytes": 221680
+  },
+  "/images/ruby-round-v1/pomeranian/side.png": {
+    "sha256": "3a7b31e75dd4f2c191f795e6c64834310c032d08f53bcc26058f730d2e246c06",
+    "width": 1188,
+    "height": 302,
+    "bytes": 238649
+  },
+  "/images/ruby-round-v1/pomeranian/walk.png": {
+    "sha256": "0c2cd32537a1fc185f260e0d4d2cb81025064dfeb5bdaf25006d95df6a19cf57",
+    "width": 1188,
+    "height": 302,
+    "bytes": 241850
+  },
+  "/images/ruby-round-v1/pomeranian/happy.png": {
+    "sha256": "b1af050e38e9a0ce3b5a51a9345c2a647889aea6376f681ca66eaa5fecf19084",
+    "width": 1188,
+    "height": 302,
+    "bytes": 226912
+  },
+  "/images/ruby-round-v1/pomeranian/sleep.png": {
+    "sha256": "212e1d23d4d8e6900d96fd438fa7627d71155e71b03f0baddff422c571ca768e",
+    "width": 1188,
+    "height": 302,
+    "bytes": 210805
+  },
+  "/images/ruby-round-v1/poodle/idle.png": {
+    "sha256": "72abde38e5599a82c00d6c19f55155abd390355fb5ede96041b700e8fb94b4d0",
+    "width": 1176,
+    "height": 302,
+    "bytes": 248869
+  },
+  "/images/ruby-round-v1/poodle/side.png": {
+    "sha256": "396ccdf8e124a8cc752f23674f95f019639ce5f3044eaf8ac4fcc09e792cbea8",
+    "width": 1176,
+    "height": 302,
+    "bytes": 245070
+  },
+  "/images/ruby-round-v1/poodle/walk.png": {
+    "sha256": "9c99edb2dc91f447a5f56a5659ec0c054568e44ee233b42f057ef57e3eb6f983",
+    "width": 1176,
+    "height": 302,
+    "bytes": 254377
+  },
+  "/images/ruby-round-v1/poodle/happy.png": {
+    "sha256": "459269330f9df7a5c2cde88dbb88098ff3d8ea05124f47a9c53c7fbd285ab7b8",
+    "width": 1176,
+    "height": 302,
+    "bytes": 240690
+  },
+  "/images/ruby-round-v1/poodle/sleep.png": {
+    "sha256": "c46107fde4d145994bc5630dfab8b350219991b9d4d67bf3334af2742dc192f2",
+    "width": 1176,
+    "height": 302,
+    "bytes": 200808
+  },
+  "/images/ruby-round-v1/maltese/idle.png": {
+    "sha256": "9bd07bf10c82da61df8f40f57d676705be0456e5783c51ce14957fc354bc067e",
+    "width": 1172,
+    "height": 303,
+    "bytes": 227155
+  },
+  "/images/ruby-round-v1/maltese/side.png": {
+    "sha256": "ac4d285fce13c00a817a381680d3d1e3a02d52c42549b7941d8c4c95915ab1a4",
+    "width": 1172,
+    "height": 303,
+    "bytes": 240851
+  },
+  "/images/ruby-round-v1/maltese/walk.png": {
+    "sha256": "e05219de32f64ff7fb4886bf3c17b882f808dc0f0e7e00e0e86cc9608c2aa2fd",
+    "width": 1172,
+    "height": 303,
+    "bytes": 241079
+  },
+  "/images/ruby-round-v1/maltese/happy.png": {
+    "sha256": "b835b0e409001dabefef0805b8bc9cbf764c6cd669fd077da5af0679e7730f8d",
+    "width": 1172,
+    "height": 303,
+    "bytes": 239896
+  },
+  "/images/ruby-round-v1/maltese/sleep.png": {
+    "sha256": "a7f68f1538f2a0ad836ecabc53bce3703452b2c2f675175afbacc79eaf6e389b",
+    "width": 1172,
+    "height": 303,
+    "bytes": 197250
+  },
+  "/images/ruby-round-v1/shiba/idle.png": {
+    "sha256": "604065824fe5a0a9f5bfa8b75f0ff26ad18f2269a5a330862e69c367d33733d9",
+    "width": 1184,
+    "height": 302,
+    "bytes": 225281
+  },
+  "/images/ruby-round-v1/shiba/side.png": {
+    "sha256": "d15eaceb7cd901aad97f9561216cb9e9e6b8b231bb49172147fdbd27b93deb79",
+    "width": 1184,
+    "height": 302,
+    "bytes": 251021
+  },
+  "/images/ruby-round-v1/shiba/walk.png": {
+    "sha256": "f303c6e8048c795f9bcb9f85de9412d85d7e68dd36572d833ab78db3b38ac399",
+    "width": 1184,
+    "height": 302,
+    "bytes": 259427
+  },
+  "/images/ruby-round-v1/shiba/happy.png": {
+    "sha256": "9ff75265cb034e2102f4d1037f733be26d6cbd7b8d4f914f5964a69098cb0f49",
+    "width": 1184,
+    "height": 302,
+    "bytes": 225773
+  },
+  "/images/ruby-round-v1/shiba/sleep.png": {
+    "sha256": "5442b6e253126ce0dda3950d0f70f4305e5b17ffc2e62f7fb89a7837ff12d93d",
+    "width": 1184,
+    "height": 302,
+    "bytes": 205607
+  },
+  "/images/ruby-round-v1/corgi/idle.png": {
+    "sha256": "78d1a496a9b1e04c7a6583c420b0d6b4ee667441a4a9323a13e72bed141b7aa0",
+    "width": 1192,
+    "height": 296,
+    "bytes": 243055
+  },
+  "/images/ruby-round-v1/corgi/side.png": {
+    "sha256": "db08dc618ef34b39c937717ec7433a0c2d6bf097d6aefc119a8b477239aa120f",
+    "width": 1192,
+    "height": 296,
+    "bytes": 234996
+  },
+  "/images/ruby-round-v1/corgi/walk.png": {
+    "sha256": "c3577c05860e0d0138dc2a60c50f52a177cb463bb10e533495fdcfab601bb490",
+    "width": 1192,
+    "height": 296,
+    "bytes": 231501
+  },
+  "/images/ruby-round-v1/corgi/happy.png": {
+    "sha256": "646059fe5bda6c54772bd8d56e333db60524ea9011d609c6686629498b99648d",
+    "width": 1192,
+    "height": 296,
+    "bytes": 244939
+  },
+  "/images/ruby-round-v1/corgi/sleep.png": {
+    "sha256": "76979177cab70b9ae2e9131beb6694049d43dabb1de75b6676afb0d50d88e27f",
+    "width": 1192,
+    "height": 296,
+    "bytes": 200990
+  },
+  "/images/ruby-round-v1/beagle/idle.png": {
+    "sha256": "e6506f125e54418f0e307b0142e7ba69f88e3f17d81ad0b11c4d56e56a692b3d",
+    "width": 1168,
+    "height": 303,
+    "bytes": 242709
+  },
+  "/images/ruby-round-v1/beagle/side.png": {
+    "sha256": "4a5e511f331ca3a27e3617e65aff14efbf4c48764f5946b708758e16510d5b1c",
+    "width": 1168,
+    "height": 303,
+    "bytes": 245007
+  },
+  "/images/ruby-round-v1/beagle/walk.png": {
+    "sha256": "2515b94b8aa0d1c72dccfcdb3b6f01919a5d11c757f64276e59d19d73a777e91",
+    "width": 1168,
+    "height": 303,
+    "bytes": 251922
+  },
+  "/images/ruby-round-v1/beagle/happy.png": {
+    "sha256": "8c9dc08b37598b64184e74d69d53edc0efb53297cc6a27b120ce6525981f2a74",
+    "width": 1168,
+    "height": 303,
+    "bytes": 249502
+  },
+  "/images/ruby-round-v1/beagle/sleep.png": {
+    "sha256": "b8ea9f3354d3a1689de2f12c510a873e11c4231c69a8a0f796022e5cf101cf6d",
+    "width": 1168,
+    "height": 303,
+    "bytes": 212465
+  },
+  "/images/ruby-round-v1/samoyed/idle.png": {
+    "sha256": "b5c7102d64a074492cd67526adf7a97c401ef34d1d8c3b14524e96f93fc579e9",
+    "width": 1188,
+    "height": 301,
+    "bytes": 229807
+  },
+  "/images/ruby-round-v1/samoyed/side.png": {
+    "sha256": "233509a227808af1aae1680baf4bbdcc5db1b14ab70d7229738fcea033823049",
+    "width": 1188,
+    "height": 301,
+    "bytes": 250333
+  },
+  "/images/ruby-round-v1/samoyed/walk.png": {
+    "sha256": "5d391a9f461b80909c5fdb6fe62e262870a823e4b08d4502ee038e0a1e2ac4a8",
+    "width": 1188,
+    "height": 301,
+    "bytes": 253165
+  },
+  "/images/ruby-round-v1/samoyed/happy.png": {
+    "sha256": "38eeed3c5614b93148c99cd27708de3195d0b8a7229ce4224f30d4db7916f7f9",
+    "width": 1188,
+    "height": 301,
+    "bytes": 233653
+  },
+  "/images/ruby-round-v1/samoyed/sleep.png": {
+    "sha256": "5483fb68fa361f9993b33e6d427a24df76886a4f51919c6608e83b68152cb398",
+    "width": 1188,
+    "height": 301,
+    "bytes": 210781
+  },
+  "/images/ruby-round-v1/bichon/idle.png": {
+    "sha256": "c5f8cd1eb1ee0e7a9d13998613dae2643a4d563dea468857962d28fcff23b8ec",
+    "width": 1176,
+    "height": 303,
+    "bytes": 229067
+  },
+  "/images/ruby-round-v1/bichon/side.png": {
+    "sha256": "12bcb1120cfa9180e4a805656f7548d9e5a63cab763fcfdb69a7b0dc676d6958",
+    "width": 1176,
+    "height": 303,
+    "bytes": 233536
+  },
+  "/images/ruby-round-v1/bichon/walk.png": {
+    "sha256": "f841eeb03b7d6d5dbe8476286cc6151b87d449e2c7737b152db2e73b9767b5b3",
+    "width": 1176,
+    "height": 303,
+    "bytes": 241579
+  },
+  "/images/ruby-round-v1/bichon/happy.png": {
+    "sha256": "dd5cd787422728c2a73d621ec3645a77e5ba181ab9828d9239b3c242033f391e",
+    "width": 1176,
+    "height": 303,
+    "bytes": 228750
+  },
+  "/images/ruby-round-v1/bichon/sleep.png": {
+    "sha256": "6a1aa0a9c06a8d31dbe2cc83abdcfeab33d5cfd8c5717ecdd5d4318938923dbb",
+    "width": 1176,
+    "height": 303,
+    "bytes": 176919
+  },
+  "/images/ruby-round-v1/golden/idle.png": {
+    "sha256": "ab1a2fbfd9993d81fdee8713826b4526ebd2b65e2a428f14ede91ff7b84b35c7",
+    "width": 1220,
+    "height": 303,
+    "bytes": 257310
+  },
+  "/images/ruby-round-v1/golden/side.png": {
+    "sha256": "7dbc050358978c006451a5c2258b91841963710bfee091e5fbfdf9518d907ffd",
+    "width": 1220,
+    "height": 303,
+    "bytes": 253542
+  },
+  "/images/ruby-round-v1/golden/walk.png": {
+    "sha256": "b1fb07ddddccbe333b8ca4f8aa223f89f49c332e3ae27e9157efa2fc65bb214a",
+    "width": 1220,
+    "height": 303,
+    "bytes": 260193
+  },
+  "/images/ruby-round-v1/golden/happy.png": {
+    "sha256": "8588004f4574591217ec2e3f8fde978a474200d9a67bbb2aed386f6d77e4c598",
+    "width": 1220,
+    "height": 303,
+    "bytes": 256120
+  },
+  "/images/ruby-round-v1/golden/sleep.png": {
+    "sha256": "9d888e7f9f8a11192edfc2b4f5d73eeabd9ab18b25c34b6dbe76a1b78da5e9e8",
+    "width": 1220,
+    "height": 303,
+    "bytes": 218560
+  },
+  "/images/ruby-round-v1/labrador/idle.png": {
+    "sha256": "26932bbc592ed9ed2f7fcb9066d4c186d7f9a3ef3e4f05c13f5ba0620795a212",
+    "width": 1196,
+    "height": 302,
+    "bytes": 230064
+  },
+  "/images/ruby-round-v1/labrador/side.png": {
+    "sha256": "93d6350ffa7e5e71d778c9dfd99ab4636812ca2edcb383e92581ab7c024bd26d",
+    "width": 1196,
+    "height": 302,
+    "bytes": 219128
+  },
+  "/images/ruby-round-v1/labrador/walk.png": {
+    "sha256": "07f73525a7f4f4522d692aa1559f2ac16745748c94fbf3ccf2a28d8da33f702a",
+    "width": 1196,
+    "height": 302,
+    "bytes": 214803
+  },
+  "/images/ruby-round-v1/labrador/happy.png": {
+    "sha256": "61682c5d27c659d8e251c15aeda1558eb63bd3643453ede0ba7038a48822d22b",
+    "width": 1196,
+    "height": 302,
+    "bytes": 236878
+  },
+  "/images/ruby-round-v1/labrador/sleep.png": {
+    "sha256": "26e56bfca53414752faae278063d5af78ec3b657264ba0c054dccabaf19926a1",
+    "width": 1196,
+    "height": 302,
+    "bytes": 198040
+  },
+  "/images/ruby-round-v1/husky/idle.png": {
+    "sha256": "00a7da1f0e582b1fe8bb32c79f667312a5f6c5d6eef1ac6b72dda6f6c3eadd84",
+    "width": 1196,
+    "height": 302,
+    "bytes": 250046
+  },
+  "/images/ruby-round-v1/husky/side.png": {
+    "sha256": "f129021630d20f2e83af4872702831308f122710bef11a9835f18293a97c3e5e",
+    "width": 1196,
+    "height": 302,
+    "bytes": 277347
+  },
+  "/images/ruby-round-v1/husky/walk.png": {
+    "sha256": "c32d066eab96f770f758005f772f6709922eefafc839efbbfcc68ed18a34c302",
+    "width": 1196,
+    "height": 302,
+    "bytes": 268678
+  },
+  "/images/ruby-round-v1/husky/happy.png": {
+    "sha256": "a0e76cda465286b3920c03660212799a7000f8f540d5ff6eb4b781fe5020d2d0",
+    "width": 1196,
+    "height": 302,
+    "bytes": 252860
+  },
+  "/images/ruby-round-v1/husky/sleep.png": {
+    "sha256": "a0426663211124aa228ba2b86e8fc9be2c0387e5b9bb94859a87c3bf89a2584c",
+    "width": 1196,
+    "height": 302,
+    "bytes": 232940
+  },
+  "/images/ruby-round-v1/shihtzu/idle.png": {
+    "sha256": "440f8e827c48b00aca88cc7ffd8e02a5fa3ffbfe8c0bcbb7cf36bab1cbc9e34c",
+    "width": 1180,
+    "height": 300,
+    "bytes": 274060
+  },
+  "/images/ruby-round-v1/shihtzu/side.png": {
+    "sha256": "839a9f2bf2b68881151e3709e9e14b3abf2583e2e52c758ccdb5578e656f6df9",
+    "width": 1180,
+    "height": 300,
+    "bytes": 301775
+  },
+  "/images/ruby-round-v1/shihtzu/walk.png": {
+    "sha256": "501312e2b182a7a49be6d5ad85bf726e24c2c485475ccab1b48131361f140c73",
+    "width": 1180,
+    "height": 300,
+    "bytes": 295678
+  },
+  "/images/ruby-round-v1/shihtzu/happy.png": {
+    "sha256": "136bdc6e1f9f0132320e62d22610cce66eda7641d37a65136128846207c8d424",
+    "width": 1180,
+    "height": 300,
+    "bytes": 273741
+  },
+  "/images/ruby-round-v1/shihtzu/sleep.png": {
+    "sha256": "09dfde564591b1567a537b270065f9d7dcac47eb44b16d9d94aab0f8f0fb5499",
+    "width": 1180,
+    "height": 300,
+    "bytes": 248504
+  },
+  "/images/ruby-round-v1/frenchbulldog/idle.png": {
+    "sha256": "ad8b70bc413626c61c00d72429e07217f5010a2fb2b31368013c901d4e6e155b",
+    "width": 1172,
+    "height": 303,
+    "bytes": 244042
+  },
+  "/images/ruby-round-v1/frenchbulldog/side.png": {
+    "sha256": "067366872ff682842e1fe623c64603764e9291baf094b7f8bd4c43b8e425abaa",
+    "width": 1172,
+    "height": 303,
+    "bytes": 228191
+  },
+  "/images/ruby-round-v1/frenchbulldog/walk.png": {
+    "sha256": "298ed48abc7e0ddf3d35a51eec27f986f1a7c0911a0ed62b19f804887dc4840d",
+    "width": 1172,
+    "height": 303,
+    "bytes": 223341
+  },
+  "/images/ruby-round-v1/frenchbulldog/happy.png": {
+    "sha256": "919678d5a36ac39805e1afd4b6c91764f363b4b3e9bf6b08345e442ea8f89371",
+    "width": 1172,
+    "height": 303,
+    "bytes": 245364
+  },
+  "/images/ruby-round-v1/frenchbulldog/sleep.png": {
+    "sha256": "570a915741262c7ef83cb4aa5d5e16c10c9b6e3ce9777303588572a269447858",
+    "width": 1172,
+    "height": 303,
+    "bytes": 191123
+  },
+  "/images/ruby-round-v1/dachshund/idle.png": {
+    "sha256": "118a9ce622822bd41f06f8c3b5a0749c1579202840c6d89d9b8b7201134c965a",
+    "width": 1168,
+    "height": 301,
+    "bytes": 207807
+  },
+  "/images/ruby-round-v1/dachshund/side.png": {
+    "sha256": "35ec8ceab498ba601a7bced9df7739b3d63820ae8f1c1e1d2d21d252d47eac23",
+    "width": 1168,
+    "height": 301,
+    "bytes": 183257
+  },
+  "/images/ruby-round-v1/dachshund/walk.png": {
+    "sha256": "9355ed593e78839fc68ba7508c4e35308d57025840401c59f7c42cfad291dfff",
+    "width": 1168,
+    "height": 301,
+    "bytes": 186661
+  },
+  "/images/ruby-round-v1/dachshund/happy.png": {
+    "sha256": "22d1f7cdad2edab0888eb78cf2ad5ef1aaf85a8e0fe8844d738f6876453c88b1",
+    "width": 1168,
+    "height": 301,
+    "bytes": 211683
+  },
+  "/images/ruby-round-v1/dachshund/sleep.png": {
+    "sha256": "0cda1242d79efaf54bc0c16853895e59fde5c54602540e13c9029da2f751fc31",
+    "width": 1168,
+    "height": 301,
+    "bytes": 142280
+  },
+  "/images/ruby-round-v1/schnauzer/idle.png": {
+    "sha256": "f942a9de5765dd268469ef002126365476858b2d0cce46cf8cc249ff909701dc",
+    "width": 1188,
+    "height": 305,
+    "bytes": 263827
+  },
+  "/images/ruby-round-v1/schnauzer/side.png": {
+    "sha256": "06663b63c221f211cd25411d5eba978d797a394bc8a964ab5b9724eab17a032b",
+    "width": 1188,
+    "height": 305,
+    "bytes": 248611
+  },
+  "/images/ruby-round-v1/schnauzer/walk.png": {
+    "sha256": "836da628116a0fef98196160aee63c9cc826dc2322fed94cef3793d0d321af18",
+    "width": 1188,
+    "height": 305,
+    "bytes": 255310
+  },
+  "/images/ruby-round-v1/schnauzer/happy.png": {
+    "sha256": "d0d4eb6fdba036f5b22e337b67c92278e595d413614bcd7c54a289f5444a011a",
+    "width": 1188,
+    "height": 305,
+    "bytes": 257676
+  },
+  "/images/ruby-round-v1/schnauzer/sleep.png": {
+    "sha256": "edcf2478d1a8448cb56552c45ebe62489d54bece4583e7eb8734da1dcd33729a",
+    "width": 1188,
+    "height": 305,
+    "bytes": 189910
+  },
+  "/images/ruby-round-v1/chihuahua/idle.png": {
+    "sha256": "724595c8499f5fec43e43ac1038279c2b0f86ae03e76b204d921522af4b736b5",
+    "width": 1176,
+    "height": 300,
+    "bytes": 212867
+  },
+  "/images/ruby-round-v1/chihuahua/side.png": {
+    "sha256": "3a8e4db648cbd57f6f45bbbb33f73170e69d277467ab089b1c0b261efe1e201a",
+    "width": 1176,
+    "height": 300,
+    "bytes": 206422
+  },
+  "/images/ruby-round-v1/chihuahua/walk.png": {
+    "sha256": "dfa71bbb7e5188a194b6d58ae45147230d6292bdf62d3f7eaebcc1754b3faa98",
+    "width": 1176,
+    "height": 300,
+    "bytes": 210296
+  },
+  "/images/ruby-round-v1/chihuahua/happy.png": {
+    "sha256": "143cd5d6730d4c28ef8334f6d2143354bc1d7f433c17f196ddcd13aca8c84e8c",
+    "width": 1176,
+    "height": 300,
+    "bytes": 207482
+  },
+  "/images/ruby-round-v1/chihuahua/sleep.png": {
+    "sha256": "9e7d9f2bfa88e6bb22cf87cfba163c73c33f5576a18bffbcf15400d08681436b",
+    "width": 1176,
+    "height": 300,
+    "bytes": 178402
+  },
+  "/images/ruby-round-v1/dalmatian/idle.png": {
+    "sha256": "ad8f8d675952f985e933cf6244fca4b94b1334dedfcc9e640b9c9bcdd4e94543",
+    "width": 1184,
+    "height": 304,
+    "bytes": 253684
+  },
+  "/images/ruby-round-v1/dalmatian/side.png": {
+    "sha256": "2976c5ec437ff310a094d1c49ed6634b2191b26660b72cc966f3dea02f5ef79d",
+    "width": 1184,
+    "height": 304,
+    "bytes": 233490
+  },
+  "/images/ruby-round-v1/dalmatian/walk.png": {
+    "sha256": "a5f42e1991aaa5f4395fa73ef473ae0ff6a6b26272855525615d4d9464ad70cd",
+    "width": 1184,
+    "height": 304,
+    "bytes": 237100
+  },
+  "/images/ruby-round-v1/dalmatian/happy.png": {
+    "sha256": "e42688d0641b6eb2c5781599bf2c7ae2be4ac0ae59af43bc8eed8ee421cf3600",
+    "width": 1184,
+    "height": 304,
+    "bytes": 261458
+  },
+  "/images/ruby-round-v1/dalmatian/sleep.png": {
+    "sha256": "aa9585cb9566a40d2fa4489441531880fd63de3533198e03c96aba8fe60073f7",
+    "width": 1184,
+    "height": 304,
+    "bytes": 211307
+  },
+  "/images/ruby-round-v1/akita/idle.png": {
+    "sha256": "a19fd816cf0c7e8ba3b3901a1cdfcca5fb6ff428c6e3d28079592518f206d97c",
+    "width": 1180,
+    "height": 299,
+    "bytes": 248164
+  },
+  "/images/ruby-round-v1/akita/side.png": {
+    "sha256": "ecee41f1c6e7ab4335d29da0c056de86291362b7ed6c8e2e2ffa9a58a27c14b5",
+    "width": 1180,
+    "height": 299,
+    "bytes": 297435
+  },
+  "/images/ruby-round-v1/akita/walk.png": {
+    "sha256": "8bd06c917d1f17e90a0cb963134a0915ef91b5d56ec2dc172f7d4138117feee0",
+    "width": 1180,
+    "height": 299,
+    "bytes": 305332
+  },
+  "/images/ruby-round-v1/akita/happy.png": {
+    "sha256": "82a6389b764f024bd7d01d247daedff1dcf001b1fdfc20b257ccf4d189343a3f",
+    "width": 1180,
+    "height": 299,
+    "bytes": 247167
+  },
+  "/images/ruby-round-v1/akita/sleep.png": {
+    "sha256": "f778cff141a9d2de5acc13f33f12284583c863da2f851b4c39b2e5f8c1948987",
+    "width": 1180,
+    "height": 299,
+    "bytes": 231831
+  },
+  "/images/ruby-round-v1/bordercollie/idle.png": {
+    "sha256": "e30aa0881f559c0b869b80083d204055fb3b7a2fd9d6abfa12efd722fc553c5e",
+    "width": 1180,
+    "height": 303,
+    "bytes": 246383
+  },
+  "/images/ruby-round-v1/bordercollie/side.png": {
+    "sha256": "1a83fff397b925b61c2e97058839574baf011ffc2e280189073eb249fcbada14",
+    "width": 1180,
+    "height": 303,
+    "bytes": 269599
+  },
+  "/images/ruby-round-v1/bordercollie/walk.png": {
+    "sha256": "0658c17874a442e3b1598a630a891db3d51e07126e707ad69aeb4fe1e4e3de4b",
+    "width": 1180,
+    "height": 303,
+    "bytes": 271353
+  },
+  "/images/ruby-round-v1/bordercollie/happy.png": {
+    "sha256": "66c9b7914816d33a71971c0687ea4ff3aebded9e537a394735baa5a7165db99a",
+    "width": 1180,
+    "height": 303,
+    "bytes": 251159
+  },
+  "/images/ruby-round-v1/bordercollie/sleep.png": {
+    "sha256": "7d195ca795f6f394bde0ef7af109d42d94e0acfcad9ea5513f8359972ef70186",
+    "width": 1180,
+    "height": 303,
+    "bytes": 225512
+  },
+  "/images/ruby-round-v1/doberman/idle.png": {
+    "sha256": "d29ab87d8cff296375664926c329f8a2a7776c742f8fb4281b34ec6c00d44e32",
+    "width": 1180,
+    "height": 306,
+    "bytes": 218164
+  },
+  "/images/ruby-round-v1/doberman/side.png": {
+    "sha256": "e55f3dc4e8e7173e4dcf5ebcf8a69c4b89ea288c1e0846704c85ff81a037cd8e",
+    "width": 1180,
+    "height": 306,
+    "bytes": 193283
+  },
+  "/images/ruby-round-v1/doberman/walk.png": {
+    "sha256": "15751cb4203180410652badab51a566cd424c48847d15da15459a0cb95781acd",
+    "width": 1180,
+    "height": 306,
+    "bytes": 193846
+  },
+  "/images/ruby-round-v1/doberman/happy.png": {
+    "sha256": "25822dd8fac2e5570f84cc0038d79b340fe8509f8a3201e7c0cc890d04650962",
+    "width": 1180,
+    "height": 306,
+    "bytes": 214587
+  },
+  "/images/ruby-round-v1/doberman/sleep.png": {
+    "sha256": "774e2c6142fe425a5dca327715e087c1b85e52c2ad85a7d3bf7d522868654ff2",
+    "width": 1180,
+    "height": 306,
+    "bytes": 166331
+  },
+  "/images/ruby-round-v1/rottweiler/idle.png": {
+    "sha256": "ebc92c110b65edc7b316eea07e395a3b22eaf3037de2f0e54d2c2787cd84d9b4",
+    "width": 1180,
+    "height": 303,
+    "bytes": 250328
+  },
+  "/images/ruby-round-v1/rottweiler/side.png": {
+    "sha256": "fa382e94e8c3db923b504a722acbf7ca36b2b735cc599afdf3b0893183c16f97",
+    "width": 1180,
+    "height": 303,
+    "bytes": 224666
+  },
+  "/images/ruby-round-v1/rottweiler/walk.png": {
+    "sha256": "9b4456c61ab58029abfd2f7d35c16ad72cd78a91b3278a64f61110623b09c912",
+    "width": 1180,
+    "height": 303,
+    "bytes": 227828
+  },
+  "/images/ruby-round-v1/rottweiler/happy.png": {
+    "sha256": "4c3a847b6c9f1b6c3a3a76c987f772c6f9fbb27cf27b62ad2b936e4455165bfb",
+    "width": 1180,
+    "height": 303,
+    "bytes": 241950
+  },
+  "/images/ruby-round-v1/rottweiler/sleep.png": {
+    "sha256": "a8b61927aeca7ddc8b8918f68ec08796deb342df6c86e9cd77c527e472f8a53d",
+    "width": 1180,
+    "height": 303,
+    "bytes": 199530
+  },
+  "/images/ruby-round-v1/greatdane/idle.png": {
+    "sha256": "145b365348ba32fe80741d1c598a02e887c4888b25bf86f6b3554c204e9dbf36",
+    "width": 1216,
+    "height": 305,
+    "bytes": 230617
+  },
+  "/images/ruby-round-v1/greatdane/side.png": {
+    "sha256": "7cb56e831cc9f0929d52d9c1ec76c32fc450a10b0ac587f26a080cf3f6dd5298",
+    "width": 1216,
+    "height": 305,
+    "bytes": 220322
+  },
+  "/images/ruby-round-v1/greatdane/walk.png": {
+    "sha256": "93c3c29cb76c3723b213539e1b6c54fa1d5ac9fdf77aed3bd06e71aa63ee603f",
+    "width": 1216,
+    "height": 305,
+    "bytes": 218809
+  },
+  "/images/ruby-round-v1/greatdane/happy.png": {
+    "sha256": "c12ae0df81166398f2eca977454d525731111221d745b32f644759747eeb45b1",
+    "width": 1216,
+    "height": 305,
+    "bytes": 230687
+  },
+  "/images/ruby-round-v1/greatdane/sleep.png": {
+    "sha256": "ba453f773a65e6b32ff3e1113612a1c7af0cb7c6f8409cd6d711208f975b8a69",
+    "width": 1216,
+    "height": 305,
+    "bytes": 189194
+  },
+  "/images/ruby-round-v1/saintbernard/idle.png": {
+    "sha256": "71b459134c146099a00ea15f63711fd1858ad12efb2e9d262cf74dc03051032c",
+    "width": 1196,
+    "height": 302,
+    "bytes": 278635
+  },
+  "/images/ruby-round-v1/saintbernard/side.png": {
+    "sha256": "c4c6e454ddcac56e4be493362d68d958c30dbdad8a38d70558f42d4545fefef3",
+    "width": 1196,
+    "height": 302,
+    "bytes": 307794
+  },
+  "/images/ruby-round-v1/saintbernard/walk.png": {
+    "sha256": "de6b9c3ec5afccee0c53c24348f2ead985c48484ca64e28a3147c9085527dd2c",
+    "width": 1196,
+    "height": 302,
+    "bytes": 300857
+  },
+  "/images/ruby-round-v1/saintbernard/happy.png": {
+    "sha256": "4ba5bf9d0183dab52b96a630f5c9de92050997e2a38c5166d0c8c5500d252829",
+    "width": 1196,
+    "height": 302,
+    "bytes": 280984
+  },
+  "/images/ruby-round-v1/saintbernard/sleep.png": {
+    "sha256": "f5ab681b3f3d62a908386488f171c78217dceeb58e2850f5b5b990c539ecddba",
+    "width": 1196,
+    "height": 302,
+    "bytes": 237183
+  },
+  "/images/ruby-round-v1/bassethound/idle.png": {
+    "sha256": "404e06679ea040bf18f6b2febd69e773e04884a2b79bf0f8a837fe7afef41f49",
+    "width": 1176,
+    "height": 301,
+    "bytes": 256327
+  },
+  "/images/ruby-round-v1/bassethound/side.png": {
+    "sha256": "f8a88aae8a8fd760449cb4d001b3a8aea89e59ee4be06c28da95a39f70aedab4",
+    "width": 1176,
+    "height": 301,
+    "bytes": 253717
+  },
+  "/images/ruby-round-v1/bassethound/walk.png": {
+    "sha256": "08082bf1bff1bc1328aeef076b4de7abbcaa40a06346fe14be533118ac3e9c09",
+    "width": 1176,
+    "height": 301,
+    "bytes": 253361
+  },
+  "/images/ruby-round-v1/bassethound/happy.png": {
+    "sha256": "8d8c03fb50812c80e1089ded702181d6790764e003fe034d9a7dc9563727c29e",
+    "width": 1176,
+    "height": 301,
+    "bytes": 256189
+  },
+  "/images/ruby-round-v1/bassethound/sleep.png": {
+    "sha256": "5a2257d14eb238da158d82f1901d0463ca2b035de7ffccb7170ab05648269ec3",
+    "width": 1176,
+    "height": 301,
+    "bytes": 209061
+  },
+  "/images/ruby-round-v1/englishbulldog/idle.png": {
+    "sha256": "4d1d865beeee6fed0bc794748f9ce7ea3c6ecdd908eb91d68fe3dab5f4346b98",
+    "width": 1176,
+    "height": 302,
+    "bytes": 282116
+  },
+  "/images/ruby-round-v1/englishbulldog/side.png": {
+    "sha256": "9b04e162715b9403c77eb110f33f5d89cf546ce7251c6b3e8292e27f37d6f455",
+    "width": 1176,
+    "height": 302,
+    "bytes": 284932
+  },
+  "/images/ruby-round-v1/englishbulldog/walk.png": {
+    "sha256": "97f05e41f49bda83f719c5413cda8dae69e31506e5636f4c82cecbc16cf3727f",
+    "width": 1176,
+    "height": 302,
+    "bytes": 282267
+  },
+  "/images/ruby-round-v1/englishbulldog/happy.png": {
+    "sha256": "9045883beceedff2658f7c5bc63c1112275bcc65fbaecdbe3f553fb0652f3bff",
+    "width": 1176,
+    "height": 302,
+    "bytes": 283574
+  },
+  "/images/ruby-round-v1/englishbulldog/sleep.png": {
+    "sha256": "d478f4011116c256016fe47e7ba8bcfbf724f0c87c9205cf335d67cdaa6f1994",
+    "width": 1176,
+    "height": 302,
+    "bytes": 233325
+  },
+  "/images/ruby-round-v1/westie/idle.png": {
+    "sha256": "82c0930ec2c9bcb62e39168f36fbac324bd53fe3403b49379a966aa7a46f1f59",
+    "width": 1168,
+    "height": 301,
+    "bytes": 263630
+  },
+  "/images/ruby-round-v1/westie/side.png": {
+    "sha256": "c123291ef725aa8e33e5223e0a7f15fac99e2aa2fb052d95263425a9efb202d8",
+    "width": 1168,
+    "height": 301,
+    "bytes": 253596
+  },
+  "/images/ruby-round-v1/westie/walk.png": {
+    "sha256": "4d1e2890658b51407725127037c87241c2f57d59f730cc321be2ba00b9be4434",
+    "width": 1168,
+    "height": 301,
+    "bytes": 254162
+  },
+  "/images/ruby-round-v1/westie/happy.png": {
+    "sha256": "e5fcf2474945fb088662c687c9962c34ca487e474e5651b54650070107f2da05",
+    "width": 1168,
+    "height": 301,
+    "bytes": 265884
+  },
+  "/images/ruby-round-v1/westie/sleep.png": {
+    "sha256": "97a444fa09b23780e7a8ce4b7ca7a4c137181ede624e01a0349032a8cec153fc",
+    "width": 1168,
+    "height": 301,
+    "bytes": 215395
+  },
+  "/images/ruby-round-v1/bostonterrier/idle.png": {
+    "sha256": "cb931dc42920f79ca936f1585c9bfaa9620bb9688c4b849a7cada67606552cac",
+    "width": 1192,
+    "height": 301,
+    "bytes": 206265
+  },
+  "/images/ruby-round-v1/bostonterrier/side.png": {
+    "sha256": "67a41e7ba96aeb490b22fae1832ed059b894eb0b8262996f592e5948d84d2e21",
+    "width": 1192,
+    "height": 301,
+    "bytes": 207760
+  },
+  "/images/ruby-round-v1/bostonterrier/walk.png": {
+    "sha256": "0cfdbe217727b4069360c200a46d588c1f86e986780d9c4bd20b8ace0f03a6d6",
+    "width": 1192,
+    "height": 301,
+    "bytes": 211573
+  },
+  "/images/ruby-round-v1/bostonterrier/happy.png": {
+    "sha256": "47411b6f7cb963a6331e3c2e0711552236e09bfadd3650b7207d239b294551fa",
+    "width": 1192,
+    "height": 301,
+    "bytes": 205073
+  },
+  "/images/ruby-round-v1/bostonterrier/sleep.png": {
+    "sha256": "9040e3c1321c8ba599f5ea75b38e42e2e7199f9a955e90c3164c95eefdb9133f",
+    "width": 1192,
+    "height": 301,
+    "bytes": 168269
+  },
+  "/images/ruby-round-v1/yorkshireterrier/idle.png": {
+    "sha256": "3f03be4997a012e7f2a9f2a9560869e5c452375f9027edd21a33a095714aa692",
+    "width": 1176,
+    "height": 301,
+    "bytes": 320967
+  },
+  "/images/ruby-round-v1/yorkshireterrier/side.png": {
+    "sha256": "f17b3906ee3e77d3b8aaa95f41f96e6f116905f019995597e2f37993d5a0f6f2",
+    "width": 1176,
+    "height": 301,
+    "bytes": 303155
+  },
+  "/images/ruby-round-v1/yorkshireterrier/walk.png": {
+    "sha256": "c2edd4738e7ad14c955863297d2a3cbb110a8dc8dc625d71ab60828bca8184fb",
+    "width": 1176,
+    "height": 301,
+    "bytes": 298950
+  },
+  "/images/ruby-round-v1/yorkshireterrier/happy.png": {
+    "sha256": "146b86c6f6f5722988807bcab780cd08cd83478e43cd26a321b628d6c3a87823",
+    "width": 1176,
+    "height": 301,
+    "bytes": 315394
+  },
+  "/images/ruby-round-v1/yorkshireterrier/sleep.png": {
+    "sha256": "0090650b73e842e273a88bf3cc73feb2d442153e78b6c42bb91e1a23d001e65d",
+    "width": 1176,
+    "height": 301,
+    "bytes": 247302
+  },
+  "/images/ruby-round-v1/pekingese/idle.png": {
+    "sha256": "d920a618a4e4f8767e61b8b58811113b5357a469bac9c834af78c814cef8e530",
+    "width": 1188,
+    "height": 299,
+    "bytes": 261497
+  },
+  "/images/ruby-round-v1/pekingese/side.png": {
+    "sha256": "57c8b0a076af7daaf06cb5abde78e810533fe9db7ee874b76130c325c2d16f6f",
+    "width": 1188,
+    "height": 299,
+    "bytes": 276973
+  },
+  "/images/ruby-round-v1/pekingese/walk.png": {
+    "sha256": "25a852448e64d464e84244355fed6de448e4945a3252e2dd0bd278465a7a870b",
+    "width": 1188,
+    "height": 299,
+    "bytes": 281503
+  },
+  "/images/ruby-round-v1/pekingese/happy.png": {
+    "sha256": "b3709197a760854ac1eb67d0caf7bdf094b6efc642d95dd5a5ca6db23332cfb8",
+    "width": 1188,
+    "height": 299,
+    "bytes": 259202
+  },
+  "/images/ruby-round-v1/pekingese/sleep.png": {
+    "sha256": "61e14e283bf5e60468f18d5a4a7228087d98642f5764c5c711f519330e552a01",
+    "width": 1188,
+    "height": 299,
+    "bytes": 221593
+  },
+  "/images/ruby-round-v1/chowchow/idle.png": {
+    "sha256": "0fc9590897516c43bbe4daa42c32670f56a10f660999fb675ba1caf34c637c1e",
+    "width": 1200,
+    "height": 303,
+    "bytes": 309661
+  },
+  "/images/ruby-round-v1/chowchow/side.png": {
+    "sha256": "6475131d6b05efdef238e9aca328eae9d2a95cd065a66a8aa216bfe0ead7b7ac",
+    "width": 1200,
+    "height": 303,
+    "bytes": 318263
+  },
+  "/images/ruby-round-v1/chowchow/walk.png": {
+    "sha256": "a7bfd585f78480d4208224cda740d44e0830784377555b597e5257afb55bb21b",
+    "width": 1200,
+    "height": 303,
+    "bytes": 315147
+  },
+  "/images/ruby-round-v1/chowchow/happy.png": {
+    "sha256": "36f497690d7f73af94263241eb3a076cc006d9918e7b3ca09312004a64e98aa2",
+    "width": 1200,
+    "height": 303,
+    "bytes": 297144
+  },
+  "/images/ruby-round-v1/chowchow/sleep.png": {
+    "sha256": "7016c926fa148d6c57baad12283595621790c4fe66b102cca383dacbfe95760f",
+    "width": 1200,
+    "height": 303,
+    "bytes": 274639
+  },
+  "/images/ruby-round-v1/eyes/eye-01.png": {
+    "sha256": "46d16ee1c34a155debc5b3f93789aa3caaf02b27d09d9e194c1decb4f6fbef53",
+    "width": 32,
+    "height": 16,
+    "bytes": 183
+  },
+  "/images/ruby-round-v1/eyes/eye-02.png": {
+    "sha256": "f889b5f4230b40a5c316fe587eb2e1b062a40a063a5559eb0bb925cf757fb9b6",
+    "width": 32,
+    "height": 16,
+    "bytes": 183
+  },
+  "/images/ruby-round-v1/eyes/eye-03.png": {
+    "sha256": "8d72af544ab899b98160fa410f91981f49f484d1131ffbad4a60f904c11037a4",
+    "width": 32,
+    "height": 16,
+    "bytes": 196
+  },
+  "/images/ruby-round-v1/eyes/eye-04.png": {
+    "sha256": "e416296ae00537aa077ba7ab579a560bf2494d73a2862575d78ceef446c2a629",
+    "width": 32,
+    "height": 16,
+    "bytes": 196
+  },
+  "/images/ruby-round-v1/eyes/eye-05.png": {
+    "sha256": "8058a8bc5281c3d0ff0e2bed02e9d0b24423525bea2da3563abc4bfcb996a440",
+    "width": 32,
+    "height": 16,
+    "bytes": 196
+  },
+  "/images/ruby-round-v1/eyes/eye-06.png": {
+    "sha256": "e2265c795a3990ead008f88a8c3ba1b559af03bb7ff8b9fafe12a51b956de3dd",
+    "width": 32,
+    "height": 16,
+    "bytes": 199
+  },
+  "/images/ruby-round-v1/eyes/eye-07.png": {
+    "sha256": "2549ecbe25760d2564a08519aeaf2cb023a8d1e017d663a012bfdefd7b582baa",
+    "width": 32,
+    "height": 16,
+    "bytes": 196
+  },
+  "/images/ruby-round-v1/eyes/eye-08.png": {
+    "sha256": "4af9751d9fedebb6f97f6cb8037326726a55ef46576544fa58d74f9be9211cab",
+    "width": 32,
+    "height": 16,
+    "bytes": 139
+  },
+  "/images/ruby-round-v1/eyes/eye-09.png": {
+    "sha256": "008561609800768ade01503908a7272dcb408f1760f78dd4e88b35c230ea659e",
+    "width": 32,
+    "height": 16,
+    "bytes": 156
+  },
+  "/images/ruby-round-v1/eyes/eye-10.png": {
+    "sha256": "56a1be6c3e2a45718e97effca5ebbf888dd2ae159179ffa235f7eef5166b2e12",
+    "width": 32,
+    "height": 16,
+    "bytes": 157
+  },
+  "/images/ruby-round-v1/eyes/eye-11.png": {
+    "sha256": "52beb7b8de156bb1d2b0ae0bd65692122fb27670c15d6a82b39be7e41b222648",
+    "width": 32,
+    "height": 16,
+    "bytes": 156
+  },
+  "/images/ruby-round-v1/eyes/eye-12.png": {
+    "sha256": "bd827741651dfb71f05b8c7bc134f05b77a634774967c493c7838131c6aa6886",
+    "width": 32,
+    "height": 16,
+    "bytes": 142
+  },
+  "/images/ruby-round-v1/eyes/eye-13.png": {
+    "sha256": "9d50287ca2fa9cafefec373d5a49a1ee24841fbb69cc9e427b479725b2b5e316",
+    "width": 32,
+    "height": 16,
+    "bytes": 247
+  },
+  "/images/ruby-round-v1/eyes/eye-14.png": {
+    "sha256": "7cddf16f1c2189da0fd4a2ccd87259449eaa2f777ac6aaaf02ec5079a5fa3eb3",
+    "width": 32,
+    "height": 16,
+    "bytes": 206
+  },
+  "/images/ruby-round-v1/eyes/eye-15.png": {
+    "sha256": "bec3f9f5b1634c9f2d6de570f123f8de90bd2f7bac07d9877112d4ad921b9aa9",
+    "width": 32,
+    "height": 16,
+    "bytes": 202
+  },
+  "/images/ruby-round-v1/eyes/eye-16.png": {
+    "sha256": "e5f98ad75540acd407645cd47c2d30785ac1f9e51495ba28accd161d3ebdae61",
+    "width": 32,
+    "height": 16,
+    "bytes": 168
+  },
+  "/images/ruby-round-v1/eyes/eye-17.png": {
+    "sha256": "bc9c5673bf6556f54177ef999ba934bda74bbef50fc7f4511aa2ac5b8ecec626",
+    "width": 32,
+    "height": 16,
+    "bytes": 219
+  },
+  "/images/ruby-round-v1/eyes/eye-18.png": {
+    "sha256": "0729bd5febd7ae80f0021db5d060c839dacc9076cc62f3283635ca2c8f4ad749",
+    "width": 32,
+    "height": 16,
+    "bytes": 228
+  },
+  "/images/ruby-round-v1/eyes/eye-19.png": {
+    "sha256": "7c524a37ad59104faef8641180a56ecc954a0685fcd51a09d7b24281aaa8d68b",
+    "width": 32,
+    "height": 16,
+    "bytes": 202
+  },
+  "/images/ruby-round-v1/eyes/eye-20.png": {
+    "sha256": "0ab0a0164dae1c6190bc0aea892a95c5ba6b0e8bf697f4b0b6fe769109145b78",
+    "width": 32,
+    "height": 16,
+    "bytes": 198
+  },
+  "/images/ruby-round-v1/eyes/eye-21.png": {
+    "sha256": "e892dd21a8f94f4888848f53ade28160214cf8ccad4f37920a7cc3b42812f7d8",
+    "width": 32,
+    "height": 16,
+    "bytes": 193
+  },
+  "/images/ruby-round-v1/eyes/eye-22.png": {
+    "sha256": "2578d43ae90fc0bb6a2d7f5de67cf05fc7670ff14a8e7c3ba6c8d088566308dc",
+    "width": 32,
+    "height": 16,
+    "bytes": 168
+  },
+  "/images/ruby-round-v1/eyes/eye-23.png": {
+    "sha256": "453b0162989004c16f4cd87c5045ab05c68294a2ece2a30782b57fba0370c179",
+    "width": 32,
+    "height": 16,
+    "bytes": 214
+  },
+  "/images/ruby-round-v1/eyes/eye-24.png": {
+    "sha256": "a55b37f3ab3c5d5d5db19a82ea09fc3def088bfb666834761fc063a5ca7ebb7e",
+    "width": 32,
+    "height": 16,
+    "bytes": 190
+  },
+  "/images/ruby-round-v1/eyes/eye-25.png": {
+    "sha256": "f25889ecced80a0737a2ee82ec43e9506fcb3de49c3a8bbde8657eee53c88dd0",
+    "width": 32,
+    "height": 16,
+    "bytes": 195
+  },
+  "/images/ruby-round-v1/eyes/eye-26.png": {
+    "sha256": "8fadd31d4c424e3237e1ec6c224c1177aff40a9ce36f1f725341b4476611d6c1",
+    "width": 32,
+    "height": 16,
+    "bytes": 197
+  },
+  "/images/ruby-round-v1/eyes/eye-27.png": {
+    "sha256": "e015b3d9fb003e116259f59e57a063493dfabc0c5cfa67312ed5cd5a41a05cfe",
+    "width": 32,
+    "height": 16,
+    "bytes": 182
+  },
+  "/images/ruby-round-v1/eyes/eye-28.png": {
+    "sha256": "815d82d256005a61c33646cffe5b032bfd0f1f37d92389eab5ec98defc538b62",
+    "width": 32,
+    "height": 16,
+    "bytes": 210
+  },
+  "/images/ruby-round-v1/eyes/eye-29.png": {
+    "sha256": "f3920032e5dcb1692be106a55dbbf59244f6922378291077e2591f36b9f84803",
+    "width": 32,
+    "height": 16,
+    "bytes": 193
+  },
+  "/images/ruby-round-v1/eyes/eye-30.png": {
+    "sha256": "5d65df63fe918e9a9f52be0e50d8e58bba80ea4eb908ff5f95de2dfa52cb00d7",
+    "width": 32,
+    "height": 16,
+    "bytes": 189
   }
 }

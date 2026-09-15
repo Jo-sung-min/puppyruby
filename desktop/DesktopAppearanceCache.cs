@@ -10,17 +10,37 @@ using System.Threading.Tasks;
 
 namespace PuppyRubyDesktop
 {
+    internal sealed class DesktopEyeAnchor
+    {
+        public int x { get; set; } public int y { get; set; }
+        public int width { get; set; } public int height { get; set; }
+    }
     internal sealed class DesktopAppearanceScene
     {
         public string url { get; set; } public string sha256 { get; set; }
         public int frames { get; set; } public int frameMs { get; set; }
+        // New clients compose these verified layers. Older clients ignore the
+        // extra JSON fields and keep using the default-eye image above.
+        public string bodyUrl { get; set; } public string bodySha256 { get; set; } public int bodyFrames { get; set; }
+        public string eyeUrl { get; set; } public string eyeSha256 { get; set; } public string eyeStyle { get; set; }
+        public DesktopEyeAnchor[][] eyeAnchors { get; set; }
+        internal bool HasLayeredFields
+        {
+            get
+            {
+                return bodyUrl != null || bodySha256 != null || bodyFrames != 0 || eyeUrl != null || eyeSha256 != null
+                    || eyeStyle != null || eyeAnchors != null;
+            }
+        }
+        internal int EffectiveFrames { get { return HasLayeredFields ? bodyFrames : frames; } }
     }
     internal sealed class DesktopAppearance
     {
-        public int version { get; set; } public string key { get; set; }
+        public int version { get; set; } public string key { get; set; } public string renderKey { get; set; }
         public string styleId { get; set; } public string styleName { get; set; } public string breedId { get; set; }
         public int width { get; set; } public int height { get; set; }
         public Dictionary<string, DesktopAppearanceScene> scenes { get; set; }
+        internal string EffectiveKey { get { return String.IsNullOrEmpty(renderKey) ? key : renderKey; } }
     }
 
     // Image requests never share the device client's bearer token, cookies or redirects.
@@ -31,6 +51,7 @@ namespace PuppyRubyDesktop
         private const int MaxFileBytes = 12 * 1024 * 1024;
         private const long MaxDecodedPixels = 24L * 1024 * 1024;
         private static readonly Regex HashPattern = new Regex("^[a-fA-F0-9]{64}$", RegexOptions.CultureInvariant);
+        private static readonly Regex EyeStylePattern = new Regex("^ruby-eye-(0[1-9]|[12][0-9]|30)$", RegexOptions.CultureInvariant);
         private readonly string directory;
         private readonly HttpClient http;
         private CancellationTokenSource pending;
@@ -74,6 +95,8 @@ namespace PuppyRubyDesktop
                 || value.scenes == null || value.scenes.Count != Scenes.Length)
                 throw new InvalidDataException("웹에서 선택한 강아지 그림 정보를 확인하지 못했어요.");
             long pixels = 0;
+            bool layered = false;
+            bool allLayered = true;
             foreach (string name in Scenes)
             {
                 DesktopAppearanceScene scene;
@@ -82,8 +105,39 @@ namespace PuppyRubyDesktop
                     || scene.frameMs < 50 || scene.frameMs > 2000 || (long)value.width * scene.frames > 32768)
                     throw new InvalidDataException("강아지 장면 정보를 확인하지 못했어요.");
                 ValidateAssetUrl(scene.url, origin);
-                pixels += (long)value.width * value.height * scene.frames;
+                if (scene.HasLayeredFields)
+                {
+                    layered = true;
+                    if (value.styleId != "ruby-round-scenes" || String.IsNullOrWhiteSpace(scene.bodyUrl)
+                        || scene.bodySha256 == null || !HashPattern.IsMatch(scene.bodySha256)
+                        || scene.bodyFrames < 1 || scene.bodyFrames > 8
+                        || (long)value.width * scene.bodyFrames > 32768
+                        || String.IsNullOrWhiteSpace(scene.eyeUrl) || scene.eyeSha256 == null || !HashPattern.IsMatch(scene.eyeSha256)
+                        || scene.eyeStyle == null || !EyeStylePattern.IsMatch(scene.eyeStyle)
+                        || scene.eyeAnchors == null || scene.eyeAnchors.Length != scene.bodyFrames)
+                        throw new InvalidDataException("강아지 눈 레이어 정보를 확인하지 못했어요.");
+                    ValidateAssetUrl(scene.bodyUrl, origin); ValidateAssetUrl(scene.eyeUrl, origin);
+                    foreach (DesktopEyeAnchor[] frame in scene.eyeAnchors)
+                    {
+                        if (frame == null || frame.Length < 1 || frame.Length > 2) throw new InvalidDataException("강아지 눈 위치를 확인하지 못했어요.");
+                        foreach (DesktopEyeAnchor eye in frame)
+                            if (eye == null || eye.x < 0 || eye.y < 0 || eye.width < 1 || eye.height < 1
+                                || eye.width > value.width / 3 || eye.height > value.height / 3
+                                || eye.x + eye.width > value.width || eye.y + eye.height > value.height)
+                                throw new InvalidDataException("강아지 눈 위치를 확인하지 못했어요.");
+                    }
+                    pixels += (long)value.width * value.height * scene.bodyFrames;
+                }
+                else
+                {
+                    allLayered = false;
+                    pixels += (long)value.width * value.height * scene.frames;
+                }
             }
+            if (layered && (value.renderKey == null || !HashPattern.IsMatch(value.renderKey)
+                || !allLayered))
+                throw new InvalidDataException("강아지 눈 레이어 정보를 확인하지 못했어요.");
+            if (!layered && value.renderKey != null) throw new InvalidDataException("강아지 눈 레이어 정보를 확인하지 못했어요.");
             if (pixels > MaxDecodedPixels) throw new InvalidDataException("강아지 그림이 너무 커서 불러올 수 없어요.");
         }
         internal static string Hash(byte[] bytes)
@@ -117,29 +171,29 @@ namespace PuppyRubyDesktop
             }
             catch { image.Dispose(); throw; }
         }
-        internal static void ValidatePng(byte[] bytes, DesktopAppearance descriptor, DesktopAppearanceScene scene)
+        internal static void ValidatePng(byte[] bytes, int width, int height, string sha256)
         {
             byte[] signature = { 137, 80, 78, 71, 13, 10, 26, 10 };
             if (bytes == null || bytes.Length < 33 || bytes.Length > MaxFileBytes) throw new InvalidDataException("강아지 이미지 파일 크기를 확인하지 못했어요.");
             for (int i = 0; i < signature.Length; i++) if (bytes[i] != signature[i]) throw new InvalidDataException("강아지 이미지는 PNG 파일이어야 해요.");
             if (BigEndian(bytes, 8) != 13 || bytes[12] != 73 || bytes[13] != 72 || bytes[14] != 68 || bytes[15] != 82
-                || BigEndian(bytes, 16) != descriptor.width * scene.frames || BigEndian(bytes, 20) != descriptor.height
-                || !String.Equals(Hash(bytes), scene.sha256, StringComparison.OrdinalIgnoreCase))
+                || BigEndian(bytes, 16) != width || BigEndian(bytes, 20) != height
+                || !String.Equals(Hash(bytes), sha256, StringComparison.OrdinalIgnoreCase))
                 throw new InvalidDataException("강아지 이미지가 원본과 일치하지 않아요. 다시 불러올게요.");
         }
-        private async Task<byte[]> ReadImage(DesktopAppearance descriptor, DesktopAppearanceScene scene, string origin, CancellationToken cancel)
+        private async Task<byte[]> ReadImage(string url, string sha256, int width, int height, string origin, CancellationToken cancel)
         {
-            string file = directory == null ? null : Path.Combine(directory, scene.sha256.ToLowerInvariant() + ".png");
+            string file = directory == null ? null : Path.Combine(directory, sha256.ToLowerInvariant() + ".png");
             if (file != null && File.Exists(file))
             {
                 try
                 {
-                    if (new FileInfo(file).Length <= MaxFileBytes) { byte[] cached = File.ReadAllBytes(file); ValidatePng(cached, descriptor, scene); return cached; }
+                    if (new FileInfo(file).Length <= MaxFileBytes) { byte[] cached = File.ReadAllBytes(file); ValidatePng(cached, width, height, sha256); return cached; }
                 }
                 catch (IOException) { }
                 catch (InvalidDataException) { }
             }
-            using (var response = await http.GetAsync(ValidateAssetUrl(scene.url, origin), HttpCompletionOption.ResponseHeadersRead, cancel))
+            using (var response = await http.GetAsync(ValidateAssetUrl(url, origin), HttpCompletionOption.ResponseHeadersRead, cancel))
             {
                 if (!response.IsSuccessStatusCode) throw new IOException("강아지 이미지를 받을 수 없어요. 잠시 후 다시 확인해 주세요.");
                 if (response.Content.Headers.ContentLength > MaxFileBytes) throw new InvalidDataException("강아지 이미지 파일이 너무 커요.");
@@ -152,7 +206,7 @@ namespace PuppyRubyDesktop
                         if (output.Length + count > MaxFileBytes) throw new InvalidDataException("강아지 이미지 파일이 너무 커요.");
                         output.Write(buffer, 0, count);
                     }
-                    byte[] bytes = output.ToArray(); ValidatePng(bytes, descriptor, scene);
+                    byte[] bytes = output.ToArray(); ValidatePng(bytes, width, height, sha256);
                     cancel.ThrowIfCancellationRequested();
                     if (directory == null) return bytes;
                     Directory.CreateDirectory(directory);
@@ -184,25 +238,41 @@ namespace PuppyRubyDesktop
                 generation++; if (pending != null) pending.Cancel(); pending = null; pendingKey = null;
                 Status = error.Message; Announce(); return;
             }
-            if (Current != null && Current.Key == descriptor.key)
+            string effectiveKey = descriptor.EffectiveKey;
+            if (Current != null && Current.Key == effectiveKey)
             {
-                if (pendingKey != null && pendingKey != descriptor.key) { generation++; if (pending != null) pending.Cancel(); pending = null; pendingKey = null; }
+                if (pendingKey != null && pendingKey != effectiveKey) { generation++; if (pending != null) pending.Cancel(); pending = null; pendingKey = null; }
                 Status = "웹 스타일 적용됨 · " + descriptor.styleName; return;
             }
-            if (pendingKey == descriptor.key || (failedKey == descriptor.key && DateTime.UtcNow < retryAt)) return;
+            if (pendingKey == effectiveKey || (failedKey == effectiveKey && DateTime.UtcNow < retryAt)) return;
             generation++; int stamp = generation;
             if (pending != null) pending.Cancel();
-            var request = new CancellationTokenSource(); pending = request; pendingKey = descriptor.key;
+            var request = new CancellationTokenSource(); pending = request; pendingKey = effectiveKey;
             Status = "웹에서 선택한 강아지 그림을 불러오고 있어요…"; Announce();
             var sheets = new Dictionary<string, Bitmap>(StringComparer.Ordinal);
             try
             {
                 foreach (string name in Scenes)
                 {
-                    byte[] bytes = await ReadImage(descriptor, descriptor.scenes[name], siteOrigin, request.Token);
-                    request.Token.ThrowIfCancellationRequested();
-                    using (var stream = new MemoryStream(bytes))
-                    using (var bitmap = new Bitmap(stream)) sheets.Add(name, DetachedRgba(bitmap));
+                    DesktopAppearanceScene scene = descriptor.scenes[name];
+                    if (scene.HasLayeredFields)
+                    {
+                        byte[] bodyBytes = await ReadImage(scene.bodyUrl, scene.bodySha256, descriptor.width * scene.bodyFrames, descriptor.height, siteOrigin, request.Token);
+                        byte[] eyeBytes = await ReadImage(scene.eyeUrl, scene.eyeSha256, 32, 16, siteOrigin, request.Token);
+                        request.Token.ThrowIfCancellationRequested();
+                        using (var bodyStream = new MemoryStream(bodyBytes))
+                        using (var eyeStream = new MemoryStream(eyeBytes))
+                        using (var body = new Bitmap(bodyStream))
+                        using (var eye = new Bitmap(eyeStream))
+                            sheets.Add(name, DesktopAppearanceFrames.ComposeEyes(body, eye, descriptor.width, descriptor.height, scene.bodyFrames, scene.eyeAnchors));
+                    }
+                    else
+                    {
+                        byte[] bytes = await ReadImage(scene.url, scene.sha256, descriptor.width * scene.frames, descriptor.height, siteOrigin, request.Token);
+                        request.Token.ThrowIfCancellationRequested();
+                        using (var stream = new MemoryStream(bytes))
+                        using (var bitmap = new Bitmap(stream)) sheets.Add(name, DetachedRgba(bitmap));
+                    }
                 }
                 if (disposed || stamp != generation) return;
                 var next = new DesktopAppearanceFrames(descriptor, sheets); sheets.Clear();
@@ -215,7 +285,7 @@ namespace PuppyRubyDesktop
                 if (!(error is HttpRequestException || error is IOException || error is InvalidDataException || error is UnauthorizedAccessException || error is OperationCanceledException || error is ArgumentException || error is System.Runtime.InteropServices.ExternalException)) throw;
                 if (!disposed && stamp == generation)
                 {
-                    failedKey = descriptor.key; retryAt = DateTime.UtcNow.AddSeconds(20);
+                    failedKey = effectiveKey; retryAt = DateTime.UtcNow.AddSeconds(20);
                     Status = "강아지 그림을 불러오지 못했어요. 연결을 확인하면 다시 시도해요." + (Current != null ? " 마지막 모습을 유지하고 있어요." : " PC 앱은 연결되어 있어요.");
                 }
             }

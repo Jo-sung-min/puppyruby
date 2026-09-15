@@ -9,6 +9,7 @@ const { originalArtDogAssets } = loadFrontend('src/lib/original-art-dog-styles.t
 const { premiumDogAssets } = loadFrontend('src/lib/premium-dog-styles.ts');
 const { spSceneAssets, spScenesReady } = loadFrontend('src/lib/sp-scene-styles.ts');
 const { rubyRoundAssets, rubyRoundReady, rubyRoundScenes } = loadFrontend('src/lib/ruby-round-scene-styles.ts');
+const { rubyEyeStyles } = loadFrontend('src/lib/ruby-round-eyes.ts');
 const readySpAssets = spSceneAssets.filter(asset => spScenesReady(asset.style));
 const readyRubyAssets = rubyRoundReady ? rubyRoundAssets : [];
 const images = [
@@ -21,8 +22,14 @@ const images = [
     assert.ok(scene.desktopPng && scene.desktopFrames, 'Ruby Round requires eye-composited desktop assets.');
     return { png: scene.desktopPng, width: asset.width * scene.desktopFrames, height: asset.height };
   })),
+  ...readyRubyAssets.flatMap(asset => rubyRoundScenes.map(({ id }) => {
+    const scene = asset.scenes[id];
+    return { png: scene.png, width: asset.width * scene.frames, height: asset.height };
+  })),
+  ...(readyRubyAssets.length ? rubyEyeStyles.map(eye => ({ png: eye.png, width: 32, height: 16 })) : []),
 ];
-assert.equal(images.length, 192 + readySpAssets.length * 6 + readyRubyAssets.length * 5, 'Require all existing images and each completed scene family.');
+assert.equal(images.length, 192 + readySpAssets.length * 6 + readyRubyAssets.length * 10 + (readyRubyAssets.length ? rubyEyeStyles.length : 0),
+  'Require all existing images, each completed scene family and shared eye layers.');
 const entries = {};
 for (const image of images) {
   const bytes = fs.readFileSync(path.join(root, 'local-assets/site', image.png));

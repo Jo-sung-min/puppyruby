@@ -9,14 +9,19 @@ const { dogBreedIds } = loadFrontend('src/lib/dog-breeds.ts');
 const { originalArtDogAssets } = loadFrontend('src/lib/original-art-dog-styles.ts');
 const { premiumDogAssets } = loadFrontend('src/lib/premium-dog-styles.ts');
 const { spSceneAssets, spScenesReady } = loadFrontend('src/lib/sp-scene-styles.ts');
+const { rubyRoundAsset, rubyRoundStyleId, rubyRoundScenes } = loadFrontend('src/lib/ruby-round-scene-styles.ts');
+const { rubyRoundEyePair } = loadFrontend('src/lib/ruby-round-eye-motion.ts');
+const { rubyEyeStyles } = loadFrontend('src/lib/ruby-round-eyes.ts');
 const fingerprints = require('../frontend/src/lib/generated/desktop-appearance-assets.json');
-const state = { puppy: { id: 'test-puppy', name: '루비', breed: 0, accessory: 'ribbon', fur: 'chocolate' }, coins: 42, obedience: 3, promotionXp: 900, syncedAt: 123 };
+const state = { puppy: { id: 'test-puppy', name: '루비', breed: 0, accessory: 'ribbon', fur: 'chocolate', eyes: 'ruby-eye-01' }, coins: 42, obedience: 3, promotionXp: 900, syncedAt: 123 };
 const config = style => ({ ...defaultAppearance, defaultStyle: style });
 let checks = 0;
 function check(value, label) { assert.ok(value, label); checks++; }
 function same(value, expected, label) { assert.deepEqual(value, expected, label); checks++; }
 const originalBase = process.env.NEXT_PUBLIC_ASSET_BASE_URL;
+const originalRubyBase = process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL;
 process.env.NEXT_PUBLIC_ASSET_BASE_URL = 'https://cdn.example.test/site-assets/test-release';
+process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL = 'https://cdn.example.test/ruby-round/test-release';
 
 (async () => {
   for (const [image, meta] of Object.entries(fingerprints)) {
@@ -55,6 +60,27 @@ process.env.NEXT_PUBLIC_ASSET_BASE_URL = 'https://cdn.example.test/site-assets/t
       same(image.sha256, fingerprints[asset.scenes[scene].png].sha256, 'SP desktop validates exact source bytes');
     }
   }
+  const rubyAsset = rubyRoundAsset(dogBreedIds[0]);
+  const ruby01 = desktopAppearance(config(rubyRoundStyleId), 0, 'http://localhost:3000', 'ruby-eye-01');
+  const ruby06 = desktopAppearance(config(rubyRoundStyleId), 0, 'http://localhost:3000', 'ruby-eye-06');
+  same(ruby01.key, ruby06.key, 'Legacy v1 identity stays stable when only shared eyes change');
+  check(/^[a-f0-9]{64}$/.test(ruby01.renderKey) && /^[a-f0-9]{64}$/.test(ruby06.renderKey) && ruby01.renderKey !== ruby06.renderKey,
+    'Layered render identity changes with the selected eyes');
+  check(ruby01.scenes.idle.eyeUrl !== ruby06.scenes.idle.eyeUrl && ruby01.scenes.idle.eyeStyle === 'ruby-eye-01' && ruby06.scenes.idle.eyeStyle === 'ruby-eye-06',
+    'Selected shared-eye URL and stable ID reach the desktop descriptor');
+  for (const { id } of rubyRoundScenes) {
+    const source = rubyAsset.scenes[id], scene = ruby06.scenes[id];
+    const selectedEye = rubyEyeStyles.find(eye => eye.id === (id === 'sleep' ? 'ruby-eye-10' : 'ruby-eye-06'));
+    const bodyMeta = fingerprints[source.png], eyeMeta = fingerprints[selectedEye.png];
+    same([scene.bodyUrl, scene.bodySha256, scene.bodyFrames],
+      [`https://cdn.example.test/ruby-round/test-release${source.png}`, bodyMeta.sha256, source.frames], `${id}: exact eyeless body metadata`);
+    same([scene.eyeUrl, scene.eyeSha256, scene.eyeStyle],
+      [`https://cdn.example.test/ruby-round/test-release${selectedEye.png}`, eyeMeta.sha256, selectedEye.id], `${id}: exact shared-eye metadata`);
+    const expectedAnchors = source.eyes.map(anchors => (id === 'idle' || id === 'happy'
+      ? rubyRoundEyePair(anchors, rubyAsset.scenes.idle.eyes[0]) : anchors));
+    same(scene.eyeAnchors, expectedAnchors, `${id}: each body frame carries the web renderer's eye anchors`);
+  }
+  same(ruby06.scenes.sleep.eyeStyle, 'ruby-eye-10', 'Sleeping desktop puppy uses the same closed eyes as the web');
   const selected = { ...config('art-01'), breedStyles: { pomeranian: 'art-16' }, varieties: [{ id: 'c497341a-39fb-4204-9758-0a347445b6c9', breed: 'pomeranian', name: '복슬이', style: 'art-16-scenes', shape: 'original', pattern: 'solid', coatColor: null, patternColor: '#FFFFFF' }], breedVarieties: { pomeranian: 'c497341a-39fb-4204-9758-0a347445b6c9' } };
   same(desktopAppearance(selected, 0, 'http://localhost:3000').styleId, 'art-16-scenes', 'Selected variety override takes priority over breed/global settings');
   same(desktopAppearance({ ...selected, breedVarieties: {} }, 0, 'http://localhost:3000').styleId, 'art-16', 'Breed override takes priority over global settings');
@@ -84,6 +110,15 @@ process.env.NEXT_PUBLIC_ASSET_BASE_URL = 'https://cdn.example.test/site-assets/t
     same(failedState.coins, state.coins, 'Game state remains successful even when appearance retrieval fails');
     same(input, action === 'state' ? state : { state, token: 'test-token-not-issued', success: true, message: '돌봄 완료' }, 'Input response is not mutated');
   }
+  const attachedRuby01 = await attachDesktopAppearance(state, 'state', 'http://localhost:3000', 'http://localhost:8080/api/v1',
+    async () => Response.json(config(rubyRoundStyleId)));
+  const state06 = { ...state, puppy: { ...state.puppy, eyes: 'ruby-eye-06' } };
+  const attachedRuby06 = await attachDesktopAppearance(state06, 'state', 'http://localhost:3000', 'http://localhost:8080/api/v1',
+    async () => Response.json(config(rubyRoundStyleId)));
+  same(attachedRuby01.appearance.key, attachedRuby06.appearance.key, 'Attachment preserves the old-client identity across eye changes');
+  check(attachedRuby01.appearance.renderKey !== attachedRuby06.appearance.renderKey
+    && attachedRuby01.appearance.scenes.idle.eyeUrl !== attachedRuby06.appearance.scenes.idle.eyeUrl,
+    'Attachment reads puppy.eyes and changes the new-client render contract');
   const unsupported = await attachDesktopAppearance(state, 'state', 'http://localhost:3000', 'http://localhost:8080/api/v1', async () => Response.json(config('round')));
   check(unsupported.appearance === null && unsupported.appearanceError.includes('아직 PC 앱'), 'Unsupported styles are explicit and do not claim a matching appearance');
   const classic = await attachDesktopAppearance(state, 'state', 'http://localhost:3000', 'http://localhost:8080/api/v1', async () => Response.json(defaultAppearance));
@@ -92,7 +127,10 @@ process.env.NEXT_PUBLIC_ASSET_BASE_URL = 'https://cdn.example.test/site-assets/t
   same(await attachDesktopAppearance(browser, 'links', 'http://localhost:3000', '', async () => { throw Error('Must not fetch'); }), browser, 'Browser link management is unchanged');
   await verifyProxyRoute();
   console.log(`PASS ${checks} desktop appearance checks: ${Object.keys(fingerprints).length} exact RGBA assets, all 30 breeds, original/premium/SP looks, CDN URLs, selected-variety priority, pairing/state/action delivery, and isolated cosmetic failures.`);
-})().finally(() => { if (originalBase === undefined) delete process.env.NEXT_PUBLIC_ASSET_BASE_URL; else process.env.NEXT_PUBLIC_ASSET_BASE_URL = originalBase; }).catch(error => { console.error(error); process.exitCode = 1; });
+})().finally(() => {
+  if (originalBase === undefined) delete process.env.NEXT_PUBLIC_ASSET_BASE_URL; else process.env.NEXT_PUBLIC_ASSET_BASE_URL = originalBase;
+  if (originalRubyBase === undefined) delete process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL; else process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL = originalRubyBase;
+}).catch(error => { console.error(error); process.exitCode = 1; });
 
 async function verifyProxyRoute() {
   const { NextRequest } = requireFrontend('next/server');

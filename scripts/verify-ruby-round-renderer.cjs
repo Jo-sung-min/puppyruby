@@ -96,7 +96,8 @@ for (const asset of lib.rubyRoundAssets) {
     check(desktop.styleId === lib.rubyRoundStyleId && desktop.breedId === asset.breed, 'Desktop receives the same selected breed and style');
     for (const { id } of lib.rubyRoundScenes) {
       check(desktop.scenes[id].frames === (id === 'walk' ? asset.scenes[id].frames : 1), 'Installed desktop v1 receives compatible frame counts');
-      check(desktop.scenes[id].url.endsWith(`${id}-desktop.png`) && /^[a-f0-9]{64}$/.test(desktop.scenes[id].sha256), 'Desktop receives hashed composites with eyes, never eyeless sheets');
+      check(desktop.scenes[id].url.endsWith(`${id}-desktop.png`) && /^[a-f0-9]{64}$/.test(desktop.scenes[id].sha256), 'Legacy desktop fields retain hashed default-eye composites');
+      check(desktop.scenes[id].bodyUrl.endsWith(`/${id}.png`) && desktop.scenes[id].eyeUrl.endsWith(id === 'sleep' ? '/eye-10.png' : '/eye-01.png'), 'New desktop fields expose the eyeless body and scene-appropriate shared eye');
     }
   } else check(partial, 'Every complete release requires composited desktop fallback artwork');
 }

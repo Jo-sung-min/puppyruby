@@ -46,7 +46,7 @@ namespace PuppyRubyDesktop
             pair.Text = "웹 강아지와 연결"; pair.AutoSize = true; pair.Height = 34;
             refresh.Text = "연결 다시 확인"; refresh.AutoSize = true; refresh.Height = 34;
             retry.Text = "이전 동작 결과 확인"; retry.AutoSize = true; retry.Height = 34;
-            pair.Click += async delegate { await Run(async delegate { await sync.PairAsync(site.Text, code.Text, label.Text); code.Clear(); return sync.IsLinked ? "연결했어요! 사이트에서 선택한 강아지가 화면에 나타나요." : sync.Status; }); };
+            pair.Click += async delegate { await Run(async delegate { await sync.PairAsync(site.Text, code.Text, label.Text); if (sync.IsLinked) site.Text = sync.Origin; code.Clear(); return sync.IsLinked ? "연결했어요! 사이트에서 선택한 강아지가 화면에 나타나요." : sync.Status; }); };
             refresh.Click += async delegate { await Run(async delegate { await sync.PollAsync(); return sync.Status; }); };
             retry.Click += async delegate { await Run(async delegate { DesktopActionResponse response = await sync.RetryPendingAsync(); return response.message; }); };
             actions.Controls.Add(pair); actions.Controls.Add(refresh); actions.Controls.Add(retry); root.Controls.Add(actions, 0, 8);
@@ -60,7 +60,7 @@ namespace PuppyRubyDesktop
             var close = new Button { Text = "닫기", AutoSize = true };
             close.Click += delegate { Close(); };
             disconnect.Text = "이 PC 연결 해제"; disconnect.AutoSize = true;
-            disconnect.Click += delegate { sync.Disconnect("연결을 해제했어요. 이 PC의 강아지로 돌아왔어요."); result.Text = "이 PC에 저장한 연결 키를 지웠어요. 사이트의 연결 기기 목록에서도 기기를 삭제할 수 있어요."; RefreshStatus(); };
+            disconnect.Click += delegate { sync.Disconnect("연결을 해제했어요. 이 PC의 강아지로 돌아왔어요."); site.Text = sync.Origin; result.Text = "이 PC에 저장한 연결 키를 지웠어요. 사이트의 연결 기기 목록에서도 기기를 삭제할 수 있어요."; RefreshStatus(); };
             footer.Controls.Add(close); footer.Controls.Add(disconnect); root.Controls.Add(footer, 0, 10);
             AcceptButton = pair;
             sync.Changed += RefreshStatus;
@@ -73,7 +73,7 @@ namespace PuppyRubyDesktop
             if (working || sync.Busy) return;
             working = true; RefreshStatus();
             try { string text = await action(); if (!IsDisposed) result.Text = text; }
-            catch (Exception error) { if (!IsDisposed) result.Text = error is TaskCanceledException ? "연결 시간이 길어지고 있어요. 사이트 주소와 실행 상태를 확인해 주세요." : error is System.Net.Http.HttpRequestException ? "사이트에 연결하지 못했어요. 웹에 표시된 사이트 주소를 그대로 입력해 주세요. 현재 로컬 사이트의 기본 주소는 http://127.0.0.1:3000 이에요." : error.Message; }
+            catch (Exception error) { if (!IsDisposed) result.Text = error is TaskCanceledException ? "연결 시간이 길어지고 있어요. 사이트 주소와 실행 상태를 확인해 주세요." : error is System.Net.Http.HttpRequestException ? "사이트에 연결하지 못했어요. 기본 주소 " + DesktopSync.DefaultOrigin + " 또는 사이트에 표시된 주소를 확인해 주세요." : error.Message; }
             finally { working = false; if (!IsDisposed) RefreshStatus(); }
         }
         internal void RefreshStatus()

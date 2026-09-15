@@ -19,6 +19,7 @@ namespace PuppyRubyDesktop
         private static string outputRoot;
         private static readonly string[] Names = { "idle", "side", "walk", "happy", "sleep" };
         private static readonly Dictionary<string, byte[]> Images = new Dictionary<string, byte[]>();
+        private static readonly Dictionary<string, byte[]> FixtureImages = new Dictionary<string, byte[]>(StringComparer.Ordinal);
         private static readonly List<string> Results = new List<string>();
         private const string TestToken = "local-fixture-token-not-a-real-credential";
 
@@ -104,9 +105,12 @@ namespace PuppyRubyDesktop
                             object result = request.Path == "/api/desktop/pair" ? (object)new PairResponse { token = TestToken, device = new DesktopDevice { id = "fixture-device", label = "cache-test" }, state = state } : state;
                             await Reply(stream, 200, Encoding.UTF8.GetBytes(new JavaScriptSerializer().Serialize(result)), "Content-Type: application/json\r\n"); return;
                         }
-                        string scene = Path.GetFileNameWithoutExtension(request.Path);
                         byte[] image;
-                        if (!Images.TryGetValue(scene, out image)) { await Reply(stream, 404, new byte[0], ""); return; }
+                        if (!FixtureImages.TryGetValue(request.Path, out image))
+                        {
+                            string scene = Path.GetFileNameWithoutExtension(request.Path);
+                            if (!Images.TryGetValue(scene, out image)) { await Reply(stream, 404, new byte[0], ""); return; }
+                        }
                         await Reply(stream, 200, image, "Content-Type: image/png\r\nSet-Cookie: should-not-be-returned=1; Path=/\r\n");
                     }
                     catch (IOException) { }
@@ -151,6 +155,81 @@ namespace PuppyRubyDesktop
             using (var image = new Bitmap(stream)) { width = image.Width; height = image.Height; }
             var value = new DesktopAppearance { version = 1, key = HashText(identity), styleId = "art-16-scenes", styleName = "Pixel art 16", breedId = "pomeranian", width = width, height = height, scenes = new Dictionary<string, DesktopAppearanceScene>() };
             foreach (string name in Names) value.scenes.Add(name, new DesktopAppearanceScene { url = origin + "/" + path + "/" + name + ".png", sha256 = DesktopAppearanceCache.Hash(Images[name]), frames = name == "walk" ? 8 : 1, frameMs = name == "walk" ? 125 : 600 });
+            return value;
+        }
+        private static byte[] TwoTonePng(int width, int height, Color left, Color right)
+        {
+            using (var image = new Bitmap(width, height, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
+            {
+                for (int y = 0; y < height; y++)
+                for (int x = 0; x < width; x++) image.SetPixel(x, y, x < width / 2 ? left : right);
+                using (var output = new MemoryStream())
+                {
+                    image.Save(output, System.Drawing.Imaging.ImageFormat.Png);
+                    return output.ToArray();
+                }
+            }
+        }
+        private static void PrepareLayeredFixtureImages()
+        {
+            int index = 0;
+            foreach (string name in Names)
+            {
+                FixtureImages.Add("/layered/legacy/" + name + ".png", TwoTonePng(24, 24,
+                    Color.FromArgb(255, 45 + index, 48, 52), Color.FromArgb(255, 55 + index, 58, 62)));
+                FixtureImages.Add("/layered/body/" + name + ".png", TwoTonePng(48, 24,
+                    Color.FromArgb(255, 70 + index, 74, 78), Color.FromArgb(255, 82 + index, 86, 90)));
+                index += 9;
+            }
+            FixtureImages.Add("/layered/eyes/ruby-eye-01.png", TwoTonePng(32, 16, Color.Red, Color.Blue));
+            FixtureImages.Add("/layered/eyes/ruby-eye-03.png", TwoTonePng(32, 16, Color.Lime, Color.Gold));
+            FixtureImages.Add("/layered/bad/body-dimension.png", TwoTonePng(47, 24, Color.Gray, Color.Silver));
+            FixtureImages.Add("/layered/bad/body-hash.png", FixtureImages["/layered/body/idle.png"]);
+            FixtureImages.Add("/layered/bad/eye-dimension.png", TwoTonePng(31, 16, Color.Purple, Color.Pink));
+            FixtureImages.Add("/layered/bad/eye-hash.png", FixtureImages["/layered/eyes/ruby-eye-01.png"]);
+        }
+        private static DesktopEyeAnchor[][] LayeredAnchors()
+        {
+            return new[]
+            {
+                new[] { new DesktopEyeAnchor { x = 4, y = 6, width = 4, height = 4 }, new DesktopEyeAnchor { x = 14, y = 6, width = 4, height = 4 } },
+                new[] { new DesktopEyeAnchor { x = 5, y = 7, width = 4, height = 4 }, new DesktopEyeAnchor { x = 15, y = 7, width = 4, height = 4 } }
+            };
+        }
+        private static DesktopAppearance LayeredDescriptor(string origin, string eyeStyle, string renderIdentity)
+        {
+            string eyePath = "/layered/eyes/" + eyeStyle + ".png";
+            var value = new DesktopAppearance
+            {
+                version = 1,
+                key = HashText("layered-stable-legacy-key"),
+                renderKey = HashText(renderIdentity),
+                styleId = "ruby-round-scenes",
+                styleName = "Ruby round layered test",
+                breedId = "pomeranian",
+                width = 24,
+                height = 24,
+                scenes = new Dictionary<string, DesktopAppearanceScene>()
+            };
+            foreach (string name in Names)
+            {
+                string legacyPath = "/layered/legacy/" + name + ".png";
+                string bodyPath = "/layered/body/" + name + ".png";
+                value.scenes.Add(name, new DesktopAppearanceScene
+                {
+                    url = origin + legacyPath,
+                    sha256 = DesktopAppearanceCache.Hash(FixtureImages[legacyPath]),
+                    frames = 1,
+                    frameMs = name == "walk" ? 125 : 600,
+                    bodyUrl = origin + bodyPath,
+                    bodySha256 = DesktopAppearanceCache.Hash(FixtureImages[bodyPath]),
+                    bodyFrames = 2,
+                    eyeUrl = origin + eyePath,
+                    eyeSha256 = DesktopAppearanceCache.Hash(FixtureImages[eyePath]),
+                    eyeStyle = eyeStyle,
+                    eyeAnchors = LayeredAnchors()
+                });
+            }
             return value;
         }
         private static async Task Within(Task task, string operation)
@@ -345,6 +424,82 @@ namespace PuppyRubyDesktop
             Done("static style compatibility, shared-PNG download/decode reuse, reverting a pending style change");
         }
 
+        private static async Task LayeredEyeDownloadsAndCache()
+        {
+            using (var server = new FixtureServer())
+            using (var cache = new DesktopAppearanceCache(CachePath("layered")))
+            {
+                var first = LayeredDescriptor(server.Origin, "ruby-eye-01", "layered-eye-01");
+                await Within(cache.UpdateAsync(first, server.Origin), "first layered eye appearance");
+                Check(cache.Current != null && cache.Current.Key == first.renderKey, "layered appearance publishes the render key");
+                Check(cache.Current.Key != first.key, "layered render key is distinct from the backward-compatible legacy key");
+                Check(server.Count("/layered/body/") == 5, "all five eyeless body sheets are downloaded and verified");
+                Check(server.Count("/layered/eyes/ruby-eye-01.png") == 1, "one shared eye pair is downloaded once for five scenes");
+                Check(server.Count("/layered/legacy/") == 0, "new desktop renderer does not download legacy precomposed fallbacks");
+                Color firstLeft = cache.Current.Get("idle", 0, false).Image.GetPixel(4, 6);
+                Color firstRight = cache.Current.Get("idle", 0, false).Image.GetPixel(14, 6);
+                Check(firstLeft.ToArgb() == Color.Red.ToArgb() && firstRight.ToArgb() == Color.Blue.ToArgb(), "left and right eye tiles are composed at their independent anchors");
+                foreach (string name in Names)
+                {
+                    DesktopAppearanceScene scene = first.scenes[name];
+                    string file = Path.Combine(CachePath("layered"), scene.bodySha256 + ".png");
+                    Check(File.Exists(file) && DesktopAppearanceCache.Hash(File.ReadAllBytes(file)) == scene.bodySha256, "verified eyeless body is content-addressed in cache: " + name);
+                }
+                string firstEyeFile = Path.Combine(CachePath("layered"), first.scenes["idle"].eyeSha256 + ".png");
+                Check(File.Exists(firstEyeFile) && DesktopAppearanceCache.Hash(File.ReadAllBytes(firstEyeFile)) == first.scenes["idle"].eyeSha256, "verified eye pair is content-addressed in cache");
+
+                var changedEye = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-eye-03");
+                Check(first.key == changedEye.key && first.renderKey != changedEye.renderKey, "eye change keeps the legacy key stable and changes the render key");
+                await Within(cache.UpdateAsync(changedEye, server.Origin), "changed layered eye appearance");
+                Color changedLeft = cache.Current.Get("idle", 0, false).Image.GetPixel(4, 6);
+                Color changedRight = cache.Current.Get("idle", 0, false).Image.GetPixel(14, 6);
+                Check(cache.Current.Key == changedEye.renderKey, "changed eye replaces the current appearance despite a stable legacy key");
+                Check(changedLeft.ToArgb() == Color.Lime.ToArgb() && changedRight.ToArgb() == Color.Gold.ToArgb(), "changed eye pixels are visible in the composed desktop output");
+                Check(changedLeft.ToArgb() != firstLeft.ToArgb(), "eye-style change produces a different rendered bitmap");
+                Check(server.Count("/layered/body/") == 5, "eye-only change reuses all verified body sheets");
+                Check(server.Count("/layered/eyes/ruby-eye-03.png") == 1, "new eye pair is downloaded once");
+
+                int bodyRequests = server.Count("/layered/body/");
+                int selectedEyeRequests = server.Count("/layered/eyes/ruby-eye-03.png");
+                await cache.UpdateAsync(changedEye, server.Origin);
+                Check(server.Count("/layered/body/") == bodyRequests && server.Count("/layered/eyes/ruby-eye-03.png") == selectedEyeRequests, "same selected eye and render key do not trigger another download");
+                var sameEyeNewRender = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-eye-03-new-render");
+                await Within(cache.UpdateAsync(sameEyeNewRender, server.Origin), "same eye with a new render identity");
+                Check(cache.Current.Key == sameEyeNewRender.renderKey, "new render identity is applied from cached layer files");
+                Check(server.Count("/layered/body/") == bodyRequests && server.Count("/layered/eyes/ruby-eye-03.png") == selectedEyeRequests, "same selected eye is not re-downloaded when recomposition is requested");
+
+                int requestsBeforeMalformed = server.Snapshot().Length;
+                var malformed = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-malformed");
+                malformed.scenes["happy"].eyeAnchors = null;
+                await cache.UpdateAsync(malformed, server.Origin);
+                Check(cache.Current != null && cache.Current.Key == sameEyeNewRender.renderKey, "malformed layered descriptor keeps the previous appearance");
+                Check(server.Snapshot().Length == requestsBeforeMalformed, "malformed layered descriptor is rejected before downloads");
+
+                foreach (string failure in new[] { "body-hash", "body-dimension", "eye-hash", "eye-dimension" })
+                {
+                    var bad = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-failure-" + failure);
+                    DesktopAppearanceScene idle = bad.scenes["idle"];
+                    string path = "/layered/bad/" + failure + ".png";
+                    if (failure.StartsWith("body", StringComparison.Ordinal))
+                    {
+                        idle.bodyUrl = server.Origin + path;
+                        idle.bodySha256 = failure == "body-hash" ? new string('0', 64) : DesktopAppearanceCache.Hash(FixtureImages[path]);
+                    }
+                    else
+                    {
+                        idle.eyeUrl = server.Origin + path;
+                        idle.eyeSha256 = failure == "eye-hash" ? new string('0', 64) : DesktopAppearanceCache.Hash(FixtureImages[path]);
+                    }
+                    int before = server.Count(path);
+                    await Within(cache.UpdateAsync(bad, server.Origin), failure + " layered download rejection");
+                    Check(server.Count(path) == before + 1, failure + " fixture is fetched for validation");
+                    Check(cache.Current != null && cache.Current.Key == sameEyeNewRender.renderKey, failure + " cannot replace the last valid appearance");
+                    Check(cache.Status.Contains("마지막 모습을 유지"), failure + " reports that the last valid appearance is retained");
+                }
+            }
+            Done("layered body/eye HTTP verification, eye recomposition, render-key invalidation, cache reuse, failure retention");
+        }
+
         private static void Validation()
         {
             const string origin = "http://127.0.0.1:3000";
@@ -370,6 +525,7 @@ namespace PuppyRubyDesktop
         private static async Task Run(string projectRoot)
         {
             foreach (string name in Names) Images.Add(name, File.ReadAllBytes(Path.Combine(projectRoot, "local-assets", "site", "images", "art16-scenes-v1", "pomeranian", name + ".png")));
+            PrepareLayeredFixtureImages();
             Validation();
             var decoded = new Dictionary<string, Bitmap>();
             foreach (string name in Names)
@@ -383,6 +539,7 @@ namespace PuppyRubyDesktop
             await CorruptionAndFailures();
             await Races();
             await StaticStyleAndRevert();
+            await LayeredEyeDownloadsAndCache();
         }
 
         private static int Main(string[] args)

@@ -78,6 +78,8 @@ namespace PuppyRubyDesktop
 
     internal sealed class DesktopSync : IDisposable
     {
+        internal const string DefaultOrigin = "https://puppyruby.com";
+        private const string LegacyOrigin = "https://www.puppyruby.com";
         private readonly string storagePath;
         private readonly HttpClient http;
         private readonly SemaphoreSlim gate = new SemaphoreSlim(1, 1);
@@ -92,7 +94,7 @@ namespace PuppyRubyDesktop
         internal bool Busy { get; private set; }
         internal bool CanAct { get { return IsLinked && Online && !Busy; } }
         internal DesktopGameState State { get { return link == null ? null : link.cachedState; } }
-        internal string Origin { get { return link == null ? "http://127.0.0.1:3000" : link.origin; } }
+        internal string Origin { get { return link == null ? DefaultOrigin : link.origin; } }
         internal string DeviceLabel { get { return link == null ? "" : link.deviceLabel; } }
         internal string DeviceId { get { return link == null ? "" : link.deviceId; } }
         internal bool HasPending { get { return link != null && link.pending != null; } }
@@ -121,8 +123,9 @@ namespace PuppyRubyDesktop
             if (!Uri.TryCreate((value ?? "").Trim(), UriKind.Absolute, out uri) ||
                 (uri.Scheme != "https" && !(uri.Scheme == "http" && uri.IsLoopback)) ||
                 !String.IsNullOrEmpty(uri.UserInfo) || !String.IsNullOrEmpty(uri.Query) || !String.IsNullOrEmpty(uri.Fragment) || uri.AbsolutePath != "/")
-                throw new ArgumentException("사이트의 기본 주소만 입력해 주세요. HTTPS 또는 내 PC의 http://127.0.0.1:3000 주소를 사용할 수 있어요.");
-            return uri.GetLeftPart(UriPartial.Authority).TrimEnd('/');
+                throw new ArgumentException("사이트의 기본 주소만 입력해 주세요. 기본 주소는 " + DefaultOrigin + " 이에요. 로컬 개발에서는 http://127.0.0.1:3000 주소도 사용할 수 있어요.");
+            string origin = uri.GetLeftPart(UriPartial.Authority).TrimEnd('/');
+            return String.Equals(origin, LegacyOrigin, StringComparison.OrdinalIgnoreCase) ? DefaultOrigin : origin;
         }
         internal static void ValidateState(DesktopGameState value)
         {
