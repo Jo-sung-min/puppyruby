@@ -6,9 +6,9 @@
 
 | 내용 | 위치 |
 |---|---|
-| 사이트 PNG·SVG, 문서 미리보기 | `local-assets/site/images/` |
+| 사이트 배경과 제작 원본 | `local-assets/site/images/` |
 | 파비콘 | `local-assets/site/favicon.svg` |
-| 공개 Aseprite·ZIP·Windows 설치파일 | `local-assets/site/downloads/` |
+| 제작용 Aseprite·ZIP과 Windows 설치파일 | `local-assets/site/downloads/` |
 | 공개하지 않는 서버 JAR·체크섬 | `local-assets/backend/releases/` |
 | 생성 원본·시안·검증 결과 | `local-assets/work/` |
 | 데스크톱 빌드 원본·실행파일 | `local-assets/desktop/` |
@@ -51,7 +51,7 @@ CDN: https://cdn.puppyruby.com/site-downloads/<release>/downloads/...
 
 CloudFront origin에 `/puppyruby`가 있으므로 `CDN_ORIGIN_PATH=puppyruby`로 중복 접두 경로를 제거합니다. 새 키만 만들고 기존 객체를 덮어쓰거나 삭제하지 않습니다. 같은 키의 내용·형식·다운로드 파일명·캐시 설정이 일치할 때만 재사용합니다.
 
-다운로드 발행기는 검토된 188개 파일만 허용하며 서버 JAR·서버 체크섬과 ZIP의 환경파일·DB·개인 키·상위 경로 등을 제외합니다. 큰 파일을 스트리밍 업로드하고 전체 S3 체크섬과 CDN 응답 본문을 대조합니다. 이미지 발행기는 기존 견종·장면·프레임 규격을 유지하고 전체 S3 객체와 지정된 CDN 이미지 본문을 검사합니다.
+공용 이미지 발행기는 파비콘, 픽셀 정원, 거실 배경의 **3개 경로만** 허용합니다. 강아지 그림은 이 릴리스에 포함하지 않고 `RubyRoundAssetPublisher`의 고정된 루비 도트 팩에서만 발행합니다. 다운로드 발행기는 `PuppyRuby.exe`, `PuppyRuby-Setup.exe`와 각각의 SHA-256 파일, 총 **4개 경로만** 허용합니다. 로컬에 남은 Aseprite·ZIP·이전 도트는 발행 대상이 아니며 서버 JAR도 제외합니다. 모든 발행 파일은 S3 체크섬과 CDN 응답 본문을 대조합니다.
 
 `local-assets/work/site-assets/<release>/` 및 `site-downloads/<release>/`의 `manifest.json`은 계획, `verification.json`은 최종 성공 기록입니다.
 
@@ -59,7 +59,7 @@ CloudFront origin에 `/puppyruby`가 있으므로 `CDN_ORIGIN_PATH=puppyruby`로
 
 검증을 마친 공개 주소만 `frontend/src/lib/generated/public-media-release.json`에 기록합니다. 이 JSON과 이미지 목록·체크섬 JSON은 Git에 남기며 AWS 인증 정보를 포함하지 않습니다.
 
-다운로드 릴리스가 비어 있는 동안에는 다운로드 CDN 리디렉션을 만들지 않습니다. 현재 로컬 `frontend/public/downloads`는 `local-assets/site/downloads`를 가리키는 Git 제외 junction이므로 원본을 중복 보관하지 않습니다. 이 로컬 링크는 Git/Vercel에 포함되지 않습니다. 다운로드 배포가 승인되고 검증된 릴리스 주소를 등록한 뒤 운영에 배포해야 다운로드 기능도 유지됩니다.
+현재 로컬 `frontend/public/downloads`는 `local-assets/site/downloads`를 가리키는 Git 제외 junction이므로 원본을 중복 보관하지 않습니다. 이 로컬 링크는 Git/Vercel에 포함되지 않습니다. 검증된 4파일 다운로드 릴리스 주소를 등록한 뒤 운영에 배포해야 다운로드 기능이 유지됩니다.
 
 선택적으로 Vercel 또는 `frontend/.env.local`에서 덮어쓸 수 있습니다.
 
@@ -70,7 +70,7 @@ NEXT_PUBLIC_DOWNLOAD_BASE_URL=https://cdn.puppyruby.com/site-downloads/다운로
 
 비어 있으면 저장소에 기록된 공개 릴리스를 사용합니다. 기존 Vercel 환경변수가 있으면 그 값이 우선하므로 새 릴리스로 바꾸거나 변수를 제거하고 재배포합니다. 공개 환경변수는 빌드 시 반영됩니다.
 
-화면의 `assetUrl`은 `/images/...`를 CDN 주소로 바꿉니다. 기존 `/images/...`, `/favicon.svg`, `/downloads/...` 링크도 Next.js의 307 리디렉션으로 연결합니다. 설치파일과 ZIP 바이트는 Vercel 함수를 통과하지 않습니다. 회원 사진과 관리자 SEO 이미지의 저장된 외부 주소는 유지합니다.
+화면의 `assetUrl`은 `/images/...`를 CDN 주소로 바꿉니다. 기존 `/images/...`, `/favicon.svg`, `/downloads/...` 링크도 Next.js의 307 리디렉션으로 연결합니다. 설치파일 바이트는 Vercel 함수를 통과하지 않습니다. 회원 사진과 관리자 SEO 이미지의 저장된 외부 주소는 유지합니다.
 
 ## Git 용량 관리
 
@@ -91,7 +91,18 @@ npm run build
 
 ## 현재 검증된 릴리스
 
-- 이미지: `c14b37263e55bc30` — 709개, 195,852,840바이트
-- 공개 다운로드: `0a28bf0a93b67257` — 188개, 781,149,692바이트
-- 다운로드 제외: `PuppyRuby-server.jar`와 서버 체크섬 2개
-- 검증: 이미지 S3 709개·CDN 본문 668개, 다운로드 S3 및 CDN 본문 188개 일치
+- 공용 이미지: `92e25b71c705bce7` — 3개, 2,331,251바이트; S3·CDN 본문 3개 일치
+- 루비 도트: `f321efcdc0532562` — 30견종·5동작·공통 눈을 포함한 511개; S3·CDN 본문 511개 일치
+- 공개 다운로드: `5cec1d153421114e` — Ruby-only Windows 실행파일 2개와 SHA-256 파일 2개, 30,093,480바이트; S3 메타데이터·체크섬과 CDN 본문 4개 일치
+- 항상 제외: 제작용 Aseprite·ZIP, 이전 도트, 서버 JAR와 서버 체크섬
+
+## 2026-09-19 원격 정리
+
+삭제 계획은 실제 S3 객체를 조회한 뒤 정확한 키 목록과 SHA-256 계획 해시로 고정했고, 삭제 후 목록을 다시 조회해 대상 부재와 현행 루비 도트 511개의 일치를 확인했습니다.
+
+- 비루비 강아지 스타일 이미지: 2,290개, 806,592,296바이트 삭제
+- 레거시 강아지 미리보기: 22개, 14,254,921바이트 삭제
+- 구형 제작용 ZIP·Aseprite: 184개, 753,651,540바이트 삭제
+- 합계: 2,496개, 1,574,498,757바이트 삭제
+- 보존: 현행 루비 도트 511개, 이전 루비 도트 팩, 파비콘·배경, Windows 실행파일, 회원/SEO 업로드
+- 중간에 생성된 `0ff0931219231fb2` 다운로드 릴리스는 구형 그림이 포함된 실행파일이어서 활성화하지 않았고, 최종 릴리스 전환 뒤 정확한 4개 객체(57,163,944바이트)를 삭제해 접두 경로가 비었음을 재검증했습니다.

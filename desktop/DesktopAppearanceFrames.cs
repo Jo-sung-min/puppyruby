@@ -51,6 +51,7 @@ namespace PuppyRubyDesktop
         internal readonly string BreedId;
         internal readonly int Width;
         internal readonly int Height;
+        internal readonly DesktopReactionAnchors ReactionAnchors;
         internal int CachedFrameCount { get { return owned.Count; } }
         internal int ReactionFrameCount { get { return reactions == null ? 0 : reactions.CachedFrameCount; } }
         internal long ReactionPixelCount { get { return reactions == null ? 0 : reactions.CachedPixelCount; } }
@@ -63,6 +64,7 @@ namespace PuppyRubyDesktop
                     throw new InvalidDataException("강아지 이미지 크기를 읽지 못했어요.");
                 Key = descriptor.EffectiveKey; StyleId = descriptor.styleId; BreedId = descriptor.breedId;
                 Width = descriptor.width; Height = descriptor.height;
+                ReactionAnchors = BuildRubyReactionAnchors(descriptor);
                 var unique = new Dictionary<string, Scene>(StringComparer.Ordinal);
                 foreach (string name in new[] { "idle", "side", "walk", "happy", "sleep" })
                 {
@@ -103,10 +105,47 @@ namespace PuppyRubyDesktop
             }
         }
 
+        private DesktopReactionAnchors BuildRubyReactionAnchors(DesktopAppearance descriptor)
+        {
+            if (descriptor.styleId != "ruby-round-scenes") return null;
+            DesktopEyeAnchor[] eyeAnchors = descriptor.reactionEyes;
+            DesktopAppearanceScene idle;
+            if ((eyeAnchors == null || eyeAnchors.Length != 2) && descriptor.scenes.TryGetValue("idle", out idle)
+                && idle != null && idle.eyeAnchors != null && idle.eyeAnchors.Length > 0)
+                eyeAnchors = idle.eyeAnchors[0];
+            if (eyeAnchors == null || eyeAnchors.Length != 2) return null;
+            var eyes = new DesktopReactionPoint[2];
+            for (int index = 0; index < eyes.Length; index++)
+            {
+                DesktopEyeAnchor eye = eyeAnchors[index];
+                if (eye == null || eye.width < 4 || eye.height < 4 || eye.x < 0 || eye.y < 0 || eye.x + eye.width > Width || eye.y + eye.height > Height) return null;
+                eyes[index] = new DesktopReactionPoint { x = eye.x + eye.width / 2, y = eye.y + eye.height / 2,
+                    rx = Math.Max(2, eye.width / 2), ry = Math.Max(2, eye.height / 2) };
+            }
+            int pawRx = Math.Max(2, (int)Math.Round(Width * .06));
+            int pawRy = Math.Max(2, (int)Math.Round(Height * .055));
+            int pawY = Math.Min(Height - pawRy - 1, Math.Max(pawRy, (int)Math.Round(Height * .875)));
+            return new DesktopReactionAnchors
+            {
+                width = Width, height = Height, eyes = eyes,
+                paws = new[]
+                {
+                    new DesktopReactionPoint { x = Math.Max(pawRx, (int)Math.Round(Width * .39)), y = pawY, rx = pawRx, ry = pawRy },
+                    new DesktopReactionPoint { x = Math.Min(Width - pawRx - 1, (int)Math.Round(Width * .61)), y = pawY, rx = pawRx, ry = pawRy }
+                },
+                footY = Math.Min(Height, (int)Math.Round(Height * .91))
+            };
+        }
+
         // The web renderer treats the 32 x 16 source as two independent 16 x 16
         // eye tiles. Compose them onto the eyeless native sheet before slicing,
         // preserving pixel edges and straight-alpha source-over blending.
         internal static Bitmap ComposeEyes(Bitmap bodySheet, Bitmap eyePair, int frameWidth, int frameHeight, int frames, DesktopEyeAnchor[][] anchors)
+        {
+            return ComposeEyes(bodySheet, eyePair, frameWidth, frameHeight, frames, anchors, "none");
+        }
+
+        internal static Bitmap ComposeEyes(Bitmap bodySheet, Bitmap eyePair, int frameWidth, int frameHeight, int frames, DesktopEyeAnchor[][] anchors, string accessory)
         {
             if (bodySheet == null) throw new ArgumentNullException("bodySheet");
             if (eyePair == null) throw new ArgumentNullException("eyePair");
@@ -148,6 +187,7 @@ namespace PuppyRubyDesktop
                     }
                 }
                 WriteArgb(output, pixels);
+                DesktopAccessoryRenderer.Draw(output, frameWidth, frameHeight, frames, anchors, accessory);
                 return output;
             }
             catch { output.Dispose(); throw; }

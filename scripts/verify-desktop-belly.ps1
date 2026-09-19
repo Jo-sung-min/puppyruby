@@ -9,9 +9,9 @@ $executable = Join-Path $testRoot 'BellyReactionTest.exe'
 $arguments = @('/nologo', '/target:exe', '/platform:anycpu', '/optimize+', '/utf8output', '/main:PuppyRubyDesktop.BellyReactionTest',
     '/reference:System.dll', '/reference:System.Core.dll', '/reference:System.Drawing.dll', '/reference:System.Net.Http.dll', '/reference:System.Web.Extensions.dll', '/reference:System.Security.dll',
     ('/out:"' + $executable + '"'),
-    ('/resource:"' + (Join-Path $projectRoot 'local-assets/desktop/build/assets/breed-catalog.json') + '",breed-catalog.json'),
+    ('/resource:"' + (Join-Path $projectRoot 'local-assets/desktop/build/ruby-assets/breed-catalog.json') + '",breed-catalog.json'),
     ('/resource:"' + (Join-Path $projectRoot 'shared\art16-reaction-anchors.json') + '",art16-reaction-anchors.json'))
-foreach ($source in @('BellyReactionTest.cs', 'DesktopAppearanceCache.cs', 'DesktopAppearanceFrames.cs', 'DesktopAppearanceReactions.cs', 'DesktopBreedCatalog.cs', 'DesktopSync.cs', 'Progression.cs', 'PetState.cs', 'NativeInput.cs')) {
+foreach ($source in @('BellyReactionTest.cs', 'DesktopAppearanceCache.cs', 'DesktopAppearanceFrames.cs', 'DesktopAccessoryRenderer.cs', 'DesktopAppearanceReactions.cs', 'DesktopBreedCatalog.cs', 'DesktopSync.cs', 'Progression.cs', 'PetState.cs', 'NativeInput.cs')) {
     $arguments += '"' + (Join-Path $desktopRoot $source) + '"'
 }
 $responseFile = Join-Path $testRoot 'compile.rsp'

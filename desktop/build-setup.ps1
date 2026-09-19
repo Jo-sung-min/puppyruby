@@ -7,7 +7,7 @@ $releaseRoot = Join-Path $projectRoot 'local-assets/desktop/dist'
 $downloads = Join-Path $projectRoot 'local-assets\site\downloads'
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 $puppy = Join-Path $releaseRoot 'PuppyRuby.exe'
-$icon = Join-Path $buildRoot 'assets\puppy.ico'
+$icon = Join-Path $buildRoot 'ruby-assets\puppy.ico'
 if (-not (Test-Path -LiteralPath $compiler)) { throw 'Windows .NET Framework 4.x compiler is required.' }
 if (-not (Test-Path -LiteralPath $puppy)) { throw 'Build PuppyRuby.exe with desktop/build.ps1 first.' }
 if (-not (Test-Path -LiteralPath $icon)) { throw 'Missing puppy icon. Run desktop/build.ps1 first.' }

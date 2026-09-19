@@ -45,7 +45,8 @@ namespace PuppyRubyDesktop
         internal DesktopAppearanceReactions(DesktopAppearanceFrames owner)
         {
             DesktopReactionAnchors found;
-            if (owner.StyleId == "art-16-scenes" && AnchorCatalog.TryGetValue(owner.BreedId ?? "", out found) && ValidAnchors(found, owner.Width, owner.Height)) anchors = found;
+            if (owner.ReactionAnchors != null && ValidAnchors(owner.ReactionAnchors, owner.Width, owner.Height)) anchors = owner.ReactionAnchors;
+            else if (owner.StyleId == "art-16-scenes" && AnchorCatalog.TryGetValue(owner.BreedId ?? "", out found) && ValidAnchors(found, owner.Width, owner.Height)) anchors = found;
         }
 
         internal DesktopAppearanceReactions() { }

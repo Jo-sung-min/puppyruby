@@ -4,7 +4,7 @@ import { premiumDogStyles } from "./premium-dog-styles";
 import { originalArtDogStyles } from "./original-art-dog-styles";
 import { art16SceneStyles } from "./art16-scene-styles";
 import { spSceneStyles } from "./sp-scene-styles";
-import { rubyRoundStyles } from "./ruby-round-scene-styles";
+import { rubyRoundStyleId, rubyRoundStyles } from "./ruby-round-scene-styles";
 
 const pixelStyleCatalog = [
   { id: "classic", name: "클래식 도트", description: "따뜻한 털빛과 작은 발의 원래 강아지" },
@@ -60,12 +60,18 @@ const pixelStyleCatalog = [
   { id: "meadow", name: "산책 도트", description: "네 발로 선 자세와 진한 윤곽, 층층이 포근한 털" },
 ] as const;
 
-export const pixelDogStyles = [...pixelStyleCatalog.map(style => ({ ...style, kind: "pixel" as const })), ...cuteDogStyles, ...premiumDogStyles, ...originalArtDogStyles, ...art16SceneStyles, ...spSceneStyles, ...rubyRoundStyles];
-export const dogStyles = [...pixelDogStyles,
+// Keep the retired style IDs in the type used by the renderer so old source
+// assets and offline conversion tools remain buildable. The live product
+// catalog intentionally exposes only the complete Ruby Round pack: all other
+// CDN collections have been retired and must never be selected at runtime.
+const retiredPixelDogStyles = [...pixelStyleCatalog.map(style => ({ ...style, kind: "pixel" as const })), ...cuteDogStyles, ...premiumDogStyles, ...originalArtDogStyles, ...art16SceneStyles, ...spSceneStyles];
+const supportedDogStyles = [...retiredPixelDogStyles, ...rubyRoundStyles,
   { id: "animated-2d", name: "살아있는 2D", description: "부드러운 곡선과 자연스럽게 움직이는 강아지", kind: "animated" },
 ] as const;
+export const pixelDogStyles = [...rubyRoundStyles];
+export const dogStyles = [...rubyRoundStyles];
 
-export type DogStyleId = (typeof dogStyles)[number]["id"];
+export type DogStyleId = (typeof supportedDogStyles)[number]["id"];
 export const styleBreedIds = dogBreedIds;
 export const styleBreeds: { id: PixelBreed; name: string }[] = dogBreeds.map(({ id, name }) => ({ id, name }));
 export const varietyShapes = ["original", "teddy", "fox"] as const;
@@ -87,7 +93,7 @@ export type AppearanceConfig = {
   revision: number;
   updatedAt: number | null;
 };
-export const defaultAppearance: AppearanceConfig = { defaultStyle: "classic", breedStyles: {}, deletedStyles: [], varieties: [], breedVarieties: {}, revision: 0, updatedAt: null };
+export const defaultAppearance: AppearanceConfig = { defaultStyle: rubyRoundStyleId, breedStyles: {}, deletedStyles: [], varieties: [], breedVarieties: {}, revision: 0, updatedAt: null };
 
 export function isDogStyleId(value: unknown): value is DogStyleId {
   return typeof value === "string" && dogStyles.some(style => style.id === value);
@@ -104,7 +110,7 @@ export function resolveDogStyle(config: AppearanceConfig | null | undefined, bre
   const override = config?.breedStyles?.[breed];
   if (isStyleAvailable(config, override)) return override;
   if (isStyleAvailable(config, config?.defaultStyle)) return config.defaultStyle;
-  return activeDogStyles(config)[0]?.id ?? "classic";
+  return activeDogStyles(config)[0]?.id ?? rubyRoundStyleId;
 }
 
 export function resolveDogVariety(config: AppearanceConfig | null | undefined, breed: PixelBreed): DogVariety | undefined {

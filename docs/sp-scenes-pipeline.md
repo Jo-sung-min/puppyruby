@@ -1,5 +1,7 @@
 # SP08 / SP15 native scene assets
 
+> **Local archive only:** SP08/SP15 are retired from production. Keep this procedure for source recovery and comparison; do not publish its PNG, Aseprite, or ZIP outputs to S3/CDN and do not restore them to the runtime style catalog. The historical `-Publish` switch copies files only into the Git-ignored local inventory.
+
 The selected SP08 and SP15 artwork becomes a separate six-scene style for every
 registered breed. The original generated atlas remains untouched. Production
 PNGs and editable Aseprite files retain native RGBA pixels; this pipeline never
@@ -8,9 +10,10 @@ resizes, quantizes, recolors, or invents missing animation frames.
 All local artwork lives under the Git-ignored `local-assets/` directory.
 Sources and conversion reports use `local-assets/work/`; the local site inventory
 uses `local-assets/site/images/` and `local-assets/site/downloads/`.
-`-Publish` copies verified files into that local inventory. S3 upload and CDN
-activation remain separate steps, after the release is verified. Compiled JSON
-keeps its public `/images/` and `/downloads/` identifiers.
+`-Publish` copies verified files into that local inventory. The current shared
+image and download publishers explicitly exclude these paths. Compiled JSON
+keeps historical `/images/` and `/downloads/` identifiers for archive inspection
+only; they are not production URLs.
 
 ## Source contract
 
@@ -87,9 +90,9 @@ Reviewed eye and front-paw positions live in
 merges only anchors whose width and height match the verified native canvas.
 Accessory attachment metadata is reviewed separately by the renderer owner.
 
-`site-assets-inventory.json` lists only verified scene images and SHA-256 hashes
-for a later S3/CDN release. These scripts do not upload assets or change CDN
-environment variables.
+`site-assets-inventory.json` lists verified scene images and SHA-256 hashes for
+local audit only. It must not be passed to an S3/CDN release. These scripts do
+not upload assets or change CDN environment variables.
 
 ## Retrying a failed or reviewed conversion
 

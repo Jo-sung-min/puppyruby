@@ -6,10 +6,11 @@ $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 if (-not (Test-Path -LiteralPath $compiler)) { throw 'Windows .NET Framework 4.x compiler is required.' }
 
 if (-not $SkipExport) {
-    & node (Join-Path $desktopRoot 'export-assets.cjs')
-    if ($LASTEXITCODE -ne 0) { throw 'Pixel sprite export failed.' }
+    & node (Join-Path $desktopRoot 'export-ruby-default.cjs')
+    if ($LASTEXITCODE -ne 0) { throw 'Ruby Dot default sprite export failed.' }
 }
 $buildRoot = Join-Path $projectRoot 'local-assets/desktop/build'
+$assetRoot = Join-Path $buildRoot 'ruby-assets'
 $releaseRoot = Join-Path $projectRoot 'local-assets/desktop/dist'
 $downloads = Join-Path $projectRoot 'local-assets\site\downloads'
 New-Item -ItemType Directory -Force -Path $releaseRoot,$downloads | Out-Null
@@ -17,14 +18,23 @@ $executable = Join-Path $releaseRoot 'PuppyRuby.exe'
 $compilerArgs = @('/nologo', '/target:winexe', '/platform:anycpu', '/optimize+', '/utf8output',
     '/reference:System.dll', '/reference:System.Core.dll', '/reference:System.Drawing.dll', '/reference:System.Windows.Forms.dll', '/reference:System.Web.Extensions.dll', '/reference:System.Net.Http.dll', '/reference:System.Security.dll',
     ('/resource:"' + (Join-Path $projectRoot 'shared\commands.json') + '",commands.json'),
-    ('/resource:"' + (Join-Path $projectRoot 'shared\art16-reaction-anchors.json') + '",art16-reaction-anchors.json'),
     ('/out:"' + $executable + '"'),
     ('/win32manifest:"' + (Join-Path $desktopRoot 'app.manifest') + '"'),
-    ('/win32icon:"' + (Join-Path $buildRoot 'assets\puppy.ico') + '"'))
-Get-ChildItem -LiteralPath (Join-Path $buildRoot 'assets') -File | Sort-Object Name | ForEach-Object {
+    ('/win32icon:"' + (Join-Path $assetRoot 'puppy.ico') + '"'))
+$assetFiles = @(Get-ChildItem -LiteralPath $assetRoot -File)
+$rubySprites = @($assetFiles | Where-Object { $_.Name -match '^ruby-default-[a-z]+-(?:idle|side|walk|happy|sleep)\.rubypng$' })
+$fixedResources = @('breed-catalog.json', 'puppy.ico', 'ruby-default-manifest.json')
+$unexpected = @($assetFiles | Where-Object { $fixedResources -notcontains $_.Name -and $_.Name -notmatch '^ruby-default-[a-z]+-(?:idle|side|walk|happy|sleep)\.rubypng$' })
+if ($rubySprites.Count -ne 150 -or $unexpected.Count -ne 0) {
+    throw ('Ruby resource inventory must be exactly 150 scene PNGs plus manifest, breed catalog and icon. Sprites=' + $rubySprites.Count + ', unexpected=' + ($unexpected.Name -join ','))
+}
+foreach ($required in $fixedResources) { if (-not (Test-Path -LiteralPath (Join-Path $assetRoot $required) -PathType Leaf)) { throw ('Missing Ruby desktop resource: ' + $required) } }
+$managedResources = @($assetFiles | Where-Object { $fixedResources -contains $_.Name -or $_.Name -match '^ruby-default-[a-z]+-(?:idle|side|walk|happy|sleep)\.rubypng$' } | Sort-Object Name)
+if ($managedResources.Count -ne 153) { throw ('Unexpected managed Ruby resource count: ' + $managedResources.Count) }
+$managedResources | ForEach-Object {
     $compilerArgs += '/resource:"' + $_.FullName + '",' + $_.Name
 }
-foreach ($source in @('NativeInput.cs', 'PetState.cs', 'PetMotion.cs', 'PetMotionTest.cs', 'PetBubble.cs', 'Commands.cs', 'Progression.cs', 'AskWindow.cs', 'DesktopBreedCatalog.cs', 'DesktopSync.cs', 'DesktopAppearanceCache.cs', 'DesktopAppearanceFrames.cs', 'DesktopAppearanceReactions.cs', 'DesktopAppearanceFramesTest.cs', 'DesktopAppearanceDiagnostic.cs', 'LinkWindow.cs', 'SyncTest.cs', 'LinkedSpriteLibrary.cs', 'Program.cs')) { $compilerArgs += '"' + (Join-Path $desktopRoot $source) + '"' }
+foreach ($source in @('NativeInput.cs', 'PetState.cs', 'PetMotion.cs', 'PetMotionTest.cs', 'PetBubble.cs', 'Commands.cs', 'Progression.cs', 'AskWindow.cs', 'DesktopBreedCatalog.cs', 'DesktopSync.cs', 'DesktopAppearanceCache.cs', 'DesktopAppearanceFrames.cs', 'DesktopAccessoryRenderer.cs', 'DesktopAppearanceReactions.cs', 'BundledRubyAppearanceLibrary.cs', 'DesktopAppearanceFramesTest.cs', 'DesktopAppearanceDiagnostic.cs', 'LinkWindow.cs', 'SyncTest.cs', 'Program.cs')) { $compilerArgs += '"' + (Join-Path $desktopRoot $source) + '"' }
 $responseFile = Join-Path $buildRoot 'compile.rsp'
 [IO.File]::WriteAllLines($responseFile, $compilerArgs, (New-Object Text.UTF8Encoding($true)))
 & $compiler ('@' + $responseFile)
@@ -33,8 +43,6 @@ $testReport = Join-Path $buildRoot 'self-test.txt'
 $test = Start-Process -FilePath $executable -ArgumentList @('--self-test', ('"' + $testReport + '"')) -WindowStyle Hidden -Wait -PassThru
 if ($test.ExitCode -ne 0) { Get-Content -LiteralPath $testReport; throw 'Desktop tests failed.' }
 Get-Content -LiteralPath $testReport
-& (Join-Path $desktopRoot 'verify-linked-sprites.ps1')
-if ($LASTEXITCODE -ne 0) { throw 'Linked sprite pixel verification failed.' }
 $hash = (Get-FileHash -LiteralPath $executable -Algorithm SHA256).Hash
 if (-not $SkipPublish) {
     Copy-Item -LiteralPath $executable -Destination (Join-Path $downloads 'PuppyRuby.exe') -Force

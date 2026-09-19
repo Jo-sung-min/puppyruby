@@ -38,6 +38,8 @@ namespace PuppyRubyDesktop
     {
         public int version { get; set; } public string key { get; set; } public string renderKey { get; set; }
         public string styleId { get; set; } public string styleName { get; set; } public string breedId { get; set; }
+        public string accessory { get; set; }
+        public DesktopEyeAnchor[] reactionEyes { get; set; }
         public int width { get; set; } public int height { get; set; }
         public Dictionary<string, DesktopAppearanceScene> scenes { get; set; }
         internal string EffectiveKey { get { return String.IsNullOrEmpty(renderKey) ? key : renderKey; } }
@@ -135,9 +137,17 @@ namespace PuppyRubyDesktop
                 }
             }
             if (layered && (value.renderKey == null || !HashPattern.IsMatch(value.renderKey)
-                || !allLayered))
+                || !allLayered || !DesktopAccessoryRenderer.IsSupported(value.accessory)))
                 throw new InvalidDataException("강아지 눈 레이어 정보를 확인하지 못했어요.");
-            if (!layered && value.renderKey != null) throw new InvalidDataException("강아지 눈 레이어 정보를 확인하지 못했어요.");
+            if (layered && value.reactionEyes != null)
+            {
+                if (value.reactionEyes.Length != 2) throw new InvalidDataException("강아지 눈 위치를 확인하지 못했어요.");
+                foreach (DesktopEyeAnchor eye in value.reactionEyes)
+                    if (eye == null || eye.x < 0 || eye.y < 0 || eye.width < 4 || eye.height < 4
+                        || eye.x + eye.width > value.width || eye.y + eye.height > value.height)
+                        throw new InvalidDataException("강아지 눈 위치를 확인하지 못했어요.");
+            }
+            if (!layered && (value.renderKey != null || (!String.IsNullOrEmpty(value.accessory) && value.accessory != "none"))) throw new InvalidDataException("강아지 눈 레이어 정보를 확인하지 못했어요.");
             if (pixels > MaxDecodedPixels) throw new InvalidDataException("강아지 그림이 너무 커서 불러올 수 없어요.");
         }
         internal static string Hash(byte[] bytes)
@@ -264,7 +274,7 @@ namespace PuppyRubyDesktop
                         using (var eyeStream = new MemoryStream(eyeBytes))
                         using (var body = new Bitmap(bodyStream))
                         using (var eye = new Bitmap(eyeStream))
-                            sheets.Add(name, DesktopAppearanceFrames.ComposeEyes(body, eye, descriptor.width, descriptor.height, scene.bodyFrames, scene.eyeAnchors));
+                            sheets.Add(name, DesktopAppearanceFrames.ComposeEyes(body, eye, descriptor.width, descriptor.height, scene.bodyFrames, scene.eyeAnchors, descriptor.accessory));
                     }
                     else
                     {

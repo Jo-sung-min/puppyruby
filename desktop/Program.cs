@@ -95,28 +95,16 @@ namespace PuppyRubyDesktop
         [DllImport("user32.dll")] internal static extern int SetWindowLong(IntPtr window, int index, int value);
     }
 
-    internal sealed class SpriteLibrary : IDisposable
+    internal static class DesktopResources
     {
-        private readonly Dictionary<string, Bitmap> cache = new Dictionary<string, Bitmap>();
-        internal Bitmap Get(string breed, string mood, int look, int frame)
-        {
-            string name = breed + "-" + mood + "-" + (look + 1) + "-" + (frame % 2) + ".png";
-            Bitmap image;
-            if (cache.TryGetValue(name, out image)) return image;
-            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(name))
-            {
-                if (stream == null) throw new InvalidDataException("Missing puppy sprite: " + name);
-                using (Bitmap source = new Bitmap(stream)) image = new Bitmap(source);
-            }
-            cache.Add(name, image);
-            return image;
-        }
         internal static Icon LoadIcon()
         {
             using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("puppy.ico"))
-            using (Icon source = new Icon(stream)) return (Icon)source.Clone();
+            {
+                if (stream == null) throw new InvalidDataException("루비 도트 아이콘을 찾지 못했어요.");
+                using (Icon source = new Icon(stream)) return (Icon)source.Clone();
+            }
         }
-        public void Dispose() { foreach (Bitmap image in cache.Values) image.Dispose(); cache.Clear(); }
     }
 
     internal sealed class PetWindow : Form
@@ -127,9 +115,7 @@ namespace PuppyRubyDesktop
         private readonly Progression progress = new Progression();
         private readonly CommandCatalog catalog = CommandCatalog.Load();
         private readonly NativeInput input = new NativeInput();
-        private readonly SpriteLibrary sprites = new SpriteLibrary();
-        private readonly LinkedSpriteLibrary linkedSprites = new LinkedSpriteLibrary();
-        private readonly DesktopAppearanceReactions legacyReactions = new DesktopAppearanceReactions();
+        private readonly BundledRubyAppearanceLibrary bundledRuby = new BundledRubyAppearanceLibrary();
         private readonly PetMotion motion = new PetMotion();
         private readonly PetBubble bubble = new PetBubble();
         private readonly DesktopSync sync;
@@ -178,7 +164,7 @@ namespace PuppyRubyDesktop
         private bool clickThrough;
         private bool showHints = true;
         private int scale = 3;
-        private string breed = "shiba";
+        private string breed = "pomeranian";
         private int look;
         private int lookY;
         private double lastPet;
@@ -238,7 +224,17 @@ namespace PuppyRubyDesktop
                     check(onlyDog && !bubble.Visible, "pet-only surface has no idle bubble or footer at scale " + size);
                 }
                 check(!HitRenderedPet(new Point(0, 0)), "transparent margin cannot start dragging at scale " + size);
-                Point foot = new Point(paintedTarget.X + 21 * size, paintedTarget.Y + 57 * size);
+                Point foot = new Point(paintedTarget.X + paintedTarget.Width / 2, paintedTarget.Y + paintedTarget.Height * 3 / 4);
+                bool foundFoot = false;
+                for (int y = paintedHeight - 1; y >= paintedHeight / 2 && !foundFoot; y--)
+                    for (int x = paintedWidth / 5; x < paintedWidth * 4 / 5; x++)
+                        if (paintedMask[y * paintedWidth + x])
+                        {
+                            foot = new Point(paintedTarget.X + x * paintedTarget.Width / paintedWidth,
+                                paintedTarget.Y + y * paintedTarget.Height / paintedHeight);
+                            foundFoot = true; break;
+                        }
+                check(foundFoot, "Ruby Dot has an interactive lower-body pixel at scale " + size);
                 check(HitRenderedPet(foot), "painted paw is interactive at scale " + size);
                 state.SetEnabled(true, Now); OnInput(InputKind.Click);
                 OnMouseDown(new MouseEventArgs(MouseButtons.Left, 1, foot.X, foot.Y, 0));
@@ -249,7 +245,8 @@ namespace PuppyRubyDesktop
                 state.SetEnabled(false, Now);
             }
             state.Train("puppy-paw", Now); Rectangle trainedTarget; Bitmap trained = RenderSprite(out trainedTarget);
-            check(Object.ReferenceEquals(trained, sprites.Get(breed, "typing", look, 0)) || Object.ReferenceEquals(trained, sprites.Get(breed, "typing", look, 1)), "explicit training still animates while global input is paused");
+            check(trained != null && renderingFrame != null && CurrentAppearance.StyleId == BundledRubyAppearanceLibrary.StyleId,
+                "explicit training keeps the bundled Ruby Dot appearance while global input is paused");
             followItem.PerformClick(); check(followMouse && followItem.Checked && !stayItem.Checked, "follow menu resumes and updates selection");
             stayItem.PerformClick(); check(!followMouse && !followItem.Checked && stayItem.Checked, "stop menu updates selection immediately");
         }
@@ -268,7 +265,7 @@ namespace PuppyRubyDesktop
             DoubleBuffered = true;
             AutoScaleMode = AutoScaleMode.None;
             StartPosition = FormStartPosition.Manual;
-            Icon = SpriteLibrary.LoadIcon();
+            Icon = DesktopResources.LoadIcon();
             if (!transient) LoadSettings();
             ApplySize();
             if (Location == Point.Empty) PutAtCorner(); else KeepOnScreen();
@@ -413,40 +410,7 @@ namespace PuppyRubyDesktop
                 }
                 return renderingFrame.Image;
             }
-            if (ExpectsAppearance)
-            {
-                target = new Rectangle(8, 24, Math.Max(1, Width - 16), Math.Max(1, Height - 48));
-                return null;
-            }
-            if (mood == "belly")
-            {
-                // The legacy exporter has no belly sprite. Reuse the actual
-                // current puppy's front-idle image, including linked colors.
-                SyncedPuppy linked = sync.State == null ? null : sync.State.puppy;
-                Bitmap front = linked == null ? sprites.Get(breed, "idle", 0, 0) : linkedSprites.Get(linked.breed, linked.fur, linked.eyes, linked.accessory, "idle", 0, 0);
-                renderingFrame = legacyReactions.GetBellyFrame(front, Now - state.BellyStartedAt);
-                target = new Rectangle(8, 24, 64 * scale, 64 * scale);
-                return renderingFrame.Image;
-            }
-            if (motion.IsMoving && (mood == "idle" || mood == "sleep")) mood = "walk";
-            int frame = state.Enabled || training != null ? (int)(Now * (mood == "excited" ? 13 : mood == "walk" ? 10 : 7)) % 2 : 0;
-            int bob = state.Enabled ? (int)(Math.Sin(Now * 3) * 1.5) : 0;
-            if (mood == "play") bob = -(int)(Math.Abs(Math.Sin(Now * 12)) * 19);
-            else if (mood == "scroll") bob = (int)(Math.Sin(Now * 16) * 4);
-            else if (mood == "excited") bob = frame == 0 ? -4 : 0;
-            else if (mood == "walk") bob = frame == 0 ? -2 : 1;
-            target = new Rectangle(8, 24 + bob, 64 * scale, 64 * scale);
-            if (mood == "sleep") { target.Y += 19; target.Height -= 19; }
-            else if (mood == "drag") { target.Y -= 14; target.Height += 14; }
-            if (training == "puppy-sit") { target.Y += 14; target.Height -= 14; }
-            if (training == "puppy-stay") { target.Y -= bob; frame = 0; }
-            if (training == "puppy-turn")
-            {
-                int narrow = Math.Max(8, (int)(target.Width * Math.Abs(Math.Cos(Now * 5))));
-                target.X += (target.Width - narrow) / 2; target.Width = narrow;
-            }
-            SyncedPuppy webPuppy = sync.State == null ? null : sync.State.puppy;
-            return webPuppy == null ? sprites.Get(breed, mood, training == "puppy-stay" ? 0 : look, frame) : linkedSprites.Get(webPuppy.breed, webPuppy.fur, webPuppy.eyes, webPuppy.accessory, mood, training == "puppy-stay" ? 0 : look, frame);
+            throw new InvalidOperationException("루비 도트 기본 이미지를 불러오지 못했어요.");
         }
 
         internal static bool IsOpaque(Bitmap sprite, Rectangle target, Point point)
@@ -572,7 +536,7 @@ namespace PuppyRubyDesktop
                 item.Click += delegate {
                     breed = id;
                     foreach (ToolStripMenuItem sibling in breeds.DropDownItems) sibling.Checked = sibling == item;
-                    state.Input(InputKind.Pet, Now); Invalidate(); SaveSettings();
+                    state.Input(InputKind.Pet, Now); OnAppearanceChanged(); SaveSettings();
                 };
                 breeds.DropDownItems.Add(item);
             }
@@ -751,18 +715,18 @@ namespace PuppyRubyDesktop
             Invalidate();
         }
 
-        private bool ExpectsAppearance
-        {
-            get { return sync.IsLinked && sync.State != null && (sync.State.appearance != null || !String.IsNullOrEmpty(sync.State.appearanceError)); }
-        }
-
         private DesktopAppearanceFrames CurrentAppearance
         {
             get
             {
+                string selectedBreed = breed;
+                if (sync.IsLinked && sync.State != null && sync.State.puppy != null
+                    && sync.State.puppy.breed >= 0 && sync.State.puppy.breed < BreedIds.Length)
+                    selectedBreed = BreedIds[sync.State.puppy.breed];
                 DesktopAppearanceFrames current = appearanceCache.Current;
-                if (!sync.IsLinked || sync.State == null || current == null) return null;
-                return sync.State.puppy.breed >= 0 && sync.State.puppy.breed < BreedIds.Length && current.BreedId == BreedIds[sync.State.puppy.breed] ? current : null;
+                if (sync.IsLinked && current != null && current.StyleId == BundledRubyAppearanceLibrary.StyleId
+                    && current.BreedId == selectedBreed) return current;
+                return bundledRuby.Get(selectedBreed);
             }
         }
 
@@ -774,7 +738,9 @@ namespace PuppyRubyDesktop
         private async void OnSyncChanged()
         {
             if (IsDisposed || Disposing) return;
-            UpdateProgress();
+            // Show the bundled Ruby breed immediately while the matching verified
+            // linked image is being downloaded, including its native aspect ratio.
+            OnAppearanceChanged();
             await RefreshAppearance();
         }
 
@@ -873,7 +839,7 @@ namespace PuppyRubyDesktop
         }
         protected override void Dispose(bool disposing)
         {
-            if (disposing) { animation.Dispose(); syncTimer.Dispose(); statusTimer.Dispose(); sync.Dispose(); appearanceCache.Dispose(); input.Dispose(); tray.Dispose(); menu.Dispose(); legacyReactions.Dispose(); sprites.Dispose(); linkedSprites.Dispose(); bubble.Dispose(); }
+            if (disposing) { animation.Dispose(); syncTimer.Dispose(); statusTimer.Dispose(); sync.Dispose(); appearanceCache.Dispose(); bundledRuby.Dispose(); input.Dispose(); tray.Dispose(); menu.Dispose(); bubble.Dispose(); }
             base.Dispose(disposing);
         }
     }
@@ -984,33 +950,48 @@ namespace PuppyRubyDesktop
                 Point bubbleTop = PetBubble.Place(new Rectangle(-1278, 0, 200, 220), bubbleSize, desktopArea);
                 Check(desktopArea.Contains(new Rectangle(bubbleTop, bubbleSize)), "speech stays on screen at negative-coordinate top edge", report);
                 using (var pet = new PetWindow(true)) pet.CheckPresentation(delegate(bool condition, string label) { Check(condition, label, report); });
-                using (var linked = new LinkedSpriteLibrary())
-                {
-                    Bitmap firstWalk = linked.Get(0, "rose", "green", "crown", "walk", 0, 0);
-                    Bitmap nextWalk = linked.Get(0, "rose", "green", "crown", "walk", 0, 1);
-                    int changed = 0;
-                    for (int y = 46; y < 62; y++) for (int x = 15; x < 49; x++) if (firstWalk.GetPixel(x, y) != nextWalk.GetPixel(x, y)) changed++;
-                    Check(changed > 10, "linked customized puppy has alternating walking paws", report);
-                    Check(linked.Get(0, "rose", "green", "crown", "idle", 0, 0).GetPixel(22, 61).A == 0, "linked puppy has no background shadow plate", report);
-                }
-                using (SpriteLibrary library = new SpriteLibrary())
+                using (BundledRubyAppearanceLibrary library = new BundledRubyAppearanceLibrary())
                 {
                     using (Bitmap sheet = new Bitmap(DesktopBreedCatalog.Ids.Length * 192, 5 * 192))
                     using (Graphics g = Graphics.FromImage(sheet))
                     {
                         g.Clear(Color.FromArgb(246, 241, 229));
                         string[] breeds = DesktopBreedCatalog.Ids;
-                        string[] moods = { "idle", "typing", "excited", "scroll", "love" };
-                        for (int b = 0; b < breeds.Length; b++) for (int m = 0; m < moods.Length; m++)
-                            PetWindow.DrawPet(g, library.Get(breeds[b], moods[m], 0, m % 2), new Rectangle(b * 192, m * 192, 192, 192));
+                        string[] scenes = { "idle", "side", "walk", "happy", "sleep" };
+                        Check(library.BreedCount == breeds.Length, "bundled Ruby Dot includes all 30 desktop breeds", report);
+                        for (int b = 0; b < breeds.Length; b++)
+                        {
+                            DesktopAppearanceFrames appearance = library.Get(breeds[b]);
+                            Check(appearance.StyleId == BundledRubyAppearanceLibrary.StyleId && appearance.BreedId == breeds[b],
+                                "bundled Ruby Dot selects " + breeds[b], report);
+                            Check(appearance.ReactionAnchors != null, "bundled Ruby Dot keeps mouse gaze and typing paw anchors for " + breeds[b], report);
+                            if (b == 0)
+                            {
+                                Bitmap left = appearance.React("idle", "idle", null, .1, true, false, -1, 0).Image;
+                                Bitmap right = appearance.React("idle", "idle", null, .1, true, false, 1, 0).Image;
+                                bool changed = false;
+                                for (int y = 0; y < left.Height && !changed; y++) for (int x = 0; x < left.Width; x++)
+                                    if (left.GetPixel(x, y).ToArgb() != right.GetPixel(x, y).ToArgb()) { changed = true; break; }
+                                Check(changed, "bundled Ruby Dot eyes visibly follow the mouse together", report);
+                            }
+                            for (int s = 0; s < scenes.Length; s++)
+                                PetWindow.DrawPet(g, appearance.Get(scenes[s], scenes[s] == "walk" ? 1 : 0, false).Image,
+                                    new Rectangle(b * 192, s * 192, 192, 192));
+                        }
                         sheet.Save(Path.ChangeExtension(output, ".png"), ImageFormat.Png);
                     }
-                    foreach (string resource in Assembly.GetExecutingAssembly().GetManifestResourceNames())
-                        if (resource.EndsWith(".png")) using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource)) using (Bitmap image = new Bitmap(stream))
-                            if (image.Width != 64 || image.Height != 64) throw new Exception("Invalid sprite dimensions");
-                    Check(true, "all embedded sprites render", report);
-                    Check(library.Get("shiba", "idle", 0, 0).GetPixel(22, 61).A == 0, "standalone puppy has no background shadow plate", report);
+                    Check(library.Get("unknown-breed").BreedId == "pomeranian", "unknown standalone breed safely uses Ruby Pomeranian", report);
                 }
+                string[] embedded = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+                int rubyResources = 0;
+                foreach (string resource in embedded)
+                {
+                    if (resource.StartsWith("ruby-default-", StringComparison.Ordinal) && resource.EndsWith(".rubypng", StringComparison.Ordinal)) rubyResources++;
+                    bool allowed = resource == "commands.json" || resource == "breed-catalog.json" || resource == "puppy.ico"
+                        || resource == "ruby-default-manifest.json" || (resource.StartsWith("ruby-default-", StringComparison.Ordinal) && resource.EndsWith(".rubypng", StringComparison.Ordinal));
+                    if (!allowed) Check(false, "shipping executable excludes retired sprite resource " + resource, report);
+                }
+                Check(rubyResources == 150 && embedded.Length == 154, "shipping executable contains exactly 150 Ruby scenes and four required resources", report);
                 File.WriteAllLines(output, report.ToArray());
                 return 0;
             }

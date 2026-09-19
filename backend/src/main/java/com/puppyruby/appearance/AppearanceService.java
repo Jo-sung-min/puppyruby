@@ -10,18 +10,9 @@ import java.util.*;
 
 @Service
 public class AppearanceService {
-    public static final List<String> STYLES = List.of("classic", "round", "mochi", "chibi", "bean", "plush", "storybook", "bold",
-        "retro", "mini", "sticker", "soft", "fluffy", "pocket", "cookie", "badge", "marshmallow", "dumpling", "pebble", "jellybean",
-        "teacup", "loaf", "pear", "egg", "snowball", "teddy", "panda", "cub", "foxlet", "longbody", "tinyhead", "bigpaws",
-        "cheeky", "squircle", "diamond", "toast", "waffle", "pixel8", "arcade", "robot", "paper", "origami", "patchwork",
-        "pompom", "cloudlet", "sprout", "sleepy", "wink", "happy", "hug", "meadow",
-        "cozy-chubby", "cozy-slim", "cozy-tall", "cozy-loaf", "bean-chubby", "bean-slim", "bean-tall", "bean-loaf",
-        "bright-chubby", "bright-slim", "bright-tall", "bright-loaf", "button-chubby", "button-slim", "button-tall", "button-loaf",
-        "premium-marshmallow", "premium-milkbean", "premium-honeybun", "premium-cloudpuff", "premium-biscuit", "premium-naploaf",
-        "premium-teddycub", "premium-peachcheek", "premium-buttonpaw", "premium-rounddrop", "premium-cottonball", "premium-caramel",
-        "art-01", "art-02", "art-03", "art-04", "art-05", "art-06", "art-07", "art-08", "art-09", "art-10",
-        "art-11", "art-12", "art-13", "art-14", "art-15", "art-16", "art-17", "art-18", "art-19", "art-20",
-        "art-21", "art-22", "art-23", "art-24", "art-25", "art-26", "art-27", "art-28", "art-29", "art-30", "art-16-scenes", "sp08-scenes", "sp15-scenes", "ruby-round-scenes", "animated-2d");
+    public static final String DEFAULT_STYLE = "ruby-round-scenes";
+    /** Only the Ruby Round pack is published; retired CDN collections are not accepted by the API. */
+    public static final List<String> STYLES = List.of(DEFAULT_STYLE);
     public static final List<String> BREEDS = BreedCatalog.IDS;
     public static final List<String> SHAPES = List.of("original", "teddy", "fox");
     public static final List<String> PATTERNS = List.of("solid", "tuxedo", "patches", "freckles", "socks", "blaze");
@@ -57,7 +48,7 @@ public class AppearanceService {
     @Transactional(readOnly = true)
     public Config current() {
         return repository.findCurrent().map(AppearanceService::view)
-            .orElseGet(() -> new Config("classic", Map.of(), 0, null));
+            .orElseGet(() -> new Config(DEFAULT_STYLE, Map.of(), 0, null));
     }
 
     /** The administrator service authorizes and records its audit in this same transaction. */
@@ -68,19 +59,13 @@ public class AppearanceService {
         AppearanceSettings settings = repository.findLocked().orElseThrow();
         if (settings.revision != input.expectedRevision() || settings.revision >= MAX_REVISION)
             throw new ResponseStatusException(HttpStatus.CONFLICT, "다른 관리자가 스타일을 변경했어요. 최신 설정을 불러온 뒤 다시 저장해 주세요.");
-        Set<String> deleted = input.deletedStyles() == null ? new LinkedHashSet<>(settings.deletedStyles) : new LinkedHashSet<>(input.deletedStyles());
         List<Variety> varieties = input.varieties() == null ? settings.varieties.stream().map(AppearanceVariety::view).toList() : input.varieties();
         Map<String, String> breedVarieties = input.breedVarieties() == null ? new LinkedHashMap<>(settings.breedVarieties) : input.breedVarieties();
-        if (deleted.contains(input.defaultStyle()) || input.breedStyles().values().stream().anyMatch(deleted::contains)
-            || varieties.stream().anyMatch(variety -> variety.style() != null && deleted.contains(variety.style())))
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제한 스타일은 기본 또는 품종별 스타일로 사용할 수 없어요.");
-        settings.defaultStyle = input.defaultStyle();
+        settings.defaultStyle = DEFAULT_STYLE;
         settings.breedStyles.clear();
-        settings.breedStyles.putAll(input.breedStyles());
         settings.deletedStyles.clear();
-        settings.deletedStyles.addAll(deleted);
         settings.varieties.clear();
-        varieties.forEach(value -> settings.varieties.add(new AppearanceVariety(value)));
+        varieties.forEach(value -> settings.varieties.add(new AppearanceVariety(normalize(value))));
         settings.breedVarieties.clear();
         settings.breedVarieties.putAll(breedVarieties);
         settings.revision++;
@@ -178,9 +163,12 @@ public class AppearanceService {
             List.copyOf(normalized), Collections.unmodifiableMap(new LinkedHashMap<>(input.breedVarieties())));
     }
     private static Config view(AppearanceSettings settings) {
-        return new Config(settings.defaultStyle, Collections.unmodifiableMap(new TreeMap<>(settings.breedStyles)), settings.revision, settings.updatedAt,
-            STYLES.stream().filter(settings.deletedStyles::contains).toList(), settings.varieties.stream().map(AppearanceVariety::view).toList(),
+        return new Config(DEFAULT_STYLE, Map.of(), settings.revision, settings.updatedAt,
+            List.of(), settings.varieties.stream().map(AppearanceVariety::view).map(AppearanceService::normalize).toList(),
             Collections.unmodifiableMap(new TreeMap<>(settings.breedVarieties)));
+    }
+    private static Variety normalize(Variety value) {
+        return new Variety(value.id(), value.breed(), value.name(), null, value.shape(), value.pattern(), value.coatColor(), value.patternColor());
     }
     private static boolean canonicalId(String value) {
         try { return value != null && UUID.fromString(value).toString().equals(value); }

@@ -43,7 +43,7 @@ function luminance(value:string) {
   return /^#[0-9a-f]{6}$/i.test(value) ? parseInt(value.slice(1,3),16)*.299+parseInt(value.slice(3,5),16)*.587+parseInt(value.slice(5,7),16)*.114 : 255;
 }
 
-export function PixelDog({ breed = "shiba", mood = "idle", fur, eyes = "#3e332c", eyeStyle, accessory = "none", look = 0, lookY = 0, frame = 0, className = "", decorative = false, groundShadow = true, styleId = "classic", variant, scene, paused }: {
+export function PixelDog({ breed = "pomeranian", mood = "idle", fur, eyes = "#3e332c", eyeStyle, accessory = "none", look = 0, lookY = 0, frame = 0, className = "", decorative = false, groundShadow = true, styleId = rubyRoundStyleId, variant, scene, paused }: {
   breed?: PixelBreed; mood?: PixelMood; fur?: string; eyes?: string; eyeStyle?: string; accessory?: string; look?: number; lookY?: number; frame?: number; className?: string; decorative?: boolean; groundShadow?: boolean; styleId?: DogStyleId; variant?: DogVariantLook; scene?: DogSceneId; paused?: boolean;
 }) {
   breed = dogBreeds.find(item => item.id === breed)?.id ?? "pomeranian";

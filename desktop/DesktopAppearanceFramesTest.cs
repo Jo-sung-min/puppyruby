@@ -137,6 +137,19 @@ namespace PuppyRubyDesktop
                     check(composed.GetPixel(1, 2).ToArgb() == firstBody.ToArgb() && composed.GetPixel(12 + 9, 5).ToArgb() == secondBody.ToArgb(), "transparent eye pixels preserve the body inside each eye anchor");
             }
 
+            using (var body = new Bitmap(64, 64, PixelFormat.Format32bppArgb))
+            using (var eyes = new Bitmap(32, 16, PixelFormat.Format32bppArgb))
+            {
+                DesktopEyeAnchor[][] anchors = { new[] { new DesktopEyeAnchor { x = 23, y = 25, width = 6, height = 6 }, new DesktopEyeAnchor { x = 35, y = 25, width = 6, height = 6 } } };
+                foreach (string accessory in new[] { "ribbon", "scarf", "crown", "bow-blue", "bow-lilac", "party-hat", "flower", "glasses", "halo", "angel-wings" })
+                using (Bitmap composed = DesktopAppearanceFrames.ComposeEyes(body, eyes, 64, 64, 1, anchors, accessory))
+                {
+                    bool visible = false;
+                    for (int y = 0; y < composed.Height && !visible; y++) for (int x = 0; x < composed.Width; x++) if (composed.GetPixel(x, y).A > 0) { visible = true; break; }
+                    check(visible, "web accessory " + accessory + " is composed into the desktop Ruby frame");
+                }
+            }
+
             string legacyKey = new string('a', 64), renderedKey = new string('b', 64);
             var legacy = new DesktopAppearance { key = legacyKey };
             check(legacy.EffectiveKey == legacyKey, "legacy appearance identity remains its original key");
@@ -164,6 +177,10 @@ namespace PuppyRubyDesktop
             DesktopAppearance badEye = LayeredDescriptor();
             badEye.scenes["happy"].eyeStyle = "ruby-eye-31";
             check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(badEye, "https://puppyruby.com"); }), "an unknown eye style is rejected");
+
+            DesktopAppearance badAccessory = LayeredDescriptor();
+            badAccessory.accessory = "../../retired-sprite";
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(badAccessory, "https://puppyruby.com"); }), "an unknown desktop accessory is rejected");
         }
 
         private static DesktopAppearance LayeredDescriptor()

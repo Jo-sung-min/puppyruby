@@ -1,6 +1,6 @@
 # 이미지 제작 기록
 
-아래 파일 경로는 2026-09-14 중앙 보관 폴더로 이동한 현재 위치입니다. 제작 날짜·프롬프트·당시 동작에 관한 기록은 유지했습니다. 사이트 이미지는 `local-assets/site/images/`, 생성 원본과 검사 결과는 `local-assets/work/`, 데스크톱 생성 파일은 `local-assets/desktop/`에 보관하며 `local-assets/` 전체는 Git에서 제외합니다. 웹의 `/images/` 주소는 검증한 CDN 릴리스로 연결합니다.
+아래 파일 경로는 2026-09-14 중앙 보관 폴더로 이동한 현재 위치입니다. 제작 날짜·프롬프트·당시 동작에 관한 기록은 유지했습니다. 사이트 이미지는 `local-assets/site/images/`, 생성 원본과 검사 결과는 `local-assets/work/`, 데스크톱 생성 파일은 `local-assets/desktop/`에 보관하며 `local-assets/` 전체는 Git에서 제외합니다. 운영 CDN에는 파비콘·배경 2개와 별도 루비 도트 팩만 공개하며, 이전 강아지 시안은 로컬 제작 기록으로만 보관합니다.
 
 ## 현재 픽셀 버전 (2026-09-12)
 
@@ -12,11 +12,11 @@
 - 사용자가 제공한 `D:\projectT\프로젝트 이미지 모음\퍼피루비`의 PNG 4장(견종 표 2장, 시바 털색 10종, 사모예드 형태 10종)을 시각적으로 참고해 새로 그렸습니다. 원본 파일을 수정하거나 외부에 업로드하지 않았습니다.
 - 참고 사이트: https://comnyang.com/ko — 캐릭터 체험 중심 정보 구성을 참고했으며, 사이트 이미지나 코드를 복제하지 않았습니다.
 - 글꼴: npm `galmuri`, SIL Open Font License 1.1. 라이선스는 `node_modules/galmuri/ofl.md`에 포함됩니다. 글꼴은 앱과 함께 로컬 제공됩니다.
-- 아래의 3D 이미지 2장은 이전 버전 기록이며 파일은 보존했지만 현재 렌더러에서는 사용하지 않습니다. 액세서리는 현재 이모지 이미지 합성 대신 픽셀 SVG로 표시하고, 선택 버튼의 이모지만 유지합니다.
+- 아래의 3D 이미지 2장은 이전 버전 기록이며 파일은 로컬에 보존했지만 현재 렌더러와 S3 공개 릴리스에서는 사용하지 않습니다. 액세서리는 현재 이모지 이미지 합성 대신 픽셀 SVG로 표시하고, 선택 버튼의 이모지만 유지합니다.
 
 ## 이전 3D 버전
 
-두 이미지 모두 내장 이미지 생성 도구로 이 프로젝트를 위해 새로 제작했습니다. 생성된 파일을 프로젝트의 공개 에셋 폴더에 복사했습니다.
+두 이미지 모두 내장 이미지 생성 도구로 이 프로젝트를 위해 새로 제작했습니다. 현재는 로컬 제작 기록이며 2026-09-19 S3 정리에서 공개 객체를 삭제했습니다.
 
 ## 여섯 견종
 
@@ -24,7 +24,7 @@
 - 실제 크기: 1254 × 1254, RGBA 투명 배경
 - 배치: 위쪽 포메라니안 / 푸들 / 말티즈, 아래쪽 시바 / 코기 / 비글
 - 프롬프트: "Transparent PNG sprite atlas for a premium cozy mobile puppy game. Six full-body sitting puppies directly facing forward, three columns and two rows, consistent scale, short feet, large dark sparkling eyes and tiny sweet smiles. Cream Pomeranian, apricot Toy Poodle, white Maltese, orange-white Shiba Inu, tan-white Corgi, brown-white floppy-ear Beagle. Soft 3D clay/plush style with fine tactile fur, rounded forms, diffused studio lighting. No accessories, text, labels or scenery. Genuine transparent alpha."
-- `PuppySprite`에서 생성 결과의 실제 좌표를 기준으로 잘라 표시합니다. 털색 필터와 눈동자 레이어는 미리보기와 저장 후 화면 모두 동일하게 적용합니다.
+- 과거 `PuppySprite`에서 잘라 표시하던 자료입니다. 현재 웹·다운로드 렌더러에서는 사용하지 않으며 발행기에서도 제외합니다.
 
 ## 포근한 거실
 

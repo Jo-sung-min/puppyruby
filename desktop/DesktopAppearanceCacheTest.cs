@@ -196,7 +196,7 @@ namespace PuppyRubyDesktop
                 new[] { new DesktopEyeAnchor { x = 5, y = 7, width = 4, height = 4 }, new DesktopEyeAnchor { x = 15, y = 7, width = 4, height = 4 } }
             };
         }
-        private static DesktopAppearance LayeredDescriptor(string origin, string eyeStyle, string renderIdentity)
+        private static DesktopAppearance LayeredDescriptor(string origin, string eyeStyle, string renderIdentity, string accessory = "none")
         {
             string eyePath = "/layered/eyes/" + eyeStyle + ".png";
             var value = new DesktopAppearance
@@ -207,6 +207,7 @@ namespace PuppyRubyDesktop
                 styleId = "ruby-round-scenes",
                 styleName = "Ruby round layered test",
                 breedId = "pomeranian",
+                accessory = accessory,
                 width = 24,
                 height = 24,
                 scenes = new Dictionary<string, DesktopAppearanceScene>()
@@ -468,11 +469,18 @@ namespace PuppyRubyDesktop
                 Check(cache.Current.Key == sameEyeNewRender.renderKey, "new render identity is applied from cached layer files");
                 Check(server.Count("/layered/body/") == bodyRequests && server.Count("/layered/eyes/ruby-eye-03.png") == selectedEyeRequests, "same selected eye is not re-downloaded when recomposition is requested");
 
+                Color beforeAccessory = cache.Current.Get("idle", 0, false).Image.GetPixel(12, 2);
+                var changedAccessory = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-accessory-crown", "crown");
+                await Within(cache.UpdateAsync(changedAccessory, server.Origin), "changed layered accessory appearance");
+                Check(cache.Current.Key == changedAccessory.renderKey, "changed accessory replaces the current appearance using its render key");
+                Check(cache.Current.Get("idle", 0, false).Image.GetPixel(12, 2).ToArgb() != beforeAccessory.ToArgb(), "changed accessory pixels are visible in the composed desktop output");
+                Check(server.Count("/layered/body/") == bodyRequests && server.Count("/layered/eyes/ruby-eye-03.png") == selectedEyeRequests, "accessory-only change reuses verified body and eye files");
+
                 int requestsBeforeMalformed = server.Snapshot().Length;
                 var malformed = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-malformed");
                 malformed.scenes["happy"].eyeAnchors = null;
                 await cache.UpdateAsync(malformed, server.Origin);
-                Check(cache.Current != null && cache.Current.Key == sameEyeNewRender.renderKey, "malformed layered descriptor keeps the previous appearance");
+                Check(cache.Current != null && cache.Current.Key == changedAccessory.renderKey, "malformed layered descriptor keeps the previous appearance");
                 Check(server.Snapshot().Length == requestsBeforeMalformed, "malformed layered descriptor is rejected before downloads");
 
                 foreach (string failure in new[] { "body-hash", "body-dimension", "eye-hash", "eye-dimension" })
@@ -493,7 +501,7 @@ namespace PuppyRubyDesktop
                     int before = server.Count(path);
                     await Within(cache.UpdateAsync(bad, server.Origin), failure + " layered download rejection");
                     Check(server.Count(path) == before + 1, failure + " fixture is fetched for validation");
-                    Check(cache.Current != null && cache.Current.Key == sameEyeNewRender.renderKey, failure + " cannot replace the last valid appearance");
+                    Check(cache.Current != null && cache.Current.Key == changedAccessory.renderKey, failure + " cannot replace the last valid appearance");
                     Check(cache.Status.Contains("마지막 모습을 유지"), failure + " reports that the last valid appearance is retained");
                 }
             }

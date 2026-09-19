@@ -16,6 +16,7 @@ import type { DesktopAppearance, DesktopAppearanceScene } from "./desktop";
 type JsonRecord = Record<string, unknown>;
 const record = (value: unknown): value is JsonRecord => !!value && typeof value === "object" && !Array.isArray(value);
 const unavailable = "웹 강아지의 모습을 불러오지 못했어요. 마지막으로 확인한 모습을 유지하고 다시 확인해요.";
+const desktopAccessories = new Set(["none", "ribbon", "scarf", "crown", "bow-blue", "bow-lilac", "party-hat", "flower", "glasses", "halo", "angel-wings"]);
 
 function sceneDescriptor(png: string, width: number, height: number, frames: number, frameMs: number, origin: string): DesktopAppearanceScene {
   const file = (fingerprints as Record<string, { sha256: string; width: number; height: number }>)[png];
@@ -37,7 +38,7 @@ function imageDescriptor(png: string, width: number, height: number, origin: str
 }
 
 /** Resolve the very same breed/variety/global priority used by the live web renderer. */
-export function desktopAppearance(config: AppearanceConfig, breed: number, origin: string, eyes: unknown = "original"): DesktopAppearance | null {
+export function desktopAppearance(config: AppearanceConfig, breed: number, origin: string, eyes: unknown = "original", accessory: unknown = "none"): DesktopAppearance | null {
   const breedId = dogBreedAt(breed).id;
   const styleId = resolveDogStyle(config, breedId);
   const variety = resolveDogVariety(config, breedId);
@@ -88,10 +89,14 @@ export function desktopAppearance(config: AppearanceConfig, breed: number, origi
   const legacyIdentity = { version: 1 as const, styleId, styleName, breedId, width, height, scenes: legacyScenes };
   const key = createHash("sha256").update(JSON.stringify(legacyIdentity)).digest("hex");
   if (styleId === rubyRoundStyleId) {
-    const layeredIdentity = { version: 1 as const, styleId, styleName, breedId, width, height, scenes };
+    const selectedAccessory = typeof accessory === "string" && desktopAccessories.has(accessory) ? accessory : "none";
+    const reactionEyes = scenes.idle.eyeAnchors?.[0]?.map(anchor => ({ ...anchor }));
+    if (!reactionEyes || reactionEyes.length !== 2) throw new Error(unavailable);
+    const layeredIdentity = { version: 1 as const, styleId, styleName, breedId, width, height, accessory: selectedAccessory, reactionEyes, scenes };
     renderKey = createHash("sha256").update(JSON.stringify(layeredIdentity)).digest("hex");
+    return { ...legacyIdentity, key, renderKey, accessory: selectedAccessory, reactionEyes, scenes };
   }
-  return { ...legacyIdentity, key, ...(renderKey ? { renderKey, scenes } : {}) };
+  return { ...legacyIdentity, key };
 }
 
 /** Cosmetic failures must never fail pairing, replay an action, or discard a successful game-state update. */
@@ -106,7 +111,7 @@ export async function attachDesktopAppearance(data: unknown, action: string, ori
     if (!response.ok) throw new Error(unavailable);
     const config = parseAppearance(await response.json());
     if (typeof state.puppy.breed !== "number" || !Number.isInteger(state.puppy.breed)) throw new Error(unavailable);
-    appearance = desktopAppearance(config, state.puppy.breed, origin, state.puppy.eyes);
+    appearance = desktopAppearance(config, state.puppy.breed, origin, state.puppy.eyes, state.puppy.accessory);
   } catch (error) {
     appearanceError = error instanceof Error && error.message.startsWith("이 도트 스타일은") ? error.message : unavailable;
   }

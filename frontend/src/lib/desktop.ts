@@ -9,7 +9,7 @@ export type DesktopAppearanceScene = {
 };
 export type DesktopAppearance = {
   version: 1; key: string; renderKey?: string; styleId: string; styleName: string; breedId: string;
-  width: number; height: number; scenes: Record<Art16SceneId, DesktopAppearanceScene>;
+  width: number; height: number; accessory?: string; reactionEyes?: DesktopEyeAnchor[]; scenes: Record<Art16SceneId, DesktopAppearanceScene>;
 };
 
 export type DesktopDevice = { id: string; label: string; createdAt: number; lastSeen: number };

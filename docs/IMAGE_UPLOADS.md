@@ -2,7 +2,7 @@
 
 ## 사이트 기본 이미지의 CDN 주소
 
-정원 배경, 사이트 아이콘과 관리자 픽셀아트 원화는 저장소에 기록된 검증 완료 CDN 릴리스를 기본으로 사용합니다. 다른 릴리스를 시험할 때만 Vercel 환경변수 또는 로컬 `frontend/.env.local`에 공개 주소를 재정의합니다.
+공용 CDN 릴리스에는 픽셀 정원, 거실 배경과 사이트 아이콘 3개만 둡니다. 강아지는 별도의 검증된 `ruby-round-v1` 팩만 사용합니다. 이전 관리자 픽셀아트 원화·미리보기·ZIP·Aseprite는 2026-09-19에 S3에서 정리했으며 공용 발행기가 다시 올리지 않습니다. 다른 공용 릴리스를 시험할 때만 Vercel 환경변수 또는 로컬 `frontend/.env.local`에 공개 주소를 재정의합니다.
 
 ```dotenv
 NEXT_PUBLIC_ASSET_BASE_URL=https://cdn.puppyruby.com/site-assets/릴리스-이름
@@ -14,24 +14,24 @@ NEXT_PUBLIC_DOWNLOAD_BASE_URL=https://cdn.puppyruby.com/site-downloads/릴리스
 | 프로젝트 경로 | CDN에서 읽는 상대 경로 |
 |---|---|
 | `local-assets/site/images/pixel-garden.svg` | `images/pixel-garden.svg` |
-| `local-assets/site/images/pixel-art-v1/art-01.png` | `images/pixel-art-v1/art-01.png` |
+| `local-assets/site/images/cozy-room.png` | `images/cozy-room.png` |
 | `local-assets/site/favicon.svg` | `favicon.svg` |
 
 `NEXT_PUBLIC_ASSET_BASE_URL`에는 HTTPS 주소를 사용하고 쿼리, 서명 토큰, 아이디·비밀번호, `images/` 또는 파일 이름을 넣지 않습니다. 로컬 테스트에만 `http://localhost:포트`, `http://127.0.0.1:포트`, `http://[::1]:포트`를 사용할 수 있습니다. 잘못된 값은 개발 서버 시작이나 빌드를 중단하며 입력한 값 자체는 오류에 표시하지 않습니다.
 
 값을 비우면 `frontend/src/lib/generated/public-media-release.json`에 기록된 CDN 릴리스를 사용합니다. 공개 환경변수는 빌드에 포함되므로 수정 후 개발 서버를 재시작하고, 운영에서는 새로 빌드·배포합니다. 원본은 Git에서 제외된 `local-assets/site`에 보관합니다. 시안 manifest에는 논리 경로를 유지하며 표시할 때 `assetUrl`이 CDN 주소로 바꿉니다. 자세한 절차는 [사이트 미디어 배포](SITE_ASSETS.md)를 참고하세요.
 
-관리자의 개별 PNG 다운로드도 CDN 주소를 사용합니다. CDN 도메인이 사이트와 다르면 브라우저가 링크의 `download` 속성을 무시할 수 있으므로 `images/pixel-art-v1/art-*.png` 객체에 `Content-Disposition: attachment; filename="art-01.png"` 형식의 실제 파일 이름을 지정하고 CDN이 이 헤더를 전달하게 설정합니다. 이미지 태그는 같은 파일을 그대로 표시할 수 있습니다. 일반 배경·아이콘은 `inline`으로 제공합니다. ZIP·EXE·JAR 다운로드는 `/downloads/`의 기존 사이트 주소를 유지합니다.
+공용 배경·아이콘은 `inline`으로 제공합니다. Windows 다운로드 릴리스는 `PuppyRuby.exe`, `PuppyRuby-Setup.exe`와 각각의 SHA-256 파일만 포함하고 `/downloads/`의 기존 사이트 주소를 유지합니다. 제작용 ZIP·Aseprite와 서버 JAR은 공개 다운로드가 아닙니다.
 
 회원 사진과 관리자가 입력하거나 업로드한 SEO 공유 이미지는 저장된 외부 주소를 유지합니다. 아래의 Java 서버 `CDN_BASE_URL`은 회원 업로드용이고, 위 프런트엔드의 릴리스 주소와 별도로 관리합니다. AWS 키·비밀 키를 `NEXT_PUBLIC_*`에 넣지 않습니다.
 
-코드와 주소 변환은 저장소 루트에서 `node scripts/verify-asset-urls.cjs`로 확인할 수 있습니다. 실제 CDN의 모든 이미지가 HTTP 200으로 응답하고 `Content-Type`과 다운로드 헤더가 맞는지도 배포 전에 확인하세요.
+코드와 주소 변환은 저장소 루트에서 `node scripts/verify-asset-urls.cjs`로 확인할 수 있습니다. 공용 이미지 3개와 별도 루비 도트 팩의 대상이 HTTP 200으로 응답하고 `Content-Type`과 캐시 헤더가 맞는지도 배포 전에 확인하세요.
 
 ## 회원 사진 업로드
 
 산책 프로필에서 사진을 선택하면 브라우저가 사진을 줄이고, 서버에서 받은 짧은 유효기간의 업로드 URL로 S3에 직접 전송합니다. 업로드 완료를 서버가 확인한 뒤 CDN 주소로 미리보기를 표시합니다. **프로필 저장**을 눌러야 내 프로필에 반영됩니다. 이미지 파일 자체가 Vercel 요청 본문을 통과하지 않습니다.
 
-새 사진 등록은 로그인한 회원에게만 열립니다. 기존에 저장한 사진은 계속 표시하며 사진을 바꾸지 않고 이름·나이만 수정할 수도 있습니다. 기본 제공 강아지 도트와 사이트 배경 파일은 기존 프로젝트 에셋을 사용합니다.
+새 사진 등록은 로그인한 회원에게만 열립니다. 기존에 저장한 사진은 계속 표시하며 사진을 바꾸지 않고 이름·나이만 수정할 수도 있습니다. 기본 제공 강아지는 별도 루비 도트 팩을, 사이트 풍경은 3파일 공용 릴리스를 사용합니다.
 
 ## 1. 환경변수 등록 위치
 

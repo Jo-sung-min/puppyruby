@@ -37,10 +37,11 @@ const { PuppySprite } = loadFrontend('src/components/puppy-sprite.tsx');
 const { eyeOptions } = loadFrontend('src/lib/game.ts');
 for (const eye of eyeOptions) {
   const legacy = renderToStaticMarkup(React.createElement(PuppySprite, { puppy: { breed: 0, eyes: eye.id } }));
-  check(legacy.includes(eye.color), 'Existing saved eye colors retain their appearance');
+  const mapped = eyes.rubyEyeStyle(eye.id);
+  check(legacy.includes(`data-eye-style="${mapped.id}"`) && legacy.includes(mapped.png), 'Existing saved eye choices map to their matching Ruby eye layer');
 }
 const signupPuppy = renderToStaticMarkup(React.createElement(PuppySprite, { puppy: { breed: 0 } }));
-check(signupPuppy.includes('#3e332c'), 'Sign-up and catalog puppies without saved eyes retain the existing renderer default');
+check(signupPuppy.includes('data-eye-style="ruby-eye-01"') && signupPuppy.includes('/eyes/eye-01.png'), 'Sign-up and catalog puppies use the Ruby black-eye default');
 const picker = renderToStaticMarkup(React.createElement(RubyEyePicker, { value: 'ruby-eye-28', onChange() {} }));
 check((picker.match(/<button/g) ?? []).length === 30 && (picker.match(/aria-pressed="true"/g) ?? []).length === 1, 'Eye picker exposes 30 keyboard accessible choices and one selection');
 check(nativeDogScenes(lib.rubyRoundStyleId).length === 5, 'Consolidated admin previews expose five scenes');

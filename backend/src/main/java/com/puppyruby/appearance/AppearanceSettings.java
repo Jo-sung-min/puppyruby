@@ -13,7 +13,7 @@ import java.util.ArrayList;
 class AppearanceSettings {
     static final String ID = "global";
     @Id @Column(length = 16) String id = ID;
-    @Column(nullable = false, length = 24) String defaultStyle = "classic";
+    @Column(nullable = false, length = 24) String defaultStyle = AppearanceService.DEFAULT_STYLE;
     @ElementCollection
     @CollectionTable(name = "appearance_breed_styles", joinColumns = @JoinColumn(name = "settings_id"))
     @MapKeyColumn(name = "breed", length = 24)

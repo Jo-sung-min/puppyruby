@@ -42,7 +42,7 @@ try {
     if (-not $downloadClasspath) { throw 'Backend SDK classpath unavailable.' }
     & $downloadJavac -cp $downloadClasspath -d $downloadBuild (Join-Path $PSScriptRoot 'SiteDownloadPublisher.java')
     if ($LASTEXITCODE -ne 0) { throw 'Site download publisher compilation failed.' }
-    # Uses 188 approved public files only; server JAR/checksums and all work files are excluded.
+    # Publishes only the two desktop executables and their checksum sidecars.
     & $downloadJava -cp ($downloadBuild + ';' + $downloadClasspath) SiteDownloadPublisher $downloadProject $Action
     if ($LASTEXITCODE -ne 0) { throw 'Site download publisher failed. Review its safe error code above.' }
 } finally { Pop-Location }

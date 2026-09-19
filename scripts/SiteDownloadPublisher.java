@@ -26,21 +26,9 @@ public final class SiteDownloadPublisher {
     record Asset(Path source, String path, String contentType, String disposition, long size, String sha256, String checksum) {}
     record Digest(long bytes, String hex, String base64) {}
 
-    /** Only this independently published subtree is excluded; other unknown files still fail validation. */
+    /** Exact allowlist: artwork sources and retired archives can never enter a future release. */
     static List<Path> collectSources(Path publicRoot) throws IOException {
-        Path downloads = publicRoot.resolve("downloads"), independent = downloads.resolve("ruby-round-v1");
-        var sources = new ArrayList<Path>();
-        Files.walkFileTree(downloads, new SimpleFileVisitor<>() {
-            @Override public FileVisitResult preVisitDirectory(Path directory, BasicFileAttributes attributes) {
-                if (directory.equals(independent)) return FileVisitResult.SKIP_SUBTREE;
-                sources.add(directory); return FileVisitResult.CONTINUE;
-            }
-            @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
-                if (!file.equals(independent)) sources.add(file);
-                return FileVisitResult.CONTINUE;
-            }
-        });
-        return sources;
+        return ALLOWED_PATHS.stream().sorted().map(publicRoot::resolve).toList();
     }
 
     public static void main(String[] args) {
@@ -172,8 +160,8 @@ public final class SiteDownloadPublisher {
     }
 
     static void validateInventory(Set<String> paths) {
-        if (ALLOWED_PATHS.size() != 188 || !Collections.disjoint(ALLOWED_PATHS, EXCLUDED_SERVER_PATHS) || !paths.equals(ALLOWED_PATHS))
-            throw new Refused("DOWNLOAD_COLLECTION_REQUIRES_EXACTLY_188_PUBLIC_FILES_WITHOUT_SERVER_ARTIFACTS");
+        if (ALLOWED_PATHS.size() != 4 || !Collections.disjoint(ALLOWED_PATHS, EXCLUDED_SERVER_PATHS) || !paths.equals(ALLOWED_PATHS))
+            throw new Refused("DOWNLOAD_COLLECTION_REQUIRES_EXACTLY_4_DESKTOP_FILES_WITHOUT_ARTWORK_OR_SERVER_ARTIFACTS");
     }
 
     static String validateFile(Path source, String path, long size) throws Exception {
@@ -298,19 +286,7 @@ public final class SiteDownloadPublisher {
     }
 
     private static Set<String> allowedPaths() {
-        Set<String> paths = new HashSet<>();
-        for (String name : List.of("PuppyRuby.exe", "PuppyRuby-Setup.exe", "PuppyRuby.sha256", "PuppyRuby-Setup.sha256",
-            "puppyruby-art16-breed-scenes.zip", "puppyruby-cute-puppies-16.zip", "puppyruby-imaginary-pixel-12.zip", "puppyruby-pixel-art-30.zip", "puppyruby-pixel-art-dogs-30.zip", "puppyruby-premium-puppies-12.zip", "puppyruby-soft-pixel-candidates.zip", "puppyruby-sp08-breed-scenes.zip", "puppyruby-sp15-breed-scenes.zip")) paths.add("downloads/" + name);
-        for (String breed : BreedCatalog.IDS) {
-            paths.add("downloads/art16-scenes-v1/" + breed + ".aseprite");
-            for (String style : List.of("sp08", "sp15")) paths.add("downloads/sp-scenes-v1/" + style + "/" + breed + ".aseprite");
-        }
-        for (String family : List.of("cozy", "bean", "bright", "button")) for (String body : List.of("chubby", "slim", "tall", "loaf")) paths.add("downloads/cute-puppies-v1/" + family + "-" + body + ".aseprite");
-        for (String name : List.of("marshmallow", "milkbean", "honeybun", "cloudpuff", "biscuit", "naploaf", "teddycub", "peachcheek", "buttonpaw", "rounddrop", "cottonball", "caramel")) paths.add("downloads/premium-puppies-v1/premium-" + name + ".aseprite");
-        for (int i = 1; i <= 12; i++) paths.add("downloads/imaginary-pixel-v1/C%02d.aseprite".formatted(i));
-        for (int i = 1; i <= 30; i++) paths.add("downloads/pixel-art-dogs-v1/art-%02d.aseprite".formatted(i));
-        for (int i = 1; i <= 15; i++) paths.add("downloads/soft-pixel-v1/sp-%02d.aseprite".formatted(i));
-        return Set.copyOf(paths);
+        return Set.of("downloads/PuppyRuby.exe", "downloads/PuppyRuby-Setup.exe", "downloads/PuppyRuby.sha256", "downloads/PuppyRuby-Setup.sha256");
     }
 
     private static String manifest(List<Asset> assets, String hash, String release, String prefix, String cdn, String originPath, long bytes) {

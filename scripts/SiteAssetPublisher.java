@@ -23,7 +23,13 @@ import software.amazon.awssdk.services.s3.model.*;
 /** Publishes only the explicitly scoped public image assets, never downloads or application data. */
 public final class SiteAssetPublisher {
     private static final String CACHE = "public, max-age=31536000, immutable";
-    private static final Set<String> CDN_SAMPLES = Set.of("images/puppies.png", "images/pixel-garden.svg", "favicon.svg", "images/pixel-art-v1/art-30.png");
+    /** Shared site chrome only. Dog artwork is published exclusively by RubyRoundAssetPublisher. */
+    static final Set<String> PUBLIC_PATHS = Set.of(
+        "favicon.svg",
+        "images/cozy-room.png",
+        "images/pixel-garden.svg"
+    );
+    private static final Set<String> CDN_SAMPLES = PUBLIC_PATHS;
     private static final String CUTE_DIRECTORY = "images/cute-puppies-v1/";
     private static final Set<String> CUTE_PATHS = cutePaths();
     private static final String PREMIUM_DIRECTORY = "images/premium-puppies-v1/";
@@ -46,22 +52,9 @@ public final class SiteAssetPublisher {
     private static String phase = "plan", currentPath = "";
     private record Asset(Path source, String path, String contentType, String disposition, long size, String sha256, String checksum) {}
 
-    /** Ruby Round has its own fixed-scope publisher and release; legacy hashes exclude only that subtree. */
+    /** Exact allowlist: local legacy style folders can never enter a future site release. */
     static List<Path> collectSources(Path publicRoot) throws IOException {
-        Path images = publicRoot.resolve("images"), independent = images.resolve("ruby-round-v1");
-        var sources = new ArrayList<Path>();
-        Files.walkFileTree(images, new SimpleFileVisitor<>() {
-            @Override public FileVisitResult preVisitDirectory(Path directory, BasicFileAttributes attributes) {
-                return directory.equals(independent) ? FileVisitResult.SKIP_SUBTREE : FileVisitResult.CONTINUE;
-            }
-            @Override public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
-                String name = file.getFileName().toString().toLowerCase(Locale.ROOT);
-                if (Files.isRegularFile(file) && (name.endsWith(".png") || name.endsWith(".svg"))) sources.add(file);
-                return FileVisitResult.CONTINUE;
-            }
-        });
-        sources.add(publicRoot.resolve("favicon.svg"));
-        return sources;
+        return PUBLIC_PATHS.stream().sorted().map(publicRoot::resolve).toList();
     }
 
     public static void main(String[] args) {
@@ -94,35 +87,13 @@ public final class SiteAssetPublisher {
             byte[] bytes = Files.readAllBytes(source);
             String type = validateImage(relative, bytes);
             byte[] digest = MessageDigest.getInstance("SHA-256").digest(bytes);
-            String disposition = relative.matches("(?:images/pixel-art-v1/art-[0-9]{2}|images/imaginary-pixel-v1/C(?:0[1-9]|1[0-2]))\\.png") || CUTE_PATHS.contains(relative) || PREMIUM_PATHS.contains(relative) || ART_DOG_PATHS.contains(relative) || ART16_PATHS.contains(relative) || SOFT_PATHS.contains(relative) || SP_PATHS.contains(relative) ? "attachment; filename=\"" + source.getFileName() + "\"" : "inline";
+            String disposition = "inline";
             assets.add(new Asset(source, relative, type, disposition, size, HexFormat.of().formatHex(digest), Base64.getEncoder().encodeToString(digest)));
         }
         assets.sort(Comparator.comparing(Asset::path));
-        if (assets.isEmpty() || assets.size() > 709 || assets.stream().map(Asset::path).distinct().count() != assets.size()) throw new Refused("INVALID_ASSET_INVENTORY");
+        if (assets.size() != PUBLIC_PATHS.size() || assets.stream().map(Asset::path).distinct().count() != assets.size()) throw new Refused("INVALID_ASSET_INVENTORY");
         Set<String> assetPaths = new HashSet<>(assets.stream().map(Asset::path).toList());
         validateSiteInventory(assetPaths);
-        if (Files.exists(publicRoot.resolve(CUTE_DIRECTORY)) && !assetPaths.containsAll(CUTE_PATHS)) throw new Refused("CUTE_COLLECTION_INCOMPLETE");
-        if (Files.exists(publicRoot.resolve(PREMIUM_DIRECTORY)) && !assetPaths.containsAll(PREMIUM_PATHS)) throw new Refused("PREMIUM_COLLECTION_INCOMPLETE");
-        if (Files.exists(publicRoot.resolve(ART_DOGS_DIRECTORY)) && !assetPaths.containsAll(ART_DOG_PATHS)) throw new Refused("ART_DOG_COLLECTION_INCOMPLETE");
-        if (Files.exists(publicRoot.resolve(ART16_DIRECTORY))) {
-            if (!assetPaths.containsAll(ART16_PATHS)) throw new Refused("ART16_SCENES_COLLECTION_INCOMPLETE");
-            validateArt16Files(project, publicRoot);
-        }
-        if (Files.exists(publicRoot.resolve(SOFT_DIRECTORY))) {
-            Set<String> previousPaths = new HashSet<>(assetPaths);
-            previousPaths.removeAll(SP_PATHS);
-            previousPaths.removeAll(DOC_PREVIEW_PATHS);
-            validateSoftInventory(previousPaths);
-            validateSoftFiles(project, publicRoot);
-        }
-        if (Files.exists(publicRoot.resolve(SP_DIRECTORY))) {
-            Set<String> previousPaths = new HashSet<>(assetPaths);
-            previousPaths.removeAll(DOC_PREVIEW_PATHS);
-            validateSpInventory(previousPaths);
-            validateSpFiles(project, publicRoot);
-            validateSpBaseline(project, assets);
-            validateConsolidationBaseline(project, assets);
-        }
         Set<String> cdnSamples = cdnSamplesFor(assetPaths);
         StringBuilder canonical = new StringBuilder();
         for (Asset asset : assets) canonical.append(asset.path()).append('\t').append(asset.contentType()).append('\t').append(asset.disposition())
@@ -224,66 +195,12 @@ public final class SiteAssetPublisher {
     }
 
     static Set<String> cdnSamplesFor(Set<String> paths) {
-        Set<String> samples = new HashSet<>(CDN_SAMPLES);
-        if (!paths.containsAll(samples)) throw new Refused("CDN_SAMPLE_MISSING_FROM_INVENTORY");
-        if (paths.stream().anyMatch(path -> path.startsWith("images/imaginary-pixel-v1/"))) {
-            // A partial export must not produce a release that breaks the 12-character admin gallery.
-            for (int index = 1; index <= 12; index++) {
-                if (!paths.contains("images/imaginary-pixel-v1/C%02d.png".formatted(index))) throw new Refused("IMAGINARY_COLLECTION_INCOMPLETE");
-            }
-            samples.add("images/imaginary-pixel-v1/C01.png");
-            samples.add("images/imaginary-pixel-v1/C12.png");
-        }
-        Set<String> cute = new HashSet<>();
-        paths.stream().filter(path -> path.startsWith(CUTE_DIRECTORY)).forEach(cute::add);
-        if (!cute.isEmpty()) {
-            if (!cute.equals(CUTE_PATHS)) throw new Refused("CUTE_COLLECTION_MUST_CONTAIN_EXACTLY_16_NATIVE_PNGS");
-            samples.addAll(cute); // These are small sprites: verify every new CDN response, not just a sample.
-        }
-        Set<String> premium = new HashSet<>();
-        paths.stream().filter(path -> path.startsWith(PREMIUM_DIRECTORY)).forEach(premium::add);
-        if (!premium.isEmpty()) {
-            if (!premium.equals(PREMIUM_PATHS)) throw new Refused("PREMIUM_COLLECTION_MUST_CONTAIN_EXACTLY_12_MASTER_PNGS");
-            samples.addAll(premium); // Preserve and verify the entire full-resolution master collection.
-        }
-        Set<String> artDogs = new HashSet<>();
-        paths.stream().filter(path -> path.startsWith(ART_DOGS_DIRECTORY)).forEach(artDogs::add);
-        if (!artDogs.isEmpty()) {
-            if (!artDogs.equals(ART_DOG_PATHS)) throw new Refused("ART_DOG_COLLECTION_MUST_CONTAIN_EXACTLY_30_MASTER_PNGS");
-            samples.addAll(artDogs);
-        }
-        Set<String> art16 = new HashSet<>();
-        paths.stream().filter(path -> path.startsWith(ART16_DIRECTORY)).forEach(art16::add);
-        if (!art16.isEmpty()) {
-            if (!art16.equals(ART16_PATHS)) throw new Refused("ART16_COLLECTION_MUST_CONTAIN_EXACTLY_150_SCENE_PNGS");
-            samples.addAll(art16);
-        }
-        Set<String> soft = new HashSet<>();
-        paths.stream().filter(path -> path.startsWith(SOFT_DIRECTORY)).forEach(soft::add);
-        if (!soft.isEmpty()) {
-            if (!soft.equals(SOFT_PATHS)) throw new Refused("SOFT_COLLECTION_MUST_CONTAIN_EXACTLY_90_LAYERED_PNGS");
-            samples.addAll(soft);
-        }
-        Set<String> sp = new HashSet<>();
-        paths.stream().filter(path -> path.startsWith(SP_DIRECTORY)).forEach(sp::add);
-        if (!sp.isEmpty()) {
-            if (!sp.equals(SP_PATHS)) throw new Refused("SP_COLLECTION_MUST_CONTAIN_EXACTLY_360_SCENE_PNGS");
-            samples.addAll(sp); // Verify every newly generated scene through the CDN.
-        }
-        Set<String> docs = new HashSet<>();
-        paths.stream().filter(path -> path.startsWith("images/docs-previews/")).forEach(docs::add);
-        if (!docs.isEmpty()) {
-            if (!docs.equals(DOC_PREVIEW_PATHS)) throw new Refused("DOC_PREVIEW_COLLECTION_MUST_CONTAIN_EXACTLY_4_PNGS");
-            samples.addAll(docs);
-        }
-        return Set.copyOf(samples);
+        validateSiteInventory(paths);
+        return CDN_SAMPLES;
     }
 
     static void validateSiteInventory(Set<String> paths) {
-        if (paths.size() != 709 || !paths.containsAll(DOC_PREVIEW_PATHS)) throw new Refused("SITE_COLLECTION_REQUIRES_705_EXISTING_IMAGES_AND_4_DOC_PREVIEWS");
-        Set<String> previous = new HashSet<>(paths);
-        previous.removeAll(DOC_PREVIEW_PATHS);
-        validateSpInventory(previous);
+        if (!paths.equals(PUBLIC_PATHS)) throw new Refused("SITE_COLLECTION_REQUIRES_EXACTLY_3_SHARED_FILES_WITHOUT_LEGACY_DOG_STYLES");
     }
 
     private static Set<String> cutePaths() {

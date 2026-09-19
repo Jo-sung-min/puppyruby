@@ -52,7 +52,7 @@ function cloneAppearance(config: AppearanceConfig): AppearanceConfig {
 }
 
 function styleName(id: DogStyleId): string {
-  return dogStyles.find(style => style.id === id)?.name ?? "클래식 도트";
+  return dogStyles.find(style => style.id === id)?.name ?? "루비 도트 · 다섯 동작";
 }
 
 function countChanges(saved: AppearanceConfig, draft: AppearanceConfig): number {
@@ -150,12 +150,8 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
   const chosenBreedName = styleBreeds.find(breed => breed.id === selectedBreed)?.name ?? "포메라니안";
   const selectedVariety = draft?.varieties?.find(item => item.id === selectedVarietyId && item.breed === selectedBreed);
   const pixelStyles = availableStyles.filter(style => style.kind === "pixel");
-  const galleryEntries = [
-    ...availableStyles.filter(style => style.id === rubyRoundStyleId).map(style => ({ kind: "style" as const, style })),
-    ...availableStyles.filter(style => isSpSceneStyleId(style.id)).map(style => ({ kind: "style" as const, style })),
-    ...softPixelCandidates.map(candidate => ({ kind: "candidate" as const, candidate })),
-    ...availableStyles.filter(style => !isSpSceneStyleId(style.id) && style.id !== rubyRoundStyleId).map(style => ({ kind: "style" as const, style })),
-  ];
+  const galleryEntries: ({ kind: "style"; style: (typeof availableStyles)[number] } | { kind: "candidate"; candidate: (typeof softPixelCandidates)[number] })[] =
+    availableStyles.map(style => ({ kind: "style", style }));
   const selectedCandidate = softPixelCandidates.find(candidate => candidate.id === selectedCandidateId);
   const pageCount = Math.max(1, Math.ceil(galleryEntries.length / PAGE_SIZE));
   const currentPage = Math.min(page, pageCount);
@@ -170,12 +166,12 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
   const selectedSheet = selectedScenes?.scenes[activeScene];
   const breedQuery = breedSearch.trim().replace(/\s+/gu, "").toLocaleLowerCase();
   const matchingBreeds = styleBreeds.filter(breed => `${breed.name}${breed.id}`.replace(/\s+/gu, "").toLocaleLowerCase().includes(breedQuery));
-  const coatPreviewStyle = pixelStyles.find(style => style.id === selectedStyle)?.id ?? pixelStyles[0]?.id ?? "classic";
+  const coatPreviewStyle = pixelStyles.find(style => style.id === selectedStyle)?.id ?? pixelStyles[0]?.id ?? rubyRoundStyleId;
 
   function selectTarget(breed: PixelBreed, varietyId: string) {
     const variety = draft?.varieties?.find(item => item.id === varietyId && item.breed === breed);
     setSelectedBreed(breed); setSelectedVarietyId(variety?.id ?? ""); setPage(1);
-    setSelectedStyle(variety?.style ?? draft?.breedStyles[breed] ?? draft?.defaultStyle ?? "classic");
+    setSelectedStyle(variety?.style ?? draft?.breedStyles[breed] ?? draft?.defaultStyle ?? rubyRoundStyleId);
     setSelectedCandidateId(null);
   }
 
@@ -353,15 +349,15 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
           <div>
             <span className="account-kicker"><Grid2X2 size={14} aria-hidden="true" /> LITTLE PIXEL FRIENDS</span>
             <h2 id={`${id}-heading`}>강아지 도트 스타일</h2>
-            <p>{styleBreeds.length}가지 견종의 모든 스타일을 한곳에서 비교하고, 마음에 드는 모습으로 적용하세요.</p>
+            <p>{styleBreeds.length}가지 견종 모두 루비 도트의 다섯 동작과 공통 눈을 사용해요.</p>
           </div>
           <button type="button" className="account-button account-button-soft" onClick={requestReload} disabled={busy}>
             <RefreshCw size={15} aria-hidden="true" /> 설정 새로 불러오기
           </button>
         </div>
         <div className="admin-dog-preview-note">
-          <strong>저장 전에는 미리보기만 바뀌어요.</strong>
-          <span>스타일 적용과 삭제는 ‘변경사항 저장’을 눌러야 사이트에 반영돼요. 삭제한 스타일은 다시 복원할 수 있어요.</span>
+          <strong>루비 도트가 기본 스타일이에요.</strong>
+          <span>사이트와 Windows 강아지가 같은 30견종·다섯 동작 에셋을 사용해요.</span>
         </div>
       </div>
 
@@ -423,7 +419,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
             <div className="admin-dog-all-styles" role="group" aria-label="도트 스타일 모음">
               <button type="button" aria-pressed="true" disabled={busy} onClick={() => setPage(1)}>전체 {galleryEntries.length}개</button>
             </div>
-            {softPixelCandidates.length > 0 && <p className="admin-soft-pixel-gallery-note">새 시안과 완성된 견종별 애니메이션을 한곳에서 비교해요. 크게 보기에서 눈과 동작을 확인하세요.</p>}
+            <p className="admin-soft-pixel-gallery-note">루비 도트의 견종별 모습과 눈, 다섯 동작을 크게 보기에서 확인하세요.</p>
             <div className="admin-dog-style-grid">
               {visibleEntries.map(entry => {
                 if (entry.kind === "candidate") {
@@ -445,7 +441,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
                 }
                 const style = entry.style;
                 return (
-                <div className="admin-dog-style-tile" key={style.id} data-premium={isPremiumDogStyleId(style.id) || isOriginalArtDogStyleId(style.id) || isNativeSceneStyle(style.id)}>
+                <div className="admin-dog-style-tile" key={style.id} data-premium="true">
                 <label className="admin-dog-style-option">
                   <input
                     className="account-sr-only" type="radio" name={`${id}-style`} value={style.id}
@@ -453,13 +449,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
                   />
                   <span className="admin-dog-style-card">
                     <span className="admin-dog-style-mark" aria-hidden="true">{!selectedCandidate && selectedStyle === style.id && <Check size={13} />}</span>
-                    {isCuteDogStyleId(style.id) && <span className="admin-cute-source">{cuteDogStyles.find(item => item.id === style.id)?.source}에서 이어진 강아지</span>}
-                    {isPremiumDogStyleId(style.id) && <span className="admin-cute-source">{premiumDogStyles.find(item => item.id === style.id)?.code} · 원본 색상 유지</span>}
-                    {isOriginalArtDogStyleId(style.id) && <span className="admin-cute-source">시안 {style.id.replace("art-", "")} · 원본 색상 유지</span>}
-                    {style.id === art16SceneStyleId && <span className="admin-cute-source">16번 스타일 · {styleBreeds.length}견종 · 5장면</span>}
-                    {style.id === rubyRoundStyleId && <span className="admin-cute-source">30견종 · 5동작 · 공통 눈 30종</span>}
-                    {isSpSceneStyleId(style.id) && <span className="admin-cute-source">{style.id.slice(0, 4).toUpperCase()} · {styleBreeds.length}견종 · 6장면</span>}
-                    {style.id === "animated-2d" && <span className="admin-cute-source">움직이는 2D</span>}
+                    <span className="admin-cute-source">30견종 · 5동작 · 공통 눈 30종</span>
                     <span className="admin-dog-card-art"><PixelDog breed={selectedBreed} styleId={style.id} mood={mood} eyeStyle={roundEye} variant={selectedVariety} decorative /></span>
                     <strong>{style.name}</strong>
                     <span className="admin-dog-style-description">{style.description}</span>
@@ -467,7 +457,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
                   </span>
                 </label>
                 <div className="admin-dog-tile-actions"><button type="button" className="admin-premium-expand" disabled={busy} aria-haspopup="dialog" aria-label={`${style.name} 크게 보기`} onClick={() => setExpandedStyle(style.id)}><Expand size={14} aria-hidden="true" /> 크게 보기</button>
-                  <button type="button" className="admin-dog-delete" aria-label={`${style.name} 삭제`} disabled={busy || availableStyles.length <= 1} onClick={() => deleteStyle(style.id)} title={availableStyles.length <= 1 ? "스타일은 최소 1개 남겨야 해요." : `${style.name} 삭제`}><Trash2 size={13} aria-hidden="true" /> 삭제</button></div>
+                  </div>
                 </div>
               ); })}
             </div>
@@ -478,7 +468,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
               <button type="button" disabled={busy || currentPage === pageCount} onClick={() => setPage(currentPage + 1)}>다음</button>
               <span role="status">{currentPage} / {pageCount} 페이지 · {galleryEntries.length ? (currentPage - 1) * PAGE_SIZE + 1 : 0}–{Math.min(currentPage * PAGE_SIZE, galleryEntries.length)} / {galleryEntries.length}개</span>
             </nav>
-            {availableStyles.length === 1 && <p className="admin-dog-delete-note">강아지를 표시하려면 스타일을 최소 1개 남겨야 해요.</p>}
+            {availableStyles.length === 1 && <p className="admin-dog-delete-note">루비 도트는 사이트의 고정 기본 스타일이에요.</p>}
           </fieldset>
 
           {selectedCandidate ? <AdminSoftPixelPreview key={selectedCandidate.id} candidate={selectedCandidate} eye={candidateEye} color={candidateColor} look={candidateLook}
@@ -538,7 +528,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
         <div className="account-section-heading">
           <div>
             <h2 id={`${id}-assignments-heading`}>저장할 모습 미리보기</h2>
-            <p>전체 기본 스타일을 정하거나 견종마다 다른 모습을 골라요.</p>
+            <p>모든 견종이 루비 도트를 사용하는지 확인하고 세부 종류를 관리해요.</p>
           </div>
         </div>
         <div className="admin-dog-default-row">

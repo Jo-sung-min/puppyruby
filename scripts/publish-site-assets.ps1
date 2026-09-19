@@ -42,7 +42,7 @@ try {
     if (-not $assetClasspath) { throw 'Backend SDK classpath unavailable.' }
     & $assetJavac -cp $assetClasspath -d $assetBuild (Join-Path $PSScriptRoot 'SiteAssetPublisher.java')
     if ($LASTEXITCODE -ne 0) { throw 'Site asset publisher compilation failed.' }
-    # Uses local-assets/site only, preserving URL paths and the immutable 705-image baseline.
+    # Publishes only favicon and the two shared backgrounds. Ruby dog art has its own fixed publisher.
     & $assetJava -cp ($assetBuild + ';' + $assetClasspath) SiteAssetPublisher $assetProject $Action
     if ($LASTEXITCODE -ne 0) { throw 'Site asset publisher failed. Review its safe error code above.' }
 } finally { Pop-Location }

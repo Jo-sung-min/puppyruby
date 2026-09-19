@@ -85,12 +85,12 @@ export function AdminDogVarieties({ config, breed, selected, busy, edit, select,
         const active = Boolean(existing && existing.id === selected?.id);
         return <button key={preset.id} type="button" className="admin-dog-coat-card" aria-label={`${preset.name} ${existing ? "선택" : "종류 추가"}`} aria-pressed={active} disabled={busy || (full && !existing)} onClick={() => choosePreset(preset)}>
           <span className="admin-dog-coat-mark" aria-hidden="true">{active && <Check size={13} />}</span>
-          <span className="admin-dog-coat-art"><PixelDog breed={preset.breed} styleId={originalColors ? "classic" : previewStyle} variant={preset} decorative /></span>
+          <span className="admin-dog-coat-art"><PixelDog breed={preset.breed} styleId={previewStyle} variant={preset} decorative /></span>
           <strong>{preset.name}</strong><small>{preset.description}</small>
           <span className="admin-dog-coat-card-action">{existing ? <Check size={12} /> : <Plus size={12} />}{existing ? "추가됨 · 선택" : "종류에 추가"}</span>
         </button>;
       })}</div>
-      <p className="admin-dog-coat-note">{originalColors ? "색상 견본은 클래식 도트예요. 선택한 스타일은 원래 그림의 색과 무늬를 유지해요." : "추가 후 색과 무늬를 더 바꿀 수 있어요."} 실제 견종 적용은 아래 적용 버튼과 ‘변경사항 저장’으로 마쳐 주세요.</p>
+      <p className="admin-dog-coat-note">루비 도트는 견종별 원본 색과 무늬를 유지해요. 종류 이름과 선택 기록은 그대로 보관돼요. 실제 견종 적용은 아래 적용 버튼과 ‘변경사항 저장’으로 마쳐 주세요.</p>
     </section>}
     {full && <p className="admin-dog-coat-note" role="status">{totalFull ? "전체 종류가 140개예요." : "이 견종의 종류가 20개예요."} 이미 추가한 종류는 선택할 수 있고, 새 종류를 넣으려면 사용하지 않는 종류를 지워 주세요.</p>}
     <div className="admin-dog-variety-add">
@@ -106,7 +106,7 @@ export function AdminDogVarieties({ config, breed, selected, busy, edit, select,
       <div className="account-field admin-dog-coat-field"><span>털 색상</span><label className="admin-dog-color-default"><input type="checkbox" disabled={originalColors} checked={selected.coatColor === null} onChange={event => update({ coatColor: event.target.checked ? null : "#EBC18E" })} /> 견종 기본색</label><label className="admin-dog-color-picker"><input aria-label="종류 털 색상" type="color" value={selected.coatColor ?? "#EBC18E"} disabled={busy || originalColors || selected.coatColor === null} onChange={event => update({ coatColor: event.target.value.toUpperCase() })} /><span>{selected.coatColor ?? "기본색 사용"}</span></label></div>
       <label className="account-field"><span>무늬 색상</span><span className="admin-dog-color-picker"><input type="color" aria-label="종류 무늬 색상" value={selected.patternColor} disabled={busy || originalColors || selected.pattern === "solid"} onChange={event => update({ patternColor: event.target.value.toUpperCase() })} /><span>{selected.patternColor}</span></span></label>
       <div className="admin-dog-variety-actions"><button type="button" className="account-button account-button-soft" onClick={() => { update({ style: null }); inherit(); }} disabled={busy || selected.style === null}>견종 스타일 물려받기</button><button type="button" className="admin-dog-delete" onClick={remove}><Trash2 size={14} /> 이 종류 삭제</button></div>
-      <p className="admin-dog-variety-help">종류마다 스타일을 저장할 수 있어요. 사이트에는 견종마다 한 종류를 선택해 적용해요. {originalColors ? "선택한 도트는 원본 색상과 모양을 유지해요. 다른 도트 스타일을 고르면 색과 무늬를 편집할 수 있어요." : "강아지별로 꾸민 털색은 우선해서 표시돼요."}</p>
+      <p className="admin-dog-variety-help">사이트에는 견종마다 한 종류를 선택해 적용해요. 루비 도트는 원본 색상과 모양을 유지하며 종류 이름과 선택 기록은 보관해요.</p>
     </fieldset>}
   </section>;
 }

@@ -1,10 +1,12 @@
 # 픽셀아트 16 견종별 장면 제작
 
+> **로컬 보관 전용:** 이 스타일은 운영에서 퇴역했습니다. 아래 절차는 원본 복원·비교를 위한 기록이며 S3/CDN에 발행하거나 관리자 런타임 목록에 다시 등록하지 않습니다. `-Publish`라는 기존 옵션 이름은 로컬 `local-assets/site` 복사만 뜻합니다.
+
 등록된 견종 목록은 `frontend/src/lib/dog-breeds.ts`에서 읽습니다. 각 견종의
 새 그림은 `local-assets/work/art16-scenes-v1/raw/<breed>.png`에 보관합니다. 기존 16번
 시안과 이전 강아지 이미지는 덮어쓰지 않습니다.
 
-`local-assets/`는 Git에서 제외하는 로컬 보관 폴더입니다. `-Publish`는 검증한 PNG를 `local-assets/site/images/art16-scenes-v1/`, Aseprite 원본을 `local-assets/site/downloads/art16-scenes-v1/`에 복사합니다. S3 업로드나 CDN 설정 변경은 별도의 배포 절차에서 진행합니다. 관리자용 JSON의 공개 `/images/`·`/downloads/` 주소는 유지합니다.
+`local-assets/`는 Git에서 제외하는 로컬 보관 폴더입니다. `-Publish`는 검증한 PNG를 `local-assets/site/images/art16-scenes-v1/`, Aseprite 원본을 `local-assets/site/downloads/art16-scenes-v1/`에 복사할 뿐입니다. 공용 이미지·다운로드 발행기는 이 경로를 명시적으로 제외합니다. 생성 JSON의 `/images/`·`/downloads/` 값은 과거 제작 기록이며 운영 URL로 활성화하지 않습니다.
 
 원본은 가로 4칸, 세로 3칸입니다. 첫 줄은 정면 앉기, 왼쪽 옆모습, 기쁨,
 잠자기 순서입니다. 나머지 두 줄은 왼쪽으로 걷는 독립적인 8개 보행 자세입니다.
