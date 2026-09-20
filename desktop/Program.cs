@@ -143,6 +143,9 @@ namespace PuppyRubyDesktop
         private ToolStripMenuItem stayItem;
         private ToolStripMenuItem updateCheckItem;
         private ToolStripMenuItem updateDownloadItem;
+        private ToolStripMenuItem menuHeader;
+        private ToolStripMenuItem connectionItem;
+        private ToolStripMenuItem hideItem;
         private bool installingUpdate;
         private string updateOrigin;
         private AskWindow questions;
@@ -298,6 +301,42 @@ namespace PuppyRubyDesktop
             check(!updateBadge.Visible && !updates.Checking, "self-tests never check updates or expose a live update button");
         }
 
+        internal void CheckMenuPresentation(Action<bool, string> check, string directory)
+        {
+            check(ReferenceEquals(tray.ContextMenuStrip, menu), "pet and tray share the same themed menu");
+            ToolStripMenuItem movement = (ToolStripMenuItem)menu.Items["motion"];
+            ToolStripMenuItem appearance = (ToolStripMenuItem)menu.Items["appearance"];
+            ToolStripMenuItem settings = (ToolStripMenuItem)menu.Items["settings"];
+            check(movement.DropDownItems.Contains(followItem) && movement.DropDownItems.Contains(stayItem), "movement commands remain reachable in their submenu");
+            check(settings.DropDownItems.Contains(clickThroughItem) && settings.DropDownItems.Contains(pauseItem), "tray retains click-through recovery and input pause controls");
+            check(breedMenu.DropDownItems.Count == BreedIds.Length, "all breeds remain selectable in the appearance submenu");
+            check(!updates.Checking && !HooksActive && !tray.Visible, "menu verification does not start network checks or input hooks");
+            RefreshMenuVisibility();
+            check(hideItem.Text == "강아지 보이기", "visibility label refreshes from actual window state");
+            hideItem.Text = "강아지 숨기기"; // Render the normal visible-pet state without showing a window.
+            CaptureMenu(menu, Path.Combine(directory, "menu-main.png"));
+            CaptureMenu(movement.DropDown, Path.Combine(directory, "menu-movement.png"));
+            CaptureMenu(appearance.DropDown, Path.Combine(directory, "menu-appearance.png"));
+            CaptureMenu(settings.DropDown, Path.Combine(directory, "menu-settings.png"));
+            using (Graphics graphics = menu.CreateGraphics())
+            {
+                float dpiScale = graphics.DpiX / 96f;
+                check(menu.Width <= 300 * dpiScale && menu.Height <= 500 * dpiScale, "primary context menu stays compact at the current DPI");
+            }
+            RefreshMenuVisibility();
+        }
+
+        private static void CaptureMenu(ToolStripDropDown dropdown, string path)
+        {
+            dropdown.PerformLayout();
+            dropdown.Size = dropdown.GetPreferredSize(Size.Empty);
+            using (Bitmap image = new Bitmap(dropdown.Width, dropdown.Height))
+            {
+                dropdown.DrawToBitmap(image, new Rectangle(Point.Empty, image.Size));
+                image.Save(path, ImageFormat.Png);
+            }
+        }
+
         internal PetWindow(bool isTransient)
         {
             transient = isTransient;
@@ -340,7 +379,7 @@ namespace PuppyRubyDesktop
                 catch (Exception) {
                     StartupFailed = true;
                     state.SetEnabled(false, Now); pauseItem.Checked = true;
-                    if (!transient) MessageBox.Show("입력 반응을 시작하지 못했어요. 트레이 메뉴에서 ‘입력 반응 일시정지’를 해제해 다시 시도해 주세요.", "PuppyRuby");
+                    if (!transient) MessageBox.Show("입력 반응을 시작하지 못했어요. 트레이 메뉴의 설정에서 ‘입력 반응 일시정지’를 해제해 다시 시도해 주세요.", "PuppyRuby");
                     animation.Start();
                 }
                 statusTimer.Start(); syncTimer.Start();
@@ -567,22 +606,27 @@ namespace PuppyRubyDesktop
 
         private void BuildMenu()
         {
-            menu.Items.Add("PuppyRuby · 내 화면의 작은 친구").Enabled = false;
+            menuHeader = new ToolStripMenuItem("PuppyRuby · 내 PC") { Enabled = false, Name = "companion-status" };
+            ToolStripMenuItem careGroup = new ToolStripMenuItem("돌봄") { Name = "care" };
+            ToolStripMenuItem motionGroup = new ToolStripMenuItem("움직임") { Name = "motion" };
+            ToolStripMenuItem appearanceGroup = new ToolStripMenuItem("강아지") { Name = "appearance" };
+            ToolStripMenuItem connectionGroup = new ToolStripMenuItem("웹 연결") { Name = "connection" };
+            ToolStripMenuItem settingsGroup = new ToolStripMenuItem("설정") { Name = "settings" };
             followItem = new ToolStripMenuItem("마우스 따라가기") { Checked = followMouse };
             stayItem = new ToolStripMenuItem("여기에 멈추기") { Checked = !followMouse };
             followItem.Click += delegate { SetFollow(true); Speak("같이 가자 멍!", 2); };
             stayItem.Click += delegate { SetFollow(false); Speak("여기서 기다릴게 멍!", 2); };
-            menu.Items.Add(followItem); menu.Items.Add(stayItem); menu.Items.Add(new ToolStripSeparator());
+            motionGroup.DropDownItems.Add(followItem); motionGroup.DropDownItems.Add(stayItem);
             gradeItem = new ToolStripMenuItem(progress.Summary) { Enabled = false };
-            menu.Items.Add(gradeItem);
-            menu.Items.Add("강아지에게 물어보기 / 배운 명령", null, delegate { OpenQuestions(); });
-            careMenu = new ToolStripMenuItem("간식 주기 · 경험치 +10", null, async delegate { try { await GiveCare(); } catch (Exception error) { Speak(error.Message); } }); menu.Items.Add(careMenu);
-            restMenu = new ToolStripMenuItem("쉬게 하기", null, async delegate { try { await Rest(); } catch (Exception error) { Speak(error.Message); } }); menu.Items.Add(restMenu);
-            menu.Items.Add("웹 강아지와 연결", null, delegate { OpenLink(); });
-            linkedStatus = new ToolStripMenuItem("연결 상태", null, delegate { OpenLink(); }); menu.Items.Add(linkedStatus);
-            appearanceStatus = new ToolStripMenuItem("강아지 모습", null, delegate { OpenLink(); }); menu.Items.Add(appearanceStatus);
-            disconnectMenu = new ToolStripMenuItem("연결 해제", null, delegate { sync.Disconnect("이 PC의 강아지로 돌아왔어요. 기존 경험치는 그대로예요."); }); menu.Items.Add(disconnectMenu);
-            menu.Items.Add(new ToolStripSeparator());
+            careGroup.DropDownItems.Add(gradeItem); careGroup.DropDownItems.Add(new ToolStripSeparator());
+            ToolStripMenuItem askItem = new ToolStripMenuItem("물어보기 · 배운 명령", null, delegate { OpenQuestions(); });
+            careMenu = new ToolStripMenuItem("간식 주기 · 경험치 +10", null, async delegate { try { await GiveCare(); } catch (Exception error) { Speak(error.Message); } }); careGroup.DropDownItems.Add(careMenu);
+            restMenu = new ToolStripMenuItem("쉬게 하기", null, async delegate { try { await Rest(); } catch (Exception error) { Speak(error.Message); } }); careGroup.DropDownItems.Add(restMenu);
+            linkedStatus = new ToolStripMenuItem("이 PC에서 키우는 중") { Enabled = false };
+            connectionItem = new ToolStripMenuItem("웹 강아지와 연결", null, delegate { OpenLink(); });
+            connectionGroup.DropDownItems.Add(linkedStatus); connectionGroup.DropDownItems.Add(new ToolStripSeparator()); connectionGroup.DropDownItems.Add(connectionItem);
+            appearanceStatus = new ToolStripMenuItem("적용된 모습 확인", null, delegate { OpenLink(); });
+            disconnectMenu = new ToolStripMenuItem("연결 해제", null, delegate { sync.Disconnect("이 PC의 강아지로 돌아왔어요. 기존 경험치는 그대로예요."); }); connectionGroup.DropDownItems.Add(disconnectMenu);
             ToolStripMenuItem breeds = new ToolStripMenuItem("강아지 고르기");
             breedMenu = breeds;
             for (int i = 0; i < BreedIds.Length; i++)
@@ -596,7 +640,7 @@ namespace PuppyRubyDesktop
                 };
                 breeds.DropDownItems.Add(item);
             }
-            menu.Items.Add(breeds);
+            appearanceGroup.DropDownItems.Add(breeds);
             ToolStripMenuItem sizes = new ToolStripMenuItem("강아지 크기");
             for (int value = 2; value <= 4; value++)
             {
@@ -609,7 +653,8 @@ namespace PuppyRubyDesktop
                 };
                 sizes.DropDownItems.Add(item);
             }
-            menu.Items.Add(sizes);
+            appearanceGroup.DropDownItems.Add(sizes);
+            appearanceGroup.DropDownItems.Add(appearanceStatus);
             pauseItem = new ToolStripMenuItem("입력 반응 일시정지") { CheckOnClick = true };
             pauseItem.Click += delegate {
                 motion.SetPosition(Location); bubble.Hide(); restingUntil = 0; feedingUntil = 0; activeScene = null; activeReaction = null; look = 0; lookY = 0;
@@ -620,7 +665,7 @@ namespace PuppyRubyDesktop
                     catch { pauseItem.Checked = true; state.SetEnabled(false, Now); tray.ShowBalloonTip(3000, "PuppyRuby", "입력 반응을 시작하지 못했어요. 잠시 후 다시 시도해 주세요.", ToolTipIcon.Info); }
                 }
             };
-            menu.Items.Add(pauseItem);
+            settingsGroup.DropDownItems.Add(pauseItem);
             clickThroughItem = new ToolStripMenuItem("마우스 통과") { CheckOnClick = true };
             clickThroughItem.Click += delegate {
                 clickThrough = clickThroughItem.Checked;
@@ -629,25 +674,33 @@ namespace PuppyRubyDesktop
                 Invalidate();
                 if (clickThrough) tray.ShowBalloonTip(2500, "PuppyRuby", "트레이의 강아지 아이콘을 우클릭하면 마우스 통과를 해제할 수 있어요.", ToolTipIcon.Info);
             };
-            menu.Items.Add(clickThroughItem);
+            settingsGroup.DropDownItems.Add(clickThroughItem);
             ToolStripMenuItem hints = new ToolStripMenuItem("짧은 말풍선 표시") { CheckOnClick = true, Checked = showHints };
             hints.Click += delegate { showHints = hints.Checked; if (!showHints) bubble.Hide(); SaveSettings(); };
-            menu.Items.Add(hints);
-            menu.Items.Add("화면 오른쪽 아래로", null, delegate { RestorePet(); });
-            ToolStripMenuItem hide = new ToolStripMenuItem("강아지 숨기기");
-            hide.Click += delegate { if (Visible) { Hide(); hide.Text = "강아지 보이기"; } else { Show(); hide.Text = "강아지 숨기기"; } };
-            menu.Items.Add(hide);
-            menu.Items.Add(new ToolStripSeparator());
-            updateCheckItem = new ToolStripMenuItem("업데이트 확인 · " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            settingsGroup.DropDownItems.Add(hints);
+            settingsGroup.DropDownItems.Add("화면 오른쪽 아래로", null, delegate { RestorePet(); });
+            hideItem = new ToolStripMenuItem("강아지 숨기기");
+            hideItem.Click += delegate { if (Visible) Hide(); else Show(); RefreshMenuVisibility(); };
+            updateCheckItem = new ToolStripMenuItem("업데이트 확인");
             updateCheckItem.Click += async delegate { await CheckForUpdates(true); };
-            menu.Items.Add(updateCheckItem);
             updateDownloadItem = new ToolStripMenuItem("새 버전 다운로드", null, delegate { InstallUpdate(); }) { Visible = false };
-            menu.Items.Add(updateDownloadItem);
-            menu.Items.Add(new ToolStripSeparator());
-            menu.Items.Add("사용 방법 / 입력 안내", null, delegate {
-                MessageBox.Show("마우스 따라가기: 커서 옆으로 걸어와요\n여기에 멈추기: 현재 위치에 머물러요\n드래그로 옮기면 그 자리에 멈춰요\n평소에는 강아지만 보이고 대답은 잠깐 나타나요\n마우스 이동: 눈으로 따라봐요\n클릭: 폴짝 뛰어요\n키보드: 앞발로 타이핑해요\n빠른 타이핑: 신나게 바빠져요\n스크롤: 데굴데굴 반응해요\n강아지 위 마우스: 쓰다듬어요\n드래그: 원하는 위치로 옮겨요\n웹 도트: 입력이 없으면 정면으로 앉아요\n쉬게 하기: 준비된 잠자기 장면으로 쉬어요\n기본 PC 강아지: 45초 동안 입력이 없으면 잠들어요\n\n우클릭 → ‘강아지에게 물어보기’에서 엑셀·한글 단축키와 훈련을 요청해요. 훈련 성공·간식은 10초마다 +10 XP, 100 XP로 승급해요. 질문·전역 입력은 XP를 올리지 않아요. 웹 강아지와 연결하면 사이트에서 선택한 강아지와 경험치를 공유해요. 웹 연결 중 훈련은 5초마다, 간식은 30초마다 할 수 있어요. 오프라인에서는 연결된 강아지의 경험치를 바꾸지 않아요. 연결하지 않은 PC 강아지는 따로 자라요.\n\n다른 앱의 문자·키 이름·입력 내용은 읽거나 저장하지 않아요. 질문 창에 직접 쓴 글자만 답변에 사용하며 저장하지 않아요. 웹 연결을 켠 동안 지정한 사이트로 강아지 게임 정보만 요청해요. 사진·실명·친구·채팅은 가져오지 않아요. 자동 시작은 없어요. ‘입력 반응 일시정지’는 입력 감지도 중지해요.", "PuppyRuby 사용 방법", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            settingsGroup.DropDownItems.Add(new ToolStripSeparator());
+            settingsGroup.DropDownItems.Add("사용 방법 · 입력 안내", null, delegate {
+                MessageBox.Show("마우스 따라가기: 커서 옆으로 걸어와요\n여기에 멈추기: 현재 위치에 머물러요\n드래그로 옮기면 그 자리에 멈춰요\n평소에는 강아지만 보이고 대답은 잠깐 나타나요\n마우스 이동: 눈으로 따라봐요\n클릭: 폴짝 뛰어요\n키보드: 앞발로 타이핑해요\n빠른 타이핑: 신나게 바빠져요\n스크롤: 데굴데굴 반응해요\n강아지 위 마우스: 쓰다듬어요\n드래그: 원하는 위치로 옮겨요\n웹 도트: 입력이 없으면 정면으로 앉아요\n쉬게 하기: 준비된 잠자기 장면으로 쉬어요\n기본 PC 강아지: 45초 동안 입력이 없으면 잠들어요\n\n우클릭 → ‘물어보기 · 배운 명령’에서 엑셀·한글 단축키와 훈련을 요청해요. 훈련 성공·간식은 10초마다 +10 XP, 100 XP로 승급해요. 질문·전역 입력은 XP를 올리지 않아요. 웹 강아지와 연결하면 사이트에서 선택한 강아지와 경험치를 공유해요. 웹 연결 중 훈련은 5초마다, 간식은 30초마다 할 수 있어요. 오프라인에서는 연결된 강아지의 경험치를 바꾸지 않아요. 연결하지 않은 PC 강아지는 따로 자라요.\n\n다른 앱의 문자·키 이름·입력 내용은 읽거나 저장하지 않아요. 질문 창에 직접 쓴 글자만 답변에 사용하며 저장하지 않아요. 웹 연결을 켠 동안 지정한 사이트로 강아지 게임 정보만 요청해요. 사진·실명·친구·채팅은 가져오지 않아요. 자동 시작은 없어요. ‘입력 반응 일시정지’는 입력 감지도 중지해요.", "PuppyRuby 사용 방법", MessageBoxButtons.OK, MessageBoxIcon.Information);
             });
-            menu.Items.Add("종료", null, delegate { Close(); });
+            ToolStripMenuItem versionItem = new ToolStripMenuItem("버전 " + Assembly.GetExecutingAssembly().GetName().Version.ToString()) { Enabled = false };
+            settingsGroup.DropDownItems.Add(versionItem);
+            menu.Items.AddRange(new ToolStripItem[] { menuHeader, new ToolStripSeparator(), askItem, careGroup, motionGroup, appearanceGroup, connectionGroup,
+                new ToolStripSeparator(), settingsGroup, hideItem, new ToolStripSeparator(), updateCheckItem, updateDownloadItem,
+                new ToolStripMenuItem("종료", null, delegate { Close(); }) });
+            PetMenuTheme.MarkHeader(menuHeader); PetMenuTheme.MarkHeader(gradeItem); PetMenuTheme.MarkHeader(linkedStatus); PetMenuTheme.MarkHeader(versionItem);
+            PetMenuTheme.Apply(menu);
+            menu.Opening += delegate { UpdateProgress(); OnUpdateChanged(); RefreshMenuVisibility(); };
+        }
+
+        private void RefreshMenuVisibility()
+        {
+            hideItem.Text = Visible ? "강아지 숨기기" : "강아지 보이기";
         }
 
         internal void OpenQuestions()
@@ -704,10 +757,11 @@ namespace PuppyRubyDesktop
             if (IsDisposed || Disposing) return;
             if (InvokeRequired) { BeginInvoke(new Action(OnUpdateChanged)); return; }
             updateCheckItem.Enabled = !updates.Checking && !updates.Downloading && !installingUpdate;
-            updateCheckItem.Text = updates.Checking ? "새 버전 확인 중…" : "업데이트 확인 · " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            updateCheckItem.Text = updates.Checking ? "새 버전 확인 중…" : "업데이트 확인";
+            updateCheckItem.ToolTipText = "현재 버전 " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
             updateDownloadItem.Visible = updates.Available != null;
             updateDownloadItem.Enabled = !updates.Downloading && !installingUpdate;
-            if (updates.Available != null) updateDownloadItem.Text = "새 버전 " + updates.Available.Version + " 다운로드";
+            if (updates.Available != null) { updateDownloadItem.Text = "새 버전 다운로드"; updateDownloadItem.ToolTipText = "버전 " + updates.Available.Version + " 설치"; }
             RefreshUpdateBadge();
         }
 
@@ -846,15 +900,20 @@ namespace PuppyRubyDesktop
         {
             if (IsDisposed) return;
             CompanionView current = CurrentCompanion();
-            gradeItem.Text = current.Name + " · " + current.Summary;
+            gradeItem.Text = current.Summary;
+            gradeItem.ToolTipText = current.Name + " · " + current.Summary;
+            menuHeader.Text = sync.IsLinked ? (sync.Online ? "PuppyRuby · 연결됨" : "PuppyRuby · 오프라인") : "PuppyRuby · 내 PC";
+            menuHeader.ToolTipText = current.Name + " · " + current.Summary;
             breedMenu.Enabled = !sync.IsLinked;
-            breedMenu.Text = sync.IsLinked ? "강아지 고르기 · 웹에서 선택해 주세요" : "강아지 고르기";
-            linkedStatus.Text = sync.IsLinked ? (sync.Online ? "연결 상태 · 웹과 함께 키우는 중" : "연결 상태 · 오프라인, 돌봄은 잠시 멈춤") : "연결 상태 · 이 PC의 강아지";
+            breedMenu.Text = sync.IsLinked ? "강아지 선택 · 웹에서 변경" : "강아지 고르기";
+            linkedStatus.Text = sync.IsLinked ? (sync.Online ? "웹과 함께 키우는 중" : "오프라인 · 연결 대기") : "이 PC에서 키우는 중";
+            linkedStatus.ToolTipText = sync.IsLinked && !sync.Online ? "마지막 모습을 보여 주며 연결이 돌아오면 돌봄을 다시 시작해요." : linkedStatus.Text;
+            connectionItem.Text = sync.IsLinked ? "연결 관리" : "웹 강아지와 연결";
             disconnectMenu.Enabled = sync.IsLinked;
             careMenu.Text = current.CareLabel; careMenu.Enabled = current.CanChange && current.CareReady;
             restMenu.Enabled = current.CanChange;
             appearanceStatus.Visible = sync.IsLinked;
-            appearanceStatus.Text = "강아지 모습 · " + AppearanceStatus;
+            appearanceStatus.ToolTipText = AppearanceStatus;
             if (questions != null && !questions.IsDisposed) questions.RefreshProgress();
             Invalidate();
         }
@@ -1099,6 +1158,7 @@ namespace PuppyRubyDesktop
                 {
                     pet.CheckPresentation(delegate(bool condition, string label) { Check(condition, label, report); });
                     pet.CheckUpdatePresentation(delegate(bool condition, string label) { Check(condition, label, report); }, Path.GetDirectoryName(output));
+                    pet.CheckMenuPresentation(delegate(bool condition, string label) { Check(condition, label, report); }, Path.GetDirectoryName(output));
                 }
                 using (BundledRubyAppearanceLibrary library = new BundledRubyAppearanceLibrary())
                 {

@@ -41,7 +41,7 @@ if ($managedResources.Count -ne $expectedResourceCount) { throw ('Unexpected man
 $managedResources | ForEach-Object {
     $compilerArgs += '/resource:"' + $_.FullName + '",' + $_.Name
 }
-foreach ($source in @('NativeInput.cs', 'PetState.cs', 'PetMotion.cs', 'PetMotionTest.cs', 'PetBubble.cs', 'PetUpdateBadge.cs', 'DesktopUpdate.cs', 'Commands.cs', 'Progression.cs', 'AskWindow.cs', 'DesktopBreedCatalog.cs', 'DesktopSync.cs', 'DesktopAppearanceCache.cs', 'DesktopAppearanceFrames.cs', 'DesktopAccessoryRenderer.cs', 'DesktopAppearanceReactions.cs', 'BundledRubyAppearanceLibrary.cs', 'DesktopAppearanceFramesTest.cs', 'DesktopAppearanceDiagnostic.cs', 'LinkWindow.cs', 'SyncTest.cs', 'Program.cs')) { $compilerArgs += '"' + (Join-Path $desktopRoot $source) + '"' }
+foreach ($source in @('NativeInput.cs', 'PetState.cs', 'PetMotion.cs', 'PetMotionTest.cs', 'PetBubble.cs', 'PetUpdateBadge.cs', 'PetMenuTheme.cs', 'DesktopUpdate.cs', 'Commands.cs', 'Progression.cs', 'AskWindow.cs', 'DesktopBreedCatalog.cs', 'DesktopSync.cs', 'DesktopAppearanceCache.cs', 'DesktopAppearanceFrames.cs', 'DesktopAccessoryRenderer.cs', 'DesktopAppearanceReactions.cs', 'BundledRubyAppearanceLibrary.cs', 'DesktopAppearanceFramesTest.cs', 'DesktopAppearanceDiagnostic.cs', 'LinkWindow.cs', 'SyncTest.cs', 'Program.cs')) { $compilerArgs += '"' + (Join-Path $desktopRoot $source) + '"' }
 $compilerArgs += '"' + $versionSource + '"'
 $responseFile = Join-Path $buildRoot 'compile.rsp'
 [IO.File]::WriteAllLines($responseFile, $compilerArgs, (New-Object Text.UTF8Encoding($true)))
