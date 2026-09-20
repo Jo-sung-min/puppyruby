@@ -86,7 +86,7 @@ export function PuppyLanding() {
     <header className="site-header"><div className="site-container header-content">
       <Link href="/" className="pixel-brand" aria-label="퍼피루비 홈"><span className="brand-dog"><PixelDog decorative /></span><span>PUPPY<span>RUBY</span><small>작은 발자국, 커다란 행복</small></span></Link>
       <nav aria-label="메인 메뉴"><a href="#friends">강아지 소개</a><a href="#moments">함께하는 일상</a><a href="#questions">궁금해요</a></nav>
-      <div className="site-header-actions"><ThemeToggle compact className="landing-theme-toggle" /><AccountMenu /><a href="/downloads/PuppyRuby-Setup.exe" download className="header-start" aria-label="Windows용 PuppyRuby 설치파일 다운로드"><span className="header-download-full">Windows 다운로드</span><span className="header-download-short">다운로드</span><Download size={16} /></a></div>
+      <div className="site-header-actions"><ThemeToggle compact className="landing-theme-toggle" /><AccountMenu /><a href="/api/desktop/download" className="header-start" aria-label="Windows용 PuppyRuby 설치파일 다운로드"><span className="header-download-full">Windows 다운로드</span><span className="header-download-short">다운로드</span><Download size={16} /></a></div>
     </div></header>
 
     <main id="puppy-main" className="landing-main">
@@ -95,7 +95,7 @@ export function PuppyLanding() {
           <span className="little-label"><i /> YOUR LITTLE PIXEL COMPANION</span>
           <h1 id="hero-title">너의 하루에<br />작은 <span className="hero-highlight">멍!</span> 하나<span className="title-dot">.</span></h1>
           <p className="hero-description">마우스를 따라 보고, 함께 타닥타닥.<br />다른 앱을 쓸 때도 화면 위에서 함께하는<br />나만의 작은 픽셀 강아지를 만나세요.</p>
-          <div className="hero-buttons"><a className="pixel-button coral" href="/downloads/PuppyRuby-Setup.exe" download aria-describedby="windows-install-guide"><Download size={19} /> Windows용 강아지 받기 <ArrowRight size={18} /></a><a className="demo-link" href="#playground" onClick={() => stage.current?.focus()}><Play size={15} fill="currentColor" /> 먼저 놀아보기</a></div>
+          <div className="hero-buttons"><a className="pixel-button coral" href="/api/desktop/download" aria-describedby="windows-install-guide"><Download size={19} /> Windows용 강아지 받기 <ArrowRight size={18} /></a><a className="demo-link" href="#playground" onClick={() => stage.current?.focus()}><Play size={15} fill="currentColor" /> 먼저 놀아보기</a></div>
           <p className="windows-install-guide" id="windows-install-guide">받은 설치파일을 한 번 열면, 바탕화면 바로가기에서 만나요.</p>
           <div className="hero-notes"><span><Check size={13} /> Windows 10·11 · 설치 후 바로 시작</span><span><Heart size={13} /> 입력 내용은 기록하지 않아요</span></div>
           <div className="hello-note"><span className="tiny-pups"><PixelDog breed="samoyed" decorative /><PixelDog breed="poodle" decorative /><PixelDog breed="corgi" decorative /></span><p>성격도, 모습도 제각각.<br /><b>당신만의 단짝을 만나 보세요.</b></p><span className="hand-star">✧</span></div>

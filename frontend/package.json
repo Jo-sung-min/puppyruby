@@ -11,7 +11,8 @@
     "build": "next build",
     "start": "node scripts/run-next.mjs start",
     "pretypecheck": "npm run prepare:accessories",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:desktop-release": "node --test --experimental-strip-types src/lib/desktop-release-contract.test.ts"
   },
   "dependencies": {
     "@next/env": "16.3.4",

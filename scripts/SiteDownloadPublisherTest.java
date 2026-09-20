@@ -105,6 +105,23 @@ public final class SiteDownloadPublisherTest {
         metadata.put("version", "0.10.0.0"); Files.writeString(buildFile, metadata.toString());
         String release = "123456789abcdef0", cdn = "https://cdn.puppyruby.com/site-downloads/" + release;
         var verified = new ArrayList<>(SiteDownloadPublisher.ALLOWED_PATHS);
+        var installer = assets.stream().filter(asset -> asset.path().equals("downloads/PuppyRuby-Setup.exe")).findFirst().orElseThrow();
+        byte[] pointer = SiteDownloadPublisher.updateManifest(build, assets, release, cdn, java.time.Instant.parse("2026-09-20T12:00:00.123456Z"));
+        var pointerJson = SiteDownloadPublisher.JSON.readTree(pointer);
+        check(pointerJson.path("publishedAt").asString().equals("2026-09-20T12:00:00.123Z"));
+        check(SiteDownloadPublisher.selectLatestPointer(null, build, installer, release, cdn, pointer) == pointer);
+        check(Arrays.equals(SiteDownloadPublisher.selectLatestPointer(pointer, build, installer, release, cdn, new byte[] {1}), pointer));
+        String olderRelease = "0123456789abcdef", olderCdn = "https://cdn.puppyruby.com/site-downloads/" + olderRelease;
+        byte[] older = SiteDownloadPublisher.updateManifest(new SiteDownloadPublisher.DesktopBuild("0.9.0.0", "이전"), assets,
+            olderRelease, olderCdn, java.time.Instant.parse("2026-09-19T12:00:00Z"));
+        check(SiteDownloadPublisher.selectLatestPointer(older, build, installer, release, cdn, pointer) == pointer);
+        byte[] other = SiteDownloadPublisher.updateManifest(build, assets, "fedcba9876543210",
+            "https://cdn.puppyruby.com/site-downloads/fedcba9876543210", java.time.Instant.parse("2026-09-20T12:00:00Z"));
+        rejected(() -> SiteDownloadPublisher.selectLatestPointer(other, build, installer, release, cdn, pointer));
+        byte[] newer = SiteDownloadPublisher.updateManifest(new SiteDownloadPublisher.DesktopBuild("0.11.0.0", "다음"), assets,
+            "fedcba9876543210", "https://cdn.puppyruby.com/site-downloads/fedcba9876543210", java.time.Instant.parse("2026-09-21T12:00:00Z"));
+        rejected(() -> SiteDownloadPublisher.selectLatestPointer(newer, build, installer, release, cdn, pointer));
+        rejected(() -> SiteDownloadPublisher.selectLatestPointer("{}".getBytes(java.nio.charset.StandardCharsets.UTF_8), build, installer, release, cdn, pointer));
         rejected(() -> SiteDownloadPublisher.registerUpdate(project, build, assets, release, cdn, 0, verified));
         for (String missing : SiteDownloadPublisher.ALLOWED_PATHS) {
             var partial = new ArrayList<>(verified); partial.remove(missing);

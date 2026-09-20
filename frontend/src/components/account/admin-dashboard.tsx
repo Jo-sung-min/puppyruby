@@ -2,12 +2,13 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState, type FormEvent } from "react";
-import { ArrowLeft, ChevronLeft, ChevronRight, DoorClosed, EyeOff, Grid2X2, MessageCircle, PawPrint, RefreshCw, Search, ShieldCheck, Store, Users, X } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, DoorClosed, EyeOff, Grid2X2, MessageCircle, PawPrint, RefreshCw, Search, ShieldCheck, Store, Upload, Users, X } from "lucide-react";
 import { AccountError, accountDate, accountErrorMessage, adminFetch, isAccountAccessError, type AccountUser, type AdminMember, type AdminMembers, type AdminMessage, type AdminOverview, type AdminPage, type AdminRoom } from "@/lib/account";
 import { AccountAccess, AccountFailure, AccountLoading, AccountNotice } from "./account-ui";
 import { AdminActionDialog, type AdminAction } from "./admin-action-dialog";
 import { AdminDogStyles } from "./admin-dog-styles";
 import { AdminSeo } from "./admin-seo";
+import { AdminDesktopRelease } from "./admin-desktop-release";
 import { AdminCommerce } from "../commerce/admin-commerce";
 import { useAccountSession } from "./use-account-session";
 
@@ -49,10 +50,11 @@ function useAdminResource<T>(path: string | null, revision: number, onAccessErro
 }
 
 function AdminConsole({ user }: { user: AccountUser }) {
-  const [tab, setTab] = useState<"members" | "rooms" | "styles" | "commerce" | "seo">("members");
+  const [tab, setTab] = useState<"members" | "rooms" | "styles" | "commerce" | "seo" | "release">("members");
   const [stylesOpened, setStylesOpened] = useState(false);
   const [commerceOpened, setCommerceOpened] = useState(false);
   const [seoOpened, setSeoOpened] = useState(false);
+  const [releaseOpened, setReleaseOpened] = useState(false);
   const [revision, setRevision] = useState(0);
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
@@ -147,12 +149,13 @@ function AdminConsole({ user }: { user: AccountUser }) {
         </div>}
       </section>
 
-      <nav className="account-tabs admin-tabs admin-tabs-with-styles admin-tabs-with-commerce admin-tabs-with-seo" aria-label="관리 항목">
+      <nav className="account-tabs admin-tabs admin-tabs-with-styles admin-tabs-with-commerce admin-tabs-with-seo admin-tabs-with-release" aria-label="관리 항목">
         <button type="button" aria-pressed={tab === "members"} onClick={() => { setTab("members"); setSelectedRoom(null); }}><Users size={16} aria-hidden="true" /> 회원 관리</button>
         <button type="button" aria-pressed={tab === "rooms"} onClick={() => setTab("rooms")}><MessageCircle size={16} aria-hidden="true" /> 산책방 관리</button>
         <button type="button" aria-pressed={tab === "styles"} onClick={() => { setStylesOpened(true); setTab("styles"); }}><Grid2X2 size={16} aria-hidden="true" /> 도트 스타일</button>
         <button type="button" aria-pressed={tab === "commerce"} onClick={() => { setCommerceOpened(true); setTab("commerce"); }}><Store size={16} aria-hidden="true" /> 뽑기·상품</button>
         <button type="button" aria-pressed={tab === "seo"} onClick={() => { setSeoOpened(true); setTab("seo"); }}><Search size={16} aria-hidden="true" /> SEO 관리</button>
+        <button type="button" aria-pressed={tab === "release"} onClick={() => { setReleaseOpened(true); setTab("release"); }}><Upload size={16} aria-hidden="true" /> Windows 배포</button>
       </nav>
 
       {tab === "members" ? (
@@ -237,6 +240,7 @@ function AdminConsole({ user }: { user: AccountUser }) {
       {stylesOpened && <div hidden={tab !== "styles"}><AdminDogStyles onAccessError={onAccessError} /></div>}
       {commerceOpened && <div hidden={tab !== "commerce"}><AdminCommerce onAccessError={onAccessError} /></div>}
       {seoOpened && <div hidden={tab !== "seo"}><AdminSeo onAccessError={onAccessError} /></div>}
+      {releaseOpened && <div hidden={tab !== "release"}><AdminDesktopRelease onAccessError={onAccessError} /></div>}
       {action && <AdminActionDialog action={action} onClose={() => setAction(null)} onComplete={completeAction} onAccessError={onAccessError} />}
     </div>
   );

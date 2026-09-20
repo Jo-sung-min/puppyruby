@@ -1,12 +1,12 @@
 {
   "schemaVersion" : 1,
-  "version" : "0.10.1.0",
-  "release" : "bd8fd31d230eb583",
-  "publishedAt" : "2026-09-20T08:44:16.100Z",
-  "notes" : "웹 연결과 업데이트 확인 주소를 www.puppyruby.com으로 통일했어요. 기존 연결 정보와 강아지 기록은 그대로 유지돼요.",
+  "version" : "0.10.2.0",
+  "release" : "b43d80c122b4910c",
+  "publishedAt" : "2026-09-20T14:52:19.174Z",
+  "notes" : "우클릭 메뉴를 어두운 스타일로 다듬고 돌봄·움직임·강아지·연결·설정으로 정리했어요. 기존 기록과 웹 연결은 그대로 유지돼요.",
   "installer" : {
-    "url" : "https://cdn.puppyruby.com/site-downloads/bd8fd31d230eb583/downloads/PuppyRuby-Setup.exe",
-    "sha256" : "e9fc0d0bbb06a5f15143b08fb0f12f33f4fb0f480902f7552e2ad497871411ee",
-    "size" : 62717440
+    "url" : "https://cdn.puppyruby.com/site-downloads/b43d80c122b4910c/downloads/PuppyRuby-Setup.exe",
+    "sha256" : "3371e9ca9a532c5ecbaaa60ddf6c5cc8e29abe311038d1b06cbc90a260e2950a",
+    "size" : 62727680
   }
 }

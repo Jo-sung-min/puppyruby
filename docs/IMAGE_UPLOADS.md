@@ -59,6 +59,7 @@ CDN_BASE_URL=https://cdn.example.com
 | 변수 | 설명 |
 |---|---|
 | `S3_UPLOAD_ENABLED` | 설정을 마친 뒤 `true`. 기본값 `false`에서는 새 사진 업로드만 비활성화됩니다. |
+| `DESKTOP_RELEASE_UPLOAD_ENABLED` | 관리자 화면에서 Windows 실행파일을 게시할 때만 `true`. 운영 고정 버킷·CDN 값이 정확할 때 활성화됩니다. |
 | `S3_BUCKET` | 버킷 이름만 입력합니다. `s3://`나 폴더 경로를 붙이지 않습니다. |
 | `AWS_REGION` | 버킷이 실제로 생성된 리전입니다. 서울 리전 기본값은 `ap-northeast-2`입니다. |
 | `S3_KEY_PREFIX` | 업로드 파일의 접두 경로. 기본값 `puppyruby`; 산책 사진은 `walk-profiles/`, 관리자 공유 이미지는 `seo-shares/`에 저장합니다. |
@@ -79,11 +80,21 @@ S3 버킷의 CORS 설정에 실제 사이트 출처를 허용해야 브라우저
 [
   {
     "AllowedOrigins": [
-      "https://실제-사이트-주소",
-      "http://127.0.0.1:3000"
+      "https://www.puppyruby.com",
+      "https://puppyruby.com",
+      "http://127.0.0.1:3000",
+      "http://127.0.0.1:3001",
+      "http://localhost:3000",
+      "http://localhost:3001"
     ],
     "AllowedMethods": ["PUT"],
-    "AllowedHeaders": ["content-type", "x-amz-*"],
+    "AllowedHeaders": [
+      "content-type",
+      "content-disposition",
+      "cache-control",
+      "if-none-match",
+      "x-amz-*"
+    ],
     "ExposeHeaders": [],
     "MaxAgeSeconds": 300
   }
@@ -105,7 +116,8 @@ S3 버킷의 CORS 설정에 실제 사이트 출처를 허용해야 브라우저
       "Action": ["s3:PutObject", "s3:GetObject"],
       "Resource": [
         "arn:aws:s3:::실제-버킷-이름/puppyruby/walk-profiles/*",
-        "arn:aws:s3:::실제-버킷-이름/puppyruby/seo-shares/*"
+        "arn:aws:s3:::실제-버킷-이름/puppyruby/seo-shares/*",
+        "arn:aws:s3:::실제-버킷-이름/puppyruby/site-downloads/*"
       ]
     }
   ]
@@ -119,6 +131,36 @@ S3 버킷의 CORS 설정에 실제 사이트 출처를 허용해야 브라우저
 원본 폴더는 정확히 일치하는 경로 접두사와 `/`를 한 번만 제거합니다. 원본 밖의 저장 키나 경로 탈출 문법은 이미지 주소로 노출하지 않습니다. 업로드를 켰을 때 `S3_KEY_PREFIX`는 원본 폴더와 같거나 그 안의 하위 폴더여야 합니다. 업로드를 꺼도 유효한 CDN 설정과 원본 안의 기존 사진은 계속 표시합니다. 이 설정은 URL 생성만 바꾸고 DB의 기존 저장 키와 S3 객체, 프리사인드 업로드 위치를 변경하지 않습니다. 서버를 재시작하여 반영합니다.
 
 매 업로드에 새로운 객체 키를 사용하므로 사진을 바꿀 때 기존 파일을 덮어쓰지 않습니다. 프리사인드 URL은 업로드에만 쓰며 프로필에는 만료되는 URL 대신 완료된 이미지 참조를 보관합니다. [S3 프리사인드 업로드](https://docs.aws.amazon.com/AmazonS3/latest/userguide/PresignedUrlUploadObject.html)
+
+## 관리자 Windows 배포
+
+관리자 화면의 **Windows 배포**에서는 빌드가 만든 `PuppyRuby.exe`와 `PuppyRuby-Setup.exe`를 함께 선택합니다. 브라우저가 두 파일의 SHA-256을 계산하고 서버가 발급한 짧은 유효기간의 주소로 S3에 직접 올립니다. Vercel과 Java API에는 파일 본문을 보내지 않습니다.
+
+서버는 다음 조건을 모두 확인한 뒤에만 최신 버전을 공개합니다.
+
+1. 두 파일의 이름, 크기, SHA-256과 S3 메타데이터가 일치합니다.
+2. 두 파일 모두 Windows PE `VERSIONINFO`를 가지며 실제 `FileVersion`이 입력한 네 자리 버전과 각각 일치합니다.
+3. 기존 공개 버전보다 낮지 않고, 같은 버전이면 같은 파일 묶음입니다.
+4. 서버가 두 SHA-256 파일을 생성하고 `site-downloads/<릴리스>/downloads/`의 네 파일을 완성합니다.
+5. 고정 CDN 주소 네 개에 1바이트 범위 요청을 보내 전체 크기·S3 SHA-256 메타데이터·다운로드 헤더를 확인합니다.
+6. `site-downloads/latest-desktop-update.json` 포인터를 조건부로 교체하고 관리자 감사 기록을 남깁니다.
+
+업로드 객체는 변경되지 않는 릴리스 경로에 저장됩니다. 앱의 `/api/desktop/update`와 사이트의 `/api/desktop/download`는 최신 포인터를 매번 검증하고, 포인터에 문제가 있거나 CDN이 잠시 응답하지 않으면 배포에 포함된 마지막 검증 버전을 사용합니다. 따라서 관리자 배포 이후 Vercel을 다시 빌드하지 않아도 새로 확인하는 앱과 사이트 다운로드 링크가 최신 설치파일을 찾습니다.
+
+이 기능은 현재 운영 경계를 벗어난 버킷이나 CDN으로 실행파일이 나가는 것을 막기 위해 다음 값을 정확히 사용합니다.
+
+```dotenv
+DESKTOP_RELEASE_UPLOAD_ENABLED=true
+S3_BUCKET=fatell-aws-s3
+AWS_REGION=ap-northeast-2
+S3_KEY_PREFIX=puppyruby
+CDN_BASE_URL=https://cdn.puppyruby.com
+CDN_ORIGIN_PATH=puppyruby
+```
+
+`S3_UPLOAD_ENABLED=true`는 회원 사진과 관리자 SEO 이미지 업로드도 사용할 때만 별도로 켭니다. Windows 배포 기능에는 필요하지 않습니다.
+
+S3 CORS에는 위의 `content-disposition`, `cache-control`, `if-none-match` 헤더가 모두 필요합니다. 관리자 화면에서 S3 전송 단계가 거부되면 버킷 CORS부터 확인하세요. 실행파일은 최대 200MiB까지 받으며, 체크섬 파일은 선택하지 않아도 서버가 생성합니다.
 
 사이트 API는 본인과 수락된 친구에게만 사진 주소를 전달합니다. 현재 CDN 주소는 공개 읽기 주소이므로 주소를 이미 전달받은 사람이 복사한 링크까지 회수하지는 않습니다. 링크 접근 자체에도 친구 인증이 필요한 운영 정책이라면 별도의 CDN 서명 URL·쿠키 또는 인증 이미지 프록시가 필요합니다.
 

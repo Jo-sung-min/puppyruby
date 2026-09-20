@@ -13,6 +13,7 @@ import "./account.css";
 import "./account-menu.css";
 import "./admin-dog-styles.css";
 import "./admin-seo.css";
+import "./admin-desktop-release.css";
 import "./breed-catalog.css";
 import "./theme.css";
 import "./commerce.css";

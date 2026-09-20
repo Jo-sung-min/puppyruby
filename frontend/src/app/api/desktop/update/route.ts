@@ -1,8 +1,8 @@
-import { desktopUpdateResponse } from "@/lib/desktop-update";
+import { desktopUpdateResponse, latestDesktopUpdateRelease } from "@/lib/desktop-update";
 
 export const dynamic = "force-dynamic";
 
 // Public release metadata; no account session or backend connection is needed.
-export function GET() {
-  return desktopUpdateResponse();
+export async function GET() {
+  return desktopUpdateResponse(await latestDesktopUpdateRelease());
 }

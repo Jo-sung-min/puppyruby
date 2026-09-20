@@ -30,7 +30,7 @@ Java 21 JDK와 기존 백엔드 Gradle 의존성이 필요합니다. 프로젝�
 .\scripts\publish-site-downloads.ps1 -Action Plan
 .\scripts\publish-site-downloads.ps1 -Action Publish
 
-# 기존 릴리스 재검증 (읽기 전용)
+# 기존 이미지 재검증 / Windows 다운로드 최신 포인터 재등록
 .\scripts\publish-site-assets.ps1 -Action Verify
 .\scripts\publish-site-downloads.ps1 -Action Verify
 ```
@@ -57,7 +57,7 @@ CloudFront origin에 `/puppyruby`가 있으므로 `CDN_ORIGIN_PATH=puppyruby`로
 
 ## 사이트 적용
 
-검증을 마친 공개 주소만 `frontend/src/lib/generated/public-media-release.json`에 기록합니다. 이 JSON과 이미지 목록·체크섬 JSON은 Git에 남기며 AWS 인증 정보를 포함하지 않습니다.
+검증을 마친 공개 주소만 `frontend/src/lib/generated/public-media-release.json`에 기록합니다. Windows 릴리스는 같은 내용의 `puppyruby/site-downloads/latest-desktop-update.json`도 갱신합니다. 이 동적 포인터를 관리자 화면과 `/api/desktop/update`, `/api/desktop/download`가 사용하며, CDN 장애 시에는 Git에 포함된 마지막 검증 JSON으로 돌아갑니다. JSON과 이미지 목록·체크섬은 AWS 인증 정보를 포함하지 않습니다.
 
 현재 로컬 `frontend/public/downloads`는 `local-assets/site/downloads`를 가리키는 Git 제외 junction이므로 원본을 중복 보관하지 않습니다. 이 로컬 링크는 Git/Vercel에 포함되지 않습니다. 검증된 4파일 다운로드 릴리스 주소를 등록한 뒤 운영에 배포해야 다운로드 기능이 유지됩니다.
 
@@ -70,7 +70,7 @@ NEXT_PUBLIC_DOWNLOAD_BASE_URL=https://cdn.puppyruby.com/site-downloads/다운로
 
 비어 있으면 저장소에 기록된 공개 릴리스를 사용합니다. 기존 Vercel 환경변수가 있으면 그 값이 우선하므로 새 릴리스로 바꾸거나 변수를 제거하고 재배포합니다. 공개 환경변수는 빌드 시 반영됩니다.
 
-화면의 `assetUrl`은 `/images/...`를 CDN 주소로 바꿉니다. 기존 `/images/...`, `/favicon.svg`, `/downloads/...` 링크도 Next.js의 307 리디렉션으로 연결합니다. 설치파일 바이트는 Vercel 함수를 통과하지 않습니다. 회원 사진과 관리자 SEO 이미지의 저장된 외부 주소는 유지합니다.
+화면의 `assetUrl`은 `/images/...`를 CDN 주소로 바꿉니다. 기존 `/images/...`, `/favicon.svg`, `/downloads/...` 링크도 Next.js의 307 리디렉션으로 연결합니다. 첫 화면과 연결 안내의 Windows 설치 링크는 `/api/desktop/download`가 최신 포인터의 검증된 CDN 주소로 307 이동합니다. 설치파일 바이트는 Vercel 함수를 통과하지 않습니다. 회원 사진과 관리자 SEO 이미지의 저장된 외부 주소는 유지합니다.
 
 ## Git 용량 관리
 

@@ -20,6 +20,7 @@ await access(serverFile);
 const manifest = JSON.parse(await readFile(resolve(frontend, ".next/server/app-paths-manifest.json"), "utf8"));
 assert.ok(manifest["/api/media/[[...path]]/route"], "Build the current frontend with /api/media first.");
 assert.ok(manifest["/api/admin/seo-media/[[...path]]/route"], "Build the current frontend with the administrator SEO media route first.");
+assert.ok(manifest["/api/admin/desktop-release/[[...path]]/route"], "Build the current frontend with the administrator Windows release route first.");
 
 const session = "S".repeat(43);
 const forgedSession = "F".repeat(43);
@@ -37,7 +38,30 @@ const presigned = { uploadId, uploadUrl: "https://fixture-s3.invalid/photo?signa
   headers: { "Content-Type": "image/jpeg", "x-amz-checksum-sha256": checksum }, expiresAt: Date.now() + 300000 };
 const completed = { photo: `media:${uploadId}`, url: "https://fixture-s3.invalid/photo?view=fixture-only" };
 const seoCompleted = { url: "https://fixture-s3.invalid/seo-shares/image.jpg" };
-const upstreamPaths = ["/api/v1/media", "/api/v1/admin/seo-media"].flatMap(base => ["config", "presign", "complete"].map(action => `${base}/${action}`));
+const desktopFiles = [
+  { name: "PuppyRuby.exe", size: 1024, sha256: checksum },
+  { name: "PuppyRuby-Setup.exe", size: 2048, sha256: checksum },
+];
+const desktopCurrent = { schemaVersion: 1, version: "0.10.2.0", release: "2222222222222222", publishedAt: "2026-09-21T00:00:00.000Z",
+  notes: "현재 Windows 릴리스예요.", installer: { url: "https://cdn.puppyruby.com/site-downloads/2222222222222222/downloads/PuppyRuby-Setup.exe", sha256: "0".repeat(64), size: 2048 } };
+const desktopManifest = { ...desktopCurrent, version: "0.10.3.0", release: "3333333333333333", notes: "새 Windows 릴리스예요.",
+  installer: { ...desktopCurrent.installer, url: "https://cdn.puppyruby.com/site-downloads/3333333333333333/downloads/PuppyRuby-Setup.exe" } };
+const desktopExpiresAt = Date.now() + 300000;
+const desktopSignedHeaders = "cache-control;content-disposition;content-length;content-type;host;if-none-match;x-amz-checksum-sha256;x-amz-meta-sha256";
+function desktopSignedUrl(name) {
+  const date = new Date(desktopExpiresAt - 300000).toISOString().replace(/[-:]/g, "").replace(/\.\d{3}Z$/, "Z");
+  const query = new URLSearchParams({ "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+    "X-Amz-Credential": `ASIAOFFLINETESTKEY12/${date.slice(0, 8)}/ap-northeast-2/s3/aws4_request`, "X-Amz-Date": date,
+    "X-Amz-Expires": "300", "X-Amz-SignedHeaders": desktopSignedHeaders, "X-Amz-Signature": "a".repeat(64) });
+  return `https://fatell-aws-s3.s3.ap-northeast-2.amazonaws.com/puppyruby/site-downloads/${desktopManifest.release}/downloads/${name}?${query}`;
+}
+const desktopHeaders = name => ({ "content-type": "application/vnd.microsoft.portable-executable", "content-disposition": `attachment; filename="${name}"`,
+  "cache-control": "public, max-age=31536000, immutable", "if-none-match": "*", "x-amz-checksum-sha256": checksum,
+  "x-amz-meta-sha256": createHash("sha256").update("local media fixture; never uploaded").digest("hex") });
+const desktopPrepared = { release: desktopManifest.release, uploads: desktopFiles.map(file => ({ name: file.name, required: true,
+  uploadUrl: desktopSignedUrl(file.name), method: "PUT", headers: desktopHeaders(file.name), expiresAt: desktopExpiresAt })) };
+const upstreamPaths = ["/api/v1/media", "/api/v1/admin/seo-media"].flatMap(base => ["config", "presign", "complete"].map(action => `${base}/${action}`))
+  .concat(["/api/v1/admin/desktop-release", "/api/v1/admin/desktop-release/prepare", "/api/v1/admin/desktop-release/complete"]);
 const validBody = { contentType: "image/jpeg", size: 1024, sha256: checksum };
 let checks = 0;
 let requests = [];
@@ -88,7 +112,7 @@ const fake = createServer(async (request, response) => {
       response.writeHead(behavior.status, { "Content-Type": "application/json", "Set-Cookie": `upstream-secret=${credentialMarker}; Path=/` });
       response.end(JSON.stringify({ message: credentialMarker, token: session, playerId: player, stack: forgedSession })); return;
     }
-    const admin = request.url.startsWith("/api/v1/admin/seo-media/");
+    const admin = request.url.startsWith("/api/v1/admin/seo-media/") || request.url.startsWith("/api/v1/admin/desktop-release");
     if (admin && request.headers["x-session-token"] === memberSession) {
       response.writeHead(403, { "Content-Type": "application/json" }); response.end(JSON.stringify({ message: credentialMarker })); return;
     }
@@ -96,7 +120,11 @@ const fake = createServer(async (request, response) => {
       response.writeHead(401, { "Content-Type": "application/json" }); response.end(JSON.stringify({ message: credentialMarker })); return;
     }
     response.writeHead(200, { "Content-Type": "application/json", "Cache-Control": "public, max-age=3600" });
-    response.end(JSON.stringify(request.url.endsWith("/config") ? config : request.url.endsWith("/presign") ? presigned : admin ? seoCompleted : completed));
+    const value = request.url === "/api/v1/admin/desktop-release" ? { enabled: true, current: desktopCurrent }
+      : request.url.endsWith("/desktop-release/prepare") ? desktopPrepared
+        : request.url.endsWith("/desktop-release/complete") ? desktopManifest
+          : request.url.endsWith("/config") ? config : request.url.endsWith("/presign") ? presigned : admin ? seoCompleted : completed;
+    response.end(JSON.stringify(value));
   } catch (error) {
     fakeError = error;
     if (!response.headersSent) response.writeHead(500, { "Content-Type": "application/json" });
@@ -132,7 +160,8 @@ function privacy(result, label) {
 }
 
 async function call(path, options = {}) {
-  assert.ok((path.startsWith("/api/media") || path.startsWith("/api/admin/seo-media")) && !path.includes("://"), "Only local media BFF paths may be requested.");
+  assert.ok((path.startsWith("/api/media") || path.startsWith("/api/admin/seo-media") || path.startsWith("/api/admin/desktop-release"))
+    && !path.includes("://"), "Only local upload BFF paths may be requested.");
   const method = options.method || "GET";
   const headers = new Headers(options.headers);
   if (options.auth !== false) headers.set("Cookie", options.cookie ?? cookie);
@@ -379,6 +408,66 @@ try {
       check(/puppyruby-player=[0-9a-f-]{36}/i.test(setCookie), `SEO ${action} rotates guest identity`);
     } else check(!setCookie, `SEO ${action} keeps unrelated failures from changing session`);
   }
+
+  behavior = { type: "normal" };
+  const desktopBase = "/api/admin/desktop-release";
+  const desktopPrepareBody = { version: desktopManifest.version, notes: desktopManifest.notes, files: desktopFiles };
+  const desktopCompleteBody = { ...desktopPrepareBody, release: desktopManifest.release };
+  await rejected("Desktop release read requires cookie authentication", desktopBase, { auth: false, headers: forgedHeaders }, 401);
+  await rejected("Desktop release write requires cookie authentication", `${desktopBase}/prepare`, {
+    method: "POST", auth: false, headers: forgedHeaders, body: desktopPrepareBody }, 401);
+  const memberBefore = requests.length;
+  const memberDenied = await call(desktopBase, { cookie: `puppyruby-session=${memberSession}; puppyruby-player=${player}`,
+    headers: { ...forgedHeaders, "X-Role": "ADMIN" } });
+  equal(memberDenied.status, 403, "Desktop release preserves backend member denial");
+  equal(requests.length, memberBefore + 1, "Desktop release delegates administrator role to backend");
+  equal(requests.at(-1).headers["x-session-token"], memberSession, "Desktop release forwards the member cookie session");
+  check(!requests.at(-1).headers["x-role"], "Desktop release ignores forged administrator role");
+  privacy(memberDenied, "Desktop release member denial");
+
+  const releaseRead = await accepted("Desktop release current manifest", desktopBase, { headers: { ...forgedHeaders, "X-Role": "ADMIN" } },
+    { enabled: true, current: desktopCurrent });
+  equal(releaseRead.path, "/api/v1/admin/desktop-release", "Desktop release uses its scoped upstream");
+  equal(releaseRead.headers["x-session-token"], session, "Desktop release session comes only from cookie");
+  for (const key of ["authorization", "cookie", "x-amz-security-token", "x-role", "x-forwarded-for"]) {
+    check(!releaseRead.headers[key], `Desktop release excludes forged ${key}`);
+  }
+  await rejected("Desktop release cross-site read is denied", desktopBase, { headers: { "Sec-Fetch-Site": "cross-site" } }, 403);
+
+  for (const path of [`${desktopBase}/prepare`, `${desktopBase}/complete`, `${desktopBase}/unknown`, `${desktopBase}/prepare/extra`]) {
+    await rejected("Desktop release GET allowlist", path, {}, 404);
+  }
+  for (const path of [desktopBase, `${desktopBase}/unknown`, `${desktopBase}/prepare/extra`]) {
+    await rejected("Desktop release POST allowlist", path, { method: "POST", body: desktopPrepareBody }, 404);
+  }
+  for (const invalidOrigin of [null, "null", "https://evil.invalid", "http://localhost:3101", origin + "/path"]) {
+    await rejected("Desktop release write enforces exact origin", `${desktopBase}/prepare`, {
+      method: "POST", origin: invalidOrigin, body: desktopPrepareBody }, 403);
+  }
+  for (const contentType of [null, "text/plain", "application/jsonp", "application/ld+json"]) {
+    await rejected("Desktop release accepts JSON only", `${desktopBase}/prepare`, {
+      method: "POST", contentType, body: desktopPrepareBody }, 400);
+  }
+  const preparedCall = await accepted("Desktop release prepare forwards bounded metadata", `${desktopBase}/prepare`, {
+    method: "POST", headers: forgedHeaders, body: desktopPrepareBody }, desktopPrepared);
+  equal(preparedCall.body, desktopPrepareBody, "Desktop prepare forwards only the validated contract");
+  for (const key of ["authorization", "cookie", "x-amz-security-token", "x-role", "x-forwarded-for", "origin"]) {
+    check(!preparedCall.headers[key], `Desktop prepare excludes forged ${key}`);
+  }
+  await accepted("Desktop release complete returns verified manifest", `${desktopBase}/complete`, {
+    method: "POST", body: desktopCompleteBody }, desktopManifest);
+  for (const body of [{ ...desktopPrepareBody, role: "ADMIN" }, { ...desktopPrepareBody, files: desktopFiles.slice(0, 1) },
+    { ...desktopPrepareBody, version: "0.10.3" }, { ...desktopPrepareBody, notes: "<secret>" },
+    { ...desktopPrepareBody, files: desktopFiles.map((file, index) => index ? file : { ...file, sha256: "bad" }) }]) {
+    await rejected("Desktop release rejects malformed metadata", `${desktopBase}/prepare`, { method: "POST", body }, 400);
+  }
+  const desktopRaw = JSON.stringify(desktopPrepareBody);
+  const desktopPadded = desktopRaw + " ".repeat(4096 - Buffer.byteLength(desktopRaw));
+  await accepted("Desktop release accepts exactly 4KB JSON", `${desktopBase}/prepare`, {
+    method: "POST", raw: desktopPadded, chunked: true }, desktopPrepared);
+  await rejected("Desktop release never proxies oversized JSON", `${desktopBase}/prepare`, {
+    method: "POST", raw: desktopPadded + " ", chunked: true }, 400);
+
   behavior = { type: "redirect" };
   const beforeRedirect = requests.length;
   const seoRedirect = await call(`${seoBase}/complete`, { method: "POST", body: { uploadId } });

@@ -1,0 +1,56 @@
+.account-tabs.admin-tabs-with-release { width: min(100%, 960px); }
+.admin-desktop-release { display: grid; gap: 20px; min-width: 0; }
+.admin-desktop-release > .account-notice { margin-bottom: 0; }
+.admin-desktop-release-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.admin-desktop-release-heading h2 { margin-top: 7px; font-size: 24px; }
+.admin-desktop-release-heading p { margin-top: 6px; color: var(--ui-muted); font-size: 12px; }
+.admin-desktop-release-heading > button { flex-shrink: 0; }
+.admin-desktop-release-layout { display: grid; grid-template-columns: minmax(280px, .82fr) minmax(440px, 1.18fr); gap: 20px; align-items: start; }
+.admin-desktop-release-current, .admin-desktop-release-form { min-width: 0; }
+.admin-desktop-release-current .account-section-heading, .admin-desktop-release-form .account-section-heading { align-items: flex-start; }
+.admin-desktop-release-current h3, .admin-desktop-release-form h3 { font-size: 18px; }
+.admin-desktop-release-summary { display: grid; gap: 14px; }
+.admin-desktop-release-summary > div { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--ui-line); }
+.admin-desktop-release-summary span { color: var(--ui-muted); font-size: 12px; }
+.admin-desktop-release-summary strong { color: var(--ui-text); font-size: 13px; text-align: right; overflow-wrap: anywhere; }
+.admin-desktop-release-summary > p { padding: 13px 14px; border: 1px solid var(--ui-line); border-radius: 8px; background: var(--ui-surface-2); color: var(--ui-text); font-size: 12px; line-height: 1.8; white-space: pre-wrap; }
+.admin-desktop-release-summary > a { width: 100%; }
+.admin-desktop-release-form .account-field > span { display: flex; justify-content: space-between; gap: 10px; }
+.admin-desktop-release-form .account-field > span small { font-weight: 400; }
+.admin-desktop-release-files { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.admin-desktop-release-files article { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 13px; border: 1px dashed var(--ui-strong-line); border-radius: 9px; background: var(--ui-surface-2); color: var(--ui-muted); }
+.admin-desktop-release-files article[data-selected="true"] { border-style: solid; border-color: var(--ui-success); color: var(--ui-text); }
+.admin-desktop-release-files article > div { flex: 1; min-width: 0; }
+.admin-desktop-release-files strong, .admin-desktop-release-files span { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.admin-desktop-release-files strong { font-size: 12px; }
+.admin-desktop-release-files span { margin-top: 4px; color: var(--ui-muted); font-size: 12px; }
+.admin-desktop-release-files article > svg:last-child { color: var(--ui-success); flex-shrink: 0; }
+.admin-desktop-release-file-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 14px; }
+.admin-desktop-release-confirm { display: flex; align-items: flex-start; gap: 11px; padding: 15px; border: 1px solid var(--ui-strong-line); border-radius: 9px; background: var(--ui-surface-2); cursor: pointer; }
+.admin-desktop-release-confirm input { width: 18px; height: 18px; margin-top: 2px; flex: 0 0 18px; accent-color: var(--ui-accent); }
+.admin-desktop-release-confirm strong, .admin-desktop-release-confirm small { display: block; }
+.admin-desktop-release-confirm strong { color: var(--ui-text); font-size: 13px; }
+.admin-desktop-release-confirm small { margin-top: 5px; color: var(--ui-muted); font-size: 12px; font-weight: 400; line-height: 1.7; }
+.admin-desktop-release-confirm:has(input:disabled) { cursor: default; opacity: .72; }
+.admin-desktop-release-help, .admin-desktop-release-error { font-size: 12px; line-height: 1.75; }
+.admin-desktop-release-help { color: var(--ui-muted); }
+.admin-desktop-release-error { padding: 11px 13px; border: 1px solid var(--ui-danger); border-radius: 8px; background: var(--ui-danger-bg); color: var(--ui-danger); }
+.admin-desktop-release-progress { display: flex; align-items: center; gap: 11px; padding: 13px 14px; border: 1px solid var(--ui-strong-line); border-radius: 9px; background: var(--ui-surface-2); }
+.admin-desktop-release-progress > svg { flex-shrink: 0; }
+.admin-desktop-release-progress > div { flex: 1; min-width: 0; }
+.admin-desktop-release-progress strong, .admin-desktop-release-progress span { display: block; font-size: 12px; }
+.admin-desktop-release-progress span { margin-top: 3px; color: var(--ui-muted); }
+.admin-desktop-release-progress button { flex-shrink: 0; }
+
+@media (max-width: 900px) {
+  .account-tabs.admin-tabs-with-release { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .admin-desktop-release-layout { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .account-tabs.admin-tabs-with-release { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin-desktop-release-heading { align-items: flex-start; flex-direction: column; }
+  .admin-desktop-release-heading > button { width: 100%; }
+  .admin-desktop-release-files { grid-template-columns: 1fr; }
+  .admin-desktop-release-progress { align-items: flex-start; flex-wrap: wrap; }
+  .admin-desktop-release-progress button { margin-left: 29px; }
+}

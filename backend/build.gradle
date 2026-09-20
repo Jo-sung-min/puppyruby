@@ -36,6 +36,7 @@ tasks.named('test') {
     environment 'DB_PASSWORD', ''
     environment 'DB_SCHEMA', ''
     environment 'S3_UPLOAD_ENABLED', 'false'
+    environment 'DESKTOP_RELEASE_UPLOAD_ENABLED', 'false'
     environment 'MAIL_ENABLED', 'false'
 }
 

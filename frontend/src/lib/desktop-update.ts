@@ -10,6 +10,7 @@ export type DesktopUpdateRelease = {
 };
 
 const maxInstallerBytes = 200 * 1024 * 1024;
+export const desktopUpdatePointerUrl = "https://cdn.puppyruby.com/site-downloads/latest-desktop-update.json";
 const object = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
@@ -37,6 +38,26 @@ export function readDesktopUpdateRelease(value: unknown = publishedRelease): Des
   };
 }
 
+export function compareDesktopVersions(left: string, right: string): number {
+  const a = left.split(".").map(Number), b = right.split(".").map(Number);
+  for (let index = 0; index < 4; index++) {
+    if (a[index] !== b[index]) return a[index] > b[index] ? 1 : -1;
+  }
+  return 0;
+}
+
+/** Never let an older or conflicting mutable pointer replace the verified build-time fallback. */
+export function preferredDesktopUpdateRelease(remoteValue: unknown, bundledValue: unknown = publishedRelease): DesktopUpdateRelease | null {
+  const remote = readDesktopUpdateRelease(remoteValue), bundled = readDesktopUpdateRelease(bundledValue);
+  if (!remote) return bundled;
+  if (!bundled) return remote;
+  const order = compareDesktopVersions(remote.version, bundled.version);
+  const samePayload = remote.release === bundled.release && remote.notes === bundled.notes
+    && remote.installer.url === bundled.installer.url && remote.installer.sha256 === bundled.installer.sha256
+    && remote.installer.size === bundled.installer.size;
+  return order > 0 || (order === 0 && samePayload) ? remote : bundled;
+}
+
 export function desktopUpdateResponse(value: unknown = publishedRelease): Response {
   const release = readDesktopUpdateRelease(value);
   return Response.json(release ?? { message: "업데이트 정보를 준비하고 있어요." }, {
@@ -48,4 +69,21 @@ export function desktopUpdateResponse(value: unknown = publishedRelease): Respon
       "X-Content-Type-Options": "nosniff",
     },
   });
+}
+
+/** Resolve the mutable CDN pointer at request time, with the bundled verified release as an outage fallback. */
+export async function latestDesktopUpdateRelease(): Promise<DesktopUpdateRelease | null> {
+  const bundled = readDesktopUpdateRelease(publishedRelease);
+  try {
+    const response = await fetch(desktopUpdatePointerUrl, {
+      cache: "no-store", redirect: "error", signal: AbortSignal.timeout(5000),
+      headers: { Accept: "application/json" },
+    });
+    const declared = Number(response.headers.get("content-length"));
+    if (!response.ok || (Number.isFinite(declared) && declared > 16 * 1024)) throw new Error("Invalid update pointer");
+    const text = await response.text();
+    if (text.length > 16 * 1024) throw new Error("Invalid update pointer");
+    return preferredDesktopUpdateRelease(JSON.parse(text), bundled);
+  } catch { /* The bundled manifest keeps downloads and existing clients available during a CDN outage. */ }
+  return bundled;
 }

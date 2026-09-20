@@ -1,7 +1,7 @@
 'use strict';
 const assert = require('node:assert/strict');
 const { loadFrontend } = require('./frontend-loader.cjs');
-const { readDesktopUpdateRelease, desktopUpdateResponse } = loadFrontend('src/lib/desktop-update.ts');
+const { readDesktopUpdateRelease, desktopUpdateResponse, preferredDesktopUpdateRelease } = loadFrontend('src/lib/desktop-update.ts');
 const release = {
   schemaVersion: 1, version: '0.10.0.0', release: '123456789abcdef0', publishedAt: '2026-09-20T07:31:24.406Z',
   notes: '새 동작과 업데이트 알림을 적용했어요.',
@@ -9,6 +9,25 @@ const release = {
 };
 (async () => {
   assert.deepEqual(readDesktopUpdateRelease(release), release);
+  const bundled = { ...release, version: '0.10.2.0', release: '2222222222222222', installer: {
+    ...release.installer, url: 'https://cdn.puppyruby.com/site-downloads/2222222222222222/downloads/PuppyRuby-Setup.exe',
+  } };
+  const lower = { ...release, version: '0.10.1.9' };
+  const conflicting = { ...release, version: bundled.version };
+  const matching = { ...bundled, publishedAt: '2026-09-21T07:31:24.406Z' };
+  const notesConflict = { ...matching, notes: '같은 버전에 다른 설명을 넣었어요.' };
+  const checksumConflict = { ...matching, installer: { ...matching.installer, sha256: 'b'.repeat(64) } };
+  const sizeConflict = { ...matching, installer: { ...matching.installer, size: matching.installer.size + 1 } };
+  const urlConflict = { ...matching, installer: { ...matching.installer, url: matching.installer.url.replace('cdn.puppyruby.com', 'other.invalid') } };
+  const higher = { ...release, version: '0.10.3.0' };
+  assert.deepEqual(preferredDesktopUpdateRelease(lower, bundled), bundled);
+  assert.deepEqual(preferredDesktopUpdateRelease(conflicting, bundled), bundled);
+  assert.deepEqual(preferredDesktopUpdateRelease(matching, bundled), matching);
+  assert.deepEqual(preferredDesktopUpdateRelease(notesConflict, bundled), bundled);
+  assert.deepEqual(preferredDesktopUpdateRelease(checksumConflict, bundled), bundled);
+  assert.deepEqual(preferredDesktopUpdateRelease(sizeConflict, bundled), bundled);
+  assert.deepEqual(preferredDesktopUpdateRelease(urlConflict, bundled), bundled);
+  assert.deepEqual(preferredDesktopUpdateRelease(higher, bundled), higher);
   const nanos = { ...release, publishedAt: '2026-09-20T08:02:38.106973200Z' };
   assert.equal(readDesktopUpdateRelease(nanos).publishedAt, '2026-09-20T08:02:38.106Z');
   assert.equal((await desktopUpdateResponse(nanos).json()).publishedAt, '2026-09-20T08:02:38.106Z');
@@ -41,9 +60,30 @@ const release = {
   assert.equal(response.headers.get('Vercel-CDN-Cache-Control'), 'no-store');
   assert.equal(response.headers.get('Set-Cookie'), null);
   assert.equal(response.headers.get('Location'), null);
-  const route = loadFrontend('src/app/api/desktop/update/route.ts', { '@/lib/desktop-update': { desktopUpdateResponse: () => desktopUpdateResponse(release) } });
+  const route = loadFrontend('src/app/api/desktop/update/route.ts', { '@/lib/desktop-update': {
+    desktopUpdateResponse: () => desktopUpdateResponse(release), latestDesktopUpdateRelease: async () => release,
+  } });
   assert.equal(route.dynamic, 'force-dynamic');
-  assert.deepEqual(await route.GET().json(), release);
+  assert.deepEqual(await (await route.GET()).json(), release);
+  const downloadRoute = loadFrontend('src/app/api/desktop/download/route.ts', { '@/lib/desktop-update': {
+    latestDesktopUpdateRelease: async () => release,
+  } });
+  assert.equal(downloadRoute.dynamic, 'force-dynamic');
+  const download = await downloadRoute.GET();
+  assert.equal(download.status, 307);
+  assert.equal(download.headers.get('location'), release.installer.url);
+  assert.match(download.headers.get('cache-control'), /no-store/);
+  assert.equal(download.headers.get('referrer-policy'), 'no-referrer');
+  assert.equal(download.headers.get('x-content-type-options'), 'nosniff');
+  const unavailableRoute = loadFrontend('src/app/api/desktop/download/route.ts', { '@/lib/desktop-update': {
+    latestDesktopUpdateRelease: async () => null,
+  } });
+  const unavailable = await unavailableRoute.GET();
+  assert.equal(unavailable.status, 503);
+  assert.match(unavailable.headers.get('cache-control'), /no-store/);
+  assert.equal(unavailable.headers.get('x-content-type-options'), 'nosniff');
+  assert.equal(unavailable.headers.get('location'), null);
+  assert.deepEqual(Object.keys(await unavailable.json()), ['message']);
   const published = require('../frontend/src/lib/generated/desktop-update-release.json');
   if (published !== null) {
     assert.deepEqual(readDesktopUpdateRelease(published), { ...published, publishedAt: new Date(published.publishedAt).toISOString() });

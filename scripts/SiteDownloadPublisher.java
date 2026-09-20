@@ -122,7 +122,9 @@ public final class SiteDownloadPublisher {
         phase = "register-verified-update";
         // Never advertise an unuploaded build or a release with an incomplete CDN body check.
         if (!desktopBuild(project, assets).equals(build)) throw new Refused("DESKTOP_BUILD_CHANGED_DURING_PUBLISH");
-        registerUpdate(project, build, assets, release, cdnBase, assets.size(), verified);
+        byte[] update = updateManifest(build, assets, release, cdnBase, Instant.now());
+        update = publishLatestPointer(bucket, region, prefix, build, assets, release, cdnBase, update);
+        registerUpdate(project, build, assets, release, cdnBase, assets.size(), verified, update);
         currentPath = "";
         System.out.println("DOWNLOAD_PUBLISH_SUCCESS=true UPLOADED=" + uploaded + " EXISTING=" + skipped + " S3_VERIFIED=" + assets.size() + " CDN_VERIFIED=" + verified.size());
     }
@@ -184,6 +186,12 @@ public final class SiteDownloadPublisher {
 
     static void registerUpdate(Path project, DesktopBuild build, List<Asset> assets, String release, String cdn,
                                int s3Verified, List<String> cdnVerified) throws IOException {
+        registerUpdate(project, build, assets, release, cdn, s3Verified, cdnVerified,
+            updateManifest(build, assets, release, cdn, Instant.now()));
+    }
+
+    static void registerUpdate(Path project, DesktopBuild build, List<Asset> assets, String release, String cdn,
+                               int s3Verified, List<String> cdnVerified, byte[] latestBytes) throws IOException {
         validateInventory(new HashSet<>(assets.stream().map(Asset::path).toList()));
         if (s3Verified != 4 || cdnVerified.size() != 4 || !new HashSet<>(cdnVerified).equals(ALLOWED_PATHS))
             throw new Refused("DESKTOP_RELEASE_NOT_FULLY_VERIFIED");
@@ -198,12 +206,8 @@ public final class SiteDownloadPublisher {
         var publicMedia = JSON.readTree(oldMedia);
         if (!publicMedia.isObject() || !publicMedia.path("images").isObject() || !publicMedia.path("downloads").isObject())
             throw new Refused("INVALID_PUBLIC_MEDIA_RELEASE");
-        var update = JSON.createObjectNode();
-        update.put("schemaVersion", 1).put("version", build.version()).put("release", release)
-            .put("publishedAt", Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS).toString()).put("notes", build.notes());
-        update.putObject("installer").put("url", cdn + "/downloads/PuppyRuby-Setup.exe").put("sha256", installer.sha256()).put("size", installer.size());
+        validateUpdateManifest(JSON.readTree(latestBytes), build, installer, release, cdn);
         ((tools.jackson.databind.node.ObjectNode) publicMedia).putObject("downloads").put("release", release).put("baseUrl", cdn);
-        byte[] latestBytes = (JSON.writerWithDefaultPrettyPrinter().writeValueAsString(update) + "\n").getBytes(StandardCharsets.UTF_8);
         byte[] mediaBytes = (JSON.writerWithDefaultPrettyPrinter().writeValueAsString(publicMedia) + "\n").getBytes(StandardCharsets.UTF_8);
         // Both complete documents are prepared before replacing either public pointer.
         // A failed second replacement restores the first, leaving the prior release advertised.
@@ -211,6 +215,74 @@ public final class SiteDownloadPublisher {
         try { replaceAtomically(latest, latestBytes); }
         catch (IOException failure) { replaceAtomically(media, oldMedia); throw failure; }
         System.out.println("DOWNLOAD_UPDATE_REGISTERED=" + build.version());
+    }
+
+    static byte[] updateManifest(DesktopBuild build, List<Asset> assets, String release, String cdn, Instant publishedAt) throws IOException {
+        requireUpdateDestination(release, cdn); validateVersion(build.version());
+        Asset installer = assets.stream().filter(item -> item.path().equals("downloads/PuppyRuby-Setup.exe")).findFirst().orElseThrow();
+        var update = JSON.createObjectNode();
+        update.put("schemaVersion", 1).put("version", build.version()).put("release", release)
+            .put("publishedAt", publishedAt.truncatedTo(java.time.temporal.ChronoUnit.MILLIS).toString()).put("notes", build.notes());
+        update.putObject("installer").put("url", cdn + "/downloads/PuppyRuby-Setup.exe").put("sha256", installer.sha256()).put("size", installer.size());
+        return (JSON.writerWithDefaultPrettyPrinter().writeValueAsString(update) + "\n").getBytes(StandardCharsets.UTF_8);
+    }
+
+    static void validateUpdateManifest(JsonNode value, DesktopBuild build, Asset installer, String release, String cdn) {
+        if (!value.isObject() || !value.path("schemaVersion").isIntegralNumber() || value.path("schemaVersion").asInt() != 1
+            || !build.version().equals(textField(value, "version")) || !release.equals(textField(value, "release"))
+            || !build.notes().equals(textField(value, "notes")) || !value.path("publishedAt").isString())
+            throw new Refused("INVALID_LATEST_DESKTOP_POINTER");
+        try { Instant.parse(value.path("publishedAt").asString()); }
+        catch (RuntimeException error) { throw new Refused("INVALID_LATEST_DESKTOP_POINTER"); }
+        JsonNode file = value.path("installer");
+        if (!file.isObject() || !(cdn + "/downloads/PuppyRuby-Setup.exe").equals(textField(file, "url"))
+            || !installer.sha256().equals(textField(file, "sha256")) || !file.path("size").isIntegralNumber()
+            || file.path("size").asLong() != installer.size()) throw new Refused("INVALID_LATEST_DESKTOP_POINTER");
+    }
+
+    static byte[] selectLatestPointer(byte[] existing, DesktopBuild build, Asset installer, String release, String cdn, byte[] replacement) throws IOException {
+        if (existing == null) return replacement;
+        if (existing.length < 1 || existing.length > 8192) throw new Refused("INVALID_LATEST_DESKTOP_POINTER");
+        JsonNode current = JSON.readTree(existing);
+        String currentVersion = textField(current, "version"), currentRelease = textField(current, "release");
+        validateVersion(currentVersion); validateVersion(build.version());
+        int comparison = Arrays.compare(Arrays.stream(build.version().split("\\.")).mapToInt(Integer::parseInt).toArray(),
+            Arrays.stream(currentVersion.split("\\.")).mapToInt(Integer::parseInt).toArray());
+        if (comparison < 0 || comparison == 0 && !release.equals(currentRelease)) throw new Refused("BUMP_DESKTOP_VERSION_BEFORE_NEW_RELEASE");
+        if (comparison == 0) {
+            validateUpdateManifest(current, build, installer, release, cdn);
+            return existing;
+        }
+        return replacement;
+    }
+
+    private static byte[] publishLatestPointer(String bucket, String region, String prefix, DesktopBuild build,
+                                                List<Asset> assets, String release, String cdn, byte[] replacement) throws IOException {
+        Asset installer = assets.stream().filter(item -> item.path().equals("downloads/PuppyRuby-Setup.exe")).findFirst().orElseThrow();
+        String key = prefix + "/site-downloads/latest-desktop-update.json";
+        currentPath = "latest-desktop-update.json"; phase = "latest-pointer";
+        try (var client = S3Client.builder().region(Region.of(region)).credentialsProvider(EnvironmentVariableCredentialsProvider.create())
+            .endpointOverride(URI.create("https://s3." + region + ".amazonaws.com")).build()) {
+            HeadObjectResponse head = head(client, bucket, key);
+            byte[] existing = null;
+            if (head != null) {
+                var response = client.getObjectAsBytes(GetObjectRequest.builder().bucket(bucket).key(key).build());
+                existing = response.asByteArray();
+            }
+            byte[] selected = selectLatestPointer(existing, build, installer, release, cdn, replacement);
+            if (selected == existing) {
+                System.out.println("DOWNLOAD_LATEST_POINTER_EXISTING=true");
+                return existing;
+            }
+            var request = PutObjectRequest.builder().bucket(bucket).key(key).contentType("application/json; charset=utf-8")
+                .cacheControl("private, no-store, max-age=0").contentLength((long) selected.length)
+                .metadata(Map.of("release", release, "version", build.version()));
+            if (head == null) request.ifNoneMatch("*"); else request.ifMatch(head.eTag());
+            try { client.putObject(request.build(), RequestBody.fromBytes(selected)); }
+            catch (S3Exception conflict) { if (conflict.statusCode() == 412) throw new Refused("LATEST_DESKTOP_POINTER_CHANGED"); throw conflict; }
+            System.out.println("DOWNLOAD_LATEST_POINTER_REGISTERED=" + build.version());
+            return selected;
+        }
     }
 
     static void replaceAtomically(Path target, byte[] bytes) throws IOException {
