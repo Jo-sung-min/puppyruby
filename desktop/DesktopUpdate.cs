@@ -118,7 +118,7 @@ namespace PuppyRubyDesktop
             bool official = uri.Scheme == "https" && uri.IsDefaultPort && (uri.Host == "puppyruby.com" || uri.Host == "www.puppyruby.com");
             bool local = (uri.Scheme == "http" || uri.Scheme == "https") && uri.IsLoopback;
             if (!official && !local) throw new ArgumentException("공식 퍼피루비 사이트에서만 업데이트를 확인할 수 있어요.");
-            return uri.GetLeftPart(UriPartial.Authority).TrimEnd('/');
+            return official ? "https://www.puppyruby.com" : uri.GetLeftPart(UriPartial.Authority).TrimEnd('/');
         }
 
         private void Announce()
@@ -145,16 +145,9 @@ namespace PuppyRubyDesktop
                     {
                         if ((int)response.StatusCode >= 300 && (int)response.StatusCode < 400)
                         {
-                            Uri redirect = response.Headers.Location;
-                            if (redirect == null || !redirect.IsAbsoluteUri || address.Scheme != "https" ||
-                                !(address.Host == "puppyruby.com" || address.Host == "www.puppyruby.com") ||
-                                redirect.AbsolutePath != "/api/desktop/update" || !String.IsNullOrEmpty(redirect.Query) || !String.IsNullOrEmpty(redirect.Fragment))
-                                throw new InvalidDataException("업데이트 확인 주소가 바뀌었어요.");
-                            ValidateUpdateOrigin(redirect.GetLeftPart(UriPartial.Authority));
-                            if (!(redirect.Host == "puppyruby.com" || redirect.Host == "www.puppyruby.com") || redirect.Scheme != "https" || !String.IsNullOrEmpty(redirect.UserInfo))
-                                throw new InvalidDataException("업데이트 확인 주소가 올바르지 않아요.");
-                            response.Dispose();
-                            response = await http.GetAsync(redirect, HttpCompletionOption.ResponseHeadersRead, cancel.Token);
+                            // Official inputs already resolve directly to www. Never fall back to the
+                            // bare host, another origin, or a redirect loop after that canonical request.
+                            throw new InvalidDataException("업데이트 확인 주소가 바뀌었어요. 잠시 후 다시 시도해 주세요.");
                         }
                         byte[] bytes;
                         // Closing the response also bounds older framework streams that ignore ReadAsync cancellation.

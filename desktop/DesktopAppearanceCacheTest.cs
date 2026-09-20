@@ -722,6 +722,9 @@ namespace PuppyRubyDesktop
                 Reject(delegate { DesktopAppearanceCache.ValidateAssetUrl(url, origin); }, "reject unsafe image address");
             Reject(delegate { DesktopAppearanceCache.ValidateAssetUrl("http://127.0.0.1:3000/dog.png", "https://puppyruby.com"); }, "public site cannot point at a local HTTP service");
             Check(DesktopAppearanceCache.ValidateAssetUrl("https://cdn.puppyruby.com/site-assets/hash/dog.png", origin).Scheme == "https", "public CDN is accepted");
+            Check(DesktopAppearanceCache.ValidateAssetUrl("https://puppyruby.com/dog.png", origin).AbsoluteUri == "https://www.puppyruby.com/dog.png", "official image requests use the canonical www origin");
+            Check(DesktopAppearanceCache.ValidateAssetUrl("https://cdn.puppyruby.com/site-assets/hash/dog.png", origin).AbsoluteUri == "https://cdn.puppyruby.com/site-assets/hash/dog.png", "CDN asset URL is preserved");
+            Check(DesktopAppearanceCache.ValidateAssetUrl("https://puppyruby.com.example/dog.png", origin).Host == "puppyruby.com.example", "official image normalization matches only the exact host");
             Check(DesktopAppearanceCache.ValidateAssetUrl(origin + "/dog.png", origin).IsLoopback, "same-origin local development PNG is accepted");
             foreach (string issue in new[] { "unknown-breed", "missing-scene", "extra-scene", "invalid-key", "too-many-frames", "huge-canvas" })
             {

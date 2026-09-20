@@ -138,6 +138,8 @@ namespace PuppyRubyDesktop
                 || (uri.Scheme != "https" && !(uri.Scheme == "http" && uri.IsLoopback && site.IsLoopback && uri.Authority == site.Authority))
                 || (uri.IsLoopback && !site.IsLoopback) || !uri.AbsolutePath.EndsWith(".png", StringComparison.OrdinalIgnoreCase))
                 throw new InvalidDataException("강아지 이미지 주소를 확인하지 못했어요.");
+            if (uri.Scheme == "https" && uri.IsDefaultPort && String.Equals(uri.Host, "puppyruby.com", StringComparison.OrdinalIgnoreCase))
+                uri = new UriBuilder(uri) { Host = new Uri(DesktopSync.DefaultOrigin).Host }.Uri;
             return uri;
         }
         internal static void Validate(DesktopAppearance value, string origin)

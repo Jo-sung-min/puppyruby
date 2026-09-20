@@ -33,11 +33,13 @@ namespace PuppyRubyDesktop
         private sealed class Stub : HttpMessageHandler
         {
             internal int Count;
+            internal readonly List<string> RequestedUrls = new List<string>();
             internal Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> Respond;
             internal Stub(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> respond) { Respond = respond; }
             protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancel)
             {
                 Count++;
+                RequestedUrls.Add(request.RequestUri.AbsoluteUri);
                 Check(request.Headers.Authorization == null && !request.Headers.Contains("Cookie"), "no pairing credential/cookie is sent");
                 return Respond(request, cancel);
             }
@@ -134,6 +136,25 @@ namespace PuppyRubyDesktop
             Reject("null", "null manifest rejected"); Reject("{broken", "malformed JSON rejected"); Reject(new string('x', 16385), "oversized JSON rejected");
             foreach (string origin in new [] { "https://puppyruby.com", "https://www.puppyruby.com/", "http://127.0.0.1:3001", "http://localhost:3001", "http://[::1]:3001" })
                 Check(DesktopUpdate.ValidateUpdateOrigin(origin).StartsWith("http"), "supported official/loopback origin");
+            foreach (string origin in new [] { "https://puppyruby.com", "https://puppyruby.com/", "https://www.puppyruby.com/", "HTTPS://PUPPYRUBY.COM:443/" })
+            {
+                Check(DesktopUpdate.ValidateUpdateOrigin(origin) == "https://www.puppyruby.com", "official origin normalized to www");
+                var canonical = Routes(Manifest(), delegate { return Binary(Payload); });
+                using (DesktopUpdate update = Client(canonical))
+                {
+                    await update.CheckAsync(origin, true);
+                    Check(update.Available != null && canonical.Count == 1 && canonical.RequestedUrls[0] == "https://www.puppyruby.com/api/desktop/update", "official update request goes directly to www without redirect");
+                }
+            }
+            foreach (string origin in new [] { "http://127.0.0.1:3001", "http://localhost:3001", "http://[::1]:3001" })
+            {
+                var local = Routes(Manifest(), delegate { return Binary(Payload); });
+                using (DesktopUpdate update = Client(local))
+                {
+                    await update.CheckAsync(origin, true);
+                    Check(update.Available != null && local.Count == 1 && local.RequestedUrls[0] == new Uri(origin + "/api/desktop/update").AbsoluteUri, "explicit development loopback is preserved");
+                }
+            }
             foreach (string origin in new [] { "https://evil.example", "http://puppyruby.com", "https://puppyruby.com.evil.example", "https://puppyruby.com:444", "https://u:p@puppyruby.com", "https://puppyruby.com/path", "https://puppyruby.com?x=1", "file:///x" })
             { bool failed = false; try { DesktopUpdate.ValidateUpdateOrigin(origin); } catch (ArgumentException) { failed = true; } Check(failed, "untrusted update origin rejected"); }
 
@@ -154,6 +175,7 @@ namespace PuppyRubyDesktop
                 int events = 0; update.Changed += delegate { events++; };
                 await update.CheckAsync("http://127.0.0.1:3001", true);
                 string path = await update.DownloadAsync();
+                Check(good.RequestedUrls[1] == "https://cdn.puppyruby.com/site-downloads/" + Release + "/downloads/PuppyRuby-Setup.exe", "verified installer remains on the fixed CDN path");
                 Check(File.Exists(path) && Hash(File.ReadAllBytes(path)) == Hash(Payload), "only exact verified bytes promoted");
                 Check(Path.GetDirectoryName(path) == successfulDirectory && Path.GetFileName(path) == "PuppyRuby-Setup-" + Release + ".exe", "fixed safe cache filename");
                 Check(update.ProgressPercent == 100 && !update.Downloading && events > 3, "progress and state notifications");
@@ -185,15 +207,10 @@ namespace PuppyRubyDesktop
                 { await update.CheckAsync("https://puppyruby.com", true); await RejectDownload(update, directory, "reject " + failure); }
                 Check(transport.Count == 2, "no follow-up request on download failure " + failure);
             }
-            var redirectGood = new Stub(delegate(HttpRequestMessage request, CancellationToken cancel) {
-                if (request.RequestUri.Host == "www.puppyruby.com") return Task.FromResult(Json(Manifest()));
-                var result = new HttpResponseMessage((HttpStatusCode)308); result.Headers.Location = new Uri("https://www.puppyruby.com/api/desktop/update"); return Task.FromResult(result);
-            });
-            using (DesktopUpdate update = Client(redirectGood)) { await update.CheckAsync("https://puppyruby.com", true); Check(update.Available != null && redirectGood.Count == 2, "single canonical web redirect supported"); }
-            foreach (string location in new [] { "http://www.puppyruby.com/api/desktop/update", "https://evil.example/api/desktop/update", "https://127.0.0.1/api/desktop/update", "https://www.puppyruby.com/other", "https://www.puppyruby.com/api/desktop/update?x=1", "https://u:p@www.puppyruby.com/api/desktop/update" })
+            foreach (string location in new [] { "https://puppyruby.com/api/desktop/update", "https://www.puppyruby.com/api/desktop/update", "http://www.puppyruby.com/api/desktop/update", "https://evil.example/api/desktop/update", "https://127.0.0.1/api/desktop/update", "https://www.puppyruby.com/other", "https://www.puppyruby.com/api/desktop/update?x=1", "https://u:p@www.puppyruby.com/api/desktop/update" })
             {
                 var transport = new Stub(delegate { var result = new HttpResponseMessage(HttpStatusCode.Redirect); result.Headers.Location = new Uri(location); return Task.FromResult(result); });
-                using (DesktopUpdate update = Client(transport)) { await update.CheckAsync("https://puppyruby.com", true); Check(update.Available == null && transport.Count == 1, "unsafe check redirect rejected"); }
+                using (DesktopUpdate update = Client(transport)) { await update.CheckAsync("https://puppyruby.com", true); Check(update.Available == null && transport.Count == 1 && transport.RequestedUrls[0] == "https://www.puppyruby.com/api/desktop/update", "redirect cannot fall back from www or loop"); }
             }
             var huge = Routes(new string('x', 17000), delegate { return Binary(Payload); });
             using (DesktopUpdate update = Client(huge)) { await update.CheckAsync("https://puppyruby.com", true); Check(update.Available == null, "bounded HTTP manifest body"); }

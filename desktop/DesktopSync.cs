@@ -78,8 +78,8 @@ namespace PuppyRubyDesktop
 
     internal sealed class DesktopSync : IDisposable
     {
-        internal const string DefaultOrigin = "https://puppyruby.com";
-        private const string LegacyOrigin = "https://www.puppyruby.com";
+        internal const string DefaultOrigin = "https://www.puppyruby.com";
+        private const string LegacyOrigin = "https://puppyruby.com";
         private readonly string storagePath;
         private readonly HttpClient http;
         private readonly SemaphoreSlim gate = new SemaphoreSlim(1, 1);
@@ -144,7 +144,7 @@ namespace PuppyRubyDesktop
         }
         private async Task<T> Send<T>(string origin, string path, object body, string token, CancellationToken cancel)
         {
-            using (var request = new HttpRequestMessage(body == null ? HttpMethod.Get : HttpMethod.Post, new Uri(origin + "/api/desktop/" + path)))
+            using (var request = new HttpRequestMessage(body == null ? HttpMethod.Get : HttpMethod.Post, new Uri(ValidateOrigin(origin) + "/api/desktop/" + path)))
             {
                 if (token != null) request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
                 if (body != null) request.Content = new StringContent(json.Serialize(body), Encoding.UTF8, "application/json");

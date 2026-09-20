@@ -33,9 +33,12 @@ namespace PuppyRubyDesktop
         internal static void Units(List<string> report, string output)
         {
             using (var unlinked = new DesktopSync(null, false))
-                Check(unlinked.Origin == "https://puppyruby.com", "unlinked desktop uses the public PuppyRuby origin", report);
+                Check(unlinked.Origin == "https://www.puppyruby.com", "unlinked desktop uses the public PuppyRuby origin", report);
             Check(DesktopSync.ValidateOrigin("https://example.com/") == "https://example.com", "sync HTTPS origin normalization", report);
-            Check(DesktopSync.ValidateOrigin("https://www.puppyruby.com/") == "https://puppyruby.com", "legacy public origin migrates to the canonical origin", report);
+            Check(DesktopSync.ValidateOrigin("https://puppyruby.com/") == "https://www.puppyruby.com", "legacy public origin migrates to the canonical origin", report);
+            Check(DesktopSync.ValidateOrigin("https://www.puppyruby.com/") == "https://www.puppyruby.com", "canonical public origin stays unchanged", report);
+            Check(DesktopSync.ValidateOrigin("https://PUPPYRUBY.COM:443/") == "https://www.puppyruby.com", "legacy origin with explicit HTTPS port migrates", report);
+            Check(DesktopSync.ValidateOrigin("https://puppyruby.com.example/") == "https://puppyruby.com.example", "apex migration matches only the exact host", report);
             Check(DesktopSync.ValidateOrigin("https://www.puppyruby.com.example/") == "https://www.puppyruby.com.example", "legacy origin migration matches only the exact host", report);
             Check(DesktopSync.ValidateOrigin("http://127.0.0.1:3001") == "http://127.0.0.1:3001", "sync loopback HTTP allowed", report);
             Uri ipv6 = new Uri(DesktopSync.ValidateOrigin("http://[::1]:3001/"));
@@ -61,19 +64,19 @@ namespace PuppyRubyDesktop
                 Check(failed, "sync rejects unregistered breed index " + index, report);
             }
             string cache = Path.Combine(Path.GetDirectoryName(output), "test-desktop.link");
-            var record = new DesktopLinkRecord { origin = "https://www.puppyruby.com", token = "unit-test-token-not-a-real-credential", deviceId = "unit-device", deviceLabel = "검증용 기기", cachedState = new DesktopGameState { puppy = new SyncedPuppy { id = "unit-puppy", name = "쿠키", breed = 29, grade = "SR", xp = 72, fur = "rose", eyes = "green", accessory = "crown" }, promotionXp = 100, obedience = 90, coins = 12 } };
+            var record = new DesktopLinkRecord { origin = "https://puppyruby.com", token = "unit-test-token-not-a-real-credential", deviceId = "unit-device", deviceLabel = "검증용 기기", cachedState = new DesktopGameState { puppy = new SyncedPuppy { id = "unit-puppy", name = "쿠키", breed = 29, grade = "SR", xp = 72, fur = "rose", eyes = "green", accessory = "crown" }, promotionXp = 100, obedience = 90, coins = 12 } };
             LinkStorage.Save(cache, record);
             Check(!Encoding.UTF8.GetString(File.ReadAllBytes(cache)).Contains(record.token), "DPAPI cache never stores bearer token in plaintext", report);
             DesktopLinkRecord restored = LinkStorage.Load(cache);
             Check(restored.token == record.token && restored.deviceLabel == record.deviceLabel, "DPAPI CurrentUser credential round-trip", report);
-            Check(restored.origin == "https://puppyruby.com", "encrypted legacy link origin migrates on restart", report);
+            Check(restored.origin == "https://www.puppyruby.com", "encrypted legacy link origin migrates on restart", report);
             Check(restored.cachedState.puppy.breed == 29, "new breed cache survives encrypted save and restart", report);
             Check(restored.cachedState.puppy.name == "쿠키" && restored.cachedState.puppy.grade == "SR" && restored.cachedState.puppy.xp == 72 && restored.cachedState.puppy.fur == "rose" && restored.cachedState.puppy.eyes == "green" && restored.cachedState.puppy.accessory == "crown", "linked appearance grade and XP cache round-trip", report);
             Progression standalone = new Progression(); standalone.RewardActivity(DateTime.UtcNow);
             using (var client = new DesktopSync(cache, true))
             {
                 Check(client.IsLinked && !client.Online && !client.CanAct, "cached linked pet starts offline and read-only", report);
-                Check(client.Origin == "https://puppyruby.com", "migrated encrypted link uses the canonical origin", report);
+                Check(client.Origin == "https://www.puppyruby.com", "migrated encrypted link uses the canonical origin", report);
                 bool refused = false;
                 try { client.ActAsync("feed", "unit-puppy", null).GetAwaiter().GetResult(); } catch (InvalidOperationException) { refused = true; }
                 Check(refused && client.State.puppy.xp == 72 && !client.HasPending && standalone.Xp == 10, "offline linked care cannot earn queue or merge local XP", report);

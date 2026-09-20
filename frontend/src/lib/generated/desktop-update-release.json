@@ -1,12 +1,12 @@
 {
   "schemaVersion" : 1,
-  "version" : "0.10.0.0",
-  "release" : "e033841b4f381825",
-  "publishedAt" : "2026-09-20T08:02:38.106Z",
-  "notes" : "강아지의 열여섯 동작과 공통 눈을 적용하고, 새 버전이 나오면 강아지 위에서 업데이트할 수 있어요.",
+  "version" : "0.10.1.0",
+  "release" : "bd8fd31d230eb583",
+  "publishedAt" : "2026-09-20T08:44:16.100Z",
+  "notes" : "웹 연결과 업데이트 확인 주소를 www.puppyruby.com으로 통일했어요. 기존 연결 정보와 강아지 기록은 그대로 유지돼요.",
   "installer" : {
-    "url" : "https://cdn.puppyruby.com/site-downloads/e033841b4f381825/downloads/PuppyRuby-Setup.exe",
-    "sha256" : "27c10833a9c4a3ced9e9fc7a7127faf50675ffe951337bd0bfb3c53445338266",
+    "url" : "https://cdn.puppyruby.com/site-downloads/bd8fd31d230eb583/downloads/PuppyRuby-Setup.exe",
+    "sha256" : "e9fc0d0bbb06a5f15143b08fb0f12f33f4fb0f480902f7552e2ad497871411ee",
     "size" : 62717440
   }
 }
