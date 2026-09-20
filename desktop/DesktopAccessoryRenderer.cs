@@ -23,6 +23,117 @@ namespace PuppyRubyDesktop
             return String.IsNullOrEmpty(value) || Supported.Contains(value);
         }
 
+        internal static void DrawLayer(Bitmap sheet, int frameWidth, int frameHeight, int frames, Bitmap accessory,
+            DesktopAccessoryPlacement[] placements)
+        {
+            DrawLayer(sheet, frameWidth, frameHeight, frames, accessory, accessory == null ? 0 : accessory.Width / 2.0,
+                accessory == null ? 0 : accessory.Height / 2.0, placements);
+        }
+
+        internal static void DrawLayer(Bitmap sheet, int frameWidth, int frameHeight, int frames, Bitmap accessory,
+            double pivotX, double pivotY, DesktopAccessoryPlacement[] placements)
+        {
+            DrawLayerCore(sheet, frameWidth, frameHeight, frames, accessory, pivotX, pivotY, placements, true);
+        }
+
+        private static void DrawLayerCore(Bitmap sheet, int frameWidth, int frameHeight, int frames, Bitmap accessory,
+            double pivotX, double pivotY, DesktopAccessoryPlacement[] placements, bool requirePivotInside)
+        {
+            if (sheet == null || accessory == null || sheet.Width != frameWidth * frames || sheet.Height != frameHeight
+                || placements == null || placements.Length != frames || Double.IsNaN(pivotX) || Double.IsInfinity(pivotX)
+                || Double.IsNaN(pivotY) || Double.IsInfinity(pivotY)
+                || requirePivotInside && (pivotX < 0 || pivotY < 0 || pivotX > accessory.Width || pivotY > accessory.Height))
+                throw new InvalidDataException("강아지 액세서리 위치를 확인하지 못했어요.");
+            using (Graphics graphics = Graphics.FromImage(sheet))
+            {
+                graphics.CompositingMode = CompositingMode.SourceOver;
+                graphics.CompositingQuality = CompositingQuality.HighSpeed;
+                graphics.SmoothingMode = SmoothingMode.None;
+                graphics.InterpolationMode = InterpolationMode.NearestNeighbor;
+                graphics.PixelOffsetMode = PixelOffsetMode.Half;
+                for (int frame = 0; frame < frames; frame++)
+                {
+                    DesktopAccessoryPlacement placement = placements[frame];
+                    if (placement == null || placement.visible == false) continue;
+                    float scaleX = (float)(placement.width / accessory.Width);
+                    float scaleY = (float)(placement.height / accessory.Height);
+                    float targetPivotX = (float)(frame * frameWidth + placement.x);
+                    float targetPivotY = (float)placement.y;
+                    GraphicsState state = graphics.Save();
+                    try
+                    {
+                        graphics.SetClip(new Rectangle(frame * frameWidth, 0, frameWidth, frameHeight), CombineMode.Replace);
+                        graphics.TranslateTransform(targetPivotX, targetPivotY);
+                        if (placement.rotation != 0) graphics.RotateTransform((float)placement.rotation);
+                        graphics.ScaleTransform(placement.flipX == true ? -scaleX : scaleX, scaleY);
+                        graphics.TranslateTransform((float)-pivotX, (float)-pivotY);
+                        graphics.DrawImageUnscaled(accessory, 0, 0);
+                    }
+                    finally { graphics.Restore(state); }
+                }
+            }
+        }
+
+        internal static void DrawBuiltinLayer(Bitmap sheet, int frameWidth, int frameHeight, int frames, string accessory, string slot,
+            DesktopAccessoryPlacement[] placements)
+        {
+            if (!Supported.Contains(accessory) || accessory == "none") throw new InvalidDataException("강아지 액세서리 정보를 확인하지 못했어요.");
+            RectangleF canonical;
+            if (!TryCanonicalSlot(slot, out canonical)) throw new InvalidDataException("강아지 액세서리 위치를 확인하지 못했어요.");
+            using (var canvas = new Bitmap(64, 64, PixelFormat.Format32bppArgb))
+            {
+                var anchors = new[] { new[]
+                {
+                    new DesktopEyeAnchor { x = 22, y = 23, width = 6, height = 6 },
+                    new DesktopEyeAnchor { x = 36, y = 23, width = 6, height = 6 }
+                } };
+                Draw(canvas, 64, 64, 1, anchors, accessory);
+                Rectangle bounds = OpaqueBounds(canvas);
+                if (bounds.IsEmpty) return;
+                using (Bitmap cropped = canvas.Clone(bounds, PixelFormat.Format32bppArgb))
+                {
+                    var adjusted = new DesktopAccessoryPlacement[placements.Length];
+                    for (int frame = 0; frame < placements.Length; frame++)
+                    {
+                        DesktopAccessoryPlacement placement = placements[frame];
+                        if (placement == null) { adjusted[frame] = null; continue; }
+                        adjusted[frame] = new DesktopAccessoryPlacement
+                        {
+                            x = placement.x, y = placement.y,
+                            width = placement.width * bounds.Width / canonical.Width,
+                            height = placement.height * bounds.Height / canonical.Height,
+                            rotation = placement.rotation, flipX = placement.flipX, visible = placement.visible
+                        };
+                    }
+                    DrawLayerCore(sheet, frameWidth, frameHeight, frames, cropped,
+                        canonical.X - bounds.X, canonical.Y - bounds.Y, adjusted, false);
+                }
+            }
+        }
+
+        private static bool TryCanonicalSlot(string slot, out RectangleF canonical)
+        {
+            if (slot == "face") canonical = new RectangleF(32, 26, 22, 10);
+            else if (slot == "head") canonical = new RectangleF(32, 8, 18, 14);
+            else if (slot == "neck") canonical = new RectangleF(32, 41, 24, 12);
+            else if (slot == "back") canonical = new RectangleF(32, 40, 58, 23);
+            else { canonical = RectangleF.Empty; return false; }
+            return true;
+        }
+
+        private static Rectangle OpaqueBounds(Bitmap bitmap)
+        {
+            int left = bitmap.Width, top = bitmap.Height, right = -1, bottom = -1;
+            for (int y = 0; y < bitmap.Height; y++)
+            for (int x = 0; x < bitmap.Width; x++)
+            {
+                if (bitmap.GetPixel(x, y).A == 0) continue;
+                if (x < left) left = x; if (x > right) right = x;
+                if (y < top) top = y; if (y > bottom) bottom = y;
+            }
+            return right < left || bottom < top ? Rectangle.Empty : Rectangle.FromLTRB(left, top, right + 1, bottom + 1);
+        }
+
         internal static void Draw(Bitmap sheet, int frameWidth, int frameHeight, int frames, DesktopEyeAnchor[][] anchors, string accessory)
         {
             accessory = String.IsNullOrEmpty(accessory) ? "none" : accessory;
@@ -41,7 +152,9 @@ namespace PuppyRubyDesktop
                 for (int frame = 0; frame < frames; frame++)
                 {
                     DesktopEyeAnchor[] eyes = anchors[frame];
-                    if (eyes == null || eyes.Length < 1) throw new InvalidDataException("강아지 액세서리 위치를 확인하지 못했어요.");
+                    if (eyes == null) throw new InvalidDataException("강아지 액세서리 위치를 확인하지 못했어요.");
+                    // Without eye anchors, only a catalog placement can position an accessory safely.
+                    if (eyes.Length == 0) continue;
                     double centerX = 0, centerY = 0;
                     foreach (DesktopEyeAnchor eye in eyes)
                     {

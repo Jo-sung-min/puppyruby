@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "revision": "accessories-2026-09-19-1",
+  "items": [
+    {
+      "id": "ribbon",
+      "label": "복숭아 리본",
+      "emoji": "🎀",
+      "availability": "free",
+      "slot": "head",
+      "layer": "front",
+      "renderer": "builtin",
+      "revision": "builtin-1"
+    },
+    {
+      "id": "scarf",
+      "label": "포근한 목도리",
+      "emoji": "🧣",
+      "availability": "free",
+      "slot": "neck",
+      "layer": "front",
+      "renderer": "builtin",
+      "revision": "builtin-1"
+    },
+    {
+      "id": "crown",
+      "label": "작은 왕관",
+      "emoji": "👑",
+      "availability": "free",
+      "slot": "head",
+      "layer": "front",
+      "renderer": "builtin",
+      "revision": "builtin-1"
+    },
+    {
+      "id": "bow-blue",
+      "label": "하늘 리본",
+      "availability": "paid",
+      "slot": "head",
+      "layer": "front",
+      "renderer": "builtin",
+      "revision": "builtin-1",
+      "grade": "R",
+      "weight": 30
+    },
+    {
+      "id": "bow-lilac",
+      "label": "라일락 리본",
+      "availability": "paid",
+      "slot": "head",
+      "layer": "front",
+      "renderer": "builtin",
+      "revision": "builtin-1",
+      "grade": "R",
+      "weight": 25
+    },
+    {
+      "id": "party-hat",
+      "label": "파티 모자",
+      "availability": "paid",
+      "slot": "head",
+      "layer": "front",
+      "renderer": "builtin",
+      "revision": "builtin-1",
+      "grade": "R",
+      "weight": 20
+    },
+    {
+      "id": "flower",
+      "label": "꽃 장식",
+      "availability": "paid",
+      "slot": "head",
+      "layer": "front",
+      "renderer": "builtin",
+      "revision": "builtin-1",
+      "grade": "SR",
+      "weight": 12
+    },
+    {
+      "id": "glasses",
+      "label": "동그란 안경",
+      "availability": "paid",
+      "slot": "face",
+      "layer": "front",
+      "renderer": "builtin",
+      "revision": "builtin-1",
+      "grade": "SR",
+      "weight": 8
+    },
+    {
+      "id": "halo",
+      "label": "천사 고리",
+      "availability": "paid",
+      "slot": "head",
+      "layer": "front",
+      "renderer": "builtin",
+      "revision": "builtin-1",
+      "grade": "SSR",
+      "weight": 4
+    },
+    {
+      "id": "angel-wings",
+      "label": "천사 날개",
+      "availability": "paid",
+      "slot": "back",
+      "layer": "behind",
+      "renderer": "builtin",
+      "revision": "builtin-1",
+      "grade": "SSR",
+      "weight": 1
+    }
+  ]
+}

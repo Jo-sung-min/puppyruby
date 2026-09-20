@@ -51,7 +51,7 @@ CDN: https://cdn.puppyruby.com/site-downloads/<release>/downloads/...
 
 CloudFront origin에 `/puppyruby`가 있으므로 `CDN_ORIGIN_PATH=puppyruby`로 중복 접두 경로를 제거합니다. 새 키만 만들고 기존 객체를 덮어쓰거나 삭제하지 않습니다. 같은 키의 내용·형식·다운로드 파일명·캐시 설정이 일치할 때만 재사용합니다.
 
-공용 이미지 발행기는 파비콘, 픽셀 정원, 거실 배경의 **3개 경로만** 허용합니다. 강아지 그림은 이 릴리스에 포함하지 않고 `RubyRoundAssetPublisher`의 고정된 루비 도트 팩에서만 발행합니다. 다운로드 발행기는 `PuppyRuby.exe`, `PuppyRuby-Setup.exe`와 각각의 SHA-256 파일, 총 **4개 경로만** 허용합니다. 로컬에 남은 Aseprite·ZIP·이전 도트는 발행 대상이 아니며 서버 JAR도 제외합니다. 모든 발행 파일은 S3 체크섬과 CDN 응답 본문을 대조합니다.
+공용 이미지 발행기는 파비콘, 픽셀 정원, 거실 배경의 **3개 경로만** 허용합니다. 강아지 그림은 이 릴리스에 포함하지 않고 `RubyRoundAssetPublisher`의 고정된 루비 도트 팩에서만 발행합니다. 공통 액세서리 PNG는 `shared/accessories.json`에 경로와 해시가 등록된 파일만 루비 도트 팩에 추가됩니다. 다운로드 발행기는 `PuppyRuby.exe`, `PuppyRuby-Setup.exe`와 각각의 SHA-256 파일, 총 **4개 경로만** 허용합니다. 로컬에 남은 Aseprite·ZIP·이전 도트는 발행 대상이 아니며 서버 JAR도 제외합니다. 모든 발행 파일은 S3 체크섬과 CDN 응답 본문을 대조합니다.
 
 `local-assets/work/site-assets/<release>/` 및 `site-downloads/<release>/`의 `manifest.json`은 계획, `verification.json`은 최종 성공 기록입니다.
 

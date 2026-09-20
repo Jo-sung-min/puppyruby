@@ -10,6 +10,8 @@ import java.util.*;
 import java.util.zip.*;
 import javax.net.ssl.HttpsURLConnection;
 import com.puppyruby.game.BreedCatalog;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
@@ -22,9 +24,11 @@ public final class SiteDownloadPublisher {
     static final long MAX_FILE_BYTES = 200L * 1024 * 1024;
     static final Set<String> EXCLUDED_SERVER_PATHS = Set.of("downloads/PuppyRuby-server.jar", "downloads/PuppyRuby-server.jar.sha256", "downloads/PuppyRuby-server.sha256");
     static final Set<String> ALLOWED_PATHS = allowedPaths();
+    static final ObjectMapper JSON = new ObjectMapper();
     private static String phase = "plan", currentPath = "";
     record Asset(Path source, String path, String contentType, String disposition, long size, String sha256, String checksum) {}
     record Digest(long bytes, String hex, String base64) {}
+    record DesktopBuild(String version, String notes) {}
 
     /** Exact allowlist: artwork sources and retired archives can never enter a future release. */
     static List<Path> collectSources(Path publicRoot) throws IOException {
@@ -48,17 +52,20 @@ public final class SiteDownloadPublisher {
         Path publicRoot = project.resolve("local-assets/site").toRealPath();
         if (!publicRoot.equals(project.resolve("local-assets/site")) || !publicRoot.startsWith(project)) throw new Refused("SOURCE_ROOT_OUTSIDE_PROJECT");
         List<Asset> assets = inventory(publicRoot);
+        DesktopBuild build = desktopBuild(project, assets);
         StringBuilder canonical = new StringBuilder();
         for (Asset asset : assets) canonical.append(asset.path()).append('\t').append(asset.contentType()).append('\t').append(asset.disposition())
             .append('\t').append(CACHE).append('\t').append(asset.size()).append('\t').append(asset.sha256()).append('\n');
         String manifestHash = HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(canonical.toString().getBytes(StandardCharsets.UTF_8)));
         String release = manifestHash.substring(0, 16);
+        validatePublishedVersion(project, build, release);
         String bucket = required("S3_BUCKET"), region = required("AWS_REGION"), prefix = required("S3_KEY_PREFIX").replaceAll("/+$", "");
         if (!bucket.equals("fatell-aws-s3") || !prefix.equals("puppyruby")) throw new Refused("DESTINATION_OUTSIDE_AUTHORIZED_SCOPE");
         if (!region.matches("[a-z]{2}(?:-[a-z]+)+-[0-9]")) throw new Refused("INVALID_REGION");
         String keyBase = prefix + "/site-downloads/" + release;
         String originPath = System.getenv().getOrDefault("CDN_ORIGIN_PATH", "").strip().replaceAll("^/+|/+$", "");
         String cdnBase = cdnBase(required("CDN_BASE_URL"), keyBase, originPath);
+        requireUpdateDestination(release, cdnBase);
         Path output = project.resolve("local-assets/work/site-downloads/" + release);
         Files.createDirectories(output);
         if (!output.toRealPath().startsWith(project.resolve("local-assets/work").toRealPath())) throw new Refused("OUTPUT_PATH_OUTSIDE_WORK");
@@ -112,8 +119,106 @@ public final class SiteDownloadPublisher {
         String verification = verification(release, uploaded, skipped, assets.size(), verified);
         Files.writeString(output.resolve("verification.json"), verification);
         Files.writeString(output.resolve("cdn-verification.json"), verification);
+        phase = "register-verified-update";
+        // Never advertise an unuploaded build or a release with an incomplete CDN body check.
+        if (!desktopBuild(project, assets).equals(build)) throw new Refused("DESKTOP_BUILD_CHANGED_DURING_PUBLISH");
+        registerUpdate(project, build, assets, release, cdnBase, assets.size(), verified);
         currentPath = "";
         System.out.println("DOWNLOAD_PUBLISH_SUCCESS=true UPLOADED=" + uploaded + " EXISTING=" + skipped + " S3_VERIFIED=" + assets.size() + " CDN_VERIFIED=" + verified.size());
+    }
+
+    static DesktopBuild desktopBuild(Path project, List<Asset> assets) throws IOException {
+        Path definitionPath = project.resolve("desktop/version.json");
+        Path buildPath = project.resolve("local-assets/site/downloads/desktop-build.json");
+        checkedPath(project, definitionPath);
+        checkedPath(project, buildPath);
+        if (Files.size(definitionPath) > 8192 || Files.size(buildPath) > 8192) throw new Refused("DESKTOP_BUILD_METADATA_TOO_LARGE");
+        JsonNode definition = JSON.readTree(Files.readString(definitionPath));
+        JsonNode staged = JSON.readTree(Files.readString(buildPath));
+        if (!definition.isObject() || !staged.isObject()) throw new Refused("INVALID_DESKTOP_BUILD_METADATA");
+        String version = textField(definition, "version"), notes = textField(definition, "notes");
+        validateVersion(version);
+        if (notes.length() > 500 || notes.matches("(?s).*[\\x00-\\x1f\\x7f<>].*")) throw new Refused("INVALID_DESKTOP_RELEASE_NOTES");
+        if (!staged.path("schemaVersion").isIntegralNumber() || staged.path("schemaVersion").asInt() != 1
+            || !version.equals(textField(staged, "version")) || !notes.equals(textField(staged, "notes"))
+            || !staged.path("files").isArray() || staged.path("files").size() != 2) throw new Refused("STALE_DESKTOP_BUILD_METADATA");
+        var checked = new HashSet<String>();
+        for (JsonNode file : staged.path("files")) {
+            String path = textField(file, "path");
+            if (!Set.of("downloads/PuppyRuby.exe", "downloads/PuppyRuby-Setup.exe").contains(path) || !checked.add(path))
+                throw new Refused("INVALID_DESKTOP_BUILD_FILES");
+            Asset asset = assets.stream().filter(item -> item.path().equals(path)).findFirst().orElseThrow(() -> new Refused("DESKTOP_BUILD_FILE_MISSING"));
+            if (!version.equals(textField(file, "version")) || !asset.sha256().equals(textField(file, "sha256"))
+                || !file.path("size").isIntegralNumber() || file.path("size").asLong() != asset.size()) throw new Refused("DESKTOP_BUILD_FINGERPRINT_MISMATCH");
+        }
+        return new DesktopBuild(version, notes);
+    }
+
+    static void validateVersion(String version) {
+        if (!version.matches("(?:0|[1-9][0-9]{0,4})(?:\\.(?:0|[1-9][0-9]{0,4})){3}")
+            || Arrays.stream(version.split("\\.")).mapToInt(Integer::parseInt).anyMatch(value -> value > 65535)) throw new Refused("INVALID_DESKTOP_VERSION");
+    }
+
+    static String textField(JsonNode node, String key) {
+        if (!node.path(key).isString()) throw new Refused("INVALID_DESKTOP_METADATA_FIELD");
+        return node.path(key).asString();
+    }
+
+    static void requireUpdateDestination(String release, String cdn) {
+        if (!release.matches("[a-f0-9]{16}") || !cdn.equals("https://cdn.puppyruby.com/site-downloads/" + release))
+            throw new Refused("INVALID_DESKTOP_UPDATE_DESTINATION");
+    }
+
+    static void validatePublishedVersion(Path project, DesktopBuild build, String release) throws IOException {
+        Path latest = project.resolve("frontend/src/lib/generated/desktop-update-release.json");
+        checkedPath(project, latest);
+        JsonNode previous = JSON.readTree(Files.readString(latest));
+        if (previous.isNull()) return;
+        String oldVersion = textField(previous, "version"), oldRelease = textField(previous, "release");
+        validateVersion(oldVersion); validateVersion(build.version());
+        int[] oldParts = Arrays.stream(oldVersion.split("\\.")).mapToInt(Integer::parseInt).toArray();
+        int[] newParts = Arrays.stream(build.version().split("\\.")).mapToInt(Integer::parseInt).toArray();
+        int comparison = Arrays.compare(newParts, oldParts);
+        if (comparison < 0 || (comparison == 0 && !release.equals(oldRelease))) throw new Refused("BUMP_DESKTOP_VERSION_BEFORE_NEW_RELEASE");
+    }
+
+    static void registerUpdate(Path project, DesktopBuild build, List<Asset> assets, String release, String cdn,
+                               int s3Verified, List<String> cdnVerified) throws IOException {
+        validateInventory(new HashSet<>(assets.stream().map(Asset::path).toList()));
+        if (s3Verified != 4 || cdnVerified.size() != 4 || !new HashSet<>(cdnVerified).equals(ALLOWED_PATHS))
+            throw new Refused("DESKTOP_RELEASE_NOT_FULLY_VERIFIED");
+        requireUpdateDestination(release, cdn);
+        validateVersion(build.version());
+        validatePublishedVersion(project, build, release);
+        Asset installer = assets.stream().filter(item -> item.path().equals("downloads/PuppyRuby-Setup.exe")).findFirst().orElseThrow();
+        Path generated = project.resolve("frontend/src/lib/generated");
+        Path latest = generated.resolve("desktop-update-release.json"), media = generated.resolve("public-media-release.json");
+        checkedPath(project, generated); checkedPath(project, latest); checkedPath(project, media);
+        byte[] oldMedia = Files.readAllBytes(media);
+        var publicMedia = JSON.readTree(oldMedia);
+        if (!publicMedia.isObject() || !publicMedia.path("images").isObject() || !publicMedia.path("downloads").isObject())
+            throw new Refused("INVALID_PUBLIC_MEDIA_RELEASE");
+        var update = JSON.createObjectNode();
+        update.put("schemaVersion", 1).put("version", build.version()).put("release", release)
+            .put("publishedAt", Instant.now().truncatedTo(java.time.temporal.ChronoUnit.MILLIS).toString()).put("notes", build.notes());
+        update.putObject("installer").put("url", cdn + "/downloads/PuppyRuby-Setup.exe").put("sha256", installer.sha256()).put("size", installer.size());
+        ((tools.jackson.databind.node.ObjectNode) publicMedia).putObject("downloads").put("release", release).put("baseUrl", cdn);
+        byte[] latestBytes = (JSON.writerWithDefaultPrettyPrinter().writeValueAsString(update) + "\n").getBytes(StandardCharsets.UTF_8);
+        byte[] mediaBytes = (JSON.writerWithDefaultPrettyPrinter().writeValueAsString(publicMedia) + "\n").getBytes(StandardCharsets.UTF_8);
+        // Both complete documents are prepared before replacing either public pointer.
+        // A failed second replacement restores the first, leaving the prior release advertised.
+        replaceAtomically(media, mediaBytes);
+        try { replaceAtomically(latest, latestBytes); }
+        catch (IOException failure) { replaceAtomically(media, oldMedia); throw failure; }
+        System.out.println("DOWNLOAD_UPDATE_REGISTERED=" + build.version());
+    }
+
+    static void replaceAtomically(Path target, byte[] bytes) throws IOException {
+        Path temporary = Files.createTempFile(target.getParent(), ".desktop-release-", ".tmp");
+        try {
+            Files.write(temporary, bytes);
+            Files.move(temporary, target, StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE);
+        } finally { Files.deleteIfExists(temporary); }
     }
 
     static List<Asset> inventory(Path publicRoot) throws Exception {

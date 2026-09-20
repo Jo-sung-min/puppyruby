@@ -15,7 +15,6 @@ using Microsoft.Win32;
 [assembly: AssemblyTitle("PuppyRuby")]
 [assembly: AssemblyDescription("A little pixel puppy for your Windows desktop")]
 [assembly: AssemblyProduct("PuppyRuby")]
-[assembly: AssemblyVersion("0.9.0.0")]
 
 namespace PuppyRubyDesktop
 {
@@ -118,12 +117,15 @@ namespace PuppyRubyDesktop
         private readonly BundledRubyAppearanceLibrary bundledRuby = new BundledRubyAppearanceLibrary();
         private readonly PetMotion motion = new PetMotion();
         private readonly PetBubble bubble = new PetBubble();
+        private readonly PetUpdateBadge updateBadge = new PetUpdateBadge();
+        private readonly DesktopUpdate updates;
         private readonly DesktopSync sync;
         private readonly DesktopAppearanceCache appearanceCache;
         private readonly Stopwatch clock = Stopwatch.StartNew();
         private readonly System.Windows.Forms.Timer animation = new System.Windows.Forms.Timer { Interval = 40 };
         private readonly System.Windows.Forms.Timer syncTimer = new System.Windows.Forms.Timer { Interval = 5000 };
         private readonly System.Windows.Forms.Timer statusTimer = new System.Windows.Forms.Timer { Interval = 1000 };
+        private readonly System.Windows.Forms.Timer updateTimer = new System.Windows.Forms.Timer { Interval = 30 * 60 * 1000 };
         private readonly ContextMenuStrip menu = new ContextMenuStrip();
         private readonly NotifyIcon tray = new NotifyIcon();
         private readonly bool transient;
@@ -139,6 +141,10 @@ namespace PuppyRubyDesktop
         private ToolStripMenuItem appearanceStatus;
         private ToolStripMenuItem followItem;
         private ToolStripMenuItem stayItem;
+        private ToolStripMenuItem updateCheckItem;
+        private ToolStripMenuItem updateDownloadItem;
+        private bool installingUpdate;
+        private string updateOrigin;
         private AskWindow questions;
         private LinkWindow linkWindow;
         private double spokenUntil;
@@ -230,8 +236,11 @@ namespace PuppyRubyDesktop
                     for (int x = paintedWidth / 5; x < paintedWidth * 4 / 5; x++)
                         if (paintedMask[y * paintedWidth + x])
                         {
-                            foot = new Point(paintedTarget.X + x * paintedTarget.Width / paintedWidth,
-                                paintedTarget.Y + y * paintedTarget.Height / paintedHeight);
+                            // Choose a screen pixel inside this native pixel's area.
+                            // Rounding down lands in the preceding transparent pixel
+                            // when the native canvas scales by a fractional ratio.
+                            foot = new Point(paintedTarget.X + (int)Math.Ceiling(x * paintedTarget.Width / (double)paintedWidth),
+                                paintedTarget.Y + (int)Math.Ceiling(y * paintedTarget.Height / (double)paintedHeight));
                             foundFoot = true; break;
                         }
                 check(foundFoot, "Ruby Dot has an interactive lower-body pixel at scale " + size);
@@ -251,9 +260,48 @@ namespace PuppyRubyDesktop
             stayItem.PerformClick(); check(!followMouse && !followItem.Checked && stayItem.Checked, "stop menu updates selection immediately");
         }
 
+        internal void CheckUpdatePresentation(Action<bool, string> check, string directory)
+        {
+            Rectangle[] screens = { new Rectangle(0, 0, 1920, 1080), new Rectangle(-1920, -200, 1920, 1080) };
+            foreach (Rectangle screen in screens)
+                foreach (Point corner in new[] { screen.Location, new Point(screen.Right - 160, screen.Bottom - 160), new Point(screen.Left + 350, screen.Top + 400) })
+                {
+                    Point placed = PetUpdateBadge.Place(new Rectangle(corner, new Size(160, 160)), updateBadge.Size, screen);
+                    check(screen.Contains(new Rectangle(placed, updateBadge.Size)), "update badge stays reachable on every monitor edge");
+                }
+            Button button = (Button)updateBadge.Controls[0];
+            updateBadge.RefreshStatus("0.11.0.0", false, 0, false, "새 업데이트가 있어요");
+            check(button.Enabled && button.AccessibleName.Contains("업데이트"), "available update has an accessible enabled button");
+            scale = 3; ApplySize(); state.SetEnabled(false, Now);
+            Rectangle target; Bitmap puppy = RenderSprite(out target);
+            using (var preview = new Bitmap(480, 420))
+            using (Graphics graphics = Graphics.FromImage(preview))
+            using (var badgeImage = new Bitmap(updateBadge.Width, updateBadge.Height))
+            {
+                graphics.Clear(Color.FromArgb(20, 23, 31));
+                updateBadge.PreparePreview();
+                updateBadge.DrawToBitmap(badgeImage, new Rectangle(Point.Empty, updateBadge.Size));
+                Rectangle display = new Rectangle((preview.Width - target.Width) / 2, 50, target.Width, target.Height);
+                Rectangle visible = VisiblePetBounds(display, puppy.Width, puppy.Height, renderingFrame.Opaque);
+                Point badge = PetUpdateBadge.Place(visible, updateBadge.Size, new Rectangle(Point.Empty, preview.Size));
+                check(badge.Y + updateBadge.Height < visible.Top, "update button sits above the visible dog, not the empty canvas");
+                graphics.DrawImageUnscaled(badgeImage, badge);
+                DrawPet(graphics, puppy, display);
+                preview.Save(Path.Combine(directory, "update-button-preview.png"), ImageFormat.Png);
+            }
+            updateBadge.RefreshStatus("0.11.0.0", true, 42, false, "다운로드 중");
+            check(!button.Enabled && button.Text.Contains("42%"), "downloading shows progress and prevents duplicate downloads");
+            updateBadge.RefreshStatus("0.11.0.0", false, 100, true, "설치 준비");
+            check(!button.Enabled && button.Text.Contains("설치"), "installer handoff prevents another update click");
+            updateBadge.RefreshStatus("0.11.0.0", false, 0, false, "다시 시도할 수 있어요");
+            check(button.Enabled, "failed download can be retried without restarting the dog");
+            check(!updateBadge.Visible && !updates.Checking, "self-tests never check updates or expose a live update button");
+        }
+
         internal PetWindow(bool isTransient)
         {
             transient = isTransient;
+            updates = new DesktopUpdate(!transient);
             sync = new DesktopSync(transient ? null : Path.Combine(Path.GetDirectoryName(settingsPath), "desktop.link"), !transient);
             appearanceCache = new DesktopAppearanceCache(transient ? null : Path.Combine(Path.GetDirectoryName(settingsPath), "appearance-cache"));
             Text = "PuppyRuby · 내 화면의 작은 강아지";
@@ -275,6 +323,8 @@ namespace PuppyRubyDesktop
             BuildMenu();
             sync.Changed += OnSyncChanged;
             appearanceCache.Changed += OnAppearanceChanged;
+            updates.Changed += OnUpdateChanged;
+            updateBadge.Requested += InstallUpdate;
             tray.Icon = Icon;
             tray.Text = "PuppyRuby · 우클릭으로 설정 / 종료";
             tray.ContextMenuStrip = menu;
@@ -284,6 +334,7 @@ namespace PuppyRubyDesktop
             animation.Tick += delegate { Animate(); };
             syncTimer.Tick += async delegate { if (sync.IsLinked) await sync.PollAsync(); };
             statusTimer.Tick += delegate { UpdateProgress(); };
+            updateTimer.Tick += async delegate { await CheckForUpdates(false); };
             Shown += async delegate {
                 try { input.Start(); animation.Start(); }
                 catch (Exception) {
@@ -293,8 +344,11 @@ namespace PuppyRubyDesktop
                     animation.Start();
                 }
                 statusTimer.Start(); syncTimer.Start();
+                if (!transient) updateTimer.Start();
+                Task initialUpdateCheck = CheckForUpdates(false);
                 await RefreshAppearance();
                 if (sync.IsLinked) await sync.PollAsync();
+                await initialUpdateCheck;
             };
             UpdateProgress();
             SystemEvents.DisplaySettingsChanged += OnDisplayChanged;
@@ -315,6 +369,7 @@ namespace PuppyRubyDesktop
 
         private void OnInput(InputKind kind)
         {
+            if (installingUpdate || (updateBadge.Visible && updateBadge.Bounds.Contains(Cursor.Position))) return;
             double now = Now;
             bool wasBelly = state.Mood(now) == "belly";
             if (state.Enabled && kind != InputKind.Move) { restingUntil = 0; feedingUntil = 0; }
@@ -329,7 +384,7 @@ namespace PuppyRubyDesktop
         {
             double now = Now;
             Point cursor = Cursor.Position;
-            bool interacting = pressed || dragging || menu.Visible || (questions != null && !questions.IsDisposed && questions.Visible && questions.WindowState != FormWindowState.Minimized) || (linkWindow != null && !linkWindow.IsDisposed && linkWindow.Visible && linkWindow.WindowState != FormWindowState.Minimized);
+            bool interacting = pressed || dragging || menu.Visible || updates.Downloading || installingUpdate || (updateBadge.Visible && updateBadge.Bounds.Contains(cursor)) || (questions != null && !questions.IsDisposed && questions.Visible && questions.WindowState != FormWindowState.Minimized) || (linkWindow != null && !linkWindow.IsDisposed && linkWindow.Visible && linkWindow.WindowState != FormWindowState.Minimized);
             string inputMood = state.Mood(now);
             bool activeInputReaction = inputMood == "typing" || inputMood == "excited" || inputMood == "play" || inputMood == "scroll" || inputMood == "love" || inputMood == "drag" || inputMood == "belly";
             bool following = followMouse && state.Enabled && Visible && !interacting && !activeInputReaction && state.Training(now) == null && now >= restingUntil && now >= feedingUntil;
@@ -359,8 +414,9 @@ namespace PuppyRubyDesktop
             if (bubble.Visible)
             {
                 if (!Visible || !showHints || now >= spokenUntil) bubble.Hide();
-                else { Rectangle target; RenderSprite(out target); bubble.Follow(RectangleToScreen(target)); }
+                else { Rectangle target; RenderSprite(out target); bubble.Follow(BubbleAnchor(RectangleToScreen(target))); }
             }
+            RefreshUpdateBadge();
             if (Visible) Invalidate();
         }
 
@@ -388,7 +444,7 @@ namespace PuppyRubyDesktop
                 if (scene == "side" && look != 0) sceneDirection = look;
                 bool flip = (scene == "walk" || scene == "side") && sceneDirection > 0;
                 double reactionElapsed = mood == "belly" ? Now - state.BellyStartedAt : Now - sceneStarted;
-                renderingFrame = appearance.React(scene, mood, training, reactionElapsed, state.Enabled, flip, look, lookY);
+                renderingFrame = appearance.React(scene, mood, training, reactionElapsed, state.Enabled, flip, look, lookY, motion.DirectionX, motion.DominantDirectionY);
                 Size display = DesktopAppearanceFrames.DisplaySize(appearance.Width, appearance.Height, scale);
                 target = new Rectangle(8, 24, display.Width, display.Height);
                 double elapsed = Now - sceneStarted;
@@ -405,7 +461,7 @@ namespace PuppyRubyDesktop
                         if (mood == "play") target.Y -= (int)(Math.Abs(Math.Sin(elapsed * 12)) * 19);
                         else if (mood == "scroll") { target.X += (int)(Math.Sin(elapsed * 13) * 3); target.Y += (int)(Math.Sin(elapsed * 16) * 4); }
                         else if (mood == "drag") { target.X += (int)(Math.Sin(elapsed * 12) * 4); target.Y -= 12; }
-                        else if (mood == "excited") target.Y -= (int)(elapsed * 13) % 2 == 0 ? 3 : 0;
+                        else if (mood == "excited" && !appearance.HasNativeActions) target.Y -= (int)(elapsed * 13) % 2 == 0 ? 3 : 0;
                     }
                 }
                 return renderingFrame.Image;
@@ -582,6 +638,12 @@ namespace PuppyRubyDesktop
             hide.Click += delegate { if (Visible) { Hide(); hide.Text = "강아지 보이기"; } else { Show(); hide.Text = "강아지 숨기기"; } };
             menu.Items.Add(hide);
             menu.Items.Add(new ToolStripSeparator());
+            updateCheckItem = new ToolStripMenuItem("업데이트 확인 · " + Assembly.GetExecutingAssembly().GetName().Version.ToString());
+            updateCheckItem.Click += async delegate { await CheckForUpdates(true); };
+            menu.Items.Add(updateCheckItem);
+            updateDownloadItem = new ToolStripMenuItem("새 버전 다운로드", null, delegate { InstallUpdate(); }) { Visible = false };
+            menu.Items.Add(updateDownloadItem);
+            menu.Items.Add(new ToolStripSeparator());
             menu.Items.Add("사용 방법 / 입력 안내", null, delegate {
                 MessageBox.Show("마우스 따라가기: 커서 옆으로 걸어와요\n여기에 멈추기: 현재 위치에 머물러요\n드래그로 옮기면 그 자리에 멈춰요\n평소에는 강아지만 보이고 대답은 잠깐 나타나요\n마우스 이동: 눈으로 따라봐요\n클릭: 폴짝 뛰어요\n키보드: 앞발로 타이핑해요\n빠른 타이핑: 신나게 바빠져요\n스크롤: 데굴데굴 반응해요\n강아지 위 마우스: 쓰다듬어요\n드래그: 원하는 위치로 옮겨요\n웹 도트: 입력이 없으면 정면으로 앉아요\n쉬게 하기: 준비된 잠자기 장면으로 쉬어요\n기본 PC 강아지: 45초 동안 입력이 없으면 잠들어요\n\n우클릭 → ‘강아지에게 물어보기’에서 엑셀·한글 단축키와 훈련을 요청해요. 훈련 성공·간식은 10초마다 +10 XP, 100 XP로 승급해요. 질문·전역 입력은 XP를 올리지 않아요. 웹 강아지와 연결하면 사이트에서 선택한 강아지와 경험치를 공유해요. 웹 연결 중 훈련은 5초마다, 간식은 30초마다 할 수 있어요. 오프라인에서는 연결된 강아지의 경험치를 바꾸지 않아요. 연결하지 않은 PC 강아지는 따로 자라요.\n\n다른 앱의 문자·키 이름·입력 내용은 읽거나 저장하지 않아요. 질문 창에 직접 쓴 글자만 답변에 사용하며 저장하지 않아요. 웹 연결을 켠 동안 지정한 사이트로 강아지 게임 정보만 요청해요. 사진·실명·친구·채팅은 가져오지 않아요. 자동 시작은 없어요. ‘입력 반응 일시정지’는 입력 감지도 중지해요.", "PuppyRuby 사용 방법", MessageBoxButtons.OK, MessageBoxIcon.Information);
             });
@@ -616,7 +678,89 @@ namespace PuppyRubyDesktop
             spokenUntil = Now + seconds;
             if (!showHints || !Visible) { bubble.Hide(); return; }
             Rectangle target; RenderSprite(out target);
-            bubble.Say(text, RectangleToScreen(target));
+            bubble.Say(text, BubbleAnchor(RectangleToScreen(target)));
+        }
+
+        private Rectangle BubbleAnchor(Rectangle pet)
+        {
+            if (updateBadge.Visible && updateBadge.Top < pet.Top) return updateBadge.Bounds;
+            return pet;
+        }
+
+        private async Task CheckForUpdates(bool manual)
+        {
+            if (transient || IsDisposed || Disposing || updates.Checking || updates.Downloading) return;
+            string requestedOrigin = sync.Origin;
+            await updates.CheckAsync(requestedOrigin, manual);
+            if (IsDisposed || Disposing) return;
+            updateOrigin = requestedOrigin;
+            if (sync.Origin != requestedOrigin) { await CheckForUpdates(manual); return; }
+            OnUpdateChanged();
+            if (manual) Speak(updates.Status, 5);
+        }
+
+        private void OnUpdateChanged()
+        {
+            if (IsDisposed || Disposing) return;
+            if (InvokeRequired) { BeginInvoke(new Action(OnUpdateChanged)); return; }
+            updateCheckItem.Enabled = !updates.Checking && !updates.Downloading && !installingUpdate;
+            updateCheckItem.Text = updates.Checking ? "새 버전 확인 중…" : "업데이트 확인 · " + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            updateDownloadItem.Visible = updates.Available != null;
+            updateDownloadItem.Enabled = !updates.Downloading && !installingUpdate;
+            if (updates.Available != null) updateDownloadItem.Text = "새 버전 " + updates.Available.Version + " 다운로드";
+            RefreshUpdateBadge();
+        }
+
+        private void RefreshUpdateBadge()
+        {
+            if (updateBadge.IsDisposed) return;
+            if (transient || !Visible || updates.Available == null) { updateBadge.Hide(); return; }
+            Rectangle target; Bitmap sprite = RenderSprite(out target);
+            if (renderingFrame != null) target = VisiblePetBounds(target, sprite.Width, sprite.Height, renderingFrame.Opaque);
+            updateBadge.RefreshStatus(updates.Available.Version.ToString(), updates.Downloading, updates.ProgressPercent, installingUpdate, updates.Status);
+            updateBadge.Follow(RectangleToScreen(target));
+            if (!updateBadge.Visible) updateBadge.Show(this);
+        }
+
+        private static Rectangle VisiblePetBounds(Rectangle target, int width, int height, bool[] opaque)
+        {
+            if (opaque == null || opaque.Length != width * height) return target;
+            for (int y = 0; y < height; y++) for (int x = 0; x < width; x++)
+                if (opaque[y * width + x])
+                {
+                    int top = y * target.Height / height;
+                    return new Rectangle(target.Left, target.Top + top, target.Width, target.Height - top);
+                }
+            return target;
+        }
+
+        private async void InstallUpdate()
+        {
+            if (updates.Available == null || updates.Downloading || installingUpdate || IsDisposed || Disposing) return;
+            motion.SetPosition(Location);
+            try
+            {
+                string installer = await updates.DownloadAsync();
+                if (IsDisposed || Disposing) return;
+                installingUpdate = true;
+                OnUpdateChanged();
+                SaveSettings();
+                using (Process setup = Process.Start(new ProcessStartInfo(installer, "--update " + Process.GetCurrentProcess().Id)
+                    { UseShellExecute = true, WorkingDirectory = Path.GetDirectoryName(installer) }))
+                {
+                    if (setup == null) throw new IOException("업데이트 설치창을 열지 못했어요. 다시 눌러 주세요.");
+                }
+                // The setup waits for this process; normal shutdown preserves settings and releases the singleton.
+                Close();
+            }
+            catch (Exception error)
+            {
+                if (IsDisposed || Disposing) return;
+                installingUpdate = false; OnUpdateChanged();
+                string message = error is System.ComponentModel.Win32Exception ? "설치를 시작하지 못했어요. 업데이트 버튼을 다시 눌러 주세요." : error.Message;
+                Speak(message, 6);
+                tray.ShowBalloonTip(5000, "PuppyRuby 업데이트", message, ToolTipIcon.Info);
+            }
         }
 
         private void OpenLink()
@@ -741,6 +885,7 @@ namespace PuppyRubyDesktop
             // Show the bundled Ruby breed immediately while the matching verified
             // linked image is being downloaded, including its native aspect ratio.
             OnAppearanceChanged();
+            if (!transient && updateOrigin != sync.Origin) await CheckForUpdates(false);
             await RefreshAppearance();
         }
 
@@ -829,17 +974,18 @@ namespace PuppyRubyDesktop
         }
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
-            SaveSettings(); animation.Stop(); syncTimer.Stop(); statusTimer.Stop(); input.Stop(); tray.Visible = false;
+            SaveSettings(); animation.Stop(); syncTimer.Stop(); statusTimer.Stop(); updateTimer.Stop(); input.Stop(); tray.Visible = false;
             if (questions != null && !questions.IsDisposed) questions.Close();
             if (linkWindow != null && !linkWindow.IsDisposed) linkWindow.Close();
             bubble.Close();
+            updateBadge.Close(); updates.Changed -= OnUpdateChanged; updates.Dispose();
             sync.Changed -= OnSyncChanged; appearanceCache.Changed -= OnAppearanceChanged; sync.Dispose(); appearanceCache.Dispose();
             SystemEvents.DisplaySettingsChanged -= OnDisplayChanged;
             base.OnFormClosed(e);
         }
         protected override void Dispose(bool disposing)
         {
-            if (disposing) { animation.Dispose(); syncTimer.Dispose(); statusTimer.Dispose(); sync.Dispose(); appearanceCache.Dispose(); bundledRuby.Dispose(); input.Dispose(); tray.Dispose(); menu.Dispose(); bubble.Dispose(); }
+            if (disposing) { animation.Dispose(); syncTimer.Dispose(); statusTimer.Dispose(); updateTimer.Dispose(); updates.Dispose(); updateBadge.Dispose(); sync.Dispose(); appearanceCache.Dispose(); bundledRuby.Dispose(); input.Dispose(); tray.Dispose(); menu.Dispose(); bubble.Dispose(); }
             base.Dispose(disposing);
         }
     }
@@ -949,7 +1095,11 @@ namespace PuppyRubyDesktop
                 Size bubbleSize = new Size(220, 42);
                 Point bubbleTop = PetBubble.Place(new Rectangle(-1278, 0, 200, 220), bubbleSize, desktopArea);
                 Check(desktopArea.Contains(new Rectangle(bubbleTop, bubbleSize)), "speech stays on screen at negative-coordinate top edge", report);
-                using (var pet = new PetWindow(true)) pet.CheckPresentation(delegate(bool condition, string label) { Check(condition, label, report); });
+                using (var pet = new PetWindow(true))
+                {
+                    pet.CheckPresentation(delegate(bool condition, string label) { Check(condition, label, report); });
+                    pet.CheckUpdatePresentation(delegate(bool condition, string label) { Check(condition, label, report); }, Path.GetDirectoryName(output));
+                }
                 using (BundledRubyAppearanceLibrary library = new BundledRubyAppearanceLibrary())
                 {
                     using (Bitmap sheet = new Bitmap(DesktopBreedCatalog.Ids.Length * 192, 5 * 192))
@@ -965,6 +1115,18 @@ namespace PuppyRubyDesktop
                             Check(appearance.StyleId == BundledRubyAppearanceLibrary.StyleId && appearance.BreedId == breeds[b],
                                 "bundled Ruby Dot selects " + breeds[b], report);
                             Check(appearance.ReactionAnchors != null, "bundled Ruby Dot keeps mouse gaze and typing paw anchors for " + breeds[b], report);
+                            if (appearance.HasNativeActions)
+                            {
+                                foreach (string action in DesktopAppearanceCache.NativeActions)
+                                {
+                                    DesktopAppearanceFrame frame = appearance.Get(action, 3, false);
+                                    Check(frame.Image.Width == appearance.Width && frame.Image.Height == appearance.Height,
+                                        "bundled native " + action + " includes all four source frames for " + breeds[b], report);
+                                }
+                                DesktopAppearanceFrame bellyFrame = appearance.React("idle", "belly", null, 1, true, false, 0, 0);
+                                Check((Object.ReferenceEquals(bellyFrame, appearance.Get("belly", 2, false)) || Object.ReferenceEquals(bellyFrame, appearance.Get("belly", 3, false)))
+                                    && appearance.ReactionFrameCount == 0, "bundled belly displays a real supine frame without procedural rotation for " + breeds[b], report);
+                            }
                             if (b == 0)
                             {
                                 Bitmap left = appearance.React("idle", "idle", null, .1, true, false, -1, 0).Image;
@@ -983,15 +1145,19 @@ namespace PuppyRubyDesktop
                     Check(library.Get("unknown-breed").BreedId == "pomeranian", "unknown standalone breed safely uses Ruby Pomeranian", report);
                 }
                 string[] embedded = Assembly.GetExecutingAssembly().GetManifestResourceNames();
-                int rubyResources = 0;
+                int rubyResources = 0, rubyBodies = 0, rubyEyes = 0;
                 foreach (string resource in embedded)
                 {
                     if (resource.StartsWith("ruby-default-", StringComparison.Ordinal) && resource.EndsWith(".rubypng", StringComparison.Ordinal)) rubyResources++;
+                    if (resource.StartsWith("ruby-body-", StringComparison.Ordinal) && resource.EndsWith(".rubypng", StringComparison.Ordinal)) rubyBodies++;
+                    if (resource == "ruby-eye-01.rubypng") rubyEyes++;
                     bool allowed = resource == "commands.json" || resource == "breed-catalog.json" || resource == "puppy.ico"
-                        || resource == "ruby-default-manifest.json" || (resource.StartsWith("ruby-default-", StringComparison.Ordinal) && resource.EndsWith(".rubypng", StringComparison.Ordinal));
+                        || resource == "ruby-default-manifest.json" || resource == "ruby-eye-01.rubypng"
+                        || ((resource.StartsWith("ruby-default-", StringComparison.Ordinal) || resource.StartsWith("ruby-body-", StringComparison.Ordinal)) && resource.EndsWith(".rubypng", StringComparison.Ordinal));
                     if (!allowed) Check(false, "shipping executable excludes retired sprite resource " + resource, report);
                 }
-                Check(rubyResources == 150 && embedded.Length == 154, "shipping executable contains exactly 150 Ruby scenes and four required resources", report);
+                Check(rubyResources == 150 && (rubyBodies == 0 ? rubyEyes == 0 && embedded.Length == 154 : rubyBodies == 480 && rubyEyes == 1 && embedded.Length == 635),
+                    "shipping executable contains the finite complete Ruby legacy/native resource catalog", report);
                 File.WriteAllLines(output, report.ToArray());
                 return 0;
             }

@@ -16,7 +16,7 @@ import { art16SceneStyleId } from "@/lib/art16-scene-styles";
 import { isSpSceneStyleId } from "@/lib/sp-scene-styles";
 import { rubyRoundStyleId } from "@/lib/ruby-round-scene-styles";
 import { RubyEyePicker } from "../ruby-eye-picker";
-import { isNativeSceneStyle, nativeDogSceneAsset, nativeDogSceneId, nativeDogScenes, type DogSceneId } from "@/lib/native-dog-scenes";
+import { isNativeSceneStyle, nativeDogSceneAsset, nativeDogSceneIdForBreed, nativeDogScenesForBreed, type DogSceneId } from "@/lib/native-dog-scenes";
 import { publishAppearance } from "@/components/dog-appearance-provider";
 import { AccountError, accountErrorMessage, adminFetch, isAccountAccessError } from "@/lib/account";
 import { parseAppearance } from "@/lib/dog-appearance";
@@ -52,7 +52,7 @@ function cloneAppearance(config: AppearanceConfig): AppearanceConfig {
 }
 
 function styleName(id: DogStyleId): string {
-  return dogStyles.find(style => style.id === id)?.name ?? "루비 도트 · 다섯 동작";
+  return dogStyles.find(style => style.id === id)?.name ?? "루비 도트 · 열여섯 동작";
 }
 
 function countChanges(saved: AppearanceConfig, draft: AppearanceConfig): number {
@@ -161,8 +161,8 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
   const selectedPremium = premiumDogAsset(selectedStyle);
   const selectedOriginalArt = originalArtDogAsset(selectedStyle);
   const selectedScenes = nativeDogSceneAsset(selectedStyle, selectedBreed);
-  const sceneOptions = nativeDogScenes(selectedStyle);
-  const activeScene = nativeDogSceneId(selectedStyle, scene);
+  const sceneOptions = nativeDogScenesForBreed(selectedStyle, selectedBreed);
+  const activeScene = nativeDogSceneIdForBreed(selectedStyle, selectedBreed, scene);
   const selectedSheet = selectedScenes?.scenes[activeScene];
   const breedQuery = breedSearch.trim().replace(/\s+/gu, "").toLocaleLowerCase();
   const matchingBreeds = styleBreeds.filter(breed => `${breed.name}${breed.id}`.replace(/\s+/gu, "").toLocaleLowerCase().includes(breedQuery));
@@ -349,7 +349,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
           <div>
             <span className="account-kicker"><Grid2X2 size={14} aria-hidden="true" /> LITTLE PIXEL FRIENDS</span>
             <h2 id={`${id}-heading`}>강아지 도트 스타일</h2>
-            <p>{styleBreeds.length}가지 견종 모두 루비 도트의 다섯 동작과 공통 눈을 사용해요.</p>
+            <p>{styleBreeds.length}가지 견종 모두 루비 도트의 열여섯 동작과 공통 눈을 사용해요.</p>
           </div>
           <button type="button" className="account-button account-button-soft" onClick={requestReload} disabled={busy}>
             <RefreshCw size={15} aria-hidden="true" /> 설정 새로 불러오기
@@ -357,7 +357,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
         </div>
         <div className="admin-dog-preview-note">
           <strong>루비 도트가 기본 스타일이에요.</strong>
-          <span>사이트와 Windows 강아지가 같은 30견종·다섯 동작 에셋을 사용해요.</span>
+          <span>웹과 새 Windows 앱에서 30견종의 열여섯 동작을 함께 볼 수 있어요.</span>
         </div>
       </div>
 
@@ -419,7 +419,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
             <div className="admin-dog-all-styles" role="group" aria-label="도트 스타일 모음">
               <button type="button" aria-pressed="true" disabled={busy} onClick={() => setPage(1)}>전체 {galleryEntries.length}개</button>
             </div>
-            <p className="admin-soft-pixel-gallery-note">루비 도트의 견종별 모습과 눈, 다섯 동작을 크게 보기에서 확인하세요.</p>
+            <p className="admin-soft-pixel-gallery-note">루비 도트의 견종별 모습과 눈, 열여섯 동작을 크게 보기에서 확인하세요.</p>
             <div className="admin-dog-style-grid">
               {visibleEntries.map(entry => {
                 if (entry.kind === "candidate") {
@@ -449,7 +449,7 @@ export function AdminDogStyles({ onAccessError }: { onAccessError: (problem: unk
                   />
                   <span className="admin-dog-style-card">
                     <span className="admin-dog-style-mark" aria-hidden="true">{!selectedCandidate && selectedStyle === style.id && <Check size={13} />}</span>
-                    <span className="admin-cute-source">30견종 · 5동작 · 공통 눈 30종</span>
+                    <span className="admin-cute-source">30견종 · 16동작 · 공통 눈 30종</span>
                     <span className="admin-dog-card-art"><PixelDog breed={selectedBreed} styleId={style.id} mood={mood} eyeStyle={roundEye} variant={selectedVariety} decorative /></span>
                     <strong>{style.name}</strong>
                     <span className="admin-dog-style-description">{style.description}</span>

@@ -4,7 +4,13 @@ const { createHash } = require('node:crypto'), { createRequire } = require('node
 const { loadFrontend } = require('./frontend-loader.cjs');
 const root = path.resolve(__dirname, '..'), requireFrontend = createRequire(path.join(root, 'frontend/package.json'));
 const { desktopAppearance, attachDesktopAppearance } = loadFrontend('src/lib/desktop-appearance.ts');
-const { defaultAppearance } = loadFrontend('src/lib/dog-styles.ts');
+const styleCatalog = loadFrontend('src/lib/dog-styles.ts');
+const { defaultAppearance } = styleCatalog;
+// Retired asset formats retain byte/dimension coverage without pretending they
+// remain selectable through the current Ruby-only public settings contract.
+const { desktopAppearance: archivedDesktopAppearance } = loadFrontend('src/lib/desktop-appearance.ts', {
+  './dog-styles': { ...styleCatalog, resolveDogStyle: settings => settings.defaultStyle },
+});
 const { dogBreedIds } = loadFrontend('src/lib/dog-breeds.ts');
 const { originalArtDogAssets } = loadFrontend('src/lib/original-art-dog-styles.ts');
 const { premiumDogAssets } = loadFrontend('src/lib/premium-dog-styles.ts');
@@ -30,7 +36,7 @@ process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL = 'https://cdn.example.test/ruby-rou
     same([bytes.readUInt32BE(16), bytes.readUInt32BE(20), bytes[25]], [meta.width, meta.height, 6], `${image}: native width/height/RGBA retained`);
   }
   for (let breed = 0; breed < dogBreedIds.length; breed++) {
-    const appearance = desktopAppearance(config('art-16-scenes'), breed, 'http://localhost:3000');
+    const appearance = archivedDesktopAppearance(config('art-16-scenes'), breed, 'http://localhost:3000');
     same(appearance.breedId, dogBreedIds[breed], 'Persisted numeric breed IDs map to the matching scene assets');
     same(appearance.version, 1, 'Versioned client contract');
     check(/^[a-f0-9]{64}$/.test(appearance.key), 'Stable SHA-256 appearance identity');
@@ -43,7 +49,7 @@ process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL = 'https://cdn.example.test/ruby-rou
     }
   }
   for (const asset of [...originalArtDogAssets, ...premiumDogAssets]) {
-    const appearance = desktopAppearance(config(asset.id), 0, 'http://localhost:3000');
+    const appearance = archivedDesktopAppearance(config(asset.id), 0, 'http://localhost:3000');
     same([appearance.width, appearance.height], [asset.width, asset.height], 'Original artwork is never reduced to embedded 64-pixel sprites');
     for (const scene of Object.values(appearance.scenes)) {
       same(scene.frames, 1, 'Single master artwork does not invent animated frames');
@@ -51,7 +57,7 @@ process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL = 'https://cdn.example.test/ruby-rou
     }
   }
   for (const asset of spSceneAssets.filter(asset => spScenesReady(asset.style))) {
-    const appearance = desktopAppearance(config(`${asset.style}-scenes`), dogBreedIds.indexOf(asset.breed), 'http://localhost:3000');
+    const appearance = archivedDesktopAppearance(config(`${asset.style}-scenes`), dogBreedIds.indexOf(asset.breed), 'http://localhost:3000');
     same([appearance.styleId, appearance.breedId, appearance.width, appearance.height], [`${asset.style}-scenes`, asset.breed, asset.width, asset.height], 'SP desktop appearance keeps the selected family, breed and native dimensions');
     same(Object.keys(appearance.scenes), ['idle', 'side', 'walk', 'happy', 'sleep'], 'Installed version 1 desktop receives its exact five-scene contract; web wag cannot invalidate all artwork');
     for (const [scene, image] of Object.entries(appearance.scenes)) {
@@ -70,26 +76,28 @@ process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL = 'https://cdn.example.test/ruby-rou
     'Selected shared-eye URL and stable ID reach the desktop descriptor');
   for (const { id } of rubyRoundScenes) {
     const source = rubyAsset.scenes[id], scene = ruby06.scenes[id];
-    const selectedEye = rubyEyeStyles.find(eye => eye.id === (id === 'sleep' ? 'ruby-eye-10' : 'ruby-eye-06'));
+    const selectedEye = rubyEyeStyles.find(eye => eye.id === (!source.eyeModeByFrame && id === 'sleep' ? 'ruby-eye-10' : 'ruby-eye-06'));
     const bodyMeta = fingerprints[source.png], eyeMeta = fingerprints[selectedEye.png];
     same([scene.bodyUrl, scene.bodySha256, scene.bodyFrames],
       [`https://cdn.example.test/ruby-round/test-release${source.png}`, bodyMeta.sha256, source.frames], `${id}: exact eyeless body metadata`);
     same([scene.eyeUrl, scene.eyeSha256, scene.eyeStyle],
       [`https://cdn.example.test/ruby-round/test-release${selectedEye.png}`, eyeMeta.sha256, selectedEye.id], `${id}: exact shared-eye metadata`);
-    const expectedAnchors = source.eyes.map(anchors => (id === 'idle' || id === 'happy'
+    const expectedAnchors = source.eyes.map(anchors => (source.kind !== 'redrawn' && (id === 'idle' || id === 'happy')
       ? rubyRoundEyePair(anchors, rubyAsset.scenes.idle.eyes[0]) : anchors));
     same(scene.eyeAnchors, expectedAnchors, `${id}: each body frame carries the web renderer's eye anchors`);
   }
-  same(ruby06.scenes.sleep.eyeStyle, 'ruby-eye-10', 'Sleeping desktop puppy uses the same closed eyes as the web');
-  const selected = { ...config('art-01'), breedStyles: { pomeranian: 'art-16' }, varieties: [{ id: 'c497341a-39fb-4204-9758-0a347445b6c9', breed: 'pomeranian', name: '복슬이', style: 'art-16-scenes', shape: 'original', pattern: 'solid', coatColor: null, patternColor: '#FFFFFF' }], breedVarieties: { pomeranian: 'c497341a-39fb-4204-9758-0a347445b6c9' } };
-  same(desktopAppearance(selected, 0, 'http://localhost:3000').styleId, 'art-16-scenes', 'Selected variety override takes priority over breed/global settings');
-  same(desktopAppearance({ ...selected, breedVarieties: {} }, 0, 'http://localhost:3000').styleId, 'art-16', 'Breed override takes priority over global settings');
-  same(desktopAppearance(selected, 1, 'http://localhost:3000').styleId, 'art-01', 'Another breed retains its own global artwork');
-  same(desktopAppearance(defaultAppearance, 0, 'http://localhost:3000'), null, 'Classic uses the existing native sprite without an error');
-  same(desktopAppearance(config('art-16'), 0, 'http://localhost:3000').key, desktopAppearance({ ...config('art-16'), revision: 999 }, 0, 'http://localhost:3000').key, 'Unrelated settings revisions do not redownload unchanged PNGs');
-  check(desktopAppearance(config('art-16'), 0, 'http://localhost:3000').key !== desktopAppearance(config('art-17'), 0, 'http://localhost:3000').key, 'A style change invalidates cached appearance');
+  same(ruby06.scenes.sleep.eyeStyle, rubyAsset.scenes.sleep.eyeModeByFrame ? 'ruby-eye-06' : 'ruby-eye-10', 'Native sleep preserves its drawn closures and selected open eyes');
+  const selected = { ...config(rubyRoundStyleId), breedStyles: { pomeranian: rubyRoundStyleId }, varieties: [{ id: 'c497341a-39fb-4204-9758-0a347445b6c9', breed: 'pomeranian', name: '복슬이', style: rubyRoundStyleId, shape: 'original', pattern: 'solid', coatColor: null, patternColor: '#FFFFFF' }], breedVarieties: { pomeranian: 'c497341a-39fb-4204-9758-0a347445b6c9' } };
+  same(desktopAppearance(selected, 0, 'http://localhost:3000').styleId, rubyRoundStyleId, 'A selected variety retains the current Ruby artwork');
+  same(desktopAppearance({ ...selected, breedVarieties: {} }, 0, 'http://localhost:3000').styleId, rubyRoundStyleId, 'A breed override retains the current Ruby artwork');
+  same(desktopAppearance(selected, 1, 'http://localhost:3000').breedId, dogBreedIds[1], 'Another breed gets its own Ruby artwork');
+  same(desktopAppearance(defaultAppearance, 0, 'http://localhost:3000').styleId, rubyRoundStyleId, 'The public default delivers the current Ruby artwork');
+  same(desktopAppearance(config('art-16'), 0, 'http://localhost:3000').styleId, rubyRoundStyleId, 'An archived in-memory style selection resolves to the supported catalog');
+  same(archivedDesktopAppearance(config('classic'), 0, 'http://localhost:3000'), null, 'Historical classic conversion retains its native fallback');
+  same(desktopAppearance(config(rubyRoundStyleId), 0, 'http://localhost:3000').key, desktopAppearance({ ...config(rubyRoundStyleId), revision: 999 }, 0, 'http://localhost:3000').key, 'Unrelated settings revisions do not redownload unchanged PNGs');
+  check(archivedDesktopAppearance(config('art-16'), 0, 'http://localhost:3000').key !== archivedDesktopAppearance(config('art-17'), 0, 'http://localhost:3000').key, 'Different archive bytes retain distinct cache identities');
   process.env.NEXT_PUBLIC_ASSET_BASE_URL = '';
-  same(desktopAppearance(config('art-16'), 0, 'http://127.0.0.1:3000').scenes.idle.url, require('../frontend/src/lib/generated/public-media-release.json').images.baseUrl + '/images/pixel-art-dogs-v1/art-16.png', 'Desktop uses the committed CDN release when no image override is configured');
+  same(archivedDesktopAppearance(config('art-16'), 0, 'http://127.0.0.1:3000').scenes.idle.url, require('../frontend/src/lib/generated/public-media-release.json').images.baseUrl + '/images/pixel-art-dogs-v1/art-16.png', 'Desktop uses the committed CDN release when no image override is configured');
   process.env.NEXT_PUBLIC_ASSET_BASE_URL = 'https://cdn.example.test/site-assets/test-release';
 
   for (const action of ['pair', 'state', 'action']) {
@@ -98,7 +106,7 @@ process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL = 'https://cdn.example.test/ruby-rou
     const fetcher = async (url, options) => { calls++; same(url, 'http://127.0.0.1:8080/api/v1/appearance', 'Only public appearance settings are fetched'); check(!options.headers && !options.body && options.cache === 'no-store' && options.redirect === 'error', 'No player identity, token or stale settings are sent to appearance'); return Response.json(selected); };
     const result = await attachDesktopAppearance(input, action, 'http://localhost:3000', 'http://127.0.0.1:8080/api/v1', fetcher);
     const enriched = action === 'state' ? result : result.state;
-    same(enriched.appearance.styleId, 'art-16-scenes', `${action}: appearance reaches the DesktopGameState`);
+    same(enriched.appearance.styleId, rubyRoundStyleId, `${action}: current appearance reaches the DesktopGameState`);
     same(enriched.appearanceError, null, 'Successful appearance clears earlier cosmetic error');
     same(enriched.puppy, state.puppy, 'Cosmetic delivery does not modify game or wardrobe data');
     same(calls, 1, 'One public read per device response');
@@ -111,22 +119,22 @@ process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL = 'https://cdn.example.test/ruby-rou
     same(input, action === 'state' ? state : { state, token: 'test-token-not-issued', success: true, message: '돌봄 완료' }, 'Input response is not mutated');
   }
   const attachedRuby01 = await attachDesktopAppearance(state, 'state', 'http://localhost:3000', 'http://localhost:8080/api/v1',
-    async () => Response.json(config(rubyRoundStyleId)));
+    async () => Response.json(config(rubyRoundStyleId)), 3);
   const state06 = { ...state, puppy: { ...state.puppy, eyes: 'ruby-eye-06' } };
   const attachedRuby06 = await attachDesktopAppearance(state06, 'state', 'http://localhost:3000', 'http://localhost:8080/api/v1',
-    async () => Response.json(config(rubyRoundStyleId)));
+    async () => Response.json(config(rubyRoundStyleId)), 3);
   same(attachedRuby01.appearance.key, attachedRuby06.appearance.key, 'Attachment preserves the old-client identity across eye changes');
   check(attachedRuby01.appearance.renderKey !== attachedRuby06.appearance.renderKey
     && attachedRuby01.appearance.scenes.idle.eyeUrl !== attachedRuby06.appearance.scenes.idle.eyeUrl,
     'Attachment reads puppy.eyes and changes the new-client render contract');
   const unsupported = await attachDesktopAppearance(state, 'state', 'http://localhost:3000', 'http://localhost:8080/api/v1', async () => Response.json(config('round')));
-  check(unsupported.appearance === null && unsupported.appearanceError.includes('아직 PC 앱'), 'Unsupported styles are explicit and do not claim a matching appearance');
-  const classic = await attachDesktopAppearance(state, 'state', 'http://localhost:3000', 'http://localhost:8080/api/v1', async () => Response.json(defaultAppearance));
-  same([classic.appearance, classic.appearanceError], [null, null], 'Classic retains the intentional embedded fallback');
+  check(unsupported.appearance === null && unsupported.appearanceError.includes('마지막'), 'Retired styles received as public settings fail safely without claiming a matching appearance');
+  const defaults = await attachDesktopAppearance(state, 'state', 'http://localhost:3000', 'http://localhost:8080/api/v1', async () => Response.json(defaultAppearance));
+  same([defaults.appearance.styleId, defaults.appearanceError], [rubyRoundStyleId, null], 'Current public defaults produce a valid compatible appearance');
   const browser = { devices: [] };
   same(await attachDesktopAppearance(browser, 'links', 'http://localhost:3000', '', async () => { throw Error('Must not fetch'); }), browser, 'Browser link management is unchanged');
   await verifyProxyRoute();
-  console.log(`PASS ${checks} desktop appearance checks: ${Object.keys(fingerprints).length} exact RGBA assets, all 30 breeds, original/premium/SP looks, CDN URLs, selected-variety priority, pairing/state/action delivery, and isolated cosmetic failures.`);
+  console.log(`PASS ${checks} desktop appearance checks: ${Object.keys(fingerprints).length} exact RGBA assets, all 30 breeds, archived format integrity, current Ruby settings, CDN URLs, client capability negotiation, pairing/state/action delivery, and isolated cosmetic failures.`);
 })().finally(() => {
   if (originalBase === undefined) delete process.env.NEXT_PUBLIC_ASSET_BASE_URL; else process.env.NEXT_PUBLIC_ASSET_BASE_URL = originalBase;
   if (originalRubyBase === undefined) delete process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL; else process.env.NEXT_PUBLIC_RUBY_ROUND_BASE_URL = originalRubyBase;
@@ -143,7 +151,7 @@ async function verifyProxyRoute() {
     for (const action of ['pair', 'state', 'action']) {
       let appearanceReads = 0;
       global.fetch = async url => {
-        if (url.endsWith('/appearance')) { appearanceReads++; return Response.json(config('art-16')); }
+        if (url.endsWith('/appearance')) { appearanceReads++; return Response.json(config(rubyRoundStyleId)); }
         return Response.json(action === 'state' ? state : { state, success: true, token: 'fixture-token' });
       };
       const method = action === 'state' ? 'GET' : 'POST';
@@ -151,9 +159,24 @@ async function verifyProxyRoute() {
       const response = await route[method](req, { params: Promise.resolve({ path: [action] }) });
       const data = await response.json(), dataState = action === 'state' ? data : data.state;
       same(response.status, 200, 'Native BFF succeeds');
-      same(dataState.appearance.styleId, 'art-16', 'Actual BFF route emits the selected original art');
+      same(dataState.appearance.styleId, rubyRoundStyleId, 'Actual BFF route emits the current selected artwork');
       check(response.headers.get('cache-control').includes('no-store') && response.headers.get('vary').includes('Authorization'), 'Private pairing and state responses cannot be cached');
       same(appearanceReads, 1, 'Successful device response resolves public appearance exactly once');
+    }
+    for (const action of ['pair', 'state', 'action']) for (const capability of [undefined, '2', '3', 'invalid']) {
+      global.fetch = async url => url.endsWith('/appearance') ? Response.json(config(rubyRoundStyleId))
+        : Response.json(action === 'state' ? state : {state, success: true, token: 'fixture-token'});
+      const method = action === 'state' ? 'GET' : 'POST';
+      const headers = {Authorization: 'Bearer ' + 'A'.repeat(43), 'Content-Type': 'application/json'};
+      if (capability !== undefined) headers['X-PuppyRuby-Appearance-Version'] = capability;
+      const request = new NextRequest(`http://localhost:3000/api/desktop/${action}`, {method, headers, ...(method === 'POST' ? {body: '{}'} : {})});
+      const response = await route[method](request, {params: Promise.resolve({path: [action]})});
+      const data = await response.json(), actual = (action === 'state' ? data : data.state).appearance;
+      same(response.status, 200, 'Capability negotiation keeps pair/state/action successful');
+      same(Object.keys(actual.scenes).length, 5, 'All client versions retain the required five scenes');
+      if (capability === '3') check(actual.renderKey && actual.scenes.idle.bodyUrl && actual.scenes.idle.eyeAnchors, 'New app receives native layered scene metadata');
+      else check(!actual.renderKey && !actual.nativeActions && !actual.accessoryLayer && Object.values(actual.scenes).every(scene => Object.keys(scene).sort().join(',') === 'frameMs,frames,sha256,url'), 'Absent/old/invalid capability cannot deliver native empty-eye frames to old apps');
+      check(response.headers.get('vary').includes('X-PuppyRuby-Appearance-Version'), 'Capability participates in response variation');
     }
     let reads = 0;
     global.fetch = async () => { reads++; return Response.json({ message: 'expired' }, { status: 401 }); };

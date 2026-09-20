@@ -25,8 +25,9 @@ Git 저장소를 연결한 프로젝트의 **Settings → Build and Deployment**
 | Install Command | 프레임워크 기본값; 저장된 `package-lock.json` 사용 |
 | Output Directory | **Override 끔**, 프레임워크 기본값 |
 | Node.js Version | `24.x` |
+| Include source files outside of the Root Directory in the Build Step | **켬** |
 
-Vercel이 Next.js 결과물을 처리하도록 둡니다. Output Directory를 `.next/standalone`, `out` 또는 `public`으로 바꾸거나 `server.js`를 직접 실행하도록 설정하지 않습니다. [Vercel 빌드 설정](https://vercel.com/docs/builds/configure-a-build), [Next.js on Vercel](https://vercel.com/docs/frameworks/full-stack/nextjs)
+프런트 prebuild가 저장소 공용 카탈로그 `shared/accessories.json`과 루트의 생성 스크립트를 읽으므로 Root Directory 밖 소스 포함을 켭니다. Vercel이 Next.js 결과물을 처리하도록 두고 Output Directory를 `.next/standalone`, `out` 또는 `public`으로 바꾸거나 `server.js`를 직접 실행하도록 설정하지 않습니다. [Vercel 모노레포 Root Directory 안내](https://vercel.com/docs/monorepos/monorepo-faq), [Vercel 빌드 설정](https://vercel.com/docs/builds/configure-a-build), [Next.js on Vercel](https://vercel.com/docs/frameworks/full-stack/nextjs)
 
 Vercel의 **Environment Variables**에는 운영에 필요한 두 값만 등록합니다. 카카오 로그인을 사용할 때만 REST API 키를 추가합니다.
 
@@ -44,6 +45,8 @@ PUBLIC_SITE_URL=https://app.example.com
 이미지 base를 `https://cdn.example.com/puppyruby/site-assets/r1`로 지정하면 `/images/pixel-garden.svg`는 그 뒤에 같은 경로를 붙인 주소에서 불러옵니다. 다운로드 base에도 `/downloads/PuppyRuby-Setup.exe`처럼 공개 경로를 붙입니다. base 자체에 `/images`나 `/downloads`를 덧붙이지 않습니다. 예전 `/images/*`, `/downloads/*`, `/favicon.svg` 요청도 설정된 CDN으로 연결됩니다. 릴리스의 필요한 파일을 먼저 업로드하고 원본 해시·CDN 응답을 검증한 다음 기본 릴리스나 환경변수를 갱신하세요.
 
 이미지·Aseprite·ZIP·EXE의 로컬 보관 폴더는 `local-assets/`이며 Git이나 Vercel 빌드에 포함하지 않습니다. 대신 공개 경로·크기·해시를 담은 `frontend/src/lib/generated/` JSON은 Git에 유지합니다. CDN 기본값과 환경변수는 빌드에 포함되므로 변경 후 **새 빌드·재배포**가 필요합니다. 자세한 경로·다운로드 설정은 [사이트 이미지 CDN 안내](IMAGE_UPLOADS.md#사이트-기본-이미지의-cdn-주소)를 참고하세요.
+
+새 공통 액세서리 PNG는 먼저 루비 도트 발행기로 S3와 CDN 본문을 검증해야 합니다. 성공한 발행기가 활성 릴리스 JSON에 카탈로그 revision과 이미지 목록을 기록하며, Vercel production build는 이 기록이 현재 `shared/accessories.json`과 다르면 중단합니다. 전체 순서는 [공통 액세서리 에셋 구조](ACCESSORY_ASSETS.md)의 배포 순서를 따릅니다.
 
 ## 2. AWS JAR와 데이터베이스
 

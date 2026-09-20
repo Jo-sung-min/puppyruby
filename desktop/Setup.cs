@@ -14,7 +14,6 @@ using System.Windows.Forms;
 [assembly: AssemblyTitle("PuppyRuby Setup")]
 [assembly: AssemblyDescription("퍼피루비 설치 및 바탕화면 바로가기 만들기")]
 [assembly: AssemblyProduct("PuppyRuby")]
-[assembly: AssemblyVersion("1.0.0.0")]
 
 namespace PuppyRubySetup
 {
@@ -26,13 +25,14 @@ namespace PuppyRubySetup
         private static int Main(string[] args)
         {
             if (args.Length == 2 && args[0] == "--self-test") return SetupTests.Run(args[1]);
-            if (args.Length != 0) return 2;
+            int updateParent;
+            if (!SetupUpdate.TryParseArguments(args, out updateParent)) return 2;
             SetProcessDPIAware();
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             try
             {
-                Application.Run(new SetupWindow());
+                Application.Run(new SetupWindow(updateParent));
                 return 0;
             }
             catch (Exception error)
@@ -41,6 +41,49 @@ namespace PuppyRubySetup
                 return 1;
             }
         }
+    }
+
+    internal static class SetupUpdate
+    {
+        internal static bool TryParseArguments(string[] args, out int parent)
+        {
+            parent = 0;
+            if (args.Length == 0) return true;
+            return args.Length == 2 && args[0] == "--update" && Int32.TryParse(args[1], out parent) && parent > 0 && parent != Process.GetCurrentProcess().Id;
+        }
+
+        internal static void WaitForParent(int parent, DateTime installerStarted, int timeout)
+        {
+            if (parent == 0) return;
+            Process process;
+            try { process = Process.GetProcessById(parent); }
+            catch (ArgumentException) { return; } // The requesting app can finish before Setup has loaded.
+            using (process)
+            {
+                try
+                {
+                    if (process.HasExited) return;
+                    bool isPuppy = String.Equals(process.ProcessName, "PuppyRuby", StringComparison.OrdinalIgnoreCase);
+                    if (!isPuppy)
+                    {
+                        // Browsers can save a second portable download as "PuppyRuby (1).exe".
+                        FileVersionInfo identity = FileVersionInfo.GetVersionInfo(process.MainModule.FileName);
+                        isPuppy = IsPortablePuppy(identity.OriginalFilename, identity.ProductName);
+                    }
+                    if (!isPuppy || process.StartTime.ToUniversalTime() > installerStarted)
+                        throw new InvalidOperationException("업데이트를 요청한 퍼피루비를 확인하지 못했어요. 실행 중인 강아지를 종료한 뒤 설치파일을 다시 열어 주세요.");
+                    if (!process.WaitForExit(timeout))
+                        throw new IOException("기존 강아지가 아직 실행 중이에요. 강아지 메뉴에서 종료한 뒤 ‘다시 시도’를 눌러 주세요.");
+                }
+                catch (Win32Exception error)
+                { throw new IOException("기존 강아지의 종료를 확인하지 못했어요. 직접 종료한 뒤 다시 시도해 주세요.", error); }
+                catch (InvalidOperationException)
+                { if (!process.HasExited) throw; } // It may exit between HasExited and reading its identity.
+            }
+        }
+
+        internal static bool IsPortablePuppy(string originalFilename, string product)
+        { return String.Equals(originalFilename, "PuppyRuby.exe", StringComparison.OrdinalIgnoreCase) && product == "PuppyRuby"; }
     }
 
     internal sealed class InstallPaths
@@ -222,6 +265,8 @@ namespace PuppyRubySetup
         private readonly ProgressBar progress;
         private bool busy;
         private bool installed;
+        private readonly int updateParent;
+        private readonly DateTime installerStarted = Process.GetCurrentProcess().StartTime.ToUniversalTime();
 
         internal void PreparePreview()
         {
@@ -230,9 +275,12 @@ namespace PuppyRubySetup
             PerformLayout();
         }
 
-        internal SetupWindow()
+        internal SetupWindow() : this(0) { }
+
+        internal SetupWindow(int updateParent)
         {
-            Text = "퍼피루비 설치";
+            this.updateParent = updateParent;
+            Text = updateParent == 0 ? "퍼피루비 설치" : "퍼피루비 업데이트";
             ClientSize = new Size(560, 370);
             AutoScaleMode = AutoScaleMode.Dpi;
             Font = new Font("맑은 고딕", 10F);
@@ -262,6 +310,7 @@ namespace PuppyRubySetup
             AcceptButton = install;
             CancelButton = cancel;
             FormClosing += delegate(object sender, FormClosingEventArgs e) { if (busy) e.Cancel = true; };
+            if (updateParent != 0) Shown += delegate { BeginInstall(); };
         }
 
         private void BeginInstall()
@@ -269,9 +318,13 @@ namespace PuppyRubySetup
             busy = true;
             install.Enabled = cancel.Enabled = false;
             progress.Visible = true;
-            message.Text = "강아지와 바로가기를 준비하고 있어요…";
+            message.Text = updateParent == 0 ? "강아지와 바로가기를 준비하고 있어요…" : "기존 강아지가 종료되면 새 버전으로 바꿔 드릴게요…";
             BackgroundWorker worker = new BackgroundWorker();
-            worker.DoWork += delegate { SetupFiles.Install(paths, SetupFiles.OpenPayload); };
+            worker.DoWork += delegate
+            {
+                SetupUpdate.WaitForParent(updateParent, installerStarted, 30000);
+                SetupFiles.Install(paths, SetupFiles.OpenPayload);
+            };
             worker.RunWorkerCompleted += delegate(object sender, RunWorkerCompletedEventArgs e)
             {
                 busy = false;

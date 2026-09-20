@@ -4,7 +4,7 @@ import { attachDesktopAppearance } from "@/lib/desktop-appearance";
 
 const browserMethods: Record<string, string> = { links: "GET", "pair-code": "POST", revoke: "POST" };
 const deviceMethods: Record<string, string> = { pair: "POST", state: "GET", action: "POST" };
-const noStore = { "Cache-Control": "private, no-store, max-age=0", Vary: "Cookie, Authorization" };
+const noStore = { "Cache-Control": "private, no-store, max-age=0", Vary: "Cookie, Authorization, X-PuppyRuby-Appearance-Version" };
 const failure = (message: string, status: number) => NextResponse.json({ message }, { status, headers: noStore });
 
 async function proxy(request: NextRequest, context: { params: Promise<{ path?: string[] }> }) {
@@ -51,7 +51,9 @@ async function proxy(request: NextRequest, context: { params: Promise<{ path?: s
       method: request.method, headers, body, cache: "no-store", redirect: "error", signal: AbortSignal.timeout(12000),
     });
     const raw = await upstream.json();
-    const data = upstream.ok && !browserOnly ? await attachDesktopAppearance(raw, action, request.nextUrl.origin, apiBase()) : raw;
+    const requestedVersion = request.headers.get("x-puppyruby-appearance-version") ?? "1";
+    const appearanceVersion = /^\d{1,3}$/.test(requestedVersion) ? Number(requestedVersion) : 1;
+    const data = upstream.ok && !browserOnly ? await attachDesktopAppearance(raw, action, request.nextUrl.origin, apiBase(), undefined, appearanceVersion) : raw;
     const response = NextResponse.json(data, { status: upstream.status, headers: noStore });
     if (upstream.ok && newPlayer) saveGuest(response, request, newPlayer);
     if (browserOnly && upstream.status === 401) clearSession(response, request);

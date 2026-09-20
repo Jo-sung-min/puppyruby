@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 2,
+  "framesPerAction": 4,
+  "actions": [
+    { "id": "idle", "name": "가만히 있기", "description": "앞을 보고 편안하게 앉아 숨을 쉬고 눈을 깜빡여요", "frameMs": 320, "source": "idle", "kind": "legacy", "eyeMode": "shared" },
+    { "id": "side", "name": "옆모습", "description": "옆으로 서서 주변을 살펴봐요", "frameMs": 240, "source": "side", "kind": "legacy", "eyeMode": "shared" },
+    { "id": "walk", "name": "기본 걷기", "description": "기존 실행파일과 호환되는 옆 방향 걷기예요", "frameMs": 140, "source": "walk", "kind": "legacy", "eyeMode": "shared" },
+    { "id": "happy", "name": "반가워요", "description": "작은 앞발을 들고 반갑게 인사해요", "frameMs": 180, "source": "happy", "kind": "legacy", "eyeMode": "shared" },
+    { "id": "sleep", "name": "잠자기", "description": "편안하게 누워 포근히 잠들어요", "frameMs": 650, "source": "sleep", "kind": "legacy", "eyeMode": "closed" },
+    { "id": "typing", "name": "키보드 타이핑", "description": "정면에서 두 앞발로 키보드를 타닥타닥 눌러요", "frameMs": 140, "source": "idle", "kind": "derived", "eyeMode": "shared" },
+    { "id": "petting", "name": "쓰담 받기", "description": "머리를 쓰다듬으면 몸을 살짝 들썩이며 좋아해요", "frameMs": 260, "source": "idle", "kind": "derived", "eyeMode": "shared" },
+    { "id": "eat", "name": "밥 먹기", "description": "밥그릇 앞에서 맛있게 냠냠 먹어요", "frameMs": 220, "source": "idle", "kind": "derived", "eyeMode": "shared" },
+    { "id": "belly", "name": "배 뒤집고 눕기", "description": "빠르게 다섯 번 쓰다듬으면 발라당 누워요", "frameMs": 220, "source": "sleep", "kind": "derived", "eyeMode": "baked" },
+    { "id": "stretch", "name": "기지개 켜기", "description": "앞발을 내밀고 몸을 낮춰 길게 기지개를 켜요", "frameMs": 260, "source": "side", "kind": "derived", "eyeMode": "shared" },
+    { "id": "wag", "name": "꼬리 흔들기", "description": "기분 좋을 때 꼬리를 좌우로 신나게 흔들어요", "frameMs": 150, "source": "side", "kind": "derived", "eyeMode": "shared" },
+    { "id": "scratch", "name": "귀 긁기", "description": "뒷발로 귀를 톡톡 긁고 다시 앉아요", "frameMs": 180, "source": "idle", "kind": "derived", "eyeMode": "shared" },
+    { "id": "walk-left", "name": "왼쪽 이동", "description": "왼쪽을 보며 네 발을 번갈아 움직여요", "frameMs": 140, "source": "walk", "kind": "derived", "eyeMode": "shared" },
+    { "id": "walk-right", "name": "오른쪽 이동", "description": "오른쪽을 보며 네 발을 번갈아 움직여요", "frameMs": 140, "source": "walk", "kind": "derived", "eyeMode": "shared" },
+    { "id": "walk-up", "name": "위쪽 이동", "description": "등과 꼬리를 보이며 화면 위쪽으로 걸어가요", "frameMs": 140, "source": "idle", "kind": "derived", "eyeMode": "hidden" },
+    { "id": "walk-down", "name": "아래쪽 이동", "description": "정면을 보며 화면 아래쪽으로 걸어와요", "frameMs": 140, "source": "idle", "kind": "derived", "eyeMode": "shared" }
+  ]
+}

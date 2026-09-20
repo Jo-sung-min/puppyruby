@@ -183,10 +183,19 @@ namespace PuppyRubyDesktop
             }
             FixtureImages.Add("/layered/eyes/ruby-eye-01.png", TwoTonePng(32, 16, Color.Red, Color.Blue));
             FixtureImages.Add("/layered/eyes/ruby-eye-03.png", TwoTonePng(32, 16, Color.Lime, Color.Gold));
+            FixtureImages.Add("/layered/accessories/glasses-pixel-01.png", TwoTonePng(4, 4, Color.Magenta, Color.Cyan));
             FixtureImages.Add("/layered/bad/body-dimension.png", TwoTonePng(47, 24, Color.Gray, Color.Silver));
             FixtureImages.Add("/layered/bad/body-hash.png", FixtureImages["/layered/body/idle.png"]);
             FixtureImages.Add("/layered/bad/eye-dimension.png", TwoTonePng(31, 16, Color.Purple, Color.Pink));
             FixtureImages.Add("/layered/bad/eye-hash.png", FixtureImages["/layered/eyes/ruby-eye-01.png"]);
+            index = 0;
+            foreach (string name in DesktopAppearanceCache.NativeActions)
+            {
+                FixtureImages.Add("/native/body/" + name + ".png", TwoTonePng(96, 24,
+                    Color.FromArgb(255, 80 + index, 60, 40), Color.FromArgb(255, 120 + index, 90, 70)));
+                index += 7;
+            }
+            FixtureImages.Add("/native/bad/hash.png", FixtureImages["/native/body/belly.png"]);
         }
         private static DesktopEyeAnchor[][] LayeredAnchors()
         {
@@ -232,6 +241,120 @@ namespace PuppyRubyDesktop
                 });
             }
             return value;
+        }
+        private static DesktopAccessoryLayer AccessoryLayer(string origin, string revision)
+        {
+            var placements = new Dictionary<string, DesktopAccessoryPlacement[]>(StringComparer.Ordinal);
+            foreach (string name in Names) placements.Add(name, new[]
+            {
+                new DesktopAccessoryPlacement { x = 4, y = 4, width = 8, height = 8, rotation = 0, visible = true },
+                new DesktopAccessoryPlacement { x = 5, y = 4, width = 8, height = 8, rotation = 0, flipX = true, visible = true }
+            });
+            byte[] image = FixtureImages["/layered/accessories/glasses-pixel-01.png"];
+            return new DesktopAccessoryLayer
+            {
+                schemaVersion = 1, renderer = "image", id = "glasses-pixel-01", revision = revision,
+                url = origin + "/layered/accessories/glasses-pixel-01.png", sha256 = DesktopAppearanceCache.Hash(image),
+                width = 4, height = 4, pivotX = 2, pivotY = 2, slot = "face", layer = "front", placements = placements
+            };
+        }
+        private static DesktopAppearance NativeDescriptor(string origin, string eyeStyle, string identity)
+        {
+            var value = LayeredDescriptor(origin, eyeStyle, identity);
+            value.nativeActions = new Dictionary<string, DesktopAppearanceScene>(StringComparer.Ordinal);
+            foreach (string name in DesktopAppearanceCache.NativeActions)
+            {
+                string bodyPath = "/native/body/" + name + ".png";
+                string eyePath = "/layered/eyes/" + eyeStyle + ".png";
+                value.nativeActions.Add(name, new DesktopAppearanceScene
+                {
+                    url = origin + bodyPath, bodyUrl = origin + bodyPath,
+                    sha256 = DesktopAppearanceCache.Hash(FixtureImages[bodyPath]),
+                    bodySha256 = DesktopAppearanceCache.Hash(FixtureImages[bodyPath]),
+                    frames = 4, bodyFrames = 4, frameMs = 150,
+                    eyeUrl = origin + eyePath, eyeSha256 = DesktopAppearanceCache.Hash(FixtureImages[eyePath]),
+                    eyeStyle = eyeStyle,
+                    eyeModeByFrame = new[] { "shared", "shared", "baked-closed", "baked-closed" },
+                    eyeAnchors = new[] { LayeredAnchors()[0], LayeredAnchors()[1], new DesktopEyeAnchor[0], new DesktopEyeAnchor[0] }
+                });
+            }
+            return value;
+        }
+        private static async Task NativeDownloadsAndCache()
+        {
+            string origin;
+            DesktopAppearance offline;
+            using (var server = new FixtureServer())
+            using (var cache = new DesktopAppearanceCache(CachePath("native")))
+            {
+                origin = server.Origin;
+                var first = NativeDescriptor(origin, "ruby-eye-01", "native-first");
+                await Within(cache.UpdateAsync(first, origin), "native sixteen-action download");
+                Check(cache.Current != null && cache.Current.HasNativeActions, "verified native actions are published atomically");
+                Check(server.Count("/native/body/") == 11 && server.Count("/layered/body/") == 5,
+                    "all sixteen body strips are downloaded once");
+                Check(server.Count("/layered/eyes/") == 1 && server.Count("/layered/legacy/") == 0,
+                    "sixteen native actions share one eye download without legacy PNG requests");
+                foreach (string name in DesktopAppearanceCache.NativeActions)
+                {
+                    Check(cache.Current.Get(name, 0, false).Image.GetPixel(4, 6).ToArgb() == Color.Red.ToArgb(),
+                        "shared eyes compose in native action: " + name);
+                    Check(cache.Current.Get(name, 2, false).Image.GetPixel(4, 6).ToArgb() != Color.Red.ToArgb(),
+                        "closed eyes keep authored pixels in native action: " + name);
+                    string file = Path.Combine(CachePath("native"), first.nativeActions[name].bodySha256 + ".png");
+                    Check(File.Exists(file) && DesktopAppearanceCache.Hash(File.ReadAllBytes(file)) == first.nativeActions[name].bodySha256,
+                        "native action original bytes are content-addressed: " + name);
+                }
+                var belly = cache.Current.React("idle", "belly", null, 1.0, true, false, 0, 0);
+                Check(Object.ReferenceEquals(belly, cache.Current.Get("belly", 2, false))
+                    || Object.ReferenceEquals(belly, cache.Current.Get("belly", 3, false)),
+                    "downloaded belly reaction uses the authored supine image without rotating a seated image");
+                Check(cache.Current.ReactionFrameCount == 0, "native belly creates no procedural overlay or rotated frame");
+
+                var changed = NativeDescriptor(origin, "ruby-eye-03", "native-eye-change");
+                await Within(cache.UpdateAsync(changed, origin), "native sixteen-action eye change");
+                Check(cache.Current.Get("typing", 0, false).Image.GetPixel(4, 6).ToArgb() == Color.Lime.ToArgb(),
+                    "changing the shared eye changes native typing pixels");
+                Check(server.Count("/native/body/") == 11 && server.Count("/layered/body/") == 5 && server.Count("/layered/eyes/") == 2,
+                    "eye-only changes reuse all sixteen body strips");
+
+                var accessory = NativeDescriptor(origin, "ruby-eye-03", "native-accessory");
+                accessory.accessoryLayer = AccessoryLayer(origin, "native-r1");
+                accessory.accessoryLayer.nativeActions = new Dictionary<string, DesktopAccessoryPlacement[]>();
+                foreach (string name in DesktopAppearanceCache.NativeActions)
+                {
+                    var positions = new DesktopAccessoryPlacement[4];
+                    for (int i = 0; i < 4; i++) positions[i] = new DesktopAccessoryPlacement
+                    { x = 4, y = 4, width = 8, height = 8, rotation = 0, visible = true };
+                    accessory.accessoryLayer.nativeActions.Add(name, positions);
+                }
+                await Within(cache.UpdateAsync(accessory, origin), "native accessory placement");
+                Check(cache.Current != null && cache.Current.Key == accessory.EffectiveKey
+                    && cache.Current.Get("belly", 2, false).Image.GetPixel(1, 1).ToArgb() == Color.Magenta.ToArgb(),
+                    "native accessory placements remain visible on an authored closed-eye belly frame");
+                Check(server.Count("/layered/accessories/") == 1 && server.Count("/native/body/") == 11,
+                    "all native actions share one accessory asset and reuse cached bodies");
+                offline = accessory;
+                var missing = NativeDescriptor(origin, "ruby-eye-03", "native-missing");
+                missing.nativeActions.Remove("typing");
+                await Within(cache.UpdateAsync(missing, origin), "incomplete native descriptor rejection");
+                Check(cache.Current.Key == accessory.EffectiveKey && server.Count("/native/body/") == 11,
+                    "incomplete native metadata keeps the current appearance without new downloads");
+                var corrupt = NativeDescriptor(origin, "ruby-eye-03", "native-corrupt");
+                corrupt.nativeActions["belly"].url = corrupt.nativeActions["belly"].bodyUrl = origin + "/native/bad/hash.png";
+                corrupt.nativeActions["belly"].sha256 = corrupt.nativeActions["belly"].bodySha256 = new string('a', 64);
+                await Within(cache.UpdateAsync(corrupt, origin), "native SHA mismatch rejection");
+                Check(cache.Current.Key == accessory.EffectiveKey && server.Count("/native/bad/hash.png") == 1,
+                    "a bad native action hash cannot replace the last good appearance");
+            }
+            using (var cache = new DesktopAppearanceCache(CachePath("native")))
+            {
+                await Within(cache.UpdateAsync(offline, origin), "offline native appearance reconstruction");
+                Check(cache.Current != null && cache.Current.HasNativeActions && cache.Current.Key == offline.EffectiveKey
+                    && cache.Current.Get("walk-up", 3, false).Image.Width == 24,
+                    "all sixteen verified actions and accessories reconstruct offline from the disk cache");
+            }
+            Done("native sixteen-action download/hash/cache, eye changes, closed-eye accessories and offline reconstruction");
         }
         private static async Task Within(Task task, string operation)
         {
@@ -292,6 +415,9 @@ namespace PuppyRubyDesktop
                     bool bearerSeen = false;
                     foreach (Request request in server.Snapshot())
                     {
+                        if (request.Path.StartsWith("/api/desktop/", StringComparison.Ordinal))
+                            Check(request.Headers.ContainsKey("X-PuppyRuby-Appearance-Version")
+                                && request.Headers["X-PuppyRuby-Appearance-Version"] == "3", "sync requests advertise native v3 appearance support");
                         if (request.Path == "/api/desktop/state") bearerSeen = request.Headers.ContainsKey("Authorization") && request.Headers["Authorization"] == "Bearer " + TestToken;
                         if (!request.Path.StartsWith("/api/desktop/", StringComparison.Ordinal))
                         {
@@ -427,8 +553,9 @@ namespace PuppyRubyDesktop
 
         private static async Task LayeredEyeDownloadsAndCache()
         {
+            DateTime now = new DateTime(2026, 9, 19, 12, 0, 0, DateTimeKind.Utc);
             using (var server = new FixtureServer())
-            using (var cache = new DesktopAppearanceCache(CachePath("layered")))
+            using (var cache = new DesktopAppearanceCache(CachePath("layered"), delegate { return now; }))
             {
                 var first = LayeredDescriptor(server.Origin, "ruby-eye-01", "layered-eye-01");
                 await Within(cache.UpdateAsync(first, server.Origin), "first layered eye appearance");
@@ -476,11 +603,91 @@ namespace PuppyRubyDesktop
                 Check(cache.Current.Get("idle", 0, false).Image.GetPixel(12, 2).ToArgb() != beforeAccessory.ToArgb(), "changed accessory pixels are visible in the composed desktop output");
                 Check(server.Count("/layered/body/") == bodyRequests && server.Count("/layered/eyes/ruby-eye-03.png") == selectedEyeRequests, "accessory-only change reuses verified body and eye files");
 
+                var legacyPlacementFallback = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-builtin-missing-placement", "crown");
+                legacyPlacementFallback.accessoryLayer = new DesktopAccessoryLayer
+                {
+                    schemaVersion = 1, renderer = "builtin", id = "crown", revision = "builtin-r1", slot = "head", layer = "front"
+                };
+                await Within(cache.UpdateAsync(legacyPlacementFallback, server.Origin), "builtin accessory without placement metadata");
+                Check(cache.Current != null && cache.Current.Key == legacyPlacementFallback.renderKey
+                    && cache.Current.Get("idle", 0, false).Image.GetPixel(12, 2).ToArgb() != beforeAccessory.ToArgb(),
+                    "a builtin layer with wholly missing placements uses the legacy eye-anchor heuristic");
+
+                var placedBuiltin = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-placed-builtin", "glasses");
+                placedBuiltin.accessoryLayer = AccessoryLayer(server.Origin, "builtin-r2");
+                placedBuiltin.accessoryLayer.renderer = "builtin"; placedBuiltin.accessoryLayer.id = "glasses";
+                placedBuiltin.accessoryLayer.url = null; placedBuiltin.accessoryLayer.sha256 = null;
+                placedBuiltin.accessoryLayer.width = 0; placedBuiltin.accessoryLayer.height = 0;
+                int requestsBeforeBuiltin = server.Count("/layered/accessories/");
+                await Within(cache.UpdateAsync(placedBuiltin, server.Origin), "builtin accessory with concrete placements");
+                Check(cache.Current != null && cache.Current.Key == placedBuiltin.EffectiveKey,
+                    "a builtin procedural accessory participates in the placement-aware cache identity");
+                Check(server.Count("/layered/accessories/") == requestsBeforeBuiltin, "builtin accessory needs no PNG download");
+
+                var dynamicAccessory = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-dynamic-accessory");
+                dynamicAccessory.accessoryLayer = AccessoryLayer(server.Origin, "release-1");
+                string dynamicKey = dynamicAccessory.EffectiveKey;
+                await Within(cache.UpdateAsync(dynamicAccessory, server.Origin), "shared bitmap accessory appearance");
+                Check(cache.Current != null && cache.Current.Key == dynamicKey, "dynamic accessory identity includes its revision and asset hash");
+                Check(cache.Current.Get("idle", 0, false).Image.GetPixel(1, 1).ToArgb() == Color.Magenta.ToArgb(), "shared accessory PNG is composed at the selected frame placement");
+                Check(server.Count("/layered/accessories/glasses-pixel-01.png") == 1, "one shared accessory PNG is downloaded once for all five scenes");
+                int dynamicBodyRequests = server.Count("/layered/body/"), dynamicEyeRequests = server.Count("/layered/eyes/ruby-eye-03.png");
+
+                var revisedAccessory = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-dynamic-accessory");
+                revisedAccessory.accessoryLayer = AccessoryLayer(server.Origin, "release-2");
+                Check(revisedAccessory.EffectiveKey != dynamicKey, "an accessory metadata revision invalidates the composed-frame key");
+                await Within(cache.UpdateAsync(revisedAccessory, server.Origin), "revised shared accessory placement");
+                Check(cache.Current.Key == revisedAccessory.EffectiveKey, "revised accessory metadata is recomposed");
+                Check(server.Count("/layered/accessories/glasses-pixel-01.png") == 1
+                    && server.Count("/layered/body/") == dynamicBodyRequests && server.Count("/layered/eyes/ruby-eye-03.png") == dynamicEyeRequests,
+                    "metadata-only recomposition reuses verified body, eye and accessory files");
+
+                var malformedAccessory = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-malformed-accessory", "future-paid-accessory");
+                malformedAccessory.accessoryLayer = AccessoryLayer(server.Origin, "broken-placement");
+                malformedAccessory.accessoryLayer.placements["walk"] = new DesktopAccessoryPlacement[0];
+                int accessoryRequestsBeforeMalformed = server.Count("/layered/accessories/");
+                await Within(cache.UpdateAsync(malformedAccessory, server.Origin), "malformed accessory metadata fallback");
+                Check(cache.Current != null && cache.Current.Key == malformedAccessory.renderKey, "malformed dynamic accessory is omitted without rejecting the verified body and eyes");
+                Check(server.Count("/layered/accessories/") == accessoryRequestsBeforeMalformed, "malformed accessory metadata is rejected before its image is downloaded");
+
+                var unavailableAccessory = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-unavailable-accessory", "future-paid-accessory");
+                unavailableAccessory.accessoryLayer = AccessoryLayer(server.Origin, "missing-release");
+                unavailableAccessory.accessoryLayer.url = server.Origin + "/layered/accessories/missing.png";
+                unavailableAccessory.accessoryLayer.sha256 = new string('f', 64);
+                await Within(cache.UpdateAsync(unavailableAccessory, server.Origin), "unavailable accessory image fallback");
+                Check(server.Count("/layered/accessories/missing.png") == 1, "valid dynamic accessory metadata attempts one hash-checked image download");
+                Check(cache.Current != null && cache.Current.Key == unavailableAccessory.renderKey,
+                    "an unavailable accessory image is omitted while the verified body and eyes still update");
+                await Within(cache.UpdateAsync(unavailableAccessory, server.Origin), "unavailable accessory backoff poll");
+                Check(server.Count("/layered/accessories/missing.png") == 1, "an accessory 404 is not retried by the five-second appearance poll during backoff");
+                now = now.AddSeconds(19);
+                await Within(cache.UpdateAsync(unavailableAccessory, server.Origin), "unavailable accessory before backoff expiry");
+                Check(server.Count("/layered/accessories/missing.png") == 1, "the effective accessory key keeps its full twenty-second backoff");
+                now = now.AddSeconds(2);
+                await Within(cache.UpdateAsync(unavailableAccessory, server.Origin), "unavailable accessory after backoff expiry");
+                Check(server.Count("/layered/accessories/missing.png") == 2, "the accessory is retried after its twenty-second backoff expires");
+
+                var hashFailedAccessory = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-hash-failed-accessory", "future-paid-accessory");
+                hashFailedAccessory.accessoryLayer = AccessoryLayer(server.Origin, "hash-mismatch");
+                hashFailedAccessory.accessoryLayer.sha256 = new string('e', 64);
+                int hashFailureRequests = server.Count("/layered/accessories/glasses-pixel-01.png");
+                await Within(cache.UpdateAsync(hashFailedAccessory, server.Origin), "hash-failed accessory image fallback");
+                Check(server.Count("/layered/accessories/glasses-pixel-01.png") == hashFailureRequests + 1,
+                    "a hash-failed accessory is downloaded once and then omitted from the verified puppy");
+                await Within(cache.UpdateAsync(hashFailedAccessory, server.Origin), "hash-failed accessory backoff poll");
+                Check(server.Count("/layered/accessories/glasses-pixel-01.png") == hashFailureRequests + 1,
+                    "an accessory hash failure is not downloaded again during backoff");
+                now = now.AddSeconds(21);
+                await Within(cache.UpdateAsync(hashFailedAccessory, server.Origin), "hash-failed accessory after backoff expiry");
+                Check(server.Count("/layered/accessories/glasses-pixel-01.png") == hashFailureRequests + 2,
+                    "a hash-failed accessory retries only after twenty seconds");
+
+                string validKeyBeforeMalformedScene = cache.Current.Key;
                 int requestsBeforeMalformed = server.Snapshot().Length;
                 var malformed = LayeredDescriptor(server.Origin, "ruby-eye-03", "layered-malformed");
                 malformed.scenes["happy"].eyeAnchors = null;
                 await cache.UpdateAsync(malformed, server.Origin);
-                Check(cache.Current != null && cache.Current.Key == changedAccessory.renderKey, "malformed layered descriptor keeps the previous appearance");
+                Check(cache.Current != null && cache.Current.Key == validKeyBeforeMalformedScene, "malformed layered descriptor keeps the previous appearance");
                 Check(server.Snapshot().Length == requestsBeforeMalformed, "malformed layered descriptor is rejected before downloads");
 
                 foreach (string failure in new[] { "body-hash", "body-dimension", "eye-hash", "eye-dimension" })
@@ -501,7 +708,7 @@ namespace PuppyRubyDesktop
                     int before = server.Count(path);
                     await Within(cache.UpdateAsync(bad, server.Origin), failure + " layered download rejection");
                     Check(server.Count(path) == before + 1, failure + " fixture is fetched for validation");
-                    Check(cache.Current != null && cache.Current.Key == changedAccessory.renderKey, failure + " cannot replace the last valid appearance");
+                    Check(cache.Current != null && cache.Current.Key == validKeyBeforeMalformedScene, failure + " cannot replace the last valid appearance");
                     Check(cache.Status.Contains("마지막 모습을 유지"), failure + " reports that the last valid appearance is retained");
                 }
             }
@@ -548,6 +755,7 @@ namespace PuppyRubyDesktop
             await Races();
             await StaticStyleAndRevert();
             await LayeredEyeDownloadsAndCache();
+            await NativeDownloadsAndCache();
         }
 
         private static int Main(string[] args)

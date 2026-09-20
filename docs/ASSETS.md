@@ -32,4 +32,4 @@
 - 크기: 1536 × 1024
 - 프롬프트: "Cozy 3D miniature puppy living room environment only. Peach-pink walls, sunlit arched window at left overlooking green trees and blue sky, pale warm wood floor, round rug centered toward bottom, small cream sofa at right, plants and low shelf, a couple tiny pet toys. Front-facing at puppy height looking slightly downward. Broad center floor empty to overlay a puppy. Soft rounded forms, tactile materials, warm afternoon sunlight, natural shadows, premium cozy mobile game style. No animals, people, text or UI."
 
-액세서리는 현재 시스템 이모지 레이어로 표시됩니다. 운영 확장 시 견종·자세별 정식 이미지로 교체할 수 있도록 렌더링 컴포넌트와 게임 상태를 분리했습니다.
+액세서리는 공통 카탈로그의 내장 픽셀 도형 또는 투명 PNG 한 장과 견종·장면·프레임별 부착 위치를 합성합니다. 강아지가 포함된 완성 이미지를 액세서리마다 다시 만들지 않으며, 웹과 Windows 앱이 같은 위치 계약을 사용합니다.

@@ -1,10 +1,10 @@
 {
-  "images": {
-    "release": "92e25b71c705bce7",
-    "baseUrl": "https://cdn.puppyruby.com/site-assets/92e25b71c705bce7"
+  "images" : {
+    "release" : "92e25b71c705bce7",
+    "baseUrl" : "https://cdn.puppyruby.com/site-assets/92e25b71c705bce7"
   },
-  "downloads": {
-    "release": "5cec1d153421114e",
-    "baseUrl": "https://cdn.puppyruby.com/site-downloads/5cec1d153421114e"
+  "downloads" : {
+    "release" : "e033841b4f381825",
+    "baseUrl" : "https://cdn.puppyruby.com/site-downloads/e033841b4f381825"
   }
 }

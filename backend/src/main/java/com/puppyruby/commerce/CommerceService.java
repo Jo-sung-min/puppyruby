@@ -20,11 +20,13 @@ public class CommerceService {
     private final AccountRepository accounts;
     private final AuthService auth;
     private final GameService game;
+    private final AccessoryCatalog accessories;
     private final SecureRandom random = new SecureRandom();
     CommerceService(CommerceStore store, CommerceCatalogService catalogs, CommerceWalletRepository wallets,
-                    CommerceDrawRepository draws, TicketLedgerRepository ledger, AccountRepository accounts, AuthService auth, GameService game) {
+                    CommerceDrawRepository draws, TicketLedgerRepository ledger, AccountRepository accounts, AuthService auth, GameService game,
+                    AccessoryCatalog accessories) {
         this.store = store; this.catalogs = catalogs; this.wallets = wallets; this.draws = draws; this.ledger = ledger;
-        this.accounts = accounts; this.auth = auth; this.game = game;
+        this.accounts = accounts; this.auth = auth; this.game = game; this.accessories = accessories;
     }
     public record PurchaseProduct(String id, String kind, String name, int quantity, int price, long catalogRevision) {}
     public record Item(String kind, String itemId, long count) {}
@@ -85,7 +87,7 @@ public class CommerceService {
         Account account = auth.requireAccount(token);
         Map<?, ?> input = CommerceInput.fields(body, "puppyId", "kind", "itemId");
         String puppyId = CommerceInput.uuid(input.get("puppyId")), kind = CommerceInput.kind(input.get("kind")), item = CommerceInput.text(input.get("itemId"));
-        if (kind.equals("dog") || !(item.equals("none") || (kind.equals("aura") ? CommerceDefinitions.AURAS : CommerceDefinitions.ACCESSORIES).contains(item)))
+        if (kind.equals("dog") || !(item.equals("none") || (kind.equals("aura") ? CommerceDefinitions.AURAS.contains(item) : accessories.isPaid(item))))
             throw CommerceInput.bad("꾸미기 아이템을 확인해 주세요.");
         store.lock(); CommerceWallet wallet = wallet(account.id);
         if (!item.equals("none") && wallet.items.getOrDefault(itemKey(kind, item), 0L) < 1) throw CommerceInput.bad("내가 보유한 장식만 착용할 수 있어요.");

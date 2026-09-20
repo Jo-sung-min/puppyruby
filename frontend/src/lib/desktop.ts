@@ -1,15 +1,28 @@
 import type { Puppy } from "./game";
 import type { Art16SceneId } from "./art16-scene-styles";
+import type { RubyRoundActionId } from "./ruby-round-scene-styles";
+
+export type DesktopNativeActionId = Exclude<RubyRoundActionId, Art16SceneId>;
 
 export type DesktopEyeAnchor = { x: number; y: number; width: number; height: number };
 export type DesktopAppearanceScene = {
   url: string; sha256: string; frames: number; frameMs: number;
   bodyUrl?: string; bodySha256?: string; bodyFrames?: number;
   eyeUrl?: string; eyeSha256?: string; eyeStyle?: string; eyeAnchors?: DesktopEyeAnchor[][];
+  eyeModeByFrame?: ("shared" | "baked-closed" | "hidden")[];
+};
+export type DesktopAccessoryPlacement = { x: number; y: number; width: number; height: number; rotation: number; flipX: boolean; visible: boolean };
+export type DesktopAccessoryLayer = {
+  schemaVersion: 1; id: string; revision: string; catalogRevision?: string; renderer: "builtin" | "image";
+  slot: "face" | "head" | "neck" | "back"; layer: "behind" | "front";
+  url?: string; sha256?: string; width?: number; height?: number; pivotX?: number; pivotY?: number;
+  placements: Record<Art16SceneId, DesktopAccessoryPlacement[]>;
+  nativeActions?: Record<DesktopNativeActionId, DesktopAccessoryPlacement[]>;
 };
 export type DesktopAppearance = {
   version: 1; key: string; renderKey?: string; styleId: string; styleName: string; breedId: string;
-  width: number; height: number; accessory?: string; reactionEyes?: DesktopEyeAnchor[]; scenes: Record<Art16SceneId, DesktopAppearanceScene>;
+  width: number; height: number; accessory?: string; accessoryLayer?: DesktopAccessoryLayer; reactionEyes?: DesktopEyeAnchor[]; scenes: Record<Art16SceneId, DesktopAppearanceScene>;
+  nativeActions?: Record<DesktopNativeActionId, DesktopAppearanceScene>;
 };
 
 export type DesktopDevice = { id: string; label: string; createdAt: number; lastSeen: number };

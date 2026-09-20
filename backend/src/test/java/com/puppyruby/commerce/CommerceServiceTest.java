@@ -35,6 +35,7 @@ class CommerceServiceTest {
     @Autowired AuthService auth;
     @Autowired AccountRepository accounts;
     @Autowired GameService game;
+    @Autowired AccessoryCatalog accessories;
     @Autowired WalkService walk;
     @Autowired DesktopService desktop;
     @Autowired JdbcTemplate jdbc;
@@ -89,6 +90,9 @@ class CommerceServiceTest {
             assertEquals(product.quantity() * (product.kind().equals("dog") ? 1500 : 1000), product.price()); assertTrue(product.enabled());
         }
         assertEquals(List.of(120, 8, 7), catalog.pools().stream().map(pool -> pool.entries().size()).toList());
+        var accessoryPool = catalog.pools().stream().filter(pool -> pool.kind().equals("accessory")).findFirst().orElseThrow();
+        assertEquals(accessories.paid().stream().map(item -> List.of(item.id(), item.label(), item.grade().name(), item.weight())).toList(),
+            accessoryPool.entries().stream().map(entry -> List.of(entry.itemId(), entry.label(), entry.grade(), entry.weight())).toList());
         for (var pool : catalog.pools()) {
             BigDecimal probability = pool.entries().stream().map(entry -> new BigDecimal(entry.probability().replace("%", ""))).reduce(BigDecimal.ZERO, BigDecimal::add);
             assertTrue(probability.subtract(BigDecimal.valueOf(100)).abs().doubleValue() < 0.0001);

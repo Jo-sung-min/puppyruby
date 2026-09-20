@@ -73,6 +73,11 @@ namespace PuppyRubyDesktop
 
         internal DesktopAppearanceFrame Get(DesktopAppearanceFrame original, string scene, string mood, double elapsed, int gazeX, int gazeY)
         {
+            return Get(original, scene, mood, elapsed, gazeX, gazeY, anchors);
+        }
+
+        internal DesktopAppearanceFrame Get(DesktopAppearanceFrame original, string scene, string mood, double elapsed, int gazeX, int gazeY, DesktopReactionAnchors frameGazeAnchors)
+        {
             if (Double.IsNaN(elapsed) || Double.IsInfinity(elapsed)) elapsed = 0;
             elapsed = Math.Max(0, elapsed);
             if (scene == "idle" && mood == "belly") return GetBellyFrame(original.Image, elapsed);
@@ -80,10 +85,10 @@ namespace PuppyRubyDesktop
             bool typing = scene == "idle" && (mood == "typing" || mood == "excited");
             bool love = scene == "happy" && mood == "love";
             bool eating = scene == "idle" && mood == "eat";
-            bool looking = scene == "idle" && anchors != null && (gazeX != 0 || gazeY != 0) && !typing && !eating;
+            bool looking = scene == "idle" && frameGazeAnchors != null && (gazeX != 0 || gazeY != 0) && !typing && !eating;
             if (!typing && !love && !eating && !looking) return original;
             int phase = (int)(elapsed * (mood == "excited" ? 13 : 7) % 2);
-            string key = typing ? "typing:" + phase : love ? "love:" + phase : eating ? "eat:" + phase : "gaze:" + gazeX + ":" + gazeY;
+            string key = typing ? "typing:" + phase : love ? "love:" + phase : eating ? "eat:" + phase : "gaze:" + original.Image.GetHashCode() + ":" + gazeX + ":" + gazeY;
             DesktopAppearanceFrame existing;
             if (cache.TryGetValue(key, out existing))
             {
@@ -93,7 +98,7 @@ namespace PuppyRubyDesktop
             Bitmap bitmap = DesktopAppearanceCache.DetachedRgba(original.Image);
             try
             {
-                if (looking) MovePupils(original.Image, bitmap, gazeX, gazeY);
+                if (looking) MovePupils(original.ReactionSource ?? original.Image, bitmap, gazeX, gazeY, original.ReactionProtected, frameGazeAnchors);
                 if (typing) DrawKeyboard(original.Image, bitmap, phase);
                 if (love) DrawHearts(bitmap, phase);
                 if (eating) DrawFood(bitmap, phase);
@@ -211,12 +216,14 @@ namespace PuppyRubyDesktop
             return right < left ? new Rectangle(0, 0, width, height) : new Rectangle(left, top, right - left + 1, bottom - top + 1);
         }
 
-        private void MovePupils(Bitmap source, Bitmap target, int gazeX, int gazeY)
+        private void MovePupils(Bitmap source, Bitmap target, int gazeX, int gazeY, bool[] protectedPixels, DesktopReactionAnchors frameAnchors)
         {
-            foreach (DesktopReactionPoint eye in anchors.eyes)
+            int minRx = Int32.MaxValue, minRy = Int32.MaxValue;
+            foreach (DesktopReactionPoint eye in frameAnchors.eyes) { minRx = Math.Min(minRx, eye.rx); minRy = Math.Min(minRy, eye.ry); }
+            int dx = gazeX * Math.Max(1, Math.Min(3, (int)Math.Round(minRx * .25)));
+            int dy = gazeY * Math.Max(1, Math.Min(3, (int)Math.Round(minRy * .22)));
+            foreach (DesktopReactionPoint eye in frameAnchors.eyes)
             {
-                int dx = gazeX * Math.Max(1, Math.Min(3, (int)Math.Round(eye.rx * .25)));
-                int dy = gazeY * Math.Max(1, Math.Min(3, (int)Math.Round(eye.ry * .22)));
                 int left = eye.x - eye.rx, top = eye.y - eye.ry;
                 int width = eye.rx * 2 + 1, height = eye.ry * 2 + 1;
                 bool[,] pupil = new bool[width, height];
@@ -241,15 +248,22 @@ namespace PuppyRubyDesktop
                     if (dark >= 9) pupil[x, y] = true;
                 }
                 for (int y = 0; y < height; y++) for (int x = 0; x < width; x++)
-                    if (pupil[x, y]) target.SetPixel(left + x, top + y, IrisColor(source, eye, left + x, top + y, pupil, left, top));
+                    if (pupil[x, y] && !Protected(protectedPixels, target.Width, left + x, top + y))
+                        target.SetPixel(left + x, top + y, IrisColor(source, eye, left + x, top + y, pupil, left, top));
                 for (int y = 0; y < height; y++) for (int x = 0; x < width; x++)
                 {
                     if (!pupil[x, y]) continue;
                     int destinationX = left + x + dx, destinationY = top + y + dy;
                     double nx = (destinationX - eye.x) / (double)eye.rx, ny = (destinationY - eye.y) / (double)eye.ry;
-                    if (nx * nx + ny * ny <= 1) target.SetPixel(destinationX, destinationY, source.GetPixel(left + x, top + y));
+                    if (nx * nx + ny * ny <= 1 && !Protected(protectedPixels, target.Width, destinationX, destinationY))
+                        target.SetPixel(destinationX, destinationY, source.GetPixel(left + x, top + y));
                 }
             }
+        }
+
+        private static bool Protected(bool[] pixels, int width, int x, int y)
+        {
+            return pixels != null && x >= 0 && y >= 0 && x < width && y < pixels.Length / width && pixels[y * width + x];
         }
 
         private static int Luma(Color color) { return (color.R * 3 + color.G * 6 + color.B) / 10; }

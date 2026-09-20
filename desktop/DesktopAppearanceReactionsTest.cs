@@ -35,6 +35,7 @@ namespace PuppyRubyDesktop
                 Check(anchors.Count == DesktopBreedCatalog.Ids.Length, "Reaction metadata covers every registered breed exactly once");
                 VerifyInputs();
                 VerifyScenes();
+                VerifyFrontAccessoryGaze();
                 using (Bitmap overview = new Bitmap(1200, 30 * 176, PixelFormat.Format32bppArgb))
                 using (Graphics graphics = Graphics.FromImage(overview))
                 {
@@ -109,6 +110,104 @@ namespace PuppyRubyDesktop
             }
             Check(DesktopAppearanceFrames.SelectScene("idle", null, true, false, true) == "walk", "Uninterrupted following keeps its eight-frame walk");
             Check(DesktopAppearanceFrames.SelectScene("sleep", null, false, false, true) == "idle", "Quiet inactivity keeps front sitting rather than fabricated interaction");
+        }
+
+        private static void VerifyFrontAccessoryGaze()
+        {
+            const int width = 64, height = 64;
+            Color pupil = Color.FromArgb(255, 30, 35, 60);
+            var eyeAnchors = new[]
+            {
+                new DesktopEyeAnchor { x = 12, y = 16, width = 14, height = 14 },
+                new DesktopEyeAnchor { x = 38, y = 16, width = 14, height = 14 }
+            };
+            using (var basis = new Bitmap(width, height, PixelFormat.Format32bppArgb))
+            using (var glasses = new Bitmap(width, height, PixelFormat.Format32bppArgb))
+            using (var glassesMask = new Bitmap(width, height, PixelFormat.Format32bppArgb))
+            {
+                using (Graphics graphics = Graphics.FromImage(basis))
+                using (var iris = new SolidBrush(Color.FromArgb(255, 154, 118, 88)))
+                using (var dark = new SolidBrush(pupil))
+                using (var shine = new SolidBrush(Color.White))
+                {
+                    graphics.Clear(Color.FromArgb(255, 242, 205, 162));
+                    foreach (DesktopEyeAnchor eye in eyeAnchors)
+                    {
+                        graphics.FillEllipse(iris, eye.x, eye.y, eye.width, eye.height);
+                        int centerX = eye.x + eye.width / 2, centerY = eye.y + eye.height / 2;
+                        graphics.FillRectangle(dark, centerX - 1, centerY - 2, 3, 5);
+                        graphics.FillRectangle(shine, centerX - 1, centerY - 1, 1, 1);
+                    }
+                }
+                using (Graphics graphics = Graphics.FromImage(glasses)) graphics.DrawImageUnscaled(basis, 0, 0);
+                using (Graphics graphics = Graphics.FromImage(glasses))
+                using (var frame = new Pen(Color.Black, 2))
+                {
+                    graphics.SmoothingMode = SmoothingMode.None;
+                    foreach (DesktopEyeAnchor eye in eyeAnchors) graphics.DrawRectangle(frame, eye.x, eye.y, eye.width - 1, eye.height - 1);
+                    graphics.DrawLine(frame, eyeAnchors[0].x + eyeAnchors[0].width, eyeAnchors[0].y + eyeAnchors[0].height / 2,
+                        eyeAnchors[1].x, eyeAnchors[1].y + eyeAnchors[1].height / 2);
+                }
+                using (Graphics graphics = Graphics.FromImage(glassesMask))
+                using (var frame = new Pen(Color.Black, 2))
+                {
+                    graphics.SmoothingMode = SmoothingMode.None;
+                    foreach (DesktopEyeAnchor eye in eyeAnchors) graphics.DrawRectangle(frame, eye.x, eye.y, eye.width - 1, eye.height - 1);
+                    graphics.DrawLine(frame, eyeAnchors[0].x + eyeAnchors[0].width, eyeAnchors[0].y + eyeAnchors[0].height / 2,
+                        eyeAnchors[1].x, eyeAnchors[1].y + eyeAnchors[1].height / 2);
+                }
+
+                var descriptor = new DesktopAppearance
+                {
+                    version = 1, key = "front-accessory-gaze", styleId = "ruby-round-scenes", breedId = "pomeranian",
+                    width = width, height = height, reactionEyes = eyeAnchors, scenes = new Dictionary<string, DesktopAppearanceScene>()
+                };
+                var rendered = new Dictionary<string, Bitmap>(StringComparer.Ordinal);
+                var reactionBasis = new Dictionary<string, Bitmap>(StringComparer.Ordinal);
+                var reactionMasks = new Dictionary<string, Bitmap>(StringComparer.Ordinal);
+                foreach (string scene in Scenes)
+                {
+                    descriptor.scenes.Add(scene, new DesktopAppearanceScene { frames = 1, frameMs = 600, sha256 = "synthetic-" + scene });
+                    rendered.Add(scene, DesktopAppearanceCache.DetachedRgba(glasses));
+                    reactionBasis.Add(scene, DesktopAppearanceCache.DetachedRgba(basis));
+                    reactionMasks.Add(scene, DesktopAppearanceCache.DetachedRgba(glassesMask));
+                }
+                using (var frames = new DesktopAppearanceFrames(descriptor, rendered, null, reactionBasis, reactionMasks))
+                {
+                    DesktopAppearanceFrame neutral = frames.Get("idle", 0, false);
+                    DesktopAppearanceFrame right = frames.React("idle", "idle", null, .1, true, false, 1, 0);
+                    Point[] before = { CenterOfColor(neutral.ReactionSource, eyeAnchors[0], pupil), CenterOfColor(neutral.ReactionSource, eyeAnchors[1], pupil) };
+                    Point[] after = { CenterOfColor(right.Image, eyeAnchors[0], pupil), CenterOfColor(right.Image, eyeAnchors[1], pupil) };
+                    Check(before[0].X >= 0 && before[1].X >= 0 && after[0].X > before[0].X && after[1].X > before[1].X,
+                        "Gaze moves both pupils together even when a front glasses layer surrounds the eyes");
+                    Check(after[0].X - before[0].X == after[1].X - before[1].X && after[0].Y == before[0].Y && after[1].Y == before[1].Y,
+                        "The two pupils keep one shared gaze direction instead of becoming cross-eyed");
+                    Check(ProtectedPixelsUnchanged(neutral, right), "Front glasses pixels stay byte-identical while pupils move behind them");
+                }
+            }
+        }
+
+        private static Point CenterOfColor(Bitmap image, DesktopEyeAnchor eye, Color color)
+        {
+            int totalX = 0, totalY = 0, count = 0;
+            for (int y = eye.y; y < eye.y + eye.height; y++)
+                for (int x = eye.x; x < eye.x + eye.width; x++)
+                    if (image.GetPixel(x, y).ToArgb() == color.ToArgb()) { totalX += x; totalY += y; count++; }
+            return count == 0 ? new Point(-1, -1) : new Point((int)Math.Round(totalX / (double)count), (int)Math.Round(totalY / (double)count));
+        }
+
+        private static bool ProtectedPixelsUnchanged(DesktopAppearanceFrame source, DesktopAppearanceFrame reacted)
+        {
+            if (source.ReactionProtected == null || source.ReactionProtected.Length != source.Image.Width * source.Image.Height) return false;
+            bool found = false;
+            for (int y = 0; y < source.Image.Height; y++) for (int x = 0; x < source.Image.Width; x++)
+            {
+                int index = y * source.Image.Width + x;
+                if (!source.ReactionProtected[index]) continue;
+                found = true;
+                if (source.Image.GetPixel(x, y).ToArgb() != reacted.Image.GetPixel(x, y).ToArgb()) return false;
+            }
+            return found;
         }
 
         private static void VerifyBreed(string root, string breed, Graphics overview, int row)

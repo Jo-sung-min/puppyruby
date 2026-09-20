@@ -11,8 +11,9 @@ public class CommerceCatalogService {
     private final CommerceSettingsRepository settings;
     private final CommerceStore store;
     private final ObjectMapper mapper;
-    CommerceCatalogService(CommerceSettingsRepository settings, CommerceStore store, ObjectMapper mapper) {
-        this.settings = settings; this.store = store; this.mapper = mapper;
+    private final CommerceDefinitions definitions;
+    CommerceCatalogService(CommerceSettingsRepository settings, CommerceStore store, ObjectMapper mapper, CommerceDefinitions definitions) {
+        this.settings = settings; this.store = store; this.mapper = mapper; this.definitions = definitions;
     }
     public record Product(String id, String kind, String name, int quantity, int price, boolean enabled) {}
     public record Entry(String id, String label, String grade, Integer breed, String itemId, int weight, String probability) {}
@@ -37,7 +38,7 @@ public class CommerceCatalogService {
         for (Object raw : CommerceInput.list(input.get("pools"), 3)) {
             Map<?, ?> pool = CommerceInput.fields(raw, "kind", "entries"); String kind = CommerceInput.kind(pool.get("kind"));
             if (!kinds.add(kind)) throw CommerceInput.bad("중복된 뽑기 종류예요.");
-            var defined = CommerceDefinitions.ENTRIES.stream().filter(entry -> entry.kind().equals(kind)).toList();
+            var defined = definitions.entries().stream().filter(entry -> entry.kind().equals(kind)).toList();
             long total = 0;
             for (Object rawEntry : CommerceInput.list(pool.get("entries"), defined.size())) {
                 Map<?, ?> entry = CommerceInput.fields(rawEntry, "id", "weight"); String id = CommerceInput.text(entry.get("id"));
@@ -62,7 +63,7 @@ public class CommerceCatalogService {
         }).toList();
         List<Pool> pools = new ArrayList<>();
         for (String kind : CommerceDefinitions.KINDS) {
-            var entries = CommerceDefinitions.ENTRIES.stream().filter(entry -> entry.kind().equals(kind)).toList();
+            var entries = definitions.entries().stream().filter(entry -> entry.kind().equals(kind)).toList();
             long total = entries.stream().mapToLong(entry -> weight(customWeights, entry)).sum();
             pools.add(new Pool(kind, CommerceDefinitions.name(kind) + " 뽑기", entries.stream().map(entry -> {
                 int weight = weight(customWeights, entry);

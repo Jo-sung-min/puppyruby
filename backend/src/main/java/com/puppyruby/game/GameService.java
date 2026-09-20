@@ -15,8 +15,11 @@ public class GameService {
     public static final List<String> BREEDS = BreedCatalog.NAMES;
     private final PlayerRepository repository;
     private final CommandCatalog commands;
+    private final AccessoryCatalog accessories;
     private final SecureRandom random = new SecureRandom();
-    public GameService(PlayerRepository repository, CommandCatalog commands) { this.repository = repository; this.commands = commands; }
+    public GameService(PlayerRepository repository, CommandCatalog commands, AccessoryCatalog accessories) {
+        this.repository = repository; this.commands = commands; this.accessories = accessories;
+    }
     public record GradeInfo(String id, String label, int obedience, int probability) {}
     public record State(int coins, String selectedId, List<Puppy> puppies, boolean giftAvailable,
                         int careCount, int trainingCount, List<GradeInfo> grades, int adoptionCost, int promotionXp,
@@ -101,7 +104,7 @@ public class GameService {
                 case "customize" -> {
                     if (!List.of("original", "cream", "chocolate", "rose", "silver").contains(Objects.toString(input.fur(), "")) ||
                         !validEyes(input.eyes()) ||
-                        !(List.of("none", "ribbon", "scarf", "crown").contains(Objects.toString(input.accessory(), ""))
+                        !("none".equals(Objects.toString(input.accessory(), "")) || accessories.isFree(input.accessory())
                             || (input.accessory() != null && input.accessory().equals(dog.accessory))))
                         throw bad("사용할 수 없는 꾸미기 아이템이에요.");
                     dog.fur = input.fur(); dog.eyes = input.eyes(); dog.accessory = input.accessory();
@@ -142,7 +145,7 @@ public class GameService {
     public Result equipOwnedCosmetic(String playerId, String puppyId, String kind, String itemId) {
         if (itemId == null) throw bad("사용할 수 없는 꾸미기 아이템이에요.");
         boolean valid = "aura".equals(kind) && ("none".equals(itemId) || com.puppyruby.commerce.CommerceDefinitions.AURAS.contains(itemId))
-            || "accessory".equals(kind) && ("none".equals(itemId) || com.puppyruby.commerce.CommerceDefinitions.ACCESSORIES.contains(itemId));
+            || "accessory".equals(kind) && ("none".equals(itemId) || accessories.isPaid(itemId));
         if (!valid) throw bad("사용할 수 없는 꾸미기 아이템이에요.");
         Player player = player(playerId); Puppy puppy = puppy(player, puppyId);
         if (kind.equals("aura")) puppy.aura = itemId; else puppy.accessory = itemId;

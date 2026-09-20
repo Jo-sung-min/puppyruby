@@ -31,6 +31,7 @@ namespace PuppyRubyDesktop
         public int frames { get; set; }
         public int desktopFrames { get; set; }
         public RubyRoundTestAnchor[][] eyes { get; set; }
+        public string[] eyeModeByFrame { get; set; }
     }
 
     public sealed class RubyRoundTestAnchor
@@ -48,6 +49,7 @@ namespace PuppyRubyDesktop
         internal static void Units(Action<bool, string> check)
         {
             LayeredEyeUnits(check);
+            NativeActionUnits(check);
             var spec = new DesktopAppearance { version = 1, key = "frame-test", styleId = "art-16-scenes", breedId = "pomeranian", width = 31, height = 17, scenes = new Dictionary<string, DesktopAppearanceScene>() };
             var sheets = new Dictionary<string, Bitmap>();
             foreach (string name in Names)
@@ -135,6 +137,14 @@ namespace PuppyRubyDesktop
                 using (var transparentEyes = new Bitmap(32, 16, PixelFormat.Format32bppArgb))
                 using (Bitmap composed = DesktopAppearanceFrames.ComposeEyes(body, transparentEyes, 12, 10, 2, anchors))
                     check(composed.GetPixel(1, 2).ToArgb() == firstBody.ToArgb() && composed.GetPixel(12 + 9, 5).ToArgb() == secondBody.ToArgb(), "transparent eye pixels preserve the body inside each eye anchor");
+                DesktopEyeAnchor[][] blinkAnchors = { anchors[0], new DesktopEyeAnchor[0] };
+                using (Bitmap composed = DesktopAppearanceFrames.ComposeEyes(body, eyes, 12, 10, 2, blinkAnchors, "glasses"))
+                {
+                    bool unchanged = true;
+                    for (int y = 0; y < 10; y++) for (int x = 12; x < 24; x++)
+                        unchanged &= composed.GetPixel(x, y).ToArgb() == body.GetPixel(x, y).ToArgb();
+                    check(unchanged, "a painted closed-eye frame receives neither duplicate eyes nor an unanchored fallback accessory");
+                }
             }
 
             using (var body = new Bitmap(64, 64, PixelFormat.Format32bppArgb))
@@ -150,15 +160,115 @@ namespace PuppyRubyDesktop
                 }
             }
 
+            using (var body = new Bitmap(12, 10, PixelFormat.Format32bppArgb))
+            using (var eyes = new Bitmap(32, 16, PixelFormat.Format32bppArgb))
+            using (var accessory = new Bitmap(4, 4, PixelFormat.Format32bppArgb))
+            {
+                using (Graphics graphics = Graphics.FromImage(body))
+                using (var brush = new SolidBrush(Color.Green)) graphics.FillRectangle(brush, 2, 2, 4, 4);
+                using (Graphics graphics = Graphics.FromImage(accessory)) graphics.Clear(Color.Red);
+                DesktopEyeAnchor[][] anchors = { new[] { new DesktopEyeAnchor { x = 7, y = 7, width = 1, height = 1 } } };
+                var placement = new DesktopAccessoryPlacement { x = 4, y = 4, width = 8, height = 8, visible = true };
+                var layer = new DesktopAccessoryLayer
+                {
+                    schemaVersion = 1, renderer = "image", id = "unit-layer", revision = "r1", pivotX = 2, pivotY = 2, slot = "back", layer = "behind",
+                    placements = new Dictionary<string, DesktopAccessoryPlacement[]> { { "idle", new[] { placement } } }
+                };
+                using (Bitmap behind = DesktopAppearanceFrames.ComposeEyes(body, eyes, 12, 10, 1, anchors, "none", accessory, layer, "idle"))
+                {
+                    check(behind.GetPixel(0, 0).ToArgb() == Color.Red.ToArgb(), "behind accessory remains visible outside the body silhouette");
+                    check(behind.GetPixel(3, 3).ToArgb() == Color.Green.ToArgb(), "body pixels cover a behind accessory");
+                }
+                layer.layer = "front";
+                using (Bitmap front = DesktopAppearanceFrames.ComposeEyes(body, eyes, 12, 10, 1, anchors, "none", accessory, layer, "idle"))
+                    check(front.GetPixel(3, 3).ToArgb() == Color.Red.ToArgb(), "front accessory covers body pixels after eye composition");
+
+                var builtinLayer = new DesktopAccessoryLayer
+                {
+                    schemaVersion = 1, renderer = "builtin", id = "glasses", revision = "builtin-r1", slot = "face", layer = "front",
+                    placements = new Dictionary<string, DesktopAccessoryPlacement[]> { { "idle", new[]
+                    { new DesktopAccessoryPlacement { x = 6, y = 4, width = 8, height = 6, visible = true } } } }
+                };
+                using (var transparentBody = new Bitmap(12, 10, PixelFormat.Format32bppArgb))
+                using (Bitmap builtin = DesktopAppearanceFrames.ComposeEyes(transparentBody, eyes, 12, 10, 1, anchors, "none", null, builtinLayer, "idle"))
+                {
+                    bool visible = false;
+                    for (int y = 0; y < builtin.Height; y++) for (int x = 0; x < builtin.Width; x++) if (builtin.GetPixel(x, y).A > 0)
+                        visible = true;
+                    check(visible, "builtin accessory keeps its procedural art while using the concrete placement");
+                }
+            }
+
+            string[] builtinIds = { "glasses", "flower" };
+            string[] builtinSlots = { "face", "head" };
+            double[] builtinX = { 32, 32 }, builtinY = { 26, 8 }, builtinWidth = { 22, 18 }, builtinHeight = { 10, 14 };
+            DesktopEyeAnchor[][] canonicalEyes = { new[]
+            {
+                new DesktopEyeAnchor { x = 22, y = 23, width = 6, height = 6 },
+                new DesktopEyeAnchor { x = 36, y = 23, width = 6, height = 6 }
+            } };
+            for (int item = 0; item < builtinIds.Length; item++)
+            using (var expected = new Bitmap(64, 64, PixelFormat.Format32bppArgb))
+            using (var actual = new Bitmap(64, 64, PixelFormat.Format32bppArgb))
+            {
+                DesktopAccessoryRenderer.Draw(expected, 64, 64, 1, canonicalEyes, builtinIds[item]);
+                DesktopAccessoryRenderer.DrawBuiltinLayer(actual, 64, 64, 1, builtinIds[item], builtinSlots[item], new[]
+                {
+                    new DesktopAccessoryPlacement { x = builtinX[item], y = builtinY[item], width = builtinWidth[item],
+                        height = builtinHeight[item], visible = true }
+                });
+                bool same = true;
+                for (int y = 0; y < 64 && same; y++) for (int x = 0; x < 64; x++)
+                    if (actual.GetPixel(x, y).ToArgb() != expected.GetPixel(x, y).ToArgb()) { same = false; break; }
+                check(same, "builtin " + builtinIds[item] + " preserves the web canonical slot offset and scale");
+            }
+
+            using (var pivotAsset = new Bitmap(2, 1, PixelFormat.Format32bppArgb))
+            using (var pivotCanvas = new Bitmap(12, 12, PixelFormat.Format32bppArgb))
+            {
+                pivotAsset.SetPixel(0, 0, Color.Red); pivotAsset.SetPixel(1, 0, Color.Blue);
+                DesktopAccessoryRenderer.DrawLayer(pivotCanvas, 12, 12, 1, pivotAsset, 0, 0, new[]
+                {
+                    new DesktopAccessoryPlacement { x = 4, y = 4, width = 4, height = 2, rotation = 90, visible = true }
+                });
+                check(pivotCanvas.GetPixel(3, 5).R > 200 && pivotCanvas.GetPixel(3, 7).B > 200,
+                    "non-central image pivot remains fixed while the scaled accessory rotates around it");
+            }
+
             string legacyKey = new string('a', 64), renderedKey = new string('b', 64);
             var legacy = new DesktopAppearance { key = legacyKey };
             check(legacy.EffectiveKey == legacyKey, "legacy appearance identity remains its original key");
             legacy.renderKey = renderedKey;
             check(legacy.EffectiveKey == renderedKey, "layered eye selection uses the render key as its cache identity");
+            var keyLayer = new DesktopAccessoryLayer { schemaVersion = 1, renderer = "image", id = "shared-glasses", revision = "r1", sha256 = new string('c', 64) };
+            legacy.accessoryLayer = keyLayer;
+            string firstAccessoryKey = legacy.EffectiveKey;
+            keyLayer.revision = "r2";
+            check(legacy.EffectiveKey != firstAccessoryKey, "accessory metadata revision participates in the cache identity");
+            string revisedAccessoryKey = legacy.EffectiveKey;
+            keyLayer.sha256 = new string('d', 64);
+            check(legacy.EffectiveKey != revisedAccessoryKey, "accessory asset SHA participates in the cache identity");
+            legacy.accessoryLayer = null;
 
             DesktopAppearance valid = LayeredDescriptor();
             DesktopAppearanceCache.Validate(valid, "https://puppyruby.com");
             check(valid.EffectiveKey == new string('b', 64), "a complete layered descriptor passes strict validation and exposes its render key");
+
+            DesktopAppearance blinking = LayeredDescriptor();
+            blinking.scenes["sleep"].eyeModeByFrame = new[] { "shared", "baked-closed" };
+            blinking.scenes["sleep"].eyeAnchors[1] = new DesktopEyeAnchor[0];
+            DesktopAppearanceCache.Validate(blinking, "https://puppyruby.com");
+            check(true, "a redrawn scene can transition from selected shared eyes to painted closed eyes");
+            blinking.scenes["sleep"].eyeModeByFrame[1] = "shared";
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(blinking, "https://puppyruby.com"); }), "an empty shared-eye frame is rejected");
+            blinking.scenes["sleep"].eyeModeByFrame[1] = "unknown";
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(blinking, "https://puppyruby.com"); }), "unknown per-frame eye modes are rejected");
+            blinking.scenes["sleep"].eyeModeByFrame = new[] { "shared" };
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(blinking, "https://puppyruby.com"); }), "per-frame eye mode count must match the body frames");
+            blinking.scenes["sleep"].eyeModeByFrame = new[] { "baked-closed", "hidden" };
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(blinking, "https://puppyruby.com"); }), "painted or hidden eyes cannot also carry overlay anchors");
+            blinking.scenes["sleep"].eyeModeByFrame = null;
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(blinking, "https://puppyruby.com"); }), "legacy descriptors still require nonempty shared eye anchors");
 
             DesktopAppearance partial = LayeredDescriptor();
             partial.scenes["sleep"].eyeUrl = null;
@@ -181,6 +291,68 @@ namespace PuppyRubyDesktop
             DesktopAppearance badAccessory = LayeredDescriptor();
             badAccessory.accessory = "../../retired-sprite";
             check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(badAccessory, "https://puppyruby.com"); }), "an unknown desktop accessory is rejected");
+        }
+
+        private static void NativeActionUnits(Action<bool, string> check)
+        {
+            DesktopAppearance descriptor = LayeredDescriptor();
+            descriptor.nativeActions = new Dictionary<string, DesktopAppearanceScene>(StringComparer.Ordinal);
+            foreach (string name in DesktopAppearanceCache.NativeActions)
+            {
+                var anchors = new DesktopEyeAnchor[4][];
+                for (int frame = 0; frame < 4; frame++) anchors[frame] = frame >= 2 ? new DesktopEyeAnchor[0] : new[] {
+                    new DesktopEyeAnchor { x = 30 + frame, y = 30, width = 16, height = 16 },
+                    new DesktopEyeAnchor { x = 64, y = 32 + frame, width = 16, height = 16 } };
+                descriptor.nativeActions.Add(name, new DesktopAppearanceScene { url = "https://cdn.puppyruby.com/" + name + ".png", sha256 = new string('c',64),
+                    frames = 4, frameMs = 150, bodyUrl = "https://cdn.puppyruby.com/" + name + ".png", bodySha256 = new string('c',64), bodyFrames = 4,
+                    eyeUrl = "https://cdn.puppyruby.com/eye.png", eyeSha256 = new string('d',64), eyeStyle = "ruby-eye-01", eyeAnchors = anchors,
+                    eyeModeByFrame = new[] { "shared", "shared", "baked-closed", "baked-closed" } });
+            }
+            DesktopAppearanceCache.Validate(descriptor, "https://puppyruby.com");
+            check(descriptor.scenes.Count == 5 && descriptor.nativeActions.Count == 11, "native actions extend the exact five-scene legacy contract");
+            DesktopAppearanceScene belly = descriptor.nativeActions["belly"];
+            descriptor.nativeActions.Remove("belly");
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(descriptor,"https://puppyruby.com"); }), "incomplete native action catalogs are rejected");
+            descriptor.nativeActions.Add("untrusted", belly);
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(descriptor,"https://puppyruby.com"); }), "unknown native action names cannot replace a required action");
+            descriptor.nativeActions.Remove("untrusted"); descriptor.nativeActions.Add("belly",belly);
+            belly.eyeModeByFrame = null;
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(descriptor,"https://puppyruby.com"); }), "native actions require explicit per-frame eye modes");
+            belly.eyeModeByFrame = new[] { "shared", "shared", "baked-closed", "baked-closed" };
+            belly.bodyUrl = "https://cdn.puppyruby.com/wrong.png";
+            check(ThrowsInvalidData(delegate { DesktopAppearanceCache.Validate(descriptor,"https://puppyruby.com"); }), "native body and fallback identities must agree");
+            belly.bodyUrl = belly.url;
+            descriptor.scenes["idle"].eyeModeByFrame = new[] { "shared", "baked-closed" };
+            descriptor.scenes["idle"].eyeAnchors[1] = new DesktopEyeAnchor[0];
+            var sheets = new Dictionary<string,Bitmap>();
+            foreach(string name in DesktopAppearanceCache.SceneNames(descriptor))
+            {
+                int count = descriptor.Scene(name).EffectiveFrames;
+                var sheet = new Bitmap(descriptor.width * count,descriptor.height,PixelFormat.Format32bppArgb);
+                for(int frame=0;frame<count;frame++) sheet.SetPixel(frame*descriptor.width+7,9,Color.FromArgb(255,31+frame,101,203));
+                sheets.Add(name,sheet);
+            }
+            using(var frames = new DesktopAppearanceFrames(descriptor,sheets))
+            {
+                foreach(string name in DesktopAppearanceCache.NativeActions)
+                    check(Object.ReferenceEquals(frames.React("idle",name,null,.47,true,false,0,0),frames.Get(name,3,false)), "native " + name + " uses its independently drawn frame without procedural effects");
+                check(Object.ReferenceEquals(frames.React("idle","belly",null,1.1,true,false,1,1),frames.Get("belly",3,false)), "belly holds the real supine frame instead of rotating a seated dog");
+                check(Object.ReferenceEquals(frames.React("idle","belly",null,PetState.BellyDurationSeconds-.05,true,false,0,0),frames.Get("belly",0,false)), "belly returns through its authored transition before completion");
+                check(Object.ReferenceEquals(frames.React("happy","love",null,.2,true,true,1,1),frames.Get("petting",1,false)), "petting uses the drawn hand and face without mirrored or duplicate props");
+                check(Object.ReferenceEquals(frames.React("idle","excited",null,.2,true,true,1,1),frames.Get("typing",1,false)), "fast typing stays front-facing and uses the actual keyboard/paws");
+                check(Object.ReferenceEquals(frames.React("walk","idle",null,.2,true,false,0,0,0,-1),frames.Get("walk-up",1,false)), "vertical movement uses the independently drawn rear gait");
+                check(Object.ReferenceEquals(frames.React("walk","idle",null,.2,true,false,0,0,0,1),frames.Get("walk-down",1,false)), "downward movement uses the front gait");
+                check(Object.ReferenceEquals(frames.React("walk","idle",null,.2,true,true,0,0,1,0),frames.Get("walk-right",1,false)), "right movement uses authored right-facing artwork, not a flip");
+                check(Object.ReferenceEquals(frames.React("idle","typing",null,.2,false,false,0,0),frames.Get("idle",0,false)), "pausing overrides native reactions");
+                check(Object.ReferenceEquals(frames.React("sleep","typing",null,.2,true,false,0,0),frames.At("sleep",.2,false,false)), "explicit rest overrides typing");
+                check(frames.ReactionFrameCount == 0, "native reactions do not populate the procedural rotation/prop cache");
+                check(Object.ReferenceEquals(frames.React("idle", "idle", null, .15, true, false, 1, 1), frames.Get("idle", 1, false)),
+                    "mouse gaze preserves the painted closed-eye frame instead of restoring idle eyes");
+                var openGaze = frames.React("idle", "idle", null, .02, true, false, 1, 1);
+                check(!Object.ReferenceEquals(openGaze, frames.Get("idle", 0, false))
+                    && Object.ReferenceEquals(frames.React("idle", "idle", null, .15, true, false, 1, 1), frames.Get("idle", 1, false)),
+                    "a cached open-eye gaze cannot replace the next authored blink");
+            }
         }
 
         private static DesktopAppearance LayeredDescriptor()
@@ -330,7 +502,8 @@ namespace PuppyRubyDesktop
                     for (int frame = 0; frame < scene.eyes.Length; frame++)
                     {
                         RubyRoundTestAnchor[] source = scene.eyes[frame];
-                        check(source != null && source.Length >= 1 && source.Length <= 2,
+                        bool shared = scene.eyeModeByFrame == null || scene.eyeModeByFrame[frame] == "shared";
+                        check(source != null && source.Length <= 2 && (shared ? source.Length >= 1 : source.Length == 0),
                             breed.breed + " " + name + " frame " + frame + " has a bounded eye pair");
                         anchors[frame] = new DesktopEyeAnchor[source.Length];
                         for (int side = 0; side < source.Length; side++)
@@ -338,7 +511,7 @@ namespace PuppyRubyDesktop
                     }
                     string bodyPath = PublicFile(publicDirectory, scene.png);
                     string desktopPath = PublicFile(publicDirectory, scene.desktopPng);
-                    string eyePath = Path.Combine(publicDirectory, "images", "ruby-round-v1", "eyes", name == "sleep" ? "eye-10.png" : "eye-01.png");
+                    string eyePath = Path.Combine(publicDirectory, "images", "ruby-round-v1", "eyes", name == "sleep" && scene.eyeModeByFrame == null ? "eye-10.png" : "eye-01.png");
                     using (var body = new Bitmap(bodyPath))
                     using (var eyes = new Bitmap(eyePath))
                     using (Bitmap composed = DesktopAppearanceFrames.ComposeEyes(body, eyes, breed.width, breed.height, scene.frames, anchors))

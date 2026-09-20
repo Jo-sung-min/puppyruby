@@ -1,4 +1,5 @@
 import { dogBreeds } from "./dog-breeds";
+import { rubyAccessoryCatalog } from "./ruby-round-accessories";
 
 export type Grade = "N" | "R" | "SR" | "SSR";
 export const gradeOrder: Grade[] = ["N", "R", "SR", "SSR"];
@@ -34,8 +35,9 @@ export const eyeOptions = [
   { id: "amber", label: "허니 앰버", color: "#d4a347" },
 ];
 export const accessories = [
-  { id: "none", label: "장착 해제", emoji: "—" }, { id: "ribbon", label: "복숭아 리본", emoji: "🎀" },
-  { id: "scarf", label: "포근한 목도리", emoji: "🧣" }, { id: "crown", label: "작은 왕관", emoji: "👑" },
+  { id: "none", label: "장착 해제", emoji: "—" },
+  ...rubyAccessoryCatalog.items.filter(item => item.availability === "free")
+    .map(item => ({ id: item.id, label: item.label, emoji: item.emoji ?? "•" })),
 ];
 
 export async function requestGame<T>(path = "", body?: Record<string, unknown>): Promise<T> {

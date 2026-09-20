@@ -89,7 +89,7 @@
 꾸미기 허용값:
 - fur: original, cream, chocolate, rose, silver
 - eyes: original, blue, green, amber
-- accessory: none, ribbon, scarf, crown
+- accessory: `none` 또는 서버의 공통 액세서리 카탈로그에 등록된 무료·보유 아이템 ID
 
 잔액·경험치·등급·보상은 요청으로 직접 수정할 수 없습니다. 플레이어 행을 비관적 쓰기 잠금으로 보호해 병렬 요청 시 하트 초과 사용과 중복 보상을 방지합니다. 서버 규칙은 `GameService`, 클라이언트 타입은 `frontend/src/lib/game.ts`가 담당합니다.
 

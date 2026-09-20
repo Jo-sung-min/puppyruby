@@ -1,0 +1,12 @@
+{
+  "schemaVersion" : 1,
+  "version" : "0.10.0.0",
+  "release" : "e033841b4f381825",
+  "publishedAt" : "2026-09-20T08:02:38.106Z",
+  "notes" : "강아지의 열여섯 동작과 공통 눈을 적용하고, 새 버전이 나오면 강아지 위에서 업데이트할 수 있어요.",
+  "installer" : {
+    "url" : "https://cdn.puppyruby.com/site-downloads/e033841b4f381825/downloads/PuppyRuby-Setup.exe",
+    "sha256" : "27c10833a9c4a3ced9e9fc7a7127faf50675ffe951337bd0bfb3c53445338266",
+    "size" : 62717440
+  }
+}

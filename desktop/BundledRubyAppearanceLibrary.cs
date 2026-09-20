@@ -22,13 +22,23 @@ namespace PuppyRubyDesktop
         public int height { get; set; }
         public DesktopEyeAnchor[] reactionEyes { get; set; }
         public Dictionary<string, BundledRubyScene> scenes { get; set; }
+        public Dictionary<string, BundledRubyScene> nativeActions { get; set; }
     }
 
     internal sealed class BundledRubyScene
     {
         public string resource { get; set; }
+        public string sha256 { get; set; }
         public int frames { get; set; }
         public int frameMs { get; set; }
+        public string bodyResource { get; set; }
+        public string bodySha256 { get; set; }
+        public int bodyFrames { get; set; }
+        public string eyeResource { get; set; }
+        public string eyeSha256 { get; set; }
+        public string eyeStyle { get; set; }
+        public DesktopEyeAnchor[][] eyeAnchors { get; set; }
+        public string[] eyeModeByFrame { get; set; }
     }
 
     // The downloadable app always has one complete Ruby Dot release available.
@@ -72,11 +82,62 @@ namespace PuppyRubyDesktop
                         || scene.frameMs < 50 || scene.frameMs > 2000)
                         throw new InvalidDataException("루비 도트 장면 목록을 확인하지 못했어요.");
                 }
+                if (breed.nativeActions != null)
+                {
+                    if (breed.nativeActions.Count != DesktopAppearanceCache.NativeActions.Length) throw new InvalidDataException("루비 도트 추가 동작이 빠져 있어요.");
+                    foreach (string name in DesktopAppearanceCache.NativeActions)
+                        if (!breed.nativeActions.ContainsKey(name) || breed.nativeActions[name] == null) throw new InvalidDataException("루비 도트 추가 동작이 빠져 있어요.");
+                    DesktopAppearanceCache.Validate(Descriptor(breed), "https://www.puppyruby.com");
+                }
                 breeds.Add(breed.breed, breed);
             }
         }
 
         internal int BreedCount { get { return breeds.Count; } }
+
+        private static string ResourceUrl(string resource) { return "https://bundled.puppyruby.com/" + resource + ".png"; }
+
+        private static DesktopAppearanceScene SceneDescriptor(BundledRubyScene scene)
+        {
+            var result = new DesktopAppearanceScene { url = ResourceUrl(scene.resource), sha256 = scene.sha256, frames = scene.frames, frameMs = scene.frameMs };
+            if (scene.bodyResource != null)
+            {
+                result.bodyUrl = ResourceUrl(scene.bodyResource); result.bodySha256 = scene.bodySha256; result.bodyFrames = scene.bodyFrames;
+                result.eyeUrl = ResourceUrl(scene.eyeResource); result.eyeSha256 = scene.eyeSha256; result.eyeStyle = scene.eyeStyle;
+                result.eyeAnchors = scene.eyeAnchors; result.eyeModeByFrame = scene.eyeModeByFrame;
+            }
+            return result;
+        }
+
+        private DesktopAppearance Descriptor(BundledRubyBreed breed)
+        {
+            string key = DesktopAppearanceCache.Hash(System.Text.Encoding.UTF8.GetBytes(new JavaScriptSerializer().Serialize(breed)));
+            var descriptor = new DesktopAppearance { version = 1, key = key, styleId = manifest.styleId, styleName = manifest.styleName,
+                breedId = breed.breed, reactionEyes = breed.reactionEyes, width = breed.width, height = breed.height,
+                scenes = new Dictionary<string, DesktopAppearanceScene>(StringComparer.Ordinal) };
+            foreach (string name in SceneNames) descriptor.scenes.Add(name, SceneDescriptor(breed.scenes[name]));
+            if (breed.nativeActions != null)
+            {
+                descriptor.nativeActions = new Dictionary<string, DesktopAppearanceScene>(StringComparer.Ordinal);
+                foreach (string name in DesktopAppearanceCache.NativeActions) descriptor.nativeActions.Add(name, SceneDescriptor(breed.nativeActions[name]));
+                descriptor.renderKey = key; descriptor.accessory = "none";
+            }
+            return descriptor;
+        }
+
+        private static Bitmap ReadImage(string resource, string sha256)
+        {
+            using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+            {
+                if (stream == null) throw new InvalidDataException("루비 도트 이미지가 빠져 있어요: " + resource);
+                using (var bytes = new MemoryStream())
+                {
+                    stream.CopyTo(bytes); byte[] data = bytes.ToArray();
+                    if (sha256 != null && DesktopAppearanceCache.Hash(data) != sha256) throw new InvalidDataException("루비 도트 기본 이미지 해시가 맞지 않아요: " + resource);
+                    using (var input = new MemoryStream(data)) using (var image = new Bitmap(input)) return DesktopAppearanceCache.DetachedRgba(image);
+                }
+            }
+        }
 
         internal DesktopAppearanceFrames Get(string breedId)
         {
@@ -84,30 +145,20 @@ namespace PuppyRubyDesktop
             if (!breeds.TryGetValue(breedId ?? "", out breed)) breed = breeds[DesktopBreedCatalog.Ids[0]];
             if (current != null && currentBreed == breed.breed) return current;
 
-            var descriptor = new DesktopAppearance
-            {
-                version = 1,
-                key = "bundled-ruby-round-v1:" + breed.breed,
-                styleId = manifest.styleId,
-                styleName = manifest.styleName,
-                breedId = breed.breed,
-                reactionEyes = breed.reactionEyes,
-                width = breed.width,
-                height = breed.height,
-                scenes = new Dictionary<string, DesktopAppearanceScene>(StringComparer.Ordinal)
-            };
+            var descriptor = Descriptor(breed);
             var sheets = new Dictionary<string, Bitmap>(StringComparer.Ordinal);
             try
             {
-                foreach (string name in SceneNames)
+                foreach (string name in DesktopAppearanceCache.SceneNames(descriptor))
                 {
-                    BundledRubyScene scene = breed.scenes[name];
-                    descriptor.scenes.Add(name, new DesktopAppearanceScene { frames = scene.frames, frameMs = scene.frameMs });
-                    using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(scene.resource))
+                    BundledRubyScene scene = breed.scenes.ContainsKey(name) ? breed.scenes[name] : breed.nativeActions[name];
+                    if (scene.bodyResource != null)
                     {
-                        if (stream == null) throw new InvalidDataException("루비 도트 이미지가 빠져 있어요: " + breed.breed + "/" + name);
-                        using (var source = new Bitmap(stream)) sheets.Add(name, DesktopAppearanceCache.DetachedRgba(source));
+                        using (var body = ReadImage(scene.bodyResource, scene.bodySha256))
+                        using (var eyes = ReadImage(scene.eyeResource, scene.eyeSha256))
+                            sheets.Add(name, DesktopAppearanceFrames.ComposeEyes(body, eyes, breed.width, breed.height, scene.bodyFrames, scene.eyeAnchors));
                     }
+                    else sheets.Add(name, ReadImage(scene.resource, scene.sha256));
                 }
                 DesktopAppearanceFrames next = new DesktopAppearanceFrames(descriptor, sheets);
                 sheets = null;

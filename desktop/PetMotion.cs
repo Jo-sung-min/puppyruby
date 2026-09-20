@@ -21,6 +21,7 @@ namespace PuppyRubyDesktop
         private bool arrived;
         internal bool IsMoving { get; private set; }
         internal int DirectionX { get; private set; }
+        internal int DominantDirectionY { get { return IsMoving && Math.Abs(velocityY) > Math.Max(.5, Math.Abs(velocityX)) ? (velocityY < 0 ? -1 : 1) : 0; } }
         internal Point PositionPoint { get { return new Point(Round(x), Round(y)); } }
 
         internal void SetPosition(Point position)

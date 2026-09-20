@@ -4,6 +4,7 @@ $desktopRoot = $PSScriptRoot
 $projectRoot = Split-Path $desktopRoot -Parent
 $compiler = Join-Path $env:WINDIR 'Microsoft.NET\Framework64\v4.0.30319\csc.exe'
 if (-not (Test-Path -LiteralPath $compiler)) { throw 'Windows .NET Framework 4.x compiler is required.' }
+$versionSource = & (Join-Path $desktopRoot 'prepare-version.ps1')
 
 if (-not $SkipExport) {
     & node (Join-Path $desktopRoot 'export-ruby-default.cjs')
@@ -24,17 +25,24 @@ $compilerArgs = @('/nologo', '/target:winexe', '/platform:anycpu', '/optimize+',
 $assetFiles = @(Get-ChildItem -LiteralPath $assetRoot -File)
 $rubySprites = @($assetFiles | Where-Object { $_.Name -match '^ruby-default-[a-z]+-(?:idle|side|walk|happy|sleep)\.rubypng$' })
 $fixedResources = @('breed-catalog.json', 'puppy.ico', 'ruby-default-manifest.json')
-$unexpected = @($assetFiles | Where-Object { $fixedResources -notcontains $_.Name -and $_.Name -notmatch '^ruby-default-[a-z]+-(?:idle|side|walk|happy|sleep)\.rubypng$' })
+$bundleManifest = Get-Content -LiteralPath (Join-Path $assetRoot 'ruby-default-manifest.json') -Raw | ConvertFrom-Json
+$nativeBundle = $null -ne $bundleManifest.breeds[0].nativeActions
+$bodyPattern = '^ruby-body-[a-z]+-(?:idle|side|walk|happy|sleep|typing|petting|eat|belly|stretch|wag|scratch|walk-left|walk-right|walk-up|walk-down)\.rubypng$'
+$rubyBodies = @($assetFiles | Where-Object { $_.Name -match $bodyPattern })
+$unexpected = @($assetFiles | Where-Object { $fixedResources -notcontains $_.Name -and $_.Name -notmatch '^ruby-default-[a-z]+-(?:idle|side|walk|happy|sleep)\.rubypng$' -and -not($nativeBundle -and ($_.Name -match $bodyPattern -or $_.Name -eq 'ruby-eye-01.rubypng')) })
 if ($rubySprites.Count -ne 150 -or $unexpected.Count -ne 0) {
-    throw ('Ruby resource inventory must be exactly 150 scene PNGs plus manifest, breed catalog and icon. Sprites=' + $rubySprites.Count + ', unexpected=' + ($unexpected.Name -join ','))
+    throw ('Invalid finite Ruby desktop resource inventory. Legacy sprites=' + $rubySprites.Count + ', unexpected=' + ($unexpected.Name -join ','))
 }
+if ($nativeBundle -and ($rubyBodies.Count -ne 480 -or -not(Test-Path -LiteralPath (Join-Path $assetRoot 'ruby-eye-01.rubypng') -PathType Leaf))) { throw 'Native Ruby bundle requires all480 body strips and the shared default eye pair.' }
 foreach ($required in $fixedResources) { if (-not (Test-Path -LiteralPath (Join-Path $assetRoot $required) -PathType Leaf)) { throw ('Missing Ruby desktop resource: ' + $required) } }
-$managedResources = @($assetFiles | Where-Object { $fixedResources -contains $_.Name -or $_.Name -match '^ruby-default-[a-z]+-(?:idle|side|walk|happy|sleep)\.rubypng$' } | Sort-Object Name)
-if ($managedResources.Count -ne 153) { throw ('Unexpected managed Ruby resource count: ' + $managedResources.Count) }
+$managedResources = @($assetFiles | Sort-Object Name)
+$expectedResourceCount = if($nativeBundle){634}else{153}
+if ($managedResources.Count -ne $expectedResourceCount) { throw ('Unexpected managed Ruby resource count: ' + $managedResources.Count) }
 $managedResources | ForEach-Object {
     $compilerArgs += '/resource:"' + $_.FullName + '",' + $_.Name
 }
-foreach ($source in @('NativeInput.cs', 'PetState.cs', 'PetMotion.cs', 'PetMotionTest.cs', 'PetBubble.cs', 'Commands.cs', 'Progression.cs', 'AskWindow.cs', 'DesktopBreedCatalog.cs', 'DesktopSync.cs', 'DesktopAppearanceCache.cs', 'DesktopAppearanceFrames.cs', 'DesktopAccessoryRenderer.cs', 'DesktopAppearanceReactions.cs', 'BundledRubyAppearanceLibrary.cs', 'DesktopAppearanceFramesTest.cs', 'DesktopAppearanceDiagnostic.cs', 'LinkWindow.cs', 'SyncTest.cs', 'Program.cs')) { $compilerArgs += '"' + (Join-Path $desktopRoot $source) + '"' }
+foreach ($source in @('NativeInput.cs', 'PetState.cs', 'PetMotion.cs', 'PetMotionTest.cs', 'PetBubble.cs', 'PetUpdateBadge.cs', 'DesktopUpdate.cs', 'Commands.cs', 'Progression.cs', 'AskWindow.cs', 'DesktopBreedCatalog.cs', 'DesktopSync.cs', 'DesktopAppearanceCache.cs', 'DesktopAppearanceFrames.cs', 'DesktopAccessoryRenderer.cs', 'DesktopAppearanceReactions.cs', 'BundledRubyAppearanceLibrary.cs', 'DesktopAppearanceFramesTest.cs', 'DesktopAppearanceDiagnostic.cs', 'LinkWindow.cs', 'SyncTest.cs', 'Program.cs')) { $compilerArgs += '"' + (Join-Path $desktopRoot $source) + '"' }
+$compilerArgs += '"' + $versionSource + '"'
 $responseFile = Join-Path $buildRoot 'compile.rsp'
 [IO.File]::WriteAllLines($responseFile, $compilerArgs, (New-Object Text.UTF8Encoding($true)))
 & $compiler ('@' + $responseFile)

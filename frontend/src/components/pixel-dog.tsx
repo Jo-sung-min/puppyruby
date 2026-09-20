@@ -10,9 +10,9 @@ import { isPremiumDogStyleId, type PremiumDogStyleId } from "../lib/premium-dog-
 import { PremiumPixelDog } from "./premium-pixel-dog";
 import { isOriginalArtDogStyleId, type OriginalArtDogStyleId } from "../lib/original-art-dog-styles";
 import { OriginalArtPixelDog } from "./original-art-pixel-dog";
-import { art16SceneStyleId } from "../lib/art16-scene-styles";
+import { art16SceneStyleId, isArt16SceneId } from "../lib/art16-scene-styles";
 import { Art16ScenePixelDog } from "./art16-scene-pixel-dog";
-import { isSpSceneStyleId, type SpSceneStyleId } from "../lib/sp-scene-styles";
+import { isSpSceneId, isSpSceneStyleId, type SpSceneStyleId } from "../lib/sp-scene-styles";
 import type { DogSceneId } from "../lib/native-dog-scenes";
 import { SpScenePixelDog } from "./sp-scene-pixel-dog";
 import { RubyRoundPixelDog } from "./ruby-round-pixel-dog";
@@ -47,9 +47,10 @@ export function PixelDog({ breed = "pomeranian", mood = "idle", fur, eyes = "#3e
   breed?: PixelBreed; mood?: PixelMood; fur?: string; eyes?: string; eyeStyle?: string; accessory?: string; look?: number; lookY?: number; frame?: number; className?: string; decorative?: boolean; groundShadow?: boolean; styleId?: DogStyleId; variant?: DogVariantLook; scene?: DogSceneId; paused?: boolean;
 }) {
   breed = dogBreeds.find(item => item.id === breed)?.id ?? "pomeranian";
-  if (styleId === rubyRoundStyleId) return <RubyRoundPixelDog {...{breed,mood,eyeStyle,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} scene={scene === "wag" ? "happy" : scene} />;
-  if (styleId === art16SceneStyleId) return <Art16ScenePixelDog {...{breed,mood,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} scene={scene === "wag" ? "idle" : scene} />;
-  if (isSpSceneStyleId(styleId)) return <SpScenePixelDog {...{styleId,breed,mood,scene,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} />;
+  // Ruby Round owns its native belly, typing, eating and directional action sheets.
+  if (styleId === rubyRoundStyleId) return <RubyRoundPixelDog {...{breed,mood,eyeStyle,paused,frame,look,lookY,accessory,className,decorative,groundShadow,scene}} />;
+  if (styleId === art16SceneStyleId) return <Art16ScenePixelDog {...{breed,mood,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} scene={isArt16SceneId(scene) ? scene : undefined} />;
+  if (isSpSceneStyleId(styleId)) return <SpScenePixelDog {...{styleId,breed,mood,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} scene={isSpSceneId(scene) ? scene : undefined} />;
   if (mood === "belly") return <PixelDog {...{breed,fur,eyes,accessory,frame,decorative,styleId,variant,scene,paused}} mood="idle" look={0} lookY={0} groundShadow={false} className={`${className}${paused ? "" : ` ${bellyStyles.belly}`}`} />;
   if (isPremiumDogStyleId(styleId)) return <PremiumPixelDog {...{styleId,mood,accessory,look,frame,className,decorative,groundShadow}} />;
   if (isOriginalArtDogStyleId(styleId)) return <OriginalArtPixelDog {...{styleId,mood,accessory,look,frame,className,decorative,groundShadow}} />;
