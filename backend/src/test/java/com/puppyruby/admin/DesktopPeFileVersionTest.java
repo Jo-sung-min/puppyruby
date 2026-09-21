@@ -10,6 +10,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DesktopPeFileVersionTest {
     @Test
+    void resourceAtPreviousSectionEndBelongsToTheNextSection() {
+        byte[] fixture = DesktopReleaseServiceTest.pe("0.10.3.0", (byte) 1);
+        var buffer = java.nio.ByteBuffer.wrap(fixture).order(java.nio.ByteOrder.LITTLE_ENDIAN);
+        int table = 0x98 + 0xf0;
+        System.arraycopy(fixture, table, fixture, table + 40, 40);
+        buffer.putShort(0x86, (short) 2);
+        buffer.putInt(table + 8, 0x200);
+        buffer.putInt(table + 12, 0xe00);
+        buffer.putInt(table + 16, 0x200);
+        buffer.putInt(table + 20, 0x200);
+        assertEquals("0.10.3.0", read(fixture));
+        // An RVA inside a virtual-only tail must still be rejected.
+        buffer.putInt(table + 8, 0x201);
+        assertThrows(IllegalArgumentException.class, () -> read(fixture));
+    }
+
+    @Test
     void readsFixedFileVersionFromBoundedPeResourceRanges() {
         byte[] fixture = DesktopReleaseServiceTest.pe("12.34.56.65535", (byte) 7);
         var requested = new java.util.ArrayList<Integer>();

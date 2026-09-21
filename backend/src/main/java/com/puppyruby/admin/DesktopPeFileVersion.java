@@ -146,7 +146,8 @@ final class DesktopPeFileVersion {
     private static long rawOffset(List<Section> sections, long rva, long length) {
         for (Section section : sections) {
             long span = Math.max(section.virtualSize, section.rawSize);
-            if (rva < section.virtualAddress || rva - section.virtualAddress > span) continue;
+            // The end address is exclusive; it can be the next section's start.
+            if (rva < section.virtualAddress || rva - section.virtualAddress >= span) continue;
             long delta = rva - section.virtualAddress;
             if (delta < 0 || length < 1 || delta > section.rawSize - length) throw invalid();
             return Math.addExact(section.rawOffset, delta);
