@@ -1,6 +1,6 @@
 import completedAssets from "./generated/ruby-round-scene-assets.json";
 import akitaArt from './generated/akita-art-revision.json';
-import {akitaCoatEnabled} from './akita-coat';
+import {akitaCoatEnabled,coatAssetUrl} from './akita-coat';
 import { dogBreedIds, type PixelBreed } from "./dog-breeds";
 import type { PixelMood } from "../components/pixel-dog";
 
@@ -67,7 +67,7 @@ export function isRubyRoundActionId(value: unknown): value is RubyRoundActionId 
 
 export type RubyEyeAnchor = { x: number; y: number; width: number; height: number };
 export type RubyRoundSheet = {
-  revision?: {bodySha256:string;maskSha256:string;closedSha256:string;desktopBodySha256:string;desktopMaskSha256:string;previewSha256:string};
+  revision?: {bodySha256:string;maskSha256:string;closedSha256:string;desktopBodySha256:string;desktopMaskSha256:string;previewSha256:string;compatibilitySha256:string};
   png: string; frames: number; frameMs: number; eyes: RubyEyeAnchor[][]; source: RubyRoundActionSource;
   kind: RubyRoundActionKind; eyeMode: RubyRoundEyeMode; desktopPng?: string; desktopFrames?: number;
   eyeModeByFrame?: RubyRoundFrameEyeMode[];
@@ -193,7 +193,8 @@ export function rubyRoundAsset(breed: PixelBreed) {
     return {...sheet,revision:art,frames:4,frameMs:art.frameMs,kind:'redrawn',eyes:art.eyes,
       eyeModeByFrame:art.eyeModes.map(mode=>mode==='closed'?'baked-closed':mode) as RubyRoundFrameEyeMode[]};
   };
-  return {...asset,scenes:Object.fromEntries(rubyRoundSceneIds.map(id=>[id,revised(id,asset.scenes[id])])) as RubyRoundAsset['scenes'],
+  const master=coatAssetUrl(akitaArt.sourceSha256).replace(/\.png$/,'.aseprite');
+  return {...asset,aseprite:master,motionAseprite:master,scenes:Object.fromEntries(rubyRoundSceneIds.map(id=>[id,revised(id,asset.scenes[id])])) as RubyRoundAsset['scenes'],
     actions:Object.fromEntries(rubyRoundActionIds.map(id=>[id,revised(id,asset.actions![id])])) as RubyRoundAsset['actions']};
 }
 export function rubyRoundActionList(asset?: RubyRoundAsset) {

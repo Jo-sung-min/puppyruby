@@ -4,6 +4,7 @@
   "width": 179,
   "height": 188,
   "breed": "akita",
+  "sourceSha256": "9d6116531d66b71a286e2a434cbeb2adc5d1fd02fa141177e9d34c6d7c836d49",
   "actions": {
     "belly": {
       "eyeModes": [
@@ -49,7 +50,11 @@
       "name": "배 뒤집고 눕기",
       "bodySha256": "9a035840f6cbbe82a8ed36141b5bc2c33498bb3c8d004117214b99c7c8732489",
       "maskSha256": "4169e995724aa77f73c3a4640f346eefc1176fea7e713bf9776655cd388c2653",
-      "closedSha256": "96727e750d92fe3ad0f42f7502333bd5a75c74968e4bc471cc5a1b58371d937f"
+      "closedSha256": "96727e750d92fe3ad0f42f7502333bd5a75c74968e4bc471cc5a1b58371d937f",
+      "desktopBodySha256": "cf65aee22de50c92e490b41a440a9a3f1fba5fca999d46fd7f5450cf48321f9f",
+      "desktopMaskSha256": "778369b6e756d56c3888f9e9e459d61abf71b23fb9425d02b16371f422358fb4",
+      "previewSha256": "734a94daa2ff14651e618ed8ece5e436215f08a17686201e274a646f7b73ced0",
+      "compatibilitySha256": "d2271251e34f99d6202d7729d29b67cebcee5d2b4b69bea15a0d531646bfab48"
     },
     "eat": {
       "eyeModes": [
@@ -95,7 +100,11 @@
       "name": "밥 먹기",
       "bodySha256": "3ee95ae45611c469d145a8745f46a8d29ac2a1b34595a295a16efd2f9c403061",
       "maskSha256": "87c127b35b16dbbee6c13b1544cbb54bb046754e08799bc0c672926193797bff",
-      "closedSha256": "3637f59c9008a3250aec0e4c4d02971fa2f5d510ac458d06dad7b6541cbdd190"
+      "closedSha256": "3637f59c9008a3250aec0e4c4d02971fa2f5d510ac458d06dad7b6541cbdd190",
+      "desktopBodySha256": "d238d8e2f60a253b6efb6e19fc19fb8507d652d0b0cd258e4732ab293044b266",
+      "desktopMaskSha256": "7ca064255269cf54a05a7a865f04e073de21db9d8a0f2509f41267643a73de81",
+      "previewSha256": "bb8a1d0a1d4e0e0ad59d8d0cd142bc8c07bd2b5479ff6e05373aae9c443e7414",
+      "compatibilitySha256": "0b77838b0443577ce520524cdb60e3afc2567c101d09107face7875285a4d38d"
     },
     "happy": {
       "eyeModes": [
@@ -167,7 +176,11 @@
       "name": "반가워요",
       "bodySha256": "1b83d07781c6a282b5994876c778447385ddf8d84087151e3c6a09d1b18cdcc7",
       "maskSha256": "2f1eef3176c05cc42573fbc527bbb99e7a484c66f55c86a29a4da222ff5e2e78",
-      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68",
+      "desktopBodySha256": "66841d36953ad49f7126ec735a2ee8789f883605f8aad8f134c2e7e36c3bb0c9",
+      "desktopMaskSha256": "2dd306cb08464281a07e6028256d2b8b824f9af7d9b224cf8339ef9d3ae0f0b2",
+      "previewSha256": "c8fccaa28cb167234213f6f296408e242396d943b3f9f77d32c36da09b683317",
+      "compatibilitySha256": "d6fea895056d8a5175c7687c98195995868155d122af309ff57e9bcef6288438"
     },
     "idle": {
       "eyeModes": [
@@ -226,7 +239,11 @@
       "name": "가만히 있기",
       "bodySha256": "f62a62c2d8c0ab932537cea4cb253b275558e4da30b8b3bdab09032c18ad9eb9",
       "maskSha256": "9c87794a76b4af5c15fd46976b7d6cbcc7936ed49dba3e2b4b8936a772629435",
-      "closedSha256": "586a9041699d723e210ea1490fde4134d74a65c86cc76a1eadf4972e4f6f14d6"
+      "closedSha256": "586a9041699d723e210ea1490fde4134d74a65c86cc76a1eadf4972e4f6f14d6",
+      "desktopBodySha256": "fb2d0ffa221d1446eb06781a35d0bfb2b447738144436da084e050900a505b93",
+      "desktopMaskSha256": "e4c3c01eee90a1ad7302393f0d8de1a778683149415523923fa75c6c28acea52",
+      "previewSha256": "a8ede29b82464a1e57913f150fd8d27faba7b012793e207db34bc304e67c41e1",
+      "compatibilitySha256": "7e57e8f3ec82fd14336fa1fc137d14c841bd15903a8689c0aa48bfb39edfb5f0"
     },
     "petting": {
       "eyeModes": [
@@ -259,7 +276,11 @@
       "name": "쓰담 받기",
       "bodySha256": "ce51e45da663a3e8cf53537c7ceb4c743d0545f0955c32a32cf7967328b07bcc",
       "maskSha256": "cf1ab886099cd7abc31f5729479e3fbb3b90ad878b068f7a0ab2860676ac6980",
-      "closedSha256": "d6f413896de5e5329f3d42ddaeaa59a230216b683fdec727c21b6e5a2d80f6aa"
+      "closedSha256": "d6f413896de5e5329f3d42ddaeaa59a230216b683fdec727c21b6e5a2d80f6aa",
+      "desktopBodySha256": "dbfb348670abf753771192139ff7f67797710ba3676377baa3341a736198fcaa",
+      "desktopMaskSha256": "8729ecd26b95646650dc5328390fb533d006ae0df6be6fae4b24050381f83a52",
+      "previewSha256": "e62391c68bc4c64d7160ea1c2250ed6a408e6e6682b7e0ccaee62a3806c87545",
+      "compatibilitySha256": "059564ff81a4efd6b4a42d33740c069cdeebeed9874212e1016c50db7b5937b4"
     },
     "scratch": {
       "eyeModes": [
@@ -279,7 +300,11 @@
       "name": "귀 긁기",
       "bodySha256": "6fc1a166ebeb3beb7b457ab66391db658bd0bc72f35219c6a2ed5facb8c90697",
       "maskSha256": "ac2b1ca0b9ca176f5e1376828ab32d50e3b987ae6c81c4a0e23b44498fcd136d",
-      "closedSha256": "7543eaa4928d08e49ab6213ca53cfdbc5b75c5a3be1993aa23bf75c1a540c55f"
+      "closedSha256": "7543eaa4928d08e49ab6213ca53cfdbc5b75c5a3be1993aa23bf75c1a540c55f",
+      "desktopBodySha256": "b7494595d8887c36ceb6f20b248f596055e00e5d21889cf3b0279fffd0879ca7",
+      "desktopMaskSha256": "2c3cc572ea07130407a5b3c5076b696b11b5c06795dc1bcf244da8809eb42e70",
+      "previewSha256": "dd1ac41cc345726d9e81feacd1ae250a7739b2992c9115ac03e525bb42b84ac7",
+      "compatibilitySha256": "4bf5a45292c67283319270c4d0091012ff1ba6cc81e27ad3e6e9f9a7615ce6ac"
     },
     "side": {
       "eyeModes": [
@@ -327,7 +352,11 @@
       "name": "옆모습",
       "bodySha256": "3e7143ceb4de6d03aa73381de1070d67bac714ba7279efa62825ea580a5c0043",
       "maskSha256": "b04d929c7ecf0b5a0953c2c6ed9b8d0ccae1e437c81acb15fcc5b00f1c65b8cd",
-      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68",
+      "desktopBodySha256": "61d209341543e733f49d91f847a0c00d005a5e57c2dc1a1b8b4b264c4a52ddc5",
+      "desktopMaskSha256": "4ac5b1baccf743be845691773e763ec08807347ff0796103cd179af7bf80b766",
+      "previewSha256": "b630fd9eb949149599be090cb534f272b8aa17e575c492ce12228e000fc0b5da",
+      "compatibilitySha256": "8c0591bbb21ffa68c3aaccdb3030de8e5f9dd8ac42d22cb2692ef14fe66bd3f8"
     },
     "sleep": {
       "eyeModes": [
@@ -360,7 +389,11 @@
       "name": "잠자기",
       "bodySha256": "6738e315960e9b4d15492c3f328efb0b610b0277acbd0e09e1d987173615721f",
       "maskSha256": "fd4e41490722f46c39f91b04b3fb05e4450306672fbf0d8f75963a3ea6efced6",
-      "closedSha256": "044935ffe022369e701916b993b3e31e725bdbb10e312d53835c796b3f7b8fb5"
+      "closedSha256": "044935ffe022369e701916b993b3e31e725bdbb10e312d53835c796b3f7b8fb5",
+      "desktopBodySha256": "34656f6266be47b4d67196c2e3a869f27d33a5af49d5eabe79b6b0ef7a5d1b4f",
+      "desktopMaskSha256": "3e1f3f5effe5e2f445cae21d566ba397ffaf4a6edb6070f1eed7bc821b892dc4",
+      "previewSha256": "fd51f97828440a0c7166602d0738c98415ce2ceefd1ba3b9ea5394b73503b125",
+      "compatibilitySha256": "28922543538503e2ae0b951791277c102cb1e169cb5476609ae3440ff54c27bb"
     },
     "stretch": {
       "eyeModes": [
@@ -400,7 +433,11 @@
       "name": "기지개 켜기",
       "bodySha256": "ead675c7f78b3100f66dd9a2c6b31b36eb2bc2a5c46b5047d4075bc3c19b9b6a",
       "maskSha256": "1650dcbf84c175bcdabd17b9920796bae99aff44e2b57a5ce694db3aa7949da3",
-      "closedSha256": "9fe1fb3de046df6d67a4cfcd995c3da6b2358a122f737d4509ed0b4986f34549"
+      "closedSha256": "9fe1fb3de046df6d67a4cfcd995c3da6b2358a122f737d4509ed0b4986f34549",
+      "desktopBodySha256": "19829e412af23d0b7fe5a1697f38fc036c7b92de205ded4623d10fe6b3b72810",
+      "desktopMaskSha256": "c50478b85c13cdd21eb1eed5668e8517730eb11ce5a336de7a651bcb73936c76",
+      "previewSha256": "5b4cd51274a6e8c3fa9a3035b8e370ac4de277d13773e31f5dc7d9ea4717a252",
+      "compatibilitySha256": "3328d2db0592b0035f3c8734a4f3ae2a25234eec662a4f016857539361fb493f"
     },
     "typing": {
       "eyeModes": [
@@ -459,7 +496,11 @@
       "name": "키보드 타이핑",
       "bodySha256": "8a121614d0d50007a2386f890a82ca1a668a69c8e8b58d5ee87f970f19a40bd7",
       "maskSha256": "b7c6e4549970fc2c77116eea81d575a5fd5f8348a47c0442ea9e496985f8e973",
-      "closedSha256": "99912e9b18243b46a872884ba4a38a40e658a1a4e8bac2b46ce9428878d90a40"
+      "closedSha256": "99912e9b18243b46a872884ba4a38a40e658a1a4e8bac2b46ce9428878d90a40",
+      "desktopBodySha256": "df26a6010baec50f83cf3467e3f0107932ad822de0049fe88484257412a782a4",
+      "desktopMaskSha256": "01d0aaef0e74ee86f4bbc4bd62bcac9693cd5f5db2be86207c98852c1ce7631e",
+      "previewSha256": "e20a39a01713027163f5165cb418a86ad4737263b78bfc974b61b4ffb125fb58",
+      "compatibilitySha256": "73f39d692c24156c0a52f5c5e00492fd4c60ad7e8a6d5b2bcbaa760520a0708c"
     },
     "wag": {
       "eyeModes": [
@@ -518,7 +559,11 @@
       "name": "꼬리 흔들기",
       "bodySha256": "704aa8aa5f5fab0bfbd09e751a1c2ac0b35c04e3fcbf30611878cb34a045975c",
       "maskSha256": "e2f18bc9b7092b5a6acca0ce436920b2212ad8883589434796b3499e826d3627",
-      "closedSha256": "379ea6cff044f6a1c830c0cac9db7a455d9378bd1aaf7cba3838ab4b338ec304"
+      "closedSha256": "379ea6cff044f6a1c830c0cac9db7a455d9378bd1aaf7cba3838ab4b338ec304",
+      "desktopBodySha256": "95c27dea68339c916ec53fa6cab22cae56441bbb3f5427831ebf7a37deb6c9ec",
+      "desktopMaskSha256": "c2f971928f1cfc2cad3d6e94fc173d69890853b6af43e93e25e0be95e8de45e1",
+      "previewSha256": "ec300f9117be2a2c83f9d32164920c5492752a020e4a61d04b00acf682771a75",
+      "compatibilitySha256": "02230608798a98e342ef757c305da1067348ae25ddca576c37333e3f3e212671"
     },
     "walk": {
       "eyeModes": [
@@ -566,7 +611,11 @@
       "name": "기본 걷기",
       "bodySha256": "f33051bc33984a063f502b3075bafbe64d95d54422868253f8f0a7762e961bd2",
       "maskSha256": "8240e65faa82f1a5d221704ae9b6276a90d4902f4195013a2311dfab3b3fa347",
-      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68",
+      "desktopBodySha256": "c8ea6b6f6e575fed037b28ae8ccd3857bfb5d4feba017e537e6eb6814e7d9dc8",
+      "desktopMaskSha256": "969cdfe8c4eb824b8bbee86abdeb8d365f98aa08402bf599cdea57b5c3cbf322",
+      "previewSha256": "c0fd93a8c06b98a362a3afe51a9d86030b5db844b3cbac8f03132f451e1b2aa7",
+      "compatibilitySha256": "0c6747323bf610340957d58d7a5f4fd69ae8fead297a7b36e2a44892d02935e3"
     },
     "walk-down": {
       "eyeModes": [
@@ -638,7 +687,11 @@
       "name": "아래쪽 이동",
       "bodySha256": "d5b40d2940d3bba25390030541676ebc040ae8902a4ee33831c705a9b1fc9651",
       "maskSha256": "67211c4e2af94427363d30b3ac641920b0167bd6c61d72ad06aee21115a41f72",
-      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68",
+      "desktopBodySha256": "82680c31498359942eae0c31dd7b8aba7f58daaf1d6214301cd68a431cc99269",
+      "desktopMaskSha256": "479f91acbca0d967827e74046252f87fad8689d4d47952309f58578bdd83edb2",
+      "previewSha256": "955ea12c16410b83e072dcc38d371711753165ff9f15ccb4bf2df144b6535f4c",
+      "compatibilitySha256": "bf602b04306950cbd4cd6ebac58dc51da50312481037c70682f4b401e4284e98"
     },
     "walk-left": {
       "eyeModes": [
@@ -686,7 +739,11 @@
       "name": "왼쪽 이동",
       "bodySha256": "f33051bc33984a063f502b3075bafbe64d95d54422868253f8f0a7762e961bd2",
       "maskSha256": "8240e65faa82f1a5d221704ae9b6276a90d4902f4195013a2311dfab3b3fa347",
-      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68",
+      "desktopBodySha256": "c8ea6b6f6e575fed037b28ae8ccd3857bfb5d4feba017e537e6eb6814e7d9dc8",
+      "desktopMaskSha256": "969cdfe8c4eb824b8bbee86abdeb8d365f98aa08402bf599cdea57b5c3cbf322",
+      "previewSha256": "c0fd93a8c06b98a362a3afe51a9d86030b5db844b3cbac8f03132f451e1b2aa7",
+      "compatibilitySha256": "1668a91935d34bcd95f8ee715fc3410d8df5ea2f3c457fef9b49ec598c5124da"
     },
     "walk-right": {
       "eyeModes": [
@@ -734,7 +791,11 @@
       "name": "오른쪽 이동",
       "bodySha256": "70b45bd246be2c65736882c2012c2ffcb8dfe70906d63b76035be1f81ca52a71",
       "maskSha256": "6097385f5ec2b77f92e865ad9a0aac15743ba8aa159821d72bea19c674b98cc7",
-      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68",
+      "desktopBodySha256": "0525dbb9f4b29755d065b2ed9f6f58c36ccb5c5620548fc16d5eb72801d7b8ef",
+      "desktopMaskSha256": "2add9919b257eb162eb14e51e54792a212b0dc32d2393fc67e058870dfb5abc0",
+      "previewSha256": "97500fa15e9dc67479a2d52e4b16dfdd5d8d8ebaba91d8dc09e60d9a9ab86fee",
+      "compatibilitySha256": "995161f4e8b6b3c76a40e240d396cef5dcbf510653b038d7cbf7acc100f6fc5a"
     },
     "walk-up": {
       "eyeModes": [
@@ -754,7 +815,11 @@
       "name": "위쪽 이동",
       "bodySha256": "3e750b2229fb3d160f4deb88740f815d4b153fae05d6771ccc23f9ec3e83b027",
       "maskSha256": "84d902a836defdf662c4d63101004979dba7652ff458e891645c14f740619de4",
-      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68",
+      "desktopBodySha256": "e31edd0a6615ee7b8515473b6cdc9ee6a6d771b6c182801582c98b259073f5e2",
+      "desktopMaskSha256": "6015897a64d7ff4afe7269c316a6e40b7ee14f77e35c5b43b6903e7be62df2d4",
+      "previewSha256": "3e750b2229fb3d160f4deb88740f815d4b153fae05d6771ccc23f9ec3e83b027",
+      "compatibilitySha256": "3473ddfccb925b2decc515a54cfd8f4ae2ecaeba7576c040fcfca72009368648"
     }
   }
 }

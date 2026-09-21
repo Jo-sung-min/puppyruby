@@ -141,7 +141,7 @@ if (process.argv.includes('--registered')) {
     for (const id of nativeIds) {
       const actual = first.nativeActions[id], source = current.rubyRoundAsset(breed).actions[id];
       check(actual.frames === 4 && actual.bodyFrames === 4 && actual.url === actual.bodyUrl && actual.sha256 === actual.bodySha256
-        && new URL(actual.bodyUrl).pathname.endsWith(source.png), `${breed}/${id}: correct registered four-frame body URL/hash`);
+        && new URL(actual.bodyUrl).pathname.endsWith(source.revision?`/${source.revision.desktopBodySha256}.png`:source.png), `${breed}/${id}: correct registered four-frame body URL/hash`);
       check(JSON.stringify(actual.eyeAnchors) === JSON.stringify(source.eyes) && JSON.stringify(actual.eyeModeByFrame) === JSON.stringify(source.eyeModeByFrame)
         && actual.eyeStyle === 'ruby-eye-01' && alternate.nativeActions[id].eyeStyle === 'ruby-eye-30', `${breed}/${id}: all native eye geometry and choices retained`);
       const placements = first.accessoryLayer?.nativeActions?.[id];

@@ -5,9 +5,10 @@ const root=path.resolve(__dirname,'..'),work=path.join(root,'local-assets/work/a
 const manifest=JSON.parse(fs.readFileSync(path.join(work,'manifest.json')));
 const dest=path.join(root,'local-assets/site/akita-coat');fs.mkdirSync(dest,{recursive:true});
 const sharp=createRequire(path.join(root,'frontend/package.json'))('sharp');
-function register(file){const data=fs.readFileSync(path.join(work,file));const sha=crypto.createHash('sha256').update(data).digest('hex');if(data.readUInt32BE(16)!==716||data.readUInt32BE(20)!==188)throw Error('Unexpected image dimensions: '+file);fs.writeFileSync(path.join(dest,sha+'.png'),data);return sha;}
+function register(file,width=716){const data=fs.readFileSync(path.join(work,file));const sha=crypto.createHash('sha256').update(data).digest('hex');if(data.readUInt32BE(16)!==width||data.readUInt32BE(20)!==188)throw Error('Unexpected image dimensions: '+file);fs.writeFileSync(path.join(dest,sha+'.png'),data);return sha;}
 async function main(){
 const result={schemaVersion:1,revision:manifest.revision,width:179,height:188,breed:'akita',sourceSha256:crypto.createHash('sha256').update(fs.readFileSync(path.join(work,'akita-clean-body-r2.aseprite'))).digest('hex'),actions:{}};
+fs.copyFileSync(path.join(work,'akita-clean-body-r2.aseprite'),path.join(dest,result.sourceSha256+'.aseprite'));
 for(const [action,item]of Object.entries(manifest.actions)){
  // v3/v4 Windows already understand baked-closed frames. Flatten only the
  // transport copy; retain the editable eyeless source and separate web layers.
@@ -16,7 +17,9 @@ for(const [action,item]of Object.entries(manifest.actions)){
  const eyes=await sharp(path.join(work,action+'-closed.png')).ensureAlpha().raw().toBuffer();
  for(let i=0;i<mask.length;i+=4)if(eyes[i+3])mask[i]=0;
  await sharp(mask,{raw:{width:716,height:188,channels:4}}).png().toFile(path.join(work,action+'-desktop-mask.png'));
- result.actions[action]={...item,bodySha256:register(action+'.png'),maskSha256:register(action+'-mask.png'),closedSha256:register(action+'-closed.png'),desktopBodySha256:register(action+'-desktop-body.png'),desktopMaskSha256:register(action+'-desktop-mask.png'),previewSha256:register(action+'-preview.png')};
+ const compatibilityFrames=action==='walk'?4:1;
+ await sharp(path.join(work,action+'-preview.png')).extract({left:action==='sleep'?179*3:0,top:0,width:179*compatibilityFrames,height:188}).png().toFile(path.join(work,action+'-compat.png'));
+ result.actions[action]={...item,bodySha256:register(action+'.png'),maskSha256:register(action+'-mask.png'),closedSha256:register(action+'-closed.png'),desktopBodySha256:register(action+'-desktop-body.png'),desktopMaskSha256:register(action+'-desktop-mask.png'),previewSha256:register(action+'-preview.png'),compatibilitySha256:register(action+'-compat.png',179*compatibilityFrames)};
 }
 fs.writeFileSync(path.join(root,'frontend/src/lib/generated/akita-art-revision.json'),JSON.stringify(result,null,2)+'\n');
 console.log('Registered Akita revision: 16 actions, separate web eyes and compatible Windows transport.');

@@ -29,10 +29,11 @@ async function raw(file){return new Uint8ClampedArray(await sharp(file).ensureAl
  const rows=['idle','walk-left','petting','belly'];
  for(let row=0;row<rows.length;row++)for(let col=0;col<coat.coatPalettes.length;col++){
   const action=rows[row],palette=coat.coatPalettes[col],sheet=asset.actions[action],frame=action==='belly'?2:0;
-  const file=palette.id==='original'?path.join(root,'local-assets/site',sheet.png):path.join(work,`${action}-${palette.id}-preview.png`);
+  const file=palette.id==='original'?path.join(root,'local-assets/site',coat.akitaCoatAssets.sheets[action].bodyPng):path.join(work,`${action}-${palette.id}-preview.png`);
   let framePng=await sharp(file).extract({left:frame*asset.width,top:0,width:asset.width,height:asset.height}).png().toBuffer();
   const eyeFile=path.join(root,'local-assets/site/images/ruby-round-v1/eyes/eye-01.png');
   const eyes=[];
+  if(sheet.revision)eyes.push({input:await sharp(path.join(root,'local-assets/site/akita-coat',sheet.revision.closedSha256+'.png')).extract({left:frame*asset.width,top:0,width:asset.width,height:asset.height}).png().toBuffer(),left:0,top:0});
   for(const [side,eye] of sheet.eyes[frame].entries())eyes.push({input:await sharp(eyeFile).extract({left:side*16,top:0,width:16,height:16}).resize(eye.width,eye.height,{kernel:'nearest'}).png().toBuffer(),left:eye.x,top:eye.y});
   if(eyes.length)framePng=await sharp(framePng).composite(eyes).png().toBuffer();
   panels.push({input:framePng,left:col*asset.width,top:row*asset.height});

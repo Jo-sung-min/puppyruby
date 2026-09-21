@@ -1,10 +1,10 @@
 'use client';
 import {useEffect,useState} from 'react';
-import {applyCoatPixels,coatAssetUrl,coatPalette,coatRevision} from '../lib/akita-coat';
+import {applyCoatPixels,coatPalette,coatRevision} from '../lib/akita-coat';
 
 const pending=new Map<string,Promise<string>>();
 async function pixels(hash:string,width:number,height:number,localOnly=false) {
-  const response=await fetch(localOnly?`/api/akita-coat/${hash}.png`:coatAssetUrl(hash),{credentials:'omit'});
+  const response=await fetch(`/api/akita-coat/${hash}.png`,{credentials:'omit'});
   if(!response.ok)throw new Error('coat image unavailable');
   const bytes=await response.arrayBuffer();
   if(bytes.byteLength>12*1024*1024)throw new Error('coat image too large');

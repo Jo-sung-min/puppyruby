@@ -115,14 +115,15 @@ export function desktopAppearance(config: AppearanceConfig, breed: number, origi
     if (!asset) throw new Error(unavailable);
     ({ width, height } = asset);
     const layered = (id: RubyRoundActionId, sheet: RubyRoundSheet, fallback: DesktopAppearanceScene): DesktopAppearanceScene => {
-      const body = imageDescriptor(sheet.png, width * sheet.frames, height, origin);
+      const body = sheet.revision ? catalogImageDescriptor(coatAssetUrl(sheet.revision.desktopBodySha256),sheet.revision.desktopBodySha256,origin) : imageDescriptor(sheet.png, width * sheet.frames, height, origin);
       const eye = rubyEyeStyle(!sheet.eyeModeByFrame && id === "sleep" ? "ruby-eye-10" : eyes);
       const eyeImage = imageDescriptor(eye.png, 32, 16, origin);
       const eyeAnchors = sheet.eyes.map(anchors => (sheet.kind !== "redrawn" && (id === "idle" || id === "happy")
         ? rubyRoundEyePair(anchors, asset.scenes.idle.eyes[0]) : anchors).map(anchor => ({ ...anchor })));
       const eyeModeByFrame = sheet.eyeModeByFrame?.slice();
       const mask=akitaCoatSheet(breedId,id,sheet.png), palette=coatPalette(fur);
-      const coat=mask && palette.id!=='original' ? {maskUrl:new URL(coatAssetUrl(mask.maskSha256),origin).href,maskSha256:mask.maskSha256,
+      const maskHash=sheet.revision?.desktopMaskSha256??mask?.maskSha256;
+      const coat=maskHash && palette.id!=='original' ? {maskUrl:new URL(coatAssetUrl(maskHash),origin).href,maskSha256:maskHash,
         paletteId:palette.id,revision:coatRevision,primary:palette.primary,secondary:palette.secondary} : undefined;
       if (sheet.frames > 8 || eyeAnchors.length !== sheet.frames || eyeAnchors.some((anchors, frame) =>
         (eyeModeByFrame && eyeModeByFrame[frame] !== "shared" ? anchors.length !== 0 : anchors.length < 1 || anchors.length > 2)
@@ -135,14 +136,16 @@ export function desktopAppearance(config: AppearanceConfig, breed: number, origi
     for (const { id } of art16Scenes) {
       const sheet = asset.scenes[id];
       if (!sheet.desktopPng || !sheet.desktopFrames) throw new Error(unavailable);
-      scenes[id] = layered(id, sheet, sceneDescriptor(sheet.desktopPng, width, height, sheet.desktopFrames, sheet.frameMs, origin));
+      const fallback=sheet.revision?{...catalogImageDescriptor(coatAssetUrl(sheet.revision.compatibilitySha256),sheet.revision.compatibilitySha256,origin),frames:id==='walk'?4:1,frameMs:sheet.frameMs}:sceneDescriptor(sheet.desktopPng, width, height, sheet.desktopFrames, sheet.frameMs, origin);
+      scenes[id] = layered(id, sheet, fallback);
     }
     if (asset.actions && nativeActionIds.every(id => asset.actions?.[id].kind === "redrawn")) {
       nativeActions = {} as NonNullable<DesktopAppearance["nativeActions"]>;
       for (const id of nativeActionIds) {
         const sheet = asset.actions[id];
         if (sheet.frames !== 4 || !sheet.eyeModeByFrame) throw new Error(unavailable);
-        nativeActions[id] = layered(id, sheet, sceneDescriptor(sheet.png, width, height, sheet.frames, sheet.frameMs, origin));
+        const fallback=sheet.revision?{...catalogImageDescriptor(coatAssetUrl(sheet.revision.desktopBodySha256),sheet.revision.desktopBodySha256,origin),frames:4,frameMs:sheet.frameMs}:sceneDescriptor(sheet.png, width, height, sheet.frames, sheet.frameMs, origin);
+        nativeActions[id] = layered(id, sheet, fallback);
       }
     }
   } else if (styleId === art16SceneStyleId || isSpSceneStyleId(styleId)) {

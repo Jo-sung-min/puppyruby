@@ -19,9 +19,9 @@ export function AkitaArtRevision(){
  // This revision remains a local review asset until its art and attachment positions are approved.
  if(process.env.NODE_ENV==='production')return null;
  return <details className={styles.lab} onToggle={event=>setOpen(event.currentTarget.open)}>
-  <summary>아키타 수정본 · 깨끗한 얼굴과 네 발</summary>
+  <summary>아키타 적용본 · 깨끗한 얼굴과 네 발</summary>
   {open&&<>
-   <p>눈 자국 없는 몸통 위에 눈을 따로 얹었어요. 옆모습은 네 발, 반가워요는 든 앞발 두 개와 뒷발 두 개로 수정했어요. 기존 적용본과 비교하는 시안이에요.</p>
+   <p>선택하신 수정본이 아키타에 적용됐어요. 눈 자국 없는 몸통에 눈을 따로 얹고, 옆모습과 반가워요를 네 발로 정리했어요.</p>
    <div className={styles.colors}>{coatPalettes.map(p=><button key={p.id} type="button" aria-pressed={coat===p.id} onClick={()=>setCoat(p.id)}><span className={styles.swatch} style={{background:p.color}}/>{p.label}</button>)}</div>
    <div className={styles.grid}>
     <div className={styles.stage} style={{background:background==='light'?'#f5eee2':background==='checker'?'repeating-conic-gradient(#292b33 0% 25%, #42454f 0% 50%) 0 / 20px 20px':'#191b20'}}>

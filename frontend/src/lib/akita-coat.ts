@@ -11,7 +11,10 @@ export type AkitaPlacement = { x:number; y:number; width:number; height:number; 
 export type AkitaRig = {schemaVersion:number;revision:string;sourceSha256:string;actions:Record<string,Record<AkitaSlot,AkitaPlacement>[]>};
 export const coatPalettes: CoatPalette[] = palettes.items;
 export const coatRevision = palettes.revision;
-export const akitaCoatAssets = source;
+export const akitaCoatAssets = {...source,sourceSha256:art.sourceSha256,sheets:Object.fromEntries(Object.entries(source.sheets).map(([id,sheet])=>{
+  const revised=art.actions[id as keyof typeof art.actions];
+  return [id,{...sheet,bodySha256:revised.bodySha256,maskSha256:revised.maskSha256,bodyPng:`/akita-coat/${revised.bodySha256}.png`}];
+}))};
 export const akitaRig = rigSource as AkitaRig;
 export const akitaSlots: AkitaSlot[] = ['face','head','neck','back'];
 

@@ -74,7 +74,9 @@ for (const direction of [-100, -3, 0, 3, 100]) {
 check(eyeMotion.rubyRoundGazeOffset([], NaN, Infinity).x === 0, 'Missing or invalid gaze cannot create invalid SVG coordinates');
 const styleLibrary = loadFrontend('src/lib/dog-styles.ts');
 const { desktopAppearance } = loadFrontend('src/lib/desktop-appearance.ts', { './dog-styles': { ...styleLibrary, resolveDogStyle: () => lib.rubyRoundStyleId } });
-for (const asset of lib.rubyRoundAssets) {
+for (const original of lib.rubyRoundAssets) {
+  const asset=lib.rubyRoundAsset(original.breed);
+  if(original.breed!=='akita')check(asset===original,'Other breeds retain their original complete artwork record');
   check(nativeDogSceneAsset(lib.rubyRoundStyleId, asset.breed)?.aseprite === (asset.motionAseprite ?? asset.aseprite), 'Admin offers the matching editable action master');
   for (const { id } of lib.rubyRoundScenes) {
     const sheet = asset.scenes[id], png = fs.readFileSync(path.join(root, 'local-assets/site', sheet.png));
@@ -116,9 +118,10 @@ for (const asset of lib.rubyRoundAssets) {
     check(desktop.styleId === lib.rubyRoundStyleId && desktop.breedId === asset.breed, 'Desktop receives the same selected breed and style');
     for (const { id } of lib.rubyRoundScenes) {
       check(desktop.scenes[id].frames === (id === 'walk' ? asset.scenes[id].frames : 1), 'Installed desktop v1 receives compatible frame counts');
-      check(desktop.scenes[id].url.endsWith(`${id}-desktop.png`) && /^[a-f0-9]{64}$/.test(desktop.scenes[id].sha256), 'Legacy desktop fields retain hashed default-eye composites');
+      const revision=asset.scenes[id].revision;
+      check(desktop.scenes[id].url.endsWith(revision?`${revision.compatibilitySha256}.png`:`${id}-desktop.png`) && /^[a-f0-9]{64}$/.test(desktop.scenes[id].sha256), 'Legacy desktop fields retain hashed default-eye composites');
       const legacySleep = id === 'sleep' && !asset.scenes[id].eyeModeByFrame;
-      check(desktop.scenes[id].bodyUrl.endsWith(`/${id}.png`) && desktop.scenes[id].eyeUrl.endsWith(legacySleep ? '/eye-10.png' : '/eye-01.png'), 'New desktop fields expose the body and matching shared eye while painted closed frames remain untouched');
+      check(desktop.scenes[id].bodyUrl.endsWith(revision?`/${revision.desktopBodySha256}.png`:`/${id}.png`) && desktop.scenes[id].eyeUrl.endsWith(legacySleep ? '/eye-10.png' : '/eye-01.png'), 'New desktop fields expose the body and matching shared eye while painted closed frames remain untouched');
     }
   } else check(partial, 'Every complete release requires composited desktop fallback artwork');
 }

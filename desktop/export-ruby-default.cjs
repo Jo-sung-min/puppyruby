@@ -8,6 +8,7 @@ const root = path.resolve(__dirname, '..');
 const requireFrontend = createRequire(path.join(root, 'frontend/package.json'));
 const sharp = requireFrontend('sharp');
 const catalog = require('../frontend/src/lib/generated/ruby-round-scene-assets.json');
+const akitaRevision = require('../frontend/src/lib/generated/akita-art-revision.json');
 const fingerprints = require('../frontend/src/lib/generated/desktop-appearance-assets.json');
 const { loadFrontend } = require('../scripts/frontend-loader.cjs');
 const { dogBreeds } = loadFrontend('src/lib/dog-breeds.ts');
@@ -29,6 +30,14 @@ function sourceFile(publicPath) {
 }
 
 async function main() {
+  const akita=catalog.find(a=>a.breed==='akita');
+  const overrides=new Map();
+  for(const [id,art]of Object.entries(akitaRevision.actions)){
+    const update=sheet=>Object.assign(sheet,{frames:4,frameMs:art.frameMs,eyes:art.eyes,eyeModeByFrame:art.eyeModes.map(m=>m==='closed'?'baked-closed':m)});
+    update(akita.actions[id]);
+    overrides.set(akita.actions[id].png,art.desktopBodySha256);
+    if(akita.scenes[id]){update(akita.scenes[id]);akita.scenes[id].desktopFrames=id==='walk'?4:1;overrides.set(akita.scenes[id].desktopPng,art.compatibilitySha256);}
+  }
   const breedIds = dogBreeds.map(({ id }) => id);
   assert.equal(catalog.length, 30, 'Ruby Dot release must contain all 30 breeds');
   assert.deepEqual(catalog.map(({ breed }) => breed), breedIds, 'Ruby Dot breed order must match the persisted desktop catalog');
@@ -41,7 +50,8 @@ async function main() {
   const expected = new Set();
   const resources = new Map(), inputs = new Map();
   async function prepareResource(publicPath, resource, width, height) {
-    const file = sourceFile(publicPath), bytes = fs.readFileSync(file), sha256 = hash(bytes), entry = fingerprints[publicPath];
+    const override=overrides.get(publicPath);
+    const file = override?path.join(sourceRoot,'akita-coat',override+'.png'):sourceFile(publicPath), bytes = fs.readFileSync(file), sha256 = hash(bytes), entry = override?{sha256:override,width,height}:fingerprints[publicPath];
     assert.ok(entry && entry.width === width && entry.height === height && entry.sha256 === sha256, `${publicPath}: registered native fingerprint is required`);
     const metadata = await sharp(bytes).metadata();
     assert.equal(metadata.format, 'png', `${publicPath}: must be PNG`);

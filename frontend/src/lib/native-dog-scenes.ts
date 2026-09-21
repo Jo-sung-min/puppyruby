@@ -1,6 +1,7 @@
 import { art16SceneAsset, art16Scenes, art16SceneStyleId } from "./art16-scene-styles";
 import { isSpSceneStyleId, spSceneAsset, spScenes, type SpSceneId, type SpSceneSheet } from "./sp-scene-styles";
 import type { PixelBreed } from "./dog-breeds";
+import {coatAssetUrl} from './akita-coat';
 import {
   rubyRoundActionList, rubyRoundActionSheets, rubyRoundAsset, rubyRoundStyleId,
   type RubyRoundActionId,
@@ -22,7 +23,7 @@ export function nativeDogSceneAsset(style: unknown, breed: PixelBreed): NativeDo
   if (style === rubyRoundStyleId) {
     const asset = rubyRoundAsset(breed);
     return asset ? { width: asset.width, height: asset.height, aseprite: asset.motionAseprite ?? asset.aseprite,
-      scenes: rubyRoundActionSheets(asset) } : undefined;
+      scenes: Object.fromEntries(Object.entries(rubyRoundActionSheets(asset)).map(([id,sheet])=>[id,sheet.revision?{...sheet,png:coatAssetUrl(sheet.revision.bodySha256)}:sheet])) } : undefined;
   }
   return isSpSceneStyleId(style) ? spSceneAsset(style, breed) : style === art16SceneStyleId ? art16SceneAsset(breed) : undefined;
 }

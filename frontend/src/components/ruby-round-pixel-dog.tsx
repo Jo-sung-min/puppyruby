@@ -1,5 +1,5 @@
 import { useId, type CSSProperties } from "react";
-import { akitaCoatSheet, coatPalette } from '../lib/akita-coat';
+import { akitaCoatSheet, coatPalette, coatAssetUrl } from '../lib/akita-coat';
 import { RubyCoatBody } from './ruby-coat-body';
 import { assetUrl } from "../lib/asset-url";
 import { art16FrameIndex } from "../lib/art16-scene-styles";
@@ -35,7 +35,7 @@ export function RubyRoundPixelDog({ breed, mood, scene, coatId, eyeStyle, paused
   const eye = rubyEyeStyle(!sheet.eyeModeByFrame && sheet.eyeMode === "closed" ? "ruby-eye-10" : eyeStyle);
   const accessoryItem = rubyAccessoryItemForBreed(accessory,breed);
   const accessoryLayer = accessoryItem?.layer ?? (accessory === "angel-wings" ? "behind" : "front");
-  const png = assetUrl(sheet.png);
+  const png = sheet.revision ? coatAssetUrl(sheet.revision.bodySha256) : assetUrl(sheet.png);
   const coat = akitaCoatSheet(breed, activeScene, sheet.png), palette = coatPalette(coatId);
   // Redrawn frames already carry pose-specific geometry, including a tilted head.
   // Only the shared gaze translation is added; never replace those eyes with idle geometry.
@@ -63,6 +63,7 @@ export function RubyRoundPixelDog({ breed, mood, scene, coatId, eyeStyle, paused
           {coat && palette.id !== 'original'
             ? <RubyCoatBody bodyHash={coat.bodySha256} maskHash={coat.maskSha256} paletteId={palette.id} href={png} x={-index * asset.width} width={asset.width * sheet.frames} height={asset.height} className={motion.strip}/>
             : <image href={png} x={-index * asset.width} width={asset.width * sheet.frames} height={asset.height} preserveAspectRatio="none" className={motion.strip} data-eyeless-body="true" />}
+          {sheet.revision&&<image href={coatAssetUrl(sheet.revision.closedSha256)} x={-index*asset.width} width={asset.width*sheet.frames} height={asset.height} className={motion.strip} data-closed-eyes-layer="true"/>}
           {eyeFrames.map((anchors, n) => {
             const frameEyeMode = rubyRoundFrameEyeMode(sheet, n), shared = frameEyeMode === "shared";
             const offset = rubyRoundGazeOffset(anchors, shared && gazing ? look : 0, shared && gazing ? lookY : 0);
