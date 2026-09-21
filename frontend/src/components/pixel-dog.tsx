@@ -43,12 +43,12 @@ function luminance(value:string) {
   return /^#[0-9a-f]{6}$/i.test(value) ? parseInt(value.slice(1,3),16)*.299+parseInt(value.slice(3,5),16)*.587+parseInt(value.slice(5,7),16)*.114 : 255;
 }
 
-export function PixelDog({ breed = "pomeranian", mood = "idle", fur, eyes = "#3e332c", eyeStyle, accessory = "none", look = 0, lookY = 0, frame = 0, className = "", decorative = false, groundShadow = true, styleId = rubyRoundStyleId, variant, scene, paused }: {
-  breed?: PixelBreed; mood?: PixelMood; fur?: string; eyes?: string; eyeStyle?: string; accessory?: string; look?: number; lookY?: number; frame?: number; className?: string; decorative?: boolean; groundShadow?: boolean; styleId?: DogStyleId; variant?: DogVariantLook; scene?: DogSceneId; paused?: boolean;
+export function PixelDog({ breed = "pomeranian", mood = "idle", fur, coatId, eyes = "#3e332c", eyeStyle, accessory = "none", look = 0, lookY = 0, frame = 0, className = "", decorative = false, groundShadow = true, styleId = rubyRoundStyleId, variant, scene, paused }: {
+  breed?: PixelBreed; mood?: PixelMood; fur?: string; coatId?: string; eyes?: string; eyeStyle?: string; accessory?: string; look?: number; lookY?: number; frame?: number; className?: string; decorative?: boolean; groundShadow?: boolean; styleId?: DogStyleId; variant?: DogVariantLook; scene?: DogSceneId; paused?: boolean;
 }) {
   breed = dogBreeds.find(item => item.id === breed)?.id ?? "pomeranian";
   // Ruby Round owns its native belly, typing, eating and directional action sheets.
-  if (styleId === rubyRoundStyleId) return <RubyRoundPixelDog {...{breed,mood,eyeStyle,paused,frame,look,lookY,accessory,className,decorative,groundShadow,scene}} />;
+  if (styleId === rubyRoundStyleId) return <RubyRoundPixelDog {...{breed,mood,coatId,eyeStyle,paused,frame,look,lookY,accessory,className,decorative,groundShadow,scene}} />;
   if (styleId === art16SceneStyleId) return <Art16ScenePixelDog {...{breed,mood,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} scene={isArt16SceneId(scene) ? scene : undefined} />;
   if (isSpSceneStyleId(styleId)) return <SpScenePixelDog {...{styleId,breed,mood,paused,frame,look,lookY,accessory,className,decorative,groundShadow}} scene={isSpSceneId(scene) ? scene : undefined} />;
   if (mood === "belly") return <PixelDog {...{breed,fur,eyes,accessory,frame,decorative,styleId,variant,scene,paused}} mood="idle" look={0} lookY={0} groundShadow={false} className={`${className}${paused ? "" : ` ${bellyStyles.belly}`}`} />;

@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import {akitaCoatSheet,coatAssetUrl,coatPalette,coatRevision} from './akita-coat';
 import fingerprints from "./generated/desktop-appearance-assets.json";
 import { assetUrl } from "./asset-url";
 import { dogBreedAt } from "./dog-breeds";
@@ -11,7 +12,7 @@ import { premiumDogAsset } from "./premium-dog-styles";
 import { isRubyRoundSceneId, rubyRoundActionIds, rubyRoundAsset, rubyRoundStyleId, type RubyRoundActionId, type RubyRoundSheet } from "./ruby-round-scene-styles";
 import { rubyRoundEyePair } from "./ruby-round-eye-motion";
 import { rubyEyeStyle } from "./ruby-round-eyes";
-import { resolvedRubyAccessoryActionPlacement, resolvedRubyAccessoryPlacement, rubyAccessoryCatalog, rubyAccessoryItem } from "./ruby-round-accessories";
+import { resolvedRubyAccessoryActionPlacement, resolvedRubyAccessoryPlacement, rubyAccessoryCatalog, rubyAccessoryItem, rubyAccessoryItemForBreed } from "./ruby-round-accessories";
 import type { DesktopAccessoryLayer, DesktopAppearance, DesktopAppearanceScene, DesktopNativeActionId } from "./desktop";
 
 type JsonRecord = Record<string, unknown>;
@@ -49,7 +50,7 @@ function catalogImageDescriptor(png: string, sha256: string, origin: string) {
 }
 
 function accessoryLayer(id: string, breedId: ReturnType<typeof dogBreedAt>["id"], origin: string, includeNative: boolean): DesktopAccessoryLayer | undefined {
-  const item = rubyAccessoryItem(id), ruby = rubyRoundAsset(breedId);
+  const item = rubyAccessoryItemForBreed(id,breedId), ruby = rubyRoundAsset(breedId);
   if (!item || !ruby) return;
   const placements = {} as DesktopAccessoryLayer["placements"];
   for (const { id: scene } of art16Scenes) {
@@ -80,7 +81,16 @@ export function legacyDesktopAccessoryId(id: string, layer?: Pick<DesktopAccesso
 
 /** Older installed layered clients cannot parse closed native eye frames. */
 export function desktopAppearanceForClient(appearance: DesktopAppearance | null, appearanceVersion: number): DesktopAppearance | null {
-  if (!appearance || Number.isInteger(appearanceVersion) && appearanceVersion >= 3) return appearance;
+  if (!appearance) return appearance;
+  if (Number.isInteger(appearanceVersion) && appearanceVersion >= 4) return appearance;
+  if (Number.isInteger(appearanceVersion) && appearanceVersion >= 3) {
+    if (![...Object.values(appearance.scenes),...Object.values(appearance.nativeActions??{})].some(s=>s.coat)) return appearance;
+    const strip = (entries: Record<string,DesktopAppearanceScene>) => Object.fromEntries(Object.entries(entries).map(([id,{coat,...scene}])=>[id,scene]));
+    const scenes=strip(appearance.scenes) as DesktopAppearance['scenes'];
+    const nativeActions=appearance.nativeActions ? strip(appearance.nativeActions) as DesktopAppearance['nativeActions'] : undefined;
+    const renderKey=createHash('sha256').update(JSON.stringify({...appearance,renderKey:undefined,scenes,nativeActions})).digest('hex');
+    return {...appearance,scenes,nativeActions,renderKey};
+  }
   const { version, key, styleId, styleName, breedId, width, height } = appearance;
   const scenes = Object.fromEntries(art16Scenes.map(({ id }) => {
     const scene = appearance.scenes[id];
@@ -90,7 +100,7 @@ export function desktopAppearanceForClient(appearance: DesktopAppearance | null,
 }
 
 /** Resolve the very same breed/variety/global priority used by the live web renderer. */
-export function desktopAppearance(config: AppearanceConfig, breed: number, origin: string, eyes: unknown = "original", accessory: unknown = "none"): DesktopAppearance | null {
+export function desktopAppearance(config: AppearanceConfig, breed: number, origin: string, eyes: unknown = "original", accessory: unknown = "none", fur: unknown = "original"): DesktopAppearance | null {
   const breedId = dogBreedAt(breed).id;
   const styleId = resolveDogStyle(config, breedId);
   const variety = resolveDogVariety(config, breedId);
@@ -111,11 +121,14 @@ export function desktopAppearance(config: AppearanceConfig, breed: number, origi
       const eyeAnchors = sheet.eyes.map(anchors => (sheet.kind !== "redrawn" && (id === "idle" || id === "happy")
         ? rubyRoundEyePair(anchors, asset.scenes.idle.eyes[0]) : anchors).map(anchor => ({ ...anchor })));
       const eyeModeByFrame = sheet.eyeModeByFrame?.slice();
+      const mask=akitaCoatSheet(breedId,id,sheet.png), palette=coatPalette(fur);
+      const coat=mask && palette.id!=='original' ? {maskUrl:new URL(coatAssetUrl(mask.maskSha256),origin).href,maskSha256:mask.maskSha256,
+        paletteId:palette.id,revision:coatRevision,primary:palette.primary,secondary:palette.secondary} : undefined;
       if (sheet.frames > 8 || eyeAnchors.length !== sheet.frames || eyeAnchors.some((anchors, frame) =>
         (eyeModeByFrame && eyeModeByFrame[frame] !== "shared" ? anchors.length !== 0 : anchors.length < 1 || anchors.length > 2)
         || anchors.some(anchor => ![anchor.x, anchor.y, anchor.width, anchor.height].every(Number.isInteger)))) throw new Error(unavailable);
       return { ...fallback, bodyUrl: body.url, bodySha256: body.sha256, bodyFrames: sheet.frames,
-        eyeUrl: eyeImage.url, eyeSha256: eyeImage.sha256, eyeStyle: eye.id, eyeAnchors, eyeModeByFrame };
+        eyeUrl: eyeImage.url, eyeSha256: eyeImage.sha256, eyeStyle: eye.id, eyeAnchors, eyeModeByFrame, ...(coat?{coat}:{}) };
     };
     // Keep the original v1 image fields for already-installed clients. Newer
     // clients can compose the same eyeless body and shared eyes used by the web.
@@ -180,7 +193,7 @@ export async function attachDesktopAppearance(data: unknown, action: string, ori
     if (!response.ok) throw new Error(unavailable);
     const config = parseAppearance(await response.json());
     if (typeof state.puppy.breed !== "number" || !Number.isInteger(state.puppy.breed)) throw new Error(unavailable);
-    appearance = desktopAppearanceForClient(desktopAppearance(config, state.puppy.breed, origin, state.puppy.eyes, state.puppy.accessory), appearanceVersion);
+    appearance = desktopAppearanceForClient(desktopAppearance(config, state.puppy.breed, origin, state.puppy.eyes, state.puppy.accessory, state.puppy.fur), appearanceVersion);
   } catch (error) {
     appearanceError = error instanceof Error && error.message.startsWith("이 도트 스타일은") ? error.message : unavailable;
   }

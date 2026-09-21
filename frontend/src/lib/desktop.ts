@@ -10,6 +10,7 @@ export type DesktopAppearanceScene = {
   bodyUrl?: string; bodySha256?: string; bodyFrames?: number;
   eyeUrl?: string; eyeSha256?: string; eyeStyle?: string; eyeAnchors?: DesktopEyeAnchor[][];
   eyeModeByFrame?: ("shared" | "baked-closed" | "hidden")[];
+  coat?: { maskUrl:string; maskSha256:string; paletteId:string; revision:string; primary:string[]; secondary:string[] };
 };
 export type DesktopAccessoryPlacement = { x: number; y: number; width: number; height: number; rotation: number; flipX: boolean; visible: boolean };
 export type DesktopAccessoryLayer = {

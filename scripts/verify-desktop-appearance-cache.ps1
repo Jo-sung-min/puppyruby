@@ -1,6 +1,8 @@
 param()
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path $PSScriptRoot -Parent
+& node (Join-Path $PSScriptRoot 'verify-akita-coat.cjs')
+if ($LASTEXITCODE -ne 0) { throw 'Akita material validation and parity-fixture generation failed.' }
 $desktopRoot = Join-Path $projectRoot 'desktop'
 $testRoot = Join-Path $projectRoot ('local-assets\work\desktop-appearance-cache\run-' + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $testRoot -Force | Out-Null

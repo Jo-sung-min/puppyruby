@@ -13,6 +13,6 @@ export function PuppySprite({ puppy, className = "", decorative = false, mood = 
   const color = auraColor(puppy.aura);
   const eyes = eyeOptions.find(e => e.id === puppy.eyes)?.color ?? (isRubyEyeStyleId(puppy.eyes) ? rubyEyeStyle(puppy.eyes).color : undefined);
   return <div className={`puppy-sprite ${color ? "puppy-aura" : ""} ${className}`} data-aura={color ? puppy.aura : undefined} style={color ? { "--puppy-aura-color": color } as CSSProperties : undefined}>
-    <PixelDog breed={dogBreedAt(puppy.breed).id} fur={furColors[puppy.fur || "original"]} eyes={eyes} eyeStyle={puppy.eyes} accessory={puppy.accessory} mood={mood} scene={scene} paused={paused} look={look} lookY={lookY} frame={frame} decorative={decorative} groundShadow={!color} />
+    <PixelDog breed={dogBreedAt(puppy.breed).id} fur={furColors[puppy.fur || "original"]} coatId={puppy.fur} eyes={eyes} eyeStyle={puppy.eyes} accessory={puppy.accessory} mood={mood} scene={scene} paused={paused} look={look} lookY={lookY} frame={frame} decorative={decorative} groundShadow={!color} />
   </div>;
 }

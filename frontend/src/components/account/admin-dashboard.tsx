@@ -7,6 +7,8 @@ import { AccountError, accountDate, accountErrorMessage, adminFetch, isAccountAc
 import { AccountAccess, AccountFailure, AccountLoading, AccountNotice } from "./account-ui";
 import { AdminActionDialog, type AdminAction } from "./admin-action-dialog";
 import { AdminDogStyles } from "./admin-dog-styles";
+import { AkitaCoatLab } from './akita-coat-lab';
+import { AkitaArtRevision } from './akita-art-revision';
 import { AdminSeo } from "./admin-seo";
 import { AdminDesktopRelease } from "./admin-desktop-release";
 import { AdminCommerce } from "../commerce/admin-commerce";
@@ -237,7 +239,7 @@ function AdminConsole({ user }: { user: AccountUser }) {
           </section>
         </section>
       ) : null}
-      {stylesOpened && <div hidden={tab !== "styles"}><AdminDogStyles onAccessError={onAccessError} /></div>}
+      {stylesOpened && <div hidden={tab !== "styles"}><AkitaArtRevision /><AkitaCoatLab /><AdminDogStyles onAccessError={onAccessError} /></div>}
       {commerceOpened && <div hidden={tab !== "commerce"}><AdminCommerce onAccessError={onAccessError} /></div>}
       {seoOpened && <div hidden={tab !== "seo"}><AdminSeo onAccessError={onAccessError} /></div>}
       {releaseOpened && <div hidden={tab !== "release"}><AdminDesktopRelease onAccessError={onAccessError} /></div>}

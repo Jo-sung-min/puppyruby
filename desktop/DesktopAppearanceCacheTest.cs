@@ -417,7 +417,7 @@ namespace PuppyRubyDesktop
                     {
                         if (request.Path.StartsWith("/api/desktop/", StringComparison.Ordinal))
                             Check(request.Headers.ContainsKey("X-PuppyRuby-Appearance-Version")
-                                && request.Headers["X-PuppyRuby-Appearance-Version"] == "3", "sync requests advertise native v3 appearance support");
+                                && request.Headers["X-PuppyRuby-Appearance-Version"] == "4", "sync requests advertise native actions and coat v4 appearance support");
                         if (request.Path == "/api/desktop/state") bearerSeen = request.Headers.ContainsKey("Authorization") && request.Headers["Authorization"] == "Bearer " + TestToken;
                         if (!request.Path.StartsWith("/api/desktop/", StringComparison.Ordinal))
                         {
@@ -761,6 +761,24 @@ namespace PuppyRubyDesktop
             await NativeDownloadsAndCache();
         }
 
+        private static void CoatParity(string projectRoot)
+        {
+            string directory = Path.Combine(projectRoot, "local-assets", "work", "akita-coat-pilot");
+            var palette = new JavaScriptSerializer().Deserialize<DesktopCoat>(File.ReadAllText(Path.Combine(directory, "parity-palette.json")));
+            palette.paletteId = "rose";
+            using (var body = new Bitmap(Path.Combine(directory, "parity-body.png")))
+            using (var mask = new Bitmap(Path.Combine(directory, "parity-mask.png")))
+            using (var expected = new Bitmap(Path.Combine(directory, "parity-expected.png")))
+            using (var output = palette.Apply(body, mask))
+            {
+                for (int y = 0; y < 3; y++) for (int x = 0; x < 256; x++)
+                    Check(output.GetPixel(x, y).ToArgb() == expected.GetPixel(x, y).ToArgb(), "web/desktop coat parity " + x + "/" + y);
+                palette.paletteId = "original";
+                using (var original = palette.Apply(body, mask))
+                    Check(original.GetPixel(91, 1).ToArgb() == body.GetPixel(91, 1).ToArgb(), "original fur bypasses recoloring");
+            }
+        }
+
         private static int Main(string[] args)
         {
             try
@@ -771,6 +789,7 @@ namespace PuppyRubyDesktop
                 string workRoot = Path.Combine(projectRoot, "local-assets", "work") + Path.DirectorySeparatorChar;
                 if (!outputRoot.StartsWith(workRoot, StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("Test output must be inside this repository's local-assets/work directory.");
                 Directory.CreateDirectory(outputRoot);
+                CoatParity(projectRoot);
                 Run(projectRoot).GetAwaiter().GetResult();
                 File.WriteAllText(Path.Combine(outputRoot, "report.json"), new JavaScriptSerializer().Serialize(new { passed = true, checks = checks, scenarios = Results.ToArray(), source = "real art16 PNG files", network = "loopback TCP HTTP fixture only", cache = outputRoot }), Encoding.UTF8);
                 Console.WriteLine("Desktop appearance cache: " + checks + " checks passed."); return 0;

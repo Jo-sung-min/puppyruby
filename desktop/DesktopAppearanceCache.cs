@@ -25,6 +25,7 @@ namespace PuppyRubyDesktop
         public string eyeUrl { get; set; } public string eyeSha256 { get; set; } public string eyeStyle { get; set; }
         public DesktopEyeAnchor[][] eyeAnchors { get; set; }
         public string[] eyeModeByFrame { get; set; }
+        public DesktopCoat coat { get; set; }
         internal bool HasLayeredFields
         {
             get
@@ -181,6 +182,7 @@ namespace PuppyRubyDesktop
                         || scene.eyeModeByFrame != null && scene.eyeModeByFrame.Length != scene.bodyFrames)
                         throw new InvalidDataException("강아지 눈 레이어 정보를 확인하지 못했어요.");
                     ValidateAssetUrl(scene.bodyUrl, origin); ValidateAssetUrl(scene.eyeUrl, origin);
+                    if (scene.coat != null) scene.coat.Validate(origin, value.breedId);
                     for (int frameIndex = 0; frameIndex < scene.eyeAnchors.Length; frameIndex++)
                     {
                         DesktopEyeAnchor[] frame = scene.eyeAnchors[frameIndex];
@@ -428,14 +430,18 @@ namespace PuppyRubyDesktop
                     {
                         byte[] bodyBytes = await ReadImage(scene.bodyUrl, scene.bodySha256, descriptor.width * scene.bodyFrames, descriptor.height, siteOrigin, request.Token);
                         byte[] eyeBytes = await ReadImage(scene.eyeUrl, scene.eyeSha256, 32, 16, siteOrigin, request.Token);
+                        byte[] coatBytes = scene.coat == null ? null : await ReadImage(scene.coat.maskUrl, scene.coat.maskSha256, descriptor.width * scene.bodyFrames, descriptor.height, siteOrigin, request.Token);
                         request.Token.ThrowIfCancellationRequested();
                         using (var bodyStream = new MemoryStream(bodyBytes))
                         using (var eyeStream = new MemoryStream(eyeBytes))
                         using (var body = new Bitmap(bodyStream))
                         using (var eye = new Bitmap(eyeStream))
+                        using (var coatStream = coatBytes == null ? null : new MemoryStream(coatBytes))
+                        using (var coatMask = coatStream == null ? null : new Bitmap(coatStream))
+                        using (var coloredBody = scene.coat == null ? DetachedRgba(body) : scene.coat.Apply(body, coatMask))
                         {
                             Bitmap reactionSheet, reactionMask;
-                            sheets.Add(name, DesktopAppearanceFrames.ComposeEyesForReaction(body, eye, descriptor.width, descriptor.height, scene.bodyFrames, scene.eyeAnchors,
+                            sheets.Add(name, DesktopAppearanceFrames.ComposeEyesForReaction(coloredBody, eye, descriptor.width, descriptor.height, scene.bodyFrames, scene.eyeAnchors,
                                 legacyAccessoryFallback ? descriptor.accessory : "none", accessoryImage, accessoryLayer, name, out reactionSheet, out reactionMask));
                             if (reactionSheet != null) reactionSheets.Add(name, reactionSheet);
                             if (reactionMask != null) reactionMasks.Add(name, reactionMask);

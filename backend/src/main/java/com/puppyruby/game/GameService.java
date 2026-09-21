@@ -102,7 +102,7 @@ public class GameService {
                     message = dog.name + "가 " + dog.grade + " 등급이 되었어요! 새로 배웠다 멍: " + commands.newlyUnlocked(dog.grade);
                 }
                 case "customize" -> {
-                    if (!List.of("original", "cream", "chocolate", "rose", "silver").contains(Objects.toString(input.fur(), "")) ||
+                    if (!CoatPaletteCatalog.contains(input.fur()) ||
                         !validEyes(input.eyes()) ||
                         !("none".equals(Objects.toString(input.accessory(), "")) || accessories.isFree(input.accessory())
                             || (input.accessory() != null && input.accessory().equals(dog.accessory))))

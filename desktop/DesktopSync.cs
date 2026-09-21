@@ -110,7 +110,7 @@ namespace PuppyRubyDesktop
             http.DefaultRequestHeaders.UserAgent.ParseAdd("PuppyRuby/0.9");
             // Older installed clients receive the five precomposed fallback scenes.
             // This client understands native actions and per-frame painted closed eyes.
-            http.DefaultRequestHeaders.Add("X-PuppyRuby-Appearance-Version", "3");
+            http.DefaultRequestHeaders.Add("X-PuppyRuby-Appearance-Version", "4");
             ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
             Status = "이 PC에서만 키우는 강아지";
             if (load)

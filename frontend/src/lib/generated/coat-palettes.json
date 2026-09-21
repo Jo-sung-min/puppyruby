@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "revision": "akita-coat-1",
+  "items": [
+    {"id":"original","label":"원래 털색","color":"#f4d6aa","primary":["#754026","#e4a36a","#fff1d4"],"secondary":["#c39873","#f4dfbe","#fffdf6"]},
+    {"id":"cream","label":"바닐라 크림","color":"#ffefd1","primary":["#947555","#e2c8a2","#fff3db"],"secondary":["#cbb495","#f1e5cf","#fffdf5"]},
+    {"id":"chocolate","label":"초코 브라운","color":"#865744","primary":["#34251e","#80563f","#cfa57c"],"secondary":["#9e795f","#e0c3a1","#fff0d9"]},
+    {"id":"rose","label":"딸기 우유","color":"#dfa9b3","primary":["#79515a","#c88c9c","#ffe1e2"],"secondary":["#b79791","#f3dcd3","#fff9f1"]},
+    {"id":"silver","label":"실버 그레이","color":"#b9c1ca","primary":["#4c535f","#a0acbd","#edf2f9"],"secondary":["#a0a4ad","#d9dde3","#fffdf7"]}
+  ]
+}

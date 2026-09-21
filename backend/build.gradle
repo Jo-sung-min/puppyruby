@@ -63,5 +63,5 @@ tasks.register('database', JavaExec) {
         providers.gradleProperty('baselineVersion').getOrElse('')
 }
 tasks.named('processResources') {
-    from('../shared') { include 'commands.json', 'accessories.json' }
+    from('../shared') { include 'commands.json', 'accessories.json', 'coat-palettes.json' }
 }

@@ -1,0 +1,760 @@
+{
+  "schemaVersion": 1,
+  "revision": "akita-clean-body-r2",
+  "width": 179,
+  "height": 188,
+  "breed": "akita",
+  "actions": {
+    "belly": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "closed",
+        "closed"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 58,
+            "y": 92
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 90,
+            "y": 91
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 48,
+            "y": 126
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 73,
+            "y": 108
+          }
+        ],
+        [],
+        []
+      ],
+      "frameMs": 220,
+      "frames": 4,
+      "name": "배 뒤집고 눕기",
+      "bodySha256": "9a035840f6cbbe82a8ed36141b5bc2c33498bb3c8d004117214b99c7c8732489",
+      "maskSha256": "4169e995724aa77f73c3a4640f346eefc1176fea7e713bf9776655cd388c2653",
+      "closedSha256": "96727e750d92fe3ad0f42f7502333bd5a75c74968e4bc471cc5a1b58371d937f"
+    },
+    "eat": {
+      "eyeModes": [
+        "closed",
+        "closed",
+        "shared",
+        "shared"
+      ],
+      "eyes": [
+        [],
+        [],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 65,
+            "y": 118
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 119
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 64,
+            "y": 115
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 115
+          }
+        ]
+      ],
+      "frameMs": 220,
+      "frames": 4,
+      "name": "밥 먹기",
+      "bodySha256": "3ee95ae45611c469d145a8745f46a8d29ac2a1b34595a295a16efd2f9c403061",
+      "maskSha256": "87c127b35b16dbbee6c13b1544cbb54bb046754e08799bc0c672926193797bff",
+      "closedSha256": "3637f59c9008a3250aec0e4c4d02971fa2f5d510ac458d06dad7b6541cbdd190"
+    },
+    "happy": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "shared",
+        "shared"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 66,
+            "y": 62
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 62
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 66,
+            "y": 62
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 62
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 66,
+            "y": 62
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 97,
+            "y": 62
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 66,
+            "y": 62
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 62
+          }
+        ]
+      ],
+      "frameMs": 180,
+      "frames": 4,
+      "name": "반가워요",
+      "bodySha256": "1b83d07781c6a282b5994876c778447385ddf8d84087151e3c6a09d1b18cdcc7",
+      "maskSha256": "2f1eef3176c05cc42573fbc527bbb99e7a484c66f55c86a29a4da222ff5e2e78",
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+    },
+    "idle": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "closed",
+        "shared"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 64,
+            "y": 94
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 94
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 65,
+            "y": 94
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 97,
+            "y": 94
+          }
+        ],
+        [],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 65,
+            "y": 94
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 97,
+            "y": 94
+          }
+        ]
+      ],
+      "frameMs": 320,
+      "frames": 4,
+      "name": "가만히 있기",
+      "bodySha256": "f62a62c2d8c0ab932537cea4cb253b275558e4da30b8b3bdab09032c18ad9eb9",
+      "maskSha256": "9c87794a76b4af5c15fd46976b7d6cbcc7936ed49dba3e2b4b8936a772629435",
+      "closedSha256": "586a9041699d723e210ea1490fde4134d74a65c86cc76a1eadf4972e4f6f14d6"
+    },
+    "petting": {
+      "eyeModes": [
+        "shared",
+        "closed",
+        "closed",
+        "closed"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 62,
+            "y": 89
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 94,
+            "y": 86
+          }
+        ],
+        [],
+        [],
+        []
+      ],
+      "frameMs": 260,
+      "frames": 4,
+      "name": "쓰담 받기",
+      "bodySha256": "ce51e45da663a3e8cf53537c7ceb4c743d0545f0955c32a32cf7967328b07bcc",
+      "maskSha256": "cf1ab886099cd7abc31f5729479e3fbb3b90ad878b068f7a0ab2860676ac6980",
+      "closedSha256": "d6f413896de5e5329f3d42ddaeaa59a230216b683fdec727c21b6e5a2d80f6aa"
+    },
+    "scratch": {
+      "eyeModes": [
+        "closed",
+        "closed",
+        "closed",
+        "closed"
+      ],
+      "eyes": [
+        [],
+        [],
+        [],
+        []
+      ],
+      "frameMs": 180,
+      "frames": 4,
+      "name": "귀 긁기",
+      "bodySha256": "6fc1a166ebeb3beb7b457ab66391db658bd0bc72f35219c6a2ed5facb8c90697",
+      "maskSha256": "ac2b1ca0b9ca176f5e1376828ab32d50e3b987ae6c81c4a0e23b44498fcd136d",
+      "closedSha256": "7543eaa4928d08e49ab6213ca53cfdbc5b75c5a3be1993aa23bf75c1a540c55f"
+    },
+    "side": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "shared",
+        "shared"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 87
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 87
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 87
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 87
+          }
+        ]
+      ],
+      "frameMs": 240,
+      "frames": 4,
+      "name": "옆모습",
+      "bodySha256": "3e7143ceb4de6d03aa73381de1070d67bac714ba7279efa62825ea580a5c0043",
+      "maskSha256": "b04d929c7ecf0b5a0953c2c6ed9b8d0ccae1e437c81acb15fcc5b00f1c65b8cd",
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+    },
+    "sleep": {
+      "eyeModes": [
+        "shared",
+        "closed",
+        "closed",
+        "closed"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 54,
+            "y": 140
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 84,
+            "y": 140
+          }
+        ],
+        [],
+        [],
+        []
+      ],
+      "frameMs": 650,
+      "frames": 4,
+      "name": "잠자기",
+      "bodySha256": "6738e315960e9b4d15492c3f328efb0b610b0277acbd0e09e1d987173615721f",
+      "maskSha256": "fd4e41490722f46c39f91b04b3fb05e4450306672fbf0d8f75963a3ea6efced6",
+      "closedSha256": "044935ffe022369e701916b993b3e31e725bdbb10e312d53835c796b3f7b8fb5"
+    },
+    "stretch": {
+      "eyeModes": [
+        "shared",
+        "closed",
+        "closed",
+        "shared"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 50,
+            "y": 132
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 80,
+            "y": 133
+          }
+        ],
+        [],
+        [],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 42,
+            "y": 103
+          }
+        ]
+      ],
+      "frameMs": 260,
+      "frames": 4,
+      "name": "기지개 켜기",
+      "bodySha256": "ead675c7f78b3100f66dd9a2c6b31b36eb2bc2a5c46b5047d4075bc3c19b9b6a",
+      "maskSha256": "1650dcbf84c175bcdabd17b9920796bae99aff44e2b57a5ce694db3aa7949da3",
+      "closedSha256": "9fe1fb3de046df6d67a4cfcd995c3da6b2358a122f737d4509ed0b4986f34549"
+    },
+    "typing": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "closed",
+        "shared"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 65,
+            "y": 90
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 90
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 64,
+            "y": 90
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 95,
+            "y": 90
+          }
+        ],
+        [],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 67,
+            "y": 91
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 98,
+            "y": 91
+          }
+        ]
+      ],
+      "frameMs": 140,
+      "frames": 4,
+      "name": "키보드 타이핑",
+      "bodySha256": "8a121614d0d50007a2386f890a82ca1a668a69c8e8b58d5ee87f970f19a40bd7",
+      "maskSha256": "b7c6e4549970fc2c77116eea81d575a5fd5f8348a47c0442ea9e496985f8e973",
+      "closedSha256": "99912e9b18243b46a872884ba4a38a40e658a1a4e8bac2b46ce9428878d90a40"
+    },
+    "wag": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "shared",
+        "closed"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 54,
+            "y": 95
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 85,
+            "y": 94
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 54,
+            "y": 96
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 85,
+            "y": 96
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 56,
+            "y": 95
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 88,
+            "y": 95
+          }
+        ],
+        []
+      ],
+      "frameMs": 150,
+      "frames": 4,
+      "name": "꼬리 흔들기",
+      "bodySha256": "704aa8aa5f5fab0bfbd09e751a1c2ac0b35c04e3fcbf30611878cb34a045975c",
+      "maskSha256": "e2f18bc9b7092b5a6acca0ce436920b2212ad8883589434796b3499e826d3627",
+      "closedSha256": "379ea6cff044f6a1c830c0cac9db7a455d9378bd1aaf7cba3838ab4b338ec304"
+    },
+    "walk": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "shared",
+        "shared"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 89
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 87
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 90
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 87
+          }
+        ]
+      ],
+      "frameMs": 150,
+      "frames": 4,
+      "name": "기본 걷기",
+      "bodySha256": "f33051bc33984a063f502b3075bafbe64d95d54422868253f8f0a7762e961bd2",
+      "maskSha256": "8240e65faa82f1a5d221704ae9b6276a90d4902f4195013a2311dfab3b3fa347",
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+    },
+    "walk-down": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "shared",
+        "shared"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 65,
+            "y": 78
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 77
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 64,
+            "y": 83
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 97,
+            "y": 83
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 64,
+            "y": 77
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 77
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 64,
+            "y": 77
+          },
+          {
+            "height": 16,
+            "width": 16,
+            "x": 96,
+            "y": 77
+          }
+        ]
+      ],
+      "frameMs": 140,
+      "frames": 4,
+      "name": "아래쪽 이동",
+      "bodySha256": "d5b40d2940d3bba25390030541676ebc040ae8902a4ee33831c705a9b1fc9651",
+      "maskSha256": "67211c4e2af94427363d30b3ac641920b0167bd6c61d72ad06aee21115a41f72",
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+    },
+    "walk-left": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "shared",
+        "shared"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 89
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 87
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 90
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 34,
+            "y": 87
+          }
+        ]
+      ],
+      "frameMs": 150,
+      "frames": 4,
+      "name": "왼쪽 이동",
+      "bodySha256": "f33051bc33984a063f502b3075bafbe64d95d54422868253f8f0a7762e961bd2",
+      "maskSha256": "8240e65faa82f1a5d221704ae9b6276a90d4902f4195013a2311dfab3b3fa347",
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+    },
+    "walk-right": {
+      "eyeModes": [
+        "shared",
+        "shared",
+        "shared",
+        "shared"
+      ],
+      "eyes": [
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 129,
+            "y": 89
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 129,
+            "y": 87
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 129,
+            "y": 90
+          }
+        ],
+        [
+          {
+            "height": 16,
+            "width": 16,
+            "x": 129,
+            "y": 87
+          }
+        ]
+      ],
+      "frameMs": 150,
+      "frames": 4,
+      "name": "오른쪽 이동",
+      "bodySha256": "70b45bd246be2c65736882c2012c2ffcb8dfe70906d63b76035be1f81ca52a71",
+      "maskSha256": "6097385f5ec2b77f92e865ad9a0aac15743ba8aa159821d72bea19c674b98cc7",
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+    },
+    "walk-up": {
+      "eyeModes": [
+        "hidden",
+        "hidden",
+        "hidden",
+        "hidden"
+      ],
+      "eyes": [
+        [],
+        [],
+        [],
+        []
+      ],
+      "frameMs": 140,
+      "frames": 4,
+      "name": "위쪽 이동",
+      "bodySha256": "3e750b2229fb3d160f4deb88740f815d4b153fae05d6771ccc23f9ec3e83b027",
+      "maskSha256": "84d902a836defdf662c4d63101004979dba7652ff458e891645c14f740619de4",
+      "closedSha256": "1eee038be14803ebbe4175a18d2a2d1bc65779dda43e80cc7dfe2af4090f8e68"
+    }
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "schemaVersion": 1,
+  "revision": "akita-coat-1",
+  "breed": "akita",
+  "width": 179,
+  "height": 188,
+  "glasses": {
+    "sha256": "11b2d8af3245173d8536f5c7bfa69852e1a3b2666436f8de589def6ba4f4c336",
+    "width": 64,
+    "height": 32,
+    "pivotX": 32,
+    "pivotY": 16
+  },
+  "sourceSha256": "d73803edfb5f974fcf2b6ab4ded78dd98499a03e24c853639739a9de178b0474",
+  "sheets": {
+    "belly": {
+      "bodySha256": "3db142cf3f92b29b208fdc8aa78e14d9aa36bd61c06f382d6656228691fb1dfd",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/belly.png",
+      "maskSha256": "8e2607dde99dc41f4c2a7934553302f9deee06e2feaffed0381d45b098ab6039",
+      "maskPng": "/api/akita-coat/8e2607dde99dc41f4c2a7934553302f9deee06e2feaffed0381d45b098ab6039.png",
+      "frames": 4
+    },
+    "eat": {
+      "bodySha256": "cedf8e6354166dfe6558f9704a3c14583e39e5352ebe431552ac03efaab10aae",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/eat.png",
+      "maskSha256": "aaad0b6067a09fc8a370922b0599b23737993203a0beb7dfa364051f70bf92a3",
+      "maskPng": "/api/akita-coat/aaad0b6067a09fc8a370922b0599b23737993203a0beb7dfa364051f70bf92a3.png",
+      "frames": 4
+    },
+    "happy": {
+      "bodySha256": "80b6a775d74f80ec30f248354ec97a9b6e01a631d5209fadc7480ac3ce7b51f5",
+      "bodyPng": "/images/ruby-round-v1/akita/happy.png",
+      "maskSha256": "1809c07f441baad0f4ad640a41df3b2bad4768293159732a19fdf2478fa4c344",
+      "maskPng": "/api/akita-coat/1809c07f441baad0f4ad640a41df3b2bad4768293159732a19fdf2478fa4c344.png",
+      "frames": 4
+    },
+    "idle": {
+      "bodySha256": "94e9ce5942c0c21b943a7dd2bcd1f66d5c8709e0e2ffcdda06eb425c4d31ab9a",
+      "bodyPng": "/images/ruby-round-v1/akita/idle.png",
+      "maskSha256": "263396d9debe0d2a66a7d887c75b1bc551e7b24ba99cd6a04841ab3cc4d5c26c",
+      "maskPng": "/api/akita-coat/263396d9debe0d2a66a7d887c75b1bc551e7b24ba99cd6a04841ab3cc4d5c26c.png",
+      "frames": 4
+    },
+    "petting": {
+      "bodySha256": "38b8cdf81340afc79fd1d088797a329ba4b5b182ef85fd91370260f13edcb83e",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/petting.png",
+      "maskSha256": "c15623ddbe4c8adfbe87a2cf022b2556e274d7ab481c14a947b3617e33e4665f",
+      "maskPng": "/api/akita-coat/c15623ddbe4c8adfbe87a2cf022b2556e274d7ab481c14a947b3617e33e4665f.png",
+      "frames": 4
+    },
+    "scratch": {
+      "bodySha256": "21f1df5f3c7dfd99813bf9902b51b59066bfdbd85a464d59087132750854ec64",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/scratch.png",
+      "maskSha256": "35737e31af669bd24120990c44d7e802bfaec45a935e4061fc3b29f94304f85c",
+      "maskPng": "/api/akita-coat/35737e31af669bd24120990c44d7e802bfaec45a935e4061fc3b29f94304f85c.png",
+      "frames": 4
+    },
+    "side": {
+      "bodySha256": "77f61eae320e32a5a805687432e4acd4c7515e7f0d1fb2424fc0da8873e5852a",
+      "bodyPng": "/images/ruby-round-v1/akita/side.png",
+      "maskSha256": "48d9942f0430b587e56190037ae142e2135fef3068d51f68dd584829e8f8d6fc",
+      "maskPng": "/api/akita-coat/48d9942f0430b587e56190037ae142e2135fef3068d51f68dd584829e8f8d6fc.png",
+      "frames": 4
+    },
+    "sleep": {
+      "bodySha256": "9f97e3cc14794a0dd53cc50f4d62b0f07dc10f9e39dcba97ce86c45368c8fe9a",
+      "bodyPng": "/images/ruby-round-v1/akita/sleep.png",
+      "maskSha256": "5520623efea96b44f0702447eb99e0ae82b45670d69abe5fcc207d005344ebd7",
+      "maskPng": "/api/akita-coat/5520623efea96b44f0702447eb99e0ae82b45670d69abe5fcc207d005344ebd7.png",
+      "frames": 4
+    },
+    "stretch": {
+      "bodySha256": "f2ca29963a7e8722043eb0e317b74bcf5ecf937eb1e0aab82c661f34b26d5ea4",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/stretch.png",
+      "maskSha256": "d83ad293d0a702cca1c226296319e07060bfdbddf69e592fa0992cac9c1b8e42",
+      "maskPng": "/api/akita-coat/d83ad293d0a702cca1c226296319e07060bfdbddf69e592fa0992cac9c1b8e42.png",
+      "frames": 4
+    },
+    "typing": {
+      "bodySha256": "596bd5328f7a6c95990ebf743af1537bc13c617a81f6fb48929c845a01837523",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/typing.png",
+      "maskSha256": "7d7be6e8f84e39f7faa8b918ee9e53f774573b50d2f349fe9e339ca0608dccfd",
+      "maskPng": "/api/akita-coat/7d7be6e8f84e39f7faa8b918ee9e53f774573b50d2f349fe9e339ca0608dccfd.png",
+      "frames": 4
+    },
+    "wag": {
+      "bodySha256": "6cd7e3de0a31002e61917fd34950cc2c97bd1f45bdf933f533042edc2b2f484c",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/wag.png",
+      "maskSha256": "fd6bea0004e59763c1d2ee17a84ce75a899491c6570bbc72eb68874622f02e4f",
+      "maskPng": "/api/akita-coat/fd6bea0004e59763c1d2ee17a84ce75a899491c6570bbc72eb68874622f02e4f.png",
+      "frames": 4
+    },
+    "walk": {
+      "bodySha256": "f7efe4b9620a6e1fa803198fafb4987be298a059e1974f9d1f65edb381765442",
+      "bodyPng": "/images/ruby-round-v1/akita/walk.png",
+      "maskSha256": "c418008f86bbbf2abfa3ce67a63dd162c393cb2895d2dbc7aae72d73cfea3c0c",
+      "maskPng": "/api/akita-coat/c418008f86bbbf2abfa3ce67a63dd162c393cb2895d2dbc7aae72d73cfea3c0c.png",
+      "frames": 4
+    },
+    "walk-down": {
+      "bodySha256": "33ce4a4fe981300d666b33ac1103084d897df23a8262253af4bfa94ddbc345bd",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/walk-down.png",
+      "maskSha256": "c5167736b34efbd5f70133bca20d89dd2472efafc77886b6ab1cdb5092cb3be2",
+      "maskPng": "/api/akita-coat/c5167736b34efbd5f70133bca20d89dd2472efafc77886b6ab1cdb5092cb3be2.png",
+      "frames": 4
+    },
+    "walk-left": {
+      "bodySha256": "d90ba1f65e7084b3d7e26023c82cb1ea247f0d54bd7746fa7389c97b6eccecfd",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/walk-left.png",
+      "maskSha256": "2df29bae5d08edf9496986eb98b9bb3062374f984684a682e3d30ab17274537b",
+      "maskPng": "/api/akita-coat/2df29bae5d08edf9496986eb98b9bb3062374f984684a682e3d30ab17274537b.png",
+      "frames": 4
+    },
+    "walk-right": {
+      "bodySha256": "191e41e9009cbd82de571808532dc0c8e9a8b9aac85db1b2425337ed6119f98f",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/walk-right.png",
+      "maskSha256": "a72c99a8d255fea446d68d71502e054b673d1d3e1ea2f1fb43d0650007cbf487",
+      "maskPng": "/api/akita-coat/a72c99a8d255fea446d68d71502e054b673d1d3e1ea2f1fb43d0650007cbf487.png",
+      "frames": 4
+    },
+    "walk-up": {
+      "bodySha256": "876d55465081ed376f8b629fbbd386a98e13b14a39118907614d4e772cbe2ffd",
+      "bodyPng": "/images/ruby-round-v1/akita/actions/walk-up.png",
+      "maskSha256": "ac89a3faed90c469cce8646612e72eaecfa091400fe49e259fcbed2ffd7c8b9b",
+      "maskPng": "/api/akita-coat/ac89a3faed90c469cce8646612e72eaecfa091400fe49e259fcbed2ffd7c8b9b.png",
+      "frames": 4
+    }
+  }
+}

@@ -1,0 +1,16 @@
+.lab { margin: 24px 0; padding: 24px; border: 1px solid var(--account-border, #424651); border-radius: 18px; }
+.lab summary { cursor: pointer; font-weight: 700; font-size: 18px; }
+.lab p { color: var(--account-muted, #aeb2bc); line-height: 1.7; }
+.grid { display: grid; grid-template-columns: minmax(220px, 358px) minmax(220px, 1fr); gap: 24px; }
+.stage { position: relative; aspect-ratio: 179 / 188; background: #191b20; border-radius: 12px; overflow: hidden; }
+.stage > svg { width: 100%; height: 100%; }
+.drag { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+.controls { display: grid; gap: 12px; align-content: start; }
+.controls label { display: flex; gap: 10px; align-items: center; justify-content: space-between; }
+.controls select, .controls input[type=number] { min-width: 100px; padding: 7px; color: inherit; background: var(--account-surface, #20232c); border: 1px solid #565b66; border-radius: 7px; }
+.colors { display: flex; gap: 8px; flex-wrap: wrap; margin: 16px 0; }
+.colors button { padding: 8px 12px; border: 1px solid #555b67; background: transparent; color: inherit; border-radius: 9px; cursor: pointer; }
+.colors button[aria-pressed=true] { outline: 2px solid #f1bd84; }
+.swatch { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border-radius: 50%; }
+.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+@media(max-width:700px) { .grid { grid-template-columns: 1fr; } .lab { padding:16px; } }

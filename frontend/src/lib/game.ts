@@ -1,5 +1,6 @@
 import { dogBreeds } from "./dog-breeds";
 import { rubyAccessoryCatalog } from "./ruby-round-accessories";
+import palettes from './generated/coat-palettes.json';
 
 export type Grade = "N" | "R" | "SR" | "SSR";
 export const gradeOrder: Grade[] = ["N", "R", "SR", "SSR"];
@@ -21,13 +22,7 @@ export type GameState = {
 };
 export type ActionResult = { state: GameState; message: string; success: boolean; newPuppyId: string | null };
 export const breeds = dogBreeds;
-export const furOptions = [
-  { id: "original", label: "원래 털색", color: "#f4d6aa" },
-  { id: "cream", label: "바닐라 크림", color: "#ffefd1" },
-  { id: "chocolate", label: "초코 브라운", color: "#865744" },
-  { id: "rose", label: "딸기 우유", color: "#dfa9b3" },
-  { id: "silver", label: "실버 그레이", color: "#b9c1ca" },
-];
+export const furOptions = palettes.items.map(({id,label,color})=>({id,label,color}));
 export const eyeOptions = [
   { id: "original", label: "초코 눈동자", color: "#433024" },
   { id: "blue", label: "오션 블루", color: "#499cca" },

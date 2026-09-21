@@ -1,4 +1,6 @@
 import completedAssets from "./generated/ruby-round-scene-assets.json";
+import akitaArt from './generated/akita-art-revision.json';
+import {akitaCoatEnabled} from './akita-coat';
 import { dogBreedIds, type PixelBreed } from "./dog-breeds";
 import type { PixelMood } from "../components/pixel-dog";
 
@@ -65,6 +67,7 @@ export function isRubyRoundActionId(value: unknown): value is RubyRoundActionId 
 
 export type RubyEyeAnchor = { x: number; y: number; width: number; height: number };
 export type RubyRoundSheet = {
+  revision?: {bodySha256:string;maskSha256:string;closedSha256:string;desktopBodySha256:string;desktopMaskSha256:string;previewSha256:string};
   png: string; frames: number; frameMs: number; eyes: RubyEyeAnchor[][]; source: RubyRoundActionSource;
   kind: RubyRoundActionKind; eyeMode: RubyRoundEyeMode; desktopPng?: string; desktopFrames?: number;
   eyeModeByFrame?: RubyRoundFrameEyeMode[];
@@ -182,7 +185,17 @@ export const rubyRoundStyles = rubyRoundReady ? [{ id: rubyRoundStyleId,
   name: rubyRoundActionsReady ? "루비 도트 · 열여섯 동작" : "루비 도트 · 다섯 동작",
   description: rubyRoundActionsReady ? "둥글고 포근한 30견종 · 열여섯 애니메이션과 갈아 끼우는 30가지 눈" : "둥글고 포근한 30견종 · 다섯 애니메이션과 갈아 끼우는 30가지 눈",
   kind: "pixel" as const }] : [];
-export function rubyRoundAsset(breed: PixelBreed) { return rubyRoundAssets.find(asset => asset.breed === breed); }
+export function rubyRoundAsset(breed: PixelBreed) {
+  const asset=rubyRoundAssets.find(asset => asset.breed === breed);
+  if(!asset||breed!=='akita'||!asset.actions||!akitaCoatEnabled())return asset;
+  const revised=(id:RubyRoundActionId,sheet:RubyRoundSheet):RubyRoundSheet=>{
+    const art=akitaArt.actions[id];
+    return {...sheet,revision:art,frames:4,frameMs:art.frameMs,kind:'redrawn',eyes:art.eyes,
+      eyeModeByFrame:art.eyeModes.map(mode=>mode==='closed'?'baked-closed':mode) as RubyRoundFrameEyeMode[]};
+  };
+  return {...asset,scenes:Object.fromEntries(rubyRoundSceneIds.map(id=>[id,revised(id,asset.scenes[id])])) as RubyRoundAsset['scenes'],
+    actions:Object.fromEntries(rubyRoundActionIds.map(id=>[id,revised(id,asset.actions![id])])) as RubyRoundAsset['actions']};
+}
 export function rubyRoundActionList(asset?: RubyRoundAsset) {
   return asset ? asset.actions ? rubyRoundActions : rubyRoundScenes : rubyRoundActionsReady ? rubyRoundActions : rubyRoundScenes;
 }

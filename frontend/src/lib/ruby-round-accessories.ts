@@ -1,6 +1,7 @@
 // Generated verbatim from shared/accessories.json because the frontend build root
 // cannot import files outside frontend. The prepare script keeps this copy current.
 import accessorySource from "./generated/ruby-accessories.json";
+import { akitaRig, akitaCoatSheet, akitaCoatAssets, coatAssetUrl } from './akita-coat';
 import anchorSource from "./generated/ruby-round-accessory-anchors.json";
 import { dogBreedIds, type PixelBreed } from "./dog-breeds";
 import { isRubyRoundSceneId, rubyRoundAsset, rubyRoundScenes, type RubyRoundSceneId, type RubyRoundActionId } from "./ruby-round-scene-styles";
@@ -198,7 +199,16 @@ export const rubyAccessoryCatalog = parseRubyAccessoryCatalog(accessorySource);
 export const rubyAccessoryAnchors = parseRubyAccessoryAnchors(anchorSource);
 export const rubyAccessoryItemOverrides = parseRubyAccessoryItemOverrides(anchorSource, rubyAccessoryCatalog);
 export function rubyAccessoryItem(id: unknown) { return typeof id === "string" ? rubyAccessoryCatalog.items.find(item => item.id === id) : undefined; }
+/** Pilot reuses the existing owned glasses ID; it never grants a new paid item. */
+export function rubyAccessoryItemForBreed(id:unknown,breed:PixelBreed):RubyAccessoryItem|undefined {
+  const item=rubyAccessoryItem(id), sheet=rubyRoundAsset(breed)?.actions?.idle;
+  if(item?.id!=='glasses'||!sheet||!akitaCoatSheet(breed,'idle',sheet.png))return item;
+  const asset=akitaCoatAssets.glasses;
+  return {...item,renderer:'image',revision:`akita-glasses-${asset.sha256.slice(0,12)}`,asset:{...asset,png:coatAssetUrl(asset.sha256)}};
+}
 export function rubyAccessoryPlacement(breed: PixelBreed, scene: RubyRoundSceneId, frame: number, slot: RubyAccessorySlot) {
+  const pilot = akitaFrameSlot(breed, scene, frame, slot);
+  if (pilot) return pilot;
   const frames = rubyAccessoryAnchors[breed]?.scenes[scene];
   if (!frames?.length || !Number.isFinite(frame)) return;
   return frames[Math.abs(Math.trunc(frame)) % frames.length]?.[slot];
@@ -215,6 +225,8 @@ export function resolvedRubyAccessoryPlacement(item: RubyAccessoryItem, breed: P
 
 /** Extra native poses follow their own head geometry, never an idle-scene slot. */
 export function resolvedRubyAccessoryActionPlacement(item: RubyAccessoryItem, breed: PixelBreed, action: RubyRoundActionId, frame: number) {
+  const pilot = akitaFrameSlot(breed, action, frame, item.slot), pilotAsset = rubyRoundAsset(breed);
+  if (pilot && pilotAsset) return transformedPlacement(item, pilot, pilotAsset.width, pilotAsset.height);
   if (isRubyRoundSceneId(action)) return resolvedRubyAccessoryPlacement(item, breed, action, frame);
   const asset = rubyRoundAsset(breed), sheet = asset?.actions?.[action];
   if (!asset || !sheet || sheet.kind !== "redrawn" || !Number.isFinite(frame)) return;
@@ -245,6 +257,15 @@ export function resolvedRubyAccessoryActionPlacement(item: RubyAccessoryItem, br
     width: asset.width * slot.width / 64, height: asset.height * slot.height / 64,
     rotation: angle * 180 / Math.PI, flipX: false, visible,
   }, asset.width, asset.height);
+}
+
+function akitaFrameSlot(breed: PixelBreed, action: RubyRoundActionId, frame: number, slot: RubyAccessorySlot) {
+  const sheet = rubyRoundAsset(breed)?.actions?.[action];
+  if (!sheet || !Number.isFinite(frame) || !akitaCoatSheet(breed, action, sheet.png)) return;
+  const value = akitaRig.actions[action]?.[Math.abs(Math.trunc(frame)) % 4]?.[slot];
+  if (!value) return;
+  const { view, ...placement } = value;
+  return placement;
 }
 
 function transformedPlacement(item: RubyAccessoryItem, placement: RubyAccessoryPlacement, width: number, height: number, override?: RubyAccessoryPlacementOverride) {

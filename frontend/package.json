@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "prepare:accessories": "node ../scripts/prepare-ruby-accessory-catalog.cjs && node ../scripts/prepare-ruby-accessory-anchors.cjs",
-    "prepare:accessories:release": "node ../scripts/prepare-ruby-accessory-catalog.cjs --require-release && node ../scripts/prepare-ruby-accessory-anchors.cjs",
+    "prepare:accessories": "node ../scripts/sync-akita-coat.cjs && node ../scripts/prepare-ruby-accessory-catalog.cjs && node ../scripts/prepare-ruby-accessory-anchors.cjs",
+    "prepare:accessories:release": "node ../scripts/sync-akita-coat.cjs && node ../scripts/prepare-ruby-accessory-catalog.cjs --require-release && node ../scripts/prepare-ruby-accessory-anchors.cjs",
     "predev": "npm run prepare:accessories",
     "dev": "node scripts/run-next.mjs dev",
     "prebuild": "npm run prepare:accessories:release",

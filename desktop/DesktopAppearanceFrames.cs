@@ -7,6 +7,82 @@ using System.Runtime.InteropServices;
 
 namespace PuppyRubyDesktop
 {
+    // Optional appearance-v4 material map. Work runs once during cache loading,
+    // never in the timer/paint loop. Integer math matches applyCoatPixels in web.
+    internal sealed class DesktopCoat
+    {
+        public string maskUrl { get; set; } public string maskSha256 { get; set; }
+        public string paletteId { get; set; } public string revision { get; set; }
+        public string[] primary { get; set; } public string[] secondary { get; set; }
+        internal void Validate(string origin, string breed)
+        {
+            if (breed != "akita" || maskSha256 == null || !System.Text.RegularExpressions.Regex.IsMatch(maskSha256, "^[a-f0-9]{64}$")
+                || paletteId == null || !System.Text.RegularExpressions.Regex.IsMatch(paletteId, "^[a-z0-9-]{1,40}$")
+                || revision == null || !System.Text.RegularExpressions.Regex.IsMatch(revision, "^[a-zA-Z0-9._-]{1,80}$"))
+                throw new InvalidDataException("아키타 염색 정보를 확인하지 못했어요.");
+            DesktopAppearanceCache.ValidateAssetUrl(maskUrl, origin);
+            foreach (string[] ramp in new[] { primary, secondary })
+            {
+                if (ramp == null || ramp.Length != 3) throw new InvalidDataException("Invalid coat palette.");
+                foreach (string color in ramp) if (color == null || !System.Text.RegularExpressions.Regex.IsMatch(color, "^#[A-Fa-f0-9]{6}$"))
+                    throw new InvalidDataException("Invalid coat color.");
+            }
+        }
+        internal static int Channel(int tone, int low, int mid, int high)
+        {
+            bool second = tone >= 128;
+            int amount = second ? tone - 128 : tone, divisor = second ? 127 : 128;
+            return ((second ? mid : low) * (divisor - amount) + (second ? high : mid) * amount + divisor / 2) / divisor;
+        }
+        internal Bitmap Apply(Bitmap source, Bitmap mask)
+        {
+            if (mask == null || source.Size != mask.Size) throw new InvalidDataException("Coat mask size mismatch.");
+            Bitmap output = DesktopAppearanceCache.DetachedRgba(source);
+            if (paletteId == "original") return output;
+            try
+            {
+                int[,,] lookup = new int[2, 256, 3];
+                for (int role = 0; role < 2; role++)
+                {
+                    string[] ramp = role == 0 ? primary : secondary;
+                    for (int channel = 0; channel < 3; channel++)
+                    {
+                        int offset = 1 + channel * 2;
+                        int low = Convert.ToInt32(ramp[0].Substring(offset, 2), 16), mid = Convert.ToInt32(ramp[1].Substring(offset, 2), 16), high = Convert.ToInt32(ramp[2].Substring(offset, 2), 16);
+                        for (int tone = 0; tone < 256; tone++) lookup[role, tone, channel] = Channel(tone, low, mid, high);
+                    }
+                }
+                using (Bitmap map = DesktopAppearanceCache.DetachedRgba(mask))
+                {
+                    Rectangle rect = new Rectangle(Point.Empty, output.Size);
+                    BitmapData pixels = output.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                    BitmapData data = null;
+                    try
+                    {
+                        data = map.LockBits(rect, ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                        byte[] row = new byte[output.Width * 4], material = new byte[row.Length];
+                        for (int y = 0; y < output.Height; y++)
+                        {
+                            Marshal.Copy(IntPtr.Add(pixels.Scan0, y * pixels.Stride), row, 0, row.Length);
+                            Marshal.Copy(IntPtr.Add(data.Scan0, y * data.Stride), material, 0, material.Length);
+                            for (int x = 0; x < row.Length; x += 4)
+                            {
+                                int role = material[x + 2], tone = material[x + 1];
+                                if (row[x + 3] == 0 || role == 0) continue;
+                                if (role > 2 || material[x + 3] != 255) throw new InvalidDataException("Unknown coat material.");
+                                for (int c = 0; c < 3; c++) row[x + 2 - c] = (byte)lookup[role - 1, tone, c];
+                            }
+                            Marshal.Copy(row, 0, IntPtr.Add(pixels.Scan0, y * pixels.Stride), row.Length);
+                        }
+                    }
+                    finally { if (data != null) map.UnlockBits(data); output.UnlockBits(pixels); }
+                }
+                return output;
+            }
+            catch { output.Dispose(); throw; }
+        }
+    }
+
     internal sealed class DesktopAppearanceFrame : IDisposable
     {
         internal readonly Bitmap Image;

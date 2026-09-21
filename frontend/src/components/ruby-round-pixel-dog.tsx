@@ -1,10 +1,12 @@
 import { useId, type CSSProperties } from "react";
+import { akitaCoatSheet, coatPalette } from '../lib/akita-coat';
+import { RubyCoatBody } from './ruby-coat-body';
 import { assetUrl } from "../lib/asset-url";
 import { art16FrameIndex } from "../lib/art16-scene-styles";
 import { dogBreedById, type PixelBreed } from "../lib/dog-breeds";
 import { rubyEyeStyle } from "../lib/ruby-round-eyes";
 import { rubyRoundEyePair, rubyRoundGazeOffset } from "../lib/ruby-round-eye-motion";
-import { resolvedRubyAccessoryActionPlacement, rubyAccessoryItem, type RubyAccessoryItem } from "../lib/ruby-round-accessories";
+import { resolvedRubyAccessoryActionPlacement, rubyAccessoryItemForBreed, type RubyAccessoryItem, type RubyAccessoryPlacement } from "../lib/ruby-round-accessories";
 import {
   isRubyRoundActionId, rubyRoundActionForMood, rubyRoundActionList, rubyRoundActionSheets,
   rubyRoundAsset, rubyRoundFrameEyeMode, rubyRoundStyleId, type RubyEyeAnchor, type RubyRoundActionId, type RubyRoundAsset,
@@ -14,9 +16,9 @@ import type { PixelMood } from "./pixel-dog";
 import motion from "./art16-scene-pixel-dog.module.css";
 import styles from "./ruby-round-pixel-dog.module.css";
 
-export function RubyRoundPixelDog({ breed, mood, scene, eyeStyle, paused = false, frame = 0, look = 0, lookY = 0, accessory = "none", className = "", decorative = false, groundShadow = true }: {
-  breed: PixelBreed; mood: PixelMood; scene?: RubyRoundActionId; eyeStyle?: string; paused?: boolean; frame?: number; look?: number; lookY?: number;
-  accessory?: string; className?: string; decorative?: boolean; groundShadow?: boolean;
+export function RubyRoundPixelDog({ breed, mood, scene, coatId, eyeStyle, paused = false, frame = 0, look = 0, lookY = 0, accessory = "none", accessoryPlacements, className = "", decorative = false, groundShadow = true }: {
+  breed: PixelBreed; mood: PixelMood; scene?: RubyRoundActionId; coatId?: string; eyeStyle?: string; paused?: boolean; frame?: number; look?: number; lookY?: number;
+  accessory?: string; accessoryPlacements?: RubyAccessoryPlacement[]; className?: string; decorative?: boolean; groundShadow?: boolean;
 }) {
   const id = `ruby-round-${useId().replace(/[^a-zA-Z0-9_-]/g, "")}`;
   const asset = rubyRoundAsset(breed);
@@ -31,9 +33,10 @@ export function RubyRoundPixelDog({ breed, mood, scene, eyeStyle, paused = false
   const typing = reacting && activeScene === "idle" && (mood === "typing" || mood === "excited");
   const gazing = reacting && (sheet.eyeModeByFrame?.includes("shared") ?? sheet.eyeMode === "shared") && !typing && mood !== "belly";
   const eye = rubyEyeStyle(!sheet.eyeModeByFrame && sheet.eyeMode === "closed" ? "ruby-eye-10" : eyeStyle);
-  const accessoryItem = rubyAccessoryItem(accessory);
+  const accessoryItem = rubyAccessoryItemForBreed(accessory,breed);
   const accessoryLayer = accessoryItem?.layer ?? (accessory === "angel-wings" ? "behind" : "front");
   const png = assetUrl(sheet.png);
+  const coat = akitaCoatSheet(breed, activeScene, sheet.png), palette = coatPalette(coatId);
   // Redrawn frames already carry pose-specific geometry, including a tilted head.
   // Only the shared gaze translation is added; never replace those eyes with idle geometry.
   const eyeFrames = sheet.eyes.map(anchors => sheet.kind !== "redrawn" && (sheet.eyeMode === "shared" || sheet.eyeMode === "closed")
@@ -56,8 +59,10 @@ export function RubyRoundPixelDog({ breed, mood, scene, eyeStyle, paused = false
     <g className={motion.body}>
       <svg width={asset.width} height={asset.height} viewBox={`0 0 ${asset.width} ${asset.height}`} className={motion.viewport}>
         <g key={`${breed}-${activeScene}`} className={animated ? motion.playing : undefined}>
-          {accessory !== "none" && accessoryLayer === "behind" && eyeFrames.map((anchors, n) => <g key={n} transform={`translate(${(n - index) * asset.width} 0)`} clipPath={`url(#${id}-frame)`}><RubyAccessories id={accessory} item={accessoryItem} asset={asset} anchors={anchors} scene={activeScene} frame={n} /></g>)}
-          <image href={png} x={-index * asset.width} width={asset.width * sheet.frames} height={asset.height} preserveAspectRatio="none" className={motion.strip} data-eyeless-body="true" />
+          {accessory !== "none" && accessoryLayer === "behind" && eyeFrames.map((anchors, n) => <g key={n} transform={`translate(${(n - index) * asset.width} 0)`} clipPath={`url(#${id}-frame)`}><RubyAccessories id={accessory} item={accessoryItem} asset={asset} anchors={anchors} scene={activeScene} frame={n} placementOverride={accessoryPlacements?.[n]} /></g>)}
+          {coat && palette.id !== 'original'
+            ? <RubyCoatBody bodyHash={coat.bodySha256} maskHash={coat.maskSha256} paletteId={palette.id} href={png} x={-index * asset.width} width={asset.width * sheet.frames} height={asset.height} className={motion.strip}/>
+            : <image href={png} x={-index * asset.width} width={asset.width * sheet.frames} height={asset.height} preserveAspectRatio="none" className={motion.strip} data-eyeless-body="true" />}
           {eyeFrames.map((anchors, n) => {
             const frameEyeMode = rubyRoundFrameEyeMode(sheet, n), shared = frameEyeMode === "shared";
             const offset = rubyRoundGazeOffset(anchors, shared && gazing ? look : 0, shared && gazing ? lookY : 0);
@@ -69,7 +74,7 @@ export function RubyRoundPixelDog({ breed, mood, scene, eyeStyle, paused = false
                 </svg>)}
               </g>
             </g>}
-            {accessory !== "none" && accessoryLayer === "front" && <RubyAccessories id={accessory} item={accessoryItem} asset={asset} anchors={anchors} scene={activeScene} frame={n} />}
+            {accessory !== "none" && accessoryLayer === "front" && <RubyAccessories id={accessory} item={accessoryItem} asset={asset} anchors={anchors} scene={activeScene} frame={n} placementOverride={accessoryPlacements?.[n]} />}
           </g>; })}
         </g>
       </svg>
@@ -93,8 +98,8 @@ export function RubyRoundPixelDog({ breed, mood, scene, eyeStyle, paused = false
 }
 
 /** Catalog cosmetics use reviewed per-frame slots; unknown legacy IDs retain the old eye-relative fallback. */
-function RubyAccessories({ id, item, asset, anchors, scene, frame }: { id: string; item?: RubyAccessoryItem; asset: RubyRoundAsset; anchors: RubyEyeAnchor[]; scene: RubyRoundActionId; frame: number }) {
-  const placement = item ? resolvedRubyAccessoryActionPlacement(item, asset.breed, scene, frame) : undefined;
+function RubyAccessories({ id, item, asset, anchors, scene, frame, placementOverride }: { id: string; item?: RubyAccessoryItem; asset: RubyRoundAsset; anchors: RubyEyeAnchor[]; scene: RubyRoundActionId; frame: number; placementOverride?: RubyAccessoryPlacement }) {
+  const placement = placementOverride ?? (item ? resolvedRubyAccessoryActionPlacement(item, asset.breed, scene, frame) : undefined);
   if (item?.renderer === "image" && item.asset) {
     if (!placement?.visible) return null;
     const scaleX = placement.width / item.asset.width * (placement.flipX ? -1 : 1);
