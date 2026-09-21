@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { assetUrl } from "@/lib/asset-url";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowRight, ArrowUpRight, Bone, Check, ChevronDown, Download, Heart, Keyboard, Maximize2, Moon, MousePointer2, Pause, PawPrint, Play, RotateCcw, Sun, Volleyball } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Bone, Check, ChevronDown, Download, Heart, Keyboard, Maximize2, Moon, MousePointer2, Pause, PawPrint, Play, RotateCcw, Sun, Volleyball } from "lucide-react";
 import { PixelDog, pixelBreeds, type PixelBreed, type PixelMood } from "./styled-pixel-dog";
 import { usePuppyInput } from "./use-puppy-input";
 import { puppyBellyLabel } from "../lib/puppy-click-burst";
@@ -169,6 +169,5 @@ export function PuppyLanding() {
         ["어떤 강아지를 만날 수 있나요?", "정원에서는 시바견, 사모예드, 토이 푸들, 웰시 코기, 말티즈, 비글을 미리 만나요. 실제 우리 집에서는 기존 분양 규칙에 따라 포메라니안, 푸들, 말티즈, 시바, 코기, 비글을 만날 수 있어요. 모든 강아지는 돌봄으로 SSR 등급까지 자랄 수 있어요."],
       ].map(([q, a]) => <details key={q}><summary>{q}<ChevronDown size={17} /></summary><p>{a}</p></details>)}</div></section>
     </main>
-    <footer className="site-footer"><div className="site-container"><Link className="footer-brand" href="/">PUPPY<span>RUBY</span><PawPrint size={15} /></Link><p>작은 친구와 함께, 조금 더 다정한 하루.</p><span>© 2026 PuppyRuby</span><a href="#top" aria-label="맨 위로">맨 위로 <ArrowDown size={12} /></a></div></footer>
   </div>;
 }

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, ArrowUpRight, PawPrint } from "lucide-react";
+import { ArrowUpRight, PawPrint } from "lucide-react";
 import type { ReactNode } from "react";
 import { ThemeToggle } from "@/components/theme-provider";
 
@@ -20,10 +20,6 @@ export function AccountShell({ children, wide = false }: { children: ReactNode; 
       <main id="account-content" className={`account-main${wide ? " account-main-wide" : ""}`}>
         {children}
       </main>
-      <footer className="account-footer">
-        <Link href="/"><ArrowLeft size={13} aria-hidden="true" /> 처음으로</Link>
-        <span>너의 하루에, 작은 멍! 하나.</span>
-      </footer>
     </div>
   );
 }
